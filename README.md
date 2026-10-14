@@ -11,7 +11,9 @@ autor manter o modelo no ar.
 - **Créditos obrigatórios:** `CREDITOS.md` (CC BY 4.0 e modelos gerados na conta do Meshy).
 
 Montado em 14/10/2026 a partir de `AgeOfEarth/art/meshy/` (81 GLB), `TDFende/Assets/Resources/TDFende/`
-(bichos e torres em FBX) e `SpeedTche/art/` (carros). Repositório privado, sem LFS.
+(bichos e torres em FBX) e `SpeedTche/art/` (carros). Repositório público, sem LFS: só entra o que a
+licença deixa redistribuir (CC0, CC BY 4.0 com o crédito em `CREDITOS.md`, gerado na conta do Felipe ou
+próprio).
 
 ## Pastas
 
