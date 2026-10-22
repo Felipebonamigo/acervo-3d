@@ -26,15 +26,26 @@ próprio).
 | `personagens-e-unidades/` | Soldados gregos, aldeãs, Héracles, cerco |
 | `edificios/` | Edifícios e maravilhas do Age of Earth; torres, fortaleza e acampamento do TDFende (`torres-tdfende/`) |
 | `natureza/` | Árvores, arbustos, rochas, veios de ouro, tocos |
-| `veiculos/` | Galeão, o carro Falcão do Kenney e os 13 moldes de carroceria do Speed Tchê |
+| `veiculos/` | Galeão, o carro Falcão do Kenney, os 13 moldes de carroceria do Speed Tchê e os veículos genéricos do Sketchfab (sem marca) |
+| `mobiliario-urbano/` | Postes, lixeiras, telefones públicos, bueiro, ponto de ônibus, cone, barreira, banco de praça, caçamba, carrinho de pipoca (Detonauto e AO VIVO) |
+| `marcos/` | Pontos turísticos em domínio público (Theatro Municipal do Rio) |
 
 | Fonte | Licença | Condição |
 | --- | --- | --- |
 | `meshy-galeria/` | CC0 | Nenhuma |
-| `sketchfab/` | CC BY 4.0 | Crédito ao autor na tela de créditos de cada jogo |
+| `sketchfab/` | CC BY 4.0 ou CC0 (coluna `licenca`) | CC BY 4.0: crédito ao autor na tela de créditos de cada jogo; CC0: nenhuma |
 | `meshy-conta/` | Gerado na conta do Felipe | No plano grátis vale CC BY 4.0 com crédito ao Meshy; no Pro (ativado em 03/10/2026 às 23h11) é do Felipe. Javali, tigre e 1ª Torre de Canhão: plano a confirmar |
 | `kenney/` | CC0 | Nenhuma |
 | `speed-tche-moldes/` | Própria | Nenhuma |
+
+## Lote do Sketchfab (22/10/2026)
+
+Passo 2 do plano de realismo: modelos realistas com textura PBR baixados pela Download API do Sketchfab,
+só CC0 e CC BY 4.0, cada um em `<categoria>/sketchfab/<slug>__<uid>.glb` (o `uid` é o do Sketchfab; a
+página do original é `https://sketchfab.com/3d-models/<uid>`). Os GLB são os que o próprio Sketchfab
+gera (texturas em 1024 px). A coluna `notas` do catálogo traz triângulos, animações e tamanho; `usado_em`
+diz o jogo alvo ("reserva" quando ainda não entrou em jogo nenhum). Os modelos do kenchoo são
+reconstruções de modelos CC BY de outros autores: o crédito cita os dois.
 
 ## Formatos
 
