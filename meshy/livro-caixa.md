@@ -1,0 +1,38 @@
+# Livro-caixa do Meshy (conta do Felipe, plano Pro)
+
+Toda operação que gasta crédito entra aqui na hora, com o saldo lido pela API depois (`GET /openapi/v1/balance`).
+
+| Data (UTC) | Lote | Item | Operação | Tarefa | Créditos | Saldo depois (mensal + permanente) | Aprovou |
+|---|---|---|---|---|---|---|---|
+| 2026-10-22 13:05 | 2026-10 | orelhao | text-to-3d preview | 01a163b5-ec93-70c8-9b90-6acd0362ff66 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:05 | 2026-10 | caixa-dagua | text-to-3d preview | 01a163b6-1214-720b-8aea-8606e983248a | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:05 | 2026-10 | portao-de-ferro | text-to-3d preview | 01a163b6-2506-71c5-906c-b274cb5941f3 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:05 | 2026-10 | poste-duplo-t | text-to-3d preview | 01a163b6-35de-752a-b8a0-a1f9544457d0 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:05 | 2026-10 | lombada | text-to-3d preview | 01a163b6-4351-77d9-b1f0-83d14362e4af | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:05 | 2026-10 | carrinho-churrasquinho | text-to-3d preview | 01a163b6-651c-72fe-aa4c-5a8afe61ae32 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:05 | 2026-10 | busto-zumbi | text-to-3d preview | 01a163b6-776a-756d-afb8-aee4a7c47e23 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:06 | 2026-10 | banca-de-jornal | text-to-3d preview | 01a163b5-fe99-75a9-9fce-7ddbd3428f00 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:06 | 2026-10 | maravilha-mausoleu | text-to-3d preview | 01a163b6-872f-7087-a0a2-4875769079f7 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:06 | 2026-10 | maravilha-artemis | text-to-3d preview | 01a163b6-9705-7264-afbe-062a93aa16d9 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:06 | 2026-10 | maravilha-meteora | text-to-3d preview | 01a163b7-2326-71d1-9f3e-3a28e377f540 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:07 | 2026-10 | torre-gelo-tdfende | text-to-3d preview | 01a163b7-86f7-75aa-a699-b544a6c50fd1 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:07 | 2026-10 | torre-fogo-tdfende | text-to-3d preview | 01a163b7-70fb-7782-82a7-f86e984c713d | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | caixa-dagua | text-to-3d refine | 01a163b9-f138-707a-8cc1-25b9c3206bc6 | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | portao-de-ferro | text-to-3d refine | 01a163b9-f9ca-75bd-bb8b-f932736a34f8 | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | poste-duplo-t | text-to-3d refine | 01a163ba-0255-70d0-a3d3-fc442d1c9203 | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | lombada | text-to-3d refine | 01a163ba-0ae2-7722-a992-13d6658f20b3 | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | quiosque-de-orla | text-to-3d preview | 01a163b6-550e-715a-9f18-d323410b2fad | 20 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | carrinho-churrasquinho | text-to-3d refine | 01a163ba-137d-7789-94ba-24612ece44a8 | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | busto-zumbi | text-to-3d refine | 01a163ba-1c01-730d-9e7e-615f3b05748d | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | maravilha-mausoleu | text-to-3d refine | 01a163ba-247e-750e-b783-772fbc9ff95b | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | maravilha-artemis | text-to-3d refine | 01a163ba-2d15-76e5-9b03-6e132892b9f6 | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | maravilha-meteora | text-to-3d refine | 01a163ba-359b-73ca-b5d0-2481d9db256d | 10 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:09 | 2026-10 | orelhao-v2 | text-to-3d preview | 01a163ba-3ec1-710f-8d03-5cb55fb8aca9 | 20 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:10 | 2026-10 | banca-de-jornal-v2 | text-to-3d preview | 01a163ba-ca2f-7604-98f6-19fabe35d8cc | 20 | 432 (382 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:12 | 2026-10 | quiosque-de-orla | text-to-3d refine | 01a163bc-fe4e-7693-bee4-4c730ab83e14 | 10 | 362 (312 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:12 | 2026-10 | torre-fogo-tdfende | text-to-3d refine | 01a163bd-06e8-760a-8b81-2ad564a75561 | 10 | 362 (312 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:12 | 2026-10 | torre-gelo-tdfende | text-to-3d refine | 01a163bd-0f6d-72a8-b04c-877c21a1ecd2 | 10 | 362 (312 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:12 | 2026-10 | orelhao-v2 | text-to-3d refine | 01a163bd-17f8-73ba-a03a-3ef616e66827 | 10 | 362 (312 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:12 | 2026-10 | poste-duplo-t-concreto | text-to-3d refine | 01a163bd-20a6-7058-8054-1cf308c72d22 | 10 | 362 (312 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:14 | 2026-10 | banca-de-jornal-v3 | text-to-3d preview | 01a163bd-d809-765e-bd09-25f9a49bec7f | 20 | 362 (312 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
+| 2026-10-22 13:16 | 2026-10 | banca-de-jornal-v3 | text-to-3d refine | 01a163c0-4b0d-71dc-820c-e9636e2564bd | 10 | 352 (302 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |

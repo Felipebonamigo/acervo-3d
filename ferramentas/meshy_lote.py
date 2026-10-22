@@ -75,9 +75,9 @@ def fase_preview(caminho):
     print("saldo agora:", saldo())
 
 def fase_status(caminho, espera=True):
-    m = carrega(caminho)
     pend = True
     while pend:
+        m = carrega(caminho)  # relê a cada volta: aprovações e itens novos feitos à mão não se perdem
         pend = False
         for it in m["itens"]:
             for fase in ("preview", "refine"):
