@@ -28,7 +28,7 @@ próprio).
 | `natureza/` | Árvores, arbustos, rochas, veios de ouro, tocos |
 | `veiculos/` | Galeão, o carro Falcão do Kenney, os 13 moldes de carroceria do Speed Tchê e os veículos genéricos do Sketchfab (sem marca) |
 | `mobiliario-urbano/` | Postes, lixeiras, telefones públicos, bueiro, ponto de ônibus, cone, barreira, banco de praça, caçamba, carrinho de pipoca (Detonauto e AO VIVO) |
-| `marcos/` | Pontos turísticos em domínio público (Theatro Municipal do Rio) |
+| `marcos/` | Pontos turísticos em domínio público: Theatro Municipal do Rio (Sketchfab), Arcos da Lapa e relevo do Pão de Açúcar (`proprios/`, feitos por script no Detonauto) |
 | `cidade/` | Peças de cidade feitas por script no Detonauto (`detonauto-script/`) |
 
 | Fonte | Licença | Condição |
@@ -38,6 +38,7 @@ próprio).
 | `meshy-conta/` | Gerado na conta do Felipe | No plano grátis vale CC BY 4.0 com crédito ao Meshy; no Pro (ativado em 03/10/2026 às 23h11) é do Felipe. Javali, tigre e 1ª Torre de Canhão: plano a confirmar |
 | `kenney/` | CC0 | Nenhuma |
 | `speed-tche-moldes/` | Própria | Nenhuma |
+| `proprios/` | Própria (geometria por script de um jogo do estúdio) ou dados públicos do governo dos EUA (USGS SRTM, NOAA ETOPO1) com crédito pedido | Dado público: o crédito do USGS/NOAA na tela de créditos do jogo (coluna `credito` do catálogo) |
 
 ## Lote do Sketchfab (22/10/2026)
 
@@ -70,7 +71,8 @@ reconstruções de modelos CC BY de outros autores: o crédito cita os dois.
 2. Modelo novo entra no mesmo dia em três lugares: o arquivo em `<categoria>/<fonte>/`, a linha no
    `catalogo.csv` e a linha na aba Modelos 3D. O registro de licença do próprio jogo continua valendo
    (`docs/licencas.csv`, `art/meshy/catalogo.json`, `docs/licencas/manifesto.json` ou `docs/ARTE.md`).
-3. Licença aceita: CC0, CC BY 4.0 com crédito, gerado na conta do Meshy, próprio. Nunca NC, ND,
+3. Licença aceita: CC0, CC BY 4.0 com crédito, gerado na conta do Meshy, próprio, e dado público (domínio
+   público do governo dos EUA, como o relevo SRTM/ETOPO1) com o crédito que o provedor pede. Nunca NC, ND,
    "uso pessoal" ou origem não comprovada.
 4. Nenhum arquivo acima de 50 MB (o GitHub recusa acima de 100 MB). Sem LFS, para não gastar a cota
    do Detonauto.
