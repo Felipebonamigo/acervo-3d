@@ -77,3 +77,13 @@ reconstruções de modelos CC BY de outros autores: o crédito cita os dois.
 5. Ao levar um modelo para outro jogo, acrescente o jogo em `usado_em` e o crédito na tela de créditos
    dele (`CREDITOS.md`).
 6. Commits em português, no imperativo.
+
+## Lote do Meshy (22/10/2026)
+
+15 modelos gerados pela API na conta do Felipe (plano Pro: o modelo é dele), aprovados por ele em lote
+("ok, siga", teto de 560 créditos; gastos 490, saldo 352). Text to 3D Meshy 7.1 com remesh, prévia olhada
+antes de pagar a textura (PBR 2K, luz removida), limpos por `ferramentas/limpar_ia.py` (escala real em metros,
+pivô na base, frente em +X). Pastas `<categoria>/meshy-conta/`; livro-caixa em `meshy/livro-caixa.md`; prévias
+em `meshy/previas/2026-10/`; manifesto com prompts em `meshy/lote-2026-10.json`. Tudo é `gerado_por_ia` e entra
+na declaração de IA da Steam do jogo que usar. Reprovados e não refinados: orelhão v1 (forma errada), banca de
+jornal v1 (faces esticadas) e v2 (letreiro em relevo); a v3 ficou como reserva.
