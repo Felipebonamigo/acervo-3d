@@ -29,6 +29,7 @@ próprio).
 | `veiculos/` | Galeão, o carro Falcão do Kenney, os 13 moldes de carroceria do Speed Tchê e os veículos genéricos do Sketchfab (sem marca) |
 | `mobiliario-urbano/` | Postes, lixeiras, telefones públicos, bueiro, ponto de ônibus, cone, barreira, banco de praça, caçamba, carrinho de pipoca (Detonauto e AO VIVO) |
 | `marcos/` | Pontos turísticos em domínio público (Theatro Municipal do Rio) |
+| `cidade/` | Peças de cidade feitas por script no Detonauto (`detonauto-script/`) |
 
 | Fonte | Licença | Condição |
 | --- | --- | --- |
