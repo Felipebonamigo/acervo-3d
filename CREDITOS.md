@@ -26,3 +26,15 @@ Gerado do `catalogo.csv`. Todo jogo que usar um destes modelos põe a linha na t
 - **Bull (touro zebu)**: "Bull" (https://sketchfab.com/3d-models/bull-d0f2ff31252a4c9cb084b1ac3a2e4d8b) by stealth86 is licensed under CC BY 4.0
 - **Lion (leão)**: "Lion" (https://sketchfab.com/3d-models/lion-66be3258e2d64f32af2b73b2ecd47637) by kenchoo is licensed under CC BY 4.0
 - **Bear (urso-pardo)**: "Bear" (https://sketchfab.com/3d-models/bear-ce0d5eb86cf5459bb6bd20244cb44b27) by Nyilonelycompany is licensed under CC BY 4.0
+- **Rural Area Old Concrete Electric Utility Pole (poste de concreto com cruzeta)**: "Rural Area Old Concrete Electric Utility Pole" (https://sketchfab.com/3d-models/rural-area-old-concrete-electric-utility-pole-f8b3249e56484746b193389914df9331) by Kuutti Siitonen is licensed under CC BY 4.0
+- **Spherical Street Lamp (poste de luz com globo)**: "Spherical Street Lamp" (https://sketchfab.com/3d-models/spherical-street-lamp-08e4ea61b1134cf0865926e06dc6ed59) by Alex.Latigun is licensed under CC BY 4.0
+- **street trash can (lixeira de concreto de calçada)**: "street trash can" (https://sketchfab.com/3d-models/street-trash-can-0debf0ba50304951b32b44c7578468dd) by YouniqueĪdeaStudio is licensed under CC BY 4.0
+- **Photorealistic Trash Can (LOW POLY) (tambor de lixo com grafite)**: "Photorealistic Trash Can (LOW POLY)" (https://sketchfab.com/3d-models/photorealistic-trash-can-low-poly-bcab9ed8c071482e8d52b3e3020edefc) by Derfmode is licensed under CC BY 4.0
+- **Vintage Payphone (telefone público laranja de parede)**: "Vintage Payphone" (https://sketchfab.com/3d-models/vintage-payphone-3d9327da17a447b5acc9b3784f460853) by DutraBR98 is licensed under CC BY 4.0
+- **Manhole Cover 1 (tampa de bueiro)**: "Manhole Cover 1" (https://sketchfab.com/3d-models/manhole-cover-1-d5dd2f43432445048ec953c841c1159d) by sedb is licensed under CC BY 4.0
+- **Modern Bus Stop Shelter (ponto de ônibus moderno)**: "Modern Bus Stop Shelter" (https://sketchfab.com/3d-models/modern-bus-stop-shelter-2904d92a65b947e7bed44319bc320e84) by Ottto3d is licensed under CC BY 4.0
+- **Worn Traffic Cone (cone de trânsito gasto)**: "Worn Traffic Cone" (https://sketchfab.com/3d-models/worn-traffic-cone-1cbffb4169684e5a84ba186882bd55d7) by Kuutti Siitonen is licensed under CC BY 4.0
+- **Concrete Barrier (barreira de concreto)**: "Concrete Barrier" (https://sketchfab.com/3d-models/concrete-barrier-0bc914070ffa4f00810593dfa66497a2) by Victor Ogbuka is licensed under CC BY 4.0
+- **Park Bench (banco de praça de ferro e madeira)**: "Park Bench" (https://sketchfab.com/3d-models/park-bench-2ee2bc87756d4bf0932d83ab860ddb8f) by RBG_illustrations is licensed under CC BY 4.0
+- **Dumpster (caçamba de lixo)**: "Dumpster" (https://sketchfab.com/3d-models/dumpster-f80a2a0af6924562be10be7354b7a72f) by jmarcos28 is licensed under CC BY 4.0
+- **Popcorn Cart_T_1 (carrinho de pipoca)**: "Popcorn Cart_T_1" (https://sketchfab.com/3d-models/popcorn-cart-t-1-60f3f55a1d214770a1e5a94a2d07936c) by Rosie Vo is licensed under CC BY 4.0
