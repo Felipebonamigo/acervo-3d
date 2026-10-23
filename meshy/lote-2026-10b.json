@@ -1,0 +1,55 @@
+{
+  "lote": "2026-10b",
+  "aprovado_por": "Felipe, 23/10/2026 (\"pode usar o meshy\"; prioridade a pecas comuns aos jogos; teto proposto de 150 creditos dos 302 mensais que vencem em 03/11)",
+  "teto_creditos": 150,
+  "regras": "Teste antes do lote: 2 previas (20 cada) -> miniatura olhada -> refine PBR 2K so nas aprovadas (10). Carros nacionais pela excecao do Felipe de 16/10/2026: silhueta parecida de proposito, sem nome, logo, emblema, grade de marca, placa real ou texto. Tudo gerado_por_ia. Registro no catalogo.csv e na aba Modelos 3D no mesmo dia do download.",
+  "itens": [
+    {
+      "id": "hatch-popular-br",
+      "categoria": "veiculos",
+      "jogo": "Detonauto, AO VIVO, Speed Tche",
+      "polycount": 30000,
+      "altura_m": 1.42,
+      "prompt": "compact three-door hatchback car typical of Brazilian streets in the late 1990s, boxy angular body, short hood, small 13 inch steel wheels with plain hubcaps, black plastic bumpers, white paint slightly dirty, closed doors, plain grille with no emblem, no logos, no badges, no text, no license plate, realistic PBR game vehicle, single object, no ground, no people",
+      "preview_id": "01a16930-0583-7060-8938-87e748cea972",
+      "preview_criado": "2026-10-23 14:35",
+      "preview_status": "SUCCEEDED",
+      "preview_progresso": 100,
+      "creditos_preview": 20,
+      "preview_thumb": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-0583-7060-8938-87e748cea972/output/preview.png?Expires=4946313600&Signature=QY5rViQwnyDRsWHOOytyWQB1jfJng1AFKH6x58js4Ovsqewz5RKYAcgmYbZIBm~7MUlgudVYgsdQ794W88VKkndfEVAsm0AZzg5EsyiwkvHhwTuG8NGDaI0PXytS8x2VpxX9xl5xt4mvNfTfD7MzYHiUf9iU0GTK~RO4Fm9BZAs7mNLhqrwNgkHJU3yD8ppGjO90ofCLg3W6fUiB4SgFTVS1ysty7nY11zARnJQFJTl85PedQ-62hTxPCXCLt76SZpFzYQ4cD86B715XigD3h5WVxqsNXH7Wrb-we~odcXmTD8Ht0ghcrhIwlKHIobmBdhMk1DXnojuA3NneVaWhYg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+      "preview_urls": {
+        "glb": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-0583-7060-8938-87e748cea972/output/model.glb?Expires=4946313600&Signature=CTJdAh-o9TuIsVX1j0vNSz25jMPnn2TV14npU8q0GirCeEh6hDVYZtYzk-ouMXaD2wmJJOlKE55-m73PHkyz5tvvryd6A5pgid5oXLJIS7PM1aNvBQD-dxuwHMm784B5uSJUVz2Z6v8LJhT~GxCUe-H-Jk3ycnVHtvMvHIT7BHO0Og2g2UcLG-FC8HUpMybhlm8YbzeB9WpctdkUtGPXQxOm9zUANYKSv1XkVHRmbjIMWfbyUNCPHFO9LlZT~sy9Ya6gk0fuMadtW15YqWLqJITzdeypVzYDqq9Ls9OWGYilRbzy4H0PWW7YmRhZrMZGRx8Ypu41g~UXK1C40DNfXQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "fbx": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-0583-7060-8938-87e748cea972/output/model.fbx?Expires=4946313600&Signature=B0C3UIDZVVgC6qgw5o8XEDu~LOwBJJxrDLQdEkAW1rDfj9J4N-MAOr9-cF~XMgpJ6IqDX9qkXziYtd1wVTlNAyyZHdeOBwWr9iA1ujMWEznZpkNE8kFbmYd6FpU9bG2P5omGNWKB4tW3nQLqgl~HMeAj8UGmxaHvlF75VhQDWzLgsjim2SlRr6umf882hzzRBKtNC1~twsYeuXSzj7H374-GWsCiv-RFG1voSxMCk0c5mytnXwtcpbEu2ofAfmXZjee0Fi3bjMSllxXnr6lCqcz5ahCdC1sW0GDPC4r4~S2MX7Wq6pa7oHogOQoCPwRxyaTm2rwztnS0V9OShI7m5Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "usdz": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-0583-7060-8938-87e748cea972/output/model.usdz?Expires=4946313600&Signature=dwQtqNLF2hhOn0tVBOUr1z-0uK5jvzHM~494vZlhMxs5myJGLgM03VOv6so6m1KBg0z8JNCMbncrgB7blZuGdP4fkW4nBx3ois1Q4r6AtVRuZekhNU0BXBF8n5SLgP7cGQkgb2OE9sOPNYfDhP2MEfEvdADlWxCiMFLkIkOFHLyfvi4gDIe3jaTmwACnQIDpaNeYqV70ELq9yhuK69EulChcio6G-1uiVv9bJ7FCuij78~KOO5mc~qs2uVu4iul-rxkefFgvYHJLMjaKnsb1VtiANLVmkoqiqjM0wSQzFmllNGLeQL0vl8Zi7DNBZgQyuj0Xw7sLIUWkKzPWjXDwag__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "obj": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-0583-7060-8938-87e748cea972/output/model.obj?Expires=4946313600&Signature=CMNtcv6RPmj32VZF9XcfgsPOqsoaHlIpNBw8IRnpb1ILBA1gP3DT66-tariM9HKJk3y62mJFaHxJJDAA4yV38Yt5Khn11tIFnXDenU78xDvhGcjIM4DvKwHtYh2d58IX4dnfZK8yTYqLmKlXkc9YhxFfqShVL4t54Vm0C2LQlq3BjdDiFOCmO5BNGoIQOv4NM246DZkJ23qmbg7ikf3QC6I~bDaaORsri4SPUicDIA2dwMc5hwWfOzSdB5GAXIO~1GX1W1taIuVl4bg9di3du8nRVOqMjZHCNp4R~oLIuF4~fA2ONku-8HIp5m7ymVwtxiDEZgIjxt8CGdUKatC24A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "stl": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-0583-7060-8938-87e748cea972/output/model.stl?Expires=4946313600&Signature=ALG0j9rW03YcE-idSgIUjLfhh3DwGUNZvrtMQ7ozdeQW9yD0~n8C5BeY3Ty8b8bwZCy8wb3LAUCzKTQGyl-vmi96QX4aEsKm9S1AD5wMm6aoglCbKhNYO4rt3ZmZkd3wnq22II9aNqnQfRUkSQxnvVW2SGcYdiUWAQyDll26UJNfl1Oi2e8Rj-pn8G-QXuLatJgCk5NQ7jlo38O0nMulh0NdRY-5yXWDym5jNrtnrGa-a00cmYDDWCldn4WcgkhWcnky2ChQlQ8gCXwlRlza93v7Uzb1f8tpUZ5kAN6NdaIHFP~jkcFlt~y-~dsz-wCqJzP7UY3P0U7YVJeZm4Nfjg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+      },
+      "aprovado": false,
+      "nota_previa": "Reprovado na prévia (23/10): saiu microcarro alto estilo kei car, não hatch brasileiro dos anos 90. Sem refine."
+    },
+    {
+      "id": "kombi-br",
+      "categoria": "veiculos",
+      "jogo": "Detonauto, AO VIVO, Speed Tche",
+      "polycount": 30000,
+      "altura_m": 2.0,
+      "prompt": "old Brazilian style 1990s rear-engine minibus van with rounded flat front, short nose, sliding side door, many side windows, single color pale beige paint, slightly rusty and dirty, steel wheels, no emblem on the front, no logos, no badges, no text, no license plate, realistic PBR game vehicle, single object, no ground, no people",
+      "preview_id": "01a16930-1492-7777-ad3e-19b71622ddfc",
+      "preview_criado": "2026-10-23 14:35",
+      "preview_status": "SUCCEEDED",
+      "preview_progresso": 100,
+      "creditos_preview": 20,
+      "preview_thumb": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-1492-7777-ad3e-19b71622ddfc/output/preview.png?Expires=4946313600&Signature=jX5KVez~M6G-QtE~7AGmwnnPvisNy0g9A8lI-kJD2d-JVPx91IvsgGtdtTpUa7qQnVPUlr10yF5xk2XxwJbvb8t1bhvvpxHH9nD9pfvlfiqMbe7U~FMEhtEHb3y29scsovR9gkWSPsB5ZYxJoqIKizi5OPtosoK59uSkbgzDybLS3EoxZXcpH7xzLUMuE~16QcFAvv822YS2tZGdrHAAeZp2ahQtHP9WTPSkjr9VZ8l08xzeSuUbrozO656RMaYxefG74BEb4nPIHH90T0MLUzEnpa1I-7gLGhtwEG-WDZPuMFUnkZThXz23oN06DjiGTRKxdPYLg3v6~YYDSl4xGg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+      "preview_urls": {
+        "glb": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-1492-7777-ad3e-19b71622ddfc/output/model.glb?Expires=4946313600&Signature=G7sRNtvtzX6NaxWmdtHjg-efKFk-shH9cdurFhBEaGNlg~yXNWl2PnkoWQUIrbEOc4XABvLhvvkjqU-R3uM5kHGG-QAjeXvT-wjTLB3K3IU~3FhcmVsEKxEYS9MWgiFrR7DvG17Y9hthbMXsFLTAlJka2FeWCLVyRfSm9UZxRB8AeG97uNyqebYxNbBINLW1~GmkbCemwDlg5VHWb-ECEwfBzj6G-JlJqkvbzm0DOGHTyNd6q4KOJMWiSdJFlXT851LVWjfoohEZYHpFliC18ZJ74yeXMR1HMpY1V~autEcPTAWDiU7xCfF3ZcRRnwWFqG~Rv6hOXj1szYw7oo7Jaw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "fbx": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-1492-7777-ad3e-19b71622ddfc/output/model.fbx?Expires=4946313600&Signature=aIjyhgGF0x6ow-icXAu2kYasQeCG~bUeAB2PU09HuW~pav0lbPtY9dORAVzKUnItaN3H5voTR1Z4jAhvljejDcD5Zzhtfgck~1YdxZFn0da7FJt0KL5K1t5vHuqDAHTOFEOpXIYP7jHTfptXt2SogILRTRojwU9XWphyozNVWaM3yrrzbiHClFpwSJX94q~adK7CP9uGnegTTEFOBjamIheoEQyQnkRSmzF6e~552ve8ygdBn0i55WOcLua8F1rsjGAeh8kXI5LKgu-4jp3yAnQAOeiBN3RJvSKB1CwziyAjqFwg~yK9e00Ttx2osPJsRHOoU~HN-fv78znc-06shg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "usdz": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-1492-7777-ad3e-19b71622ddfc/output/model.usdz?Expires=4946313600&Signature=dCh4lqtcaWre~ZhJM6H~HmaP6iyPTPXPAE776nov4yLdxKvbFOoC0bCiYiew5PuShoZLdFDqStWhgznNpipz6bOkGZttx72aNVU9bZibE8VdCoupzgyd3bJ9jG2uoqW1ThAZwHKdtz68xASPFOMUFSs4Kk1Q6UiDUinAfXHQXFNSOQecUqe3peuhbFj7oidYC5kOEJuK5MEPJb~t0PDswEwntCZJ1cBaJTACx0lUSwLnr-HJjnp8omQ2HtcJPjw4h6ISx5W5d6plds5ZYWNIv9zOiHh22Bp81G-BWUqS2Q9Zsd51XPXNLjQd1EdIwBvlFUaU2u6SvBDgidoFgkfJgg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "obj": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-1492-7777-ad3e-19b71622ddfc/output/model.obj?Expires=4946313600&Signature=mgNqRovVkGIRy6VbCOO1oN7MMFbjJDEBjlFrkggaRvjW4hu0tmVdXulyjDRjfb2NJ4x2absa5kWqADaMp9vcN4~dREOBUBFOghiDJKjTMgovpvCYI3uRFGOua5MpxNrrZMsu~5ljTQPw7SjhVJoJZoZhGyEZydHQiUqJ-G9BKj7BrLWePlDRnuZvl7e9rnUgiuLk0azdsHqnM1F0aCHH5sfx4PBRM0Jnk~Oj7CT2j3dOPjOtP-WLjbsBZSbV~uF4eGEP-KJ7K2XVsJ~FCbrHmUrcQTNJpSo3sdnSc-kvtHIsbwQzrlx3ka-GwVdIQLCCNl7FRQzpDkjQpNGKlI7ZMQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+        "stl": "https://assets.meshy.ai/cdbd3f64-ee11-4935-81bc-6799181dd3e3/tasks/01a16930-1492-7777-ad3e-19b71622ddfc/output/model.stl?Expires=4946313600&Signature=ZzbWYLbEVMjvzk2oEI32SoXCsk9Ja-v5sSFmn3d6bDNtGuJMv13b8CqQc8GH~dWb8aTEcoTfsP7pIBBjzYjLw1C0u6F1rsjM8EoJwr4gqHA4pw1bjrfCyBlPnTf2s5RTcXVkBTJOTb~0Epi2ThupOqqIKhktgm8scIWAlbMmcDV3Gg47eEPifpWs4H-OHZmiKdTNK99Jolw1UGcU2bJhOBoQjCMvf7Vgky5LSDERfmLt7uULMjkrTdmI2rk3S0wAdFs0uMdBDUJ7~LO77yYClS4jboeov24DQYnDH0XYjWdx-TyrLQ0MogM9W1NIi0fA3tWUNCgDWa8Hf01nI5si3A__&Key-Pair-Id=K1VGYTHIYLM9UM"
+      },
+      "aprovado": false,
+      "nota_previa": "Reprovado na prévia (23/10): saiu van americana genérica, não a silhueta pedida. Sem refine."
+    }
+  ],
+  "resultado": "Teste de 23/10/2026: 40 créditos, 2 prévias reprovadas. Texto sozinho não segura proporção de carro nacional; próximo passo proposto: silhueta própria desenhada no Blender e imagem-para-3D, só com novo ok do Felipe. Carros genéricos de rua vêm da série modular CC BY de Daniel Zhabotinsky (sem crédito do Meshy)."
+}
