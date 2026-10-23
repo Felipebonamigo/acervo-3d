@@ -28,7 +28,7 @@ próprio).
 | `natureza/` | Árvores, arbustos, rochas, veios de ouro, tocos |
 | `veiculos/` | Galeão, o carro Falcão do Kenney, os 13 moldes de carroceria do Speed Tchê e os veículos genéricos do Sketchfab (sem marca) |
 | `mobiliario-urbano/` | Postes, lixeiras, telefones públicos, bueiro, ponto de ônibus, cone, barreira, banco de praça, caçamba, carrinho de pipoca (Detonauto e AO VIVO) |
-| `marcos/` | Pontos turísticos em domínio público: Theatro Municipal do Rio (Sketchfab), Arcos da Lapa e relevo do Pão de Açúcar (`proprios/`, feitos por script no Detonauto) |
+| `marcos/` | Pontos turísticos em domínio público: Theatro Municipal do Rio (Sketchfab), Arcos da Lapa, relevo do Pão de Açúcar, roda-gigante genérica e estátua estilizada de braços abertos (`proprios/`, feitos por script no Detonauto) |
 | `cidade/` | Peças de cidade feitas por script no Detonauto (`detonauto-script/`) |
 
 | Fonte | Licença | Condição |
