@@ -81,6 +81,14 @@
       "creditos": 30,
       "criado": "2026-10-23 15:00",
       "status": "SUCCEEDED"
+    },
+    {
+      "id": "hatch-ficha-1-vistas",
+      "modo": "text-to-image nano-banana-pro multi-view",
+      "task_id": "01a1694b-54c8-731d-9573-15922b57e4bc",
+      "creditos": 9,
+      "criado": "2026-10-23 15:05",
+      "prompt": "pede o hatch nº 1 da ficha CARROS-NACIONAIS do Speed Tchê pelo nome do modelo real de referência (texto exato fora do repositório público, regra de não versionar nome de marca), mais: sem emblema, sem logo, sem texto, placas em branco, grade lisa"
     }
   ],
   "resultado": "Teste de 23/10/2026: 40 créditos, 2 prévias reprovadas. Texto sozinho não segura proporção de carro nacional; próximo passo proposto: silhueta própria desenhada no Blender e imagem-para-3D, só com novo ok do Felipe. Carros genéricos de rua vêm da série modular CC BY de Daniel Zhabotinsky (sem crédito do Meshy)."
