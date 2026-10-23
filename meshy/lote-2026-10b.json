@@ -1,7 +1,7 @@
 {
   "lote": "2026-10b",
-  "aprovado_por": "Felipe, 23/10/2026 (\"pode usar o meshy\"; prioridade a pecas comuns aos jogos; teto proposto de 150 creditos dos 302 mensais que vencem em 03/11)",
-  "teto_creditos": 150,
+  "aprovado_por": "Felipe, 23/10/2026 (\"pode usar o meshy\"; prioridade a pecas comuns aos jogos; teto proposto de 150 creditos dos 302 mensais que vencem em 03/11) | ampliado: Felipe, 23/10/2026 (\"faça o que você achar que vai ficar melhor... mais parecido com os carros que mandei\"): 4 nacionais, ~147 créditos",
+  "teto_creditos": 300,
   "regras": "Teste antes do lote: 2 previas (20 cada) -> miniatura olhada -> refine PBR 2K so nas aprovadas (10). Carros nacionais pela excecao do Felipe de 16/10/2026: silhueta parecida de proposito, sem nome, logo, emblema, grade de marca, placa real ou texto. Tudo gerado_por_ia. Registro no catalogo.csv e na aba Modelos 3D no mesmo dia do download.",
   "itens": [
     {
@@ -89,6 +89,78 @@
       "creditos": 9,
       "criado": "2026-10-23 15:05",
       "prompt": "pede o hatch nº 1 da ficha CARROS-NACIONAIS do Speed Tchê pelo nome do modelo real de referência (texto exato fora do repositório público, regra de não versionar nome de marca), mais: sem emblema, sem logo, sem texto, placas em branco, grade lisa"
+    },
+    {
+      "id": "fusca-vistas",
+      "modo": "text-to-image nano-banana-pro multi-view",
+      "task_id": "01a16953-7df3-712b-aa74-72df0e139769",
+      "creditos": 9,
+      "criado": "2026-10-23 15:14",
+      "prompt": "cita o modelo de referência da ficha CARROS-NACIONAIS pelo nome (fora do repositório público); sem logo, emblema, texto, placa real"
+    },
+    {
+      "id": "kombi-vistas",
+      "modo": "text-to-image nano-banana-pro multi-view",
+      "task_id": "01a16953-7e98-77a3-aa54-7f2507f088cc",
+      "creditos": 9,
+      "criado": "2026-10-23 15:14",
+      "prompt": "cita o modelo de referência da ficha CARROS-NACIONAIS pelo nome (fora do repositório público); sem logo, emblema, texto, placa real"
+    },
+    {
+      "id": "palio-vistas",
+      "modo": "text-to-image nano-banana-pro multi-view",
+      "task_id": "01a16953-7f4a-716a-a793-cd2274c305db",
+      "creditos": 9,
+      "criado": "2026-10-23 15:14",
+      "prompt": "cita o modelo de referência da ficha CARROS-NACIONAIS pelo nome (fora do repositório público); sem logo, emblema, texto, placa real"
+    },
+    {
+      "id": "gol-3d",
+      "modo": "multi-image-to-3d das vistas geradas (PBR 2K)",
+      "task_id": "01a16954-7698-7447-b7e3-888a846cb5c3",
+      "creditos": 30,
+      "criado": "2026-10-23 15:18",
+      "status": "SUCCEEDED"
+    },
+    {
+      "id": "fusca-3d",
+      "modo": "multi-image-to-3d das vistas geradas (PBR 2K)",
+      "task_id": "01a16954-7c1c-72ab-a69d-79b66ea9758b",
+      "creditos": 30,
+      "criado": "2026-10-23 15:18",
+      "status": "SUCCEEDED"
+    },
+    {
+      "id": "kombi-3d",
+      "modo": "multi-image-to-3d das vistas geradas (PBR 2K)",
+      "task_id": "01a16954-8288-713c-8fa2-3174f7dfdb60",
+      "creditos": 30,
+      "criado": "2026-10-23 15:18",
+      "status": "SUCCEEDED"
+    },
+    {
+      "id": "palio-3d",
+      "modo": "multi-image-to-3d das vistas geradas (PBR 2K)",
+      "task_id": "01a16954-8716-745a-902f-44b1af40cef7",
+      "creditos": 30,
+      "criado": "2026-10-23 15:18",
+      "status": "SUCCEEDED"
+    },
+    {
+      "id": "barao-vistas",
+      "modo": "text-to-image nano-banana-pro multi-view",
+      "task_id": "01a16960-509a-7547-bb66-4de272a2a26b",
+      "creditos": 9,
+      "criado": "2026-10-23 15:30",
+      "prompt": "cita o modelo de referência da ficha (nº 5) pelo nome, fora do repositório público; sem logo, emblema, texto, placa real"
+    },
+    {
+      "id": "barao-3d",
+      "modo": "multi-image-to-3d (PBR 2K)",
+      "task_id": "01a16960-d7c1-731a-8765-5c7c1b961c09",
+      "creditos": 30,
+      "criado": "2026-10-23 15:30",
+      "status": "SUCCEEDED"
     }
   ],
   "resultado": "Teste de 23/10/2026: 40 créditos, 2 prévias reprovadas. Texto sozinho não segura proporção de carro nacional; próximo passo proposto: silhueta própria desenhada no Blender e imagem-para-3D, só com novo ok do Felipe. Carros genéricos de rua vêm da série modular CC BY de Daniel Zhabotinsky (sem crédito do Meshy)."
