@@ -49,6 +49,17 @@
       },
       "aprovado": false,
       "nota_previa": "Reprovado na prévia (23/10): saiu van americana genérica, não a silhueta pedida. Sem refine."
+    },
+    {
+      "id": "cuiabano-realista",
+      "categoria": "veiculos",
+      "jogo": "Detonauto, AO VIVO",
+      "modo": "multi-image-to-3d",
+      "entrada": "4 vistas do Cuiabano herói do Speed Tchê (tools/blender/build_hero_nacional.py cuiabano), silhueta própria aprovada pelo Felipe",
+      "prompt": "photorealistic real-world compact hatchback from the 1990s, faded red automotive paint with clear coat, light dust and road grime on the lower body, real tinted glass, black rubber window seals, plain black plastic bumpers, small plain steel wheels with black rubber tires, no logos, no badges, no text, blank license plates",
+      "task_id": "01a1693c-4f13-7342-bfeb-6d5bea837d2f",
+      "creditos": 30,
+      "criado": "2026-10-23 14:48"
     }
   ],
   "resultado": "Teste de 23/10/2026: 40 créditos, 2 prévias reprovadas. Texto sozinho não segura proporção de carro nacional; próximo passo proposto: silhueta própria desenhada no Blender e imagem-para-3D, só com novo ok do Felipe. Carros genéricos de rua vêm da série modular CC BY de Daniel Zhabotinsky (sem crédito do Meshy)."
