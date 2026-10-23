@@ -1,0 +1,6 @@
+{
+  "front_axle_cm": 120.03,
+  "rear_axle_cm": -120.03,
+  "wheel_radius_cm": 29.7,
+  "nota": "espaço do carro do carro_quebravel (frente +X, pivô entre os eixos); formato de Tools/Unreal/damage_body.py"
+}

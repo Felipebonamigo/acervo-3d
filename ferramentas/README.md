@@ -123,6 +123,16 @@ van e do besouro e as lanternas do besouro não se separam da pintura pela cor; 
 fundidos no assoalho (ficam no corpo); em amassado forte de lado, a casca de interior de 30 cm atrás do vidro da porta pode aparecer
 pela janela.
 
+### Os 13 carros nacionais cortados (23/10/2026)
+
+`veiculos/meshy-conta/quebravel/<carro>/` guarda o que repete o corte igual: o mapa de peças (`_mapa.json`), o relatório
+(`_pecas.json`), as rodas (`_wheels.json`) e uma prévia explodida e amassada (`_previa.jpg`). O GLB e os FBX das peças
+(~40 MB por carro) não entram no acervo: saem de novo em ~2,5 min com
+`carro_quebravel.py -- --entrada veiculos/meshy-conta/<carro>__<id>.glb --out <pasta> --portas N --mapa veiculos/meshy-conta/quebravel/<carro>/<carro>_mapa.json`.
+De 28 a 40 peças por carro; fresta zero ao amassar nos 13. No Pampeiro, no Furgãozinho e no Trilheiro o para-brisa não sai
+pela cor, então o capô (e no jipe o para-choque dianteiro) foi posto à mão no mapa, pelo perfil do teto. Pendente: o
+bagageiro do Furgãozinho fica no corpo (devia soltar com a escada).
+
 ### O que falta para o pipeline de dano do Detonauto
 
 1. **Portas e para-lamas estão fundidos no `body`** (nesta série, só capô, porta-malas, para-choques, vidros, luzes e rodas são objetos

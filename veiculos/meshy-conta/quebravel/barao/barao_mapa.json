@@ -1,0 +1,764 @@
+{
+ "car": "barao",
+ "notes": "Gerado por carro_quebravel.py (malha única) a partir das proporções; edite e rode de novo com --mapa. Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos. take: roda (cilindro: centro, raio [r0, r1], y [|y| mínimo, máximo] do lado), textura (faces com o rótulo da peça, achado pela cor da textura, dentro da caixa), faces (corte pelos planos da caixa, como Tools/Blender/split_car_parts.py do Detonauto, com 'normal' [nx, ny, nz, mínimo]). fora_das_rodas: não leva faces da caixa de roda. thickness: espessura da peça; pocket: profundidade do vão escuro.",
+ "medidas": {
+  "comprimento": 4.388,
+  "meia_largura": 0.852,
+  "altura": 1.377,
+  "eixo_dianteiro": 1.236,
+  "eixo_traseiro": -1.236,
+  "raio_roda": 0.279,
+  "linha_de_cintura": 0.844,
+  "coluna_a": 0.777,
+  "coluna_b": -0.254,
+  "base_do_para_brisa": 1.065,
+  "topo_para_choque_dianteiro": 0.479,
+  "topo_para_choque_traseiro": 0.413,
+  "topo_da_saia": 0.323,
+  "portas": 4,
+  "van": false
+ },
+ "parts": [
+  {
+   "take": "roda",
+   "centro": [
+    1.2361,
+    0.0,
+    0.28
+   ],
+   "lado": 1,
+   "y": [
+    0.769,
+    0.82
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "hubcap_fl",
+   "papel": "hubcap",
+   "raio": [
+    0.0,
+    0.1
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2361,
+    0.0,
+    0.28
+   ],
+   "lado": 1,
+   "y": [
+    0.607,
+    0.82
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fl_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.2
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2361,
+    0.0,
+    0.28
+   ],
+   "lado": 1,
+   "y": [
+    0.607,
+    0.82
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fl_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.292
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2366,
+    0.0,
+    0.28
+   ],
+   "lado": -1,
+   "y": [
+    0.763,
+    0.82
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "hubcap_fr",
+   "papel": "hubcap",
+   "raio": [
+    0.0,
+    0.1
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2366,
+    0.0,
+    0.28
+   ],
+   "lado": -1,
+   "y": [
+    0.603,
+    0.82
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fr_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.2
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2366,
+    0.0,
+    0.28
+   ],
+   "lado": -1,
+   "y": [
+    0.603,
+    0.82
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fr_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.292
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2344,
+    0.0,
+    0.28
+   ],
+   "lado": 1,
+   "y": [
+    0.769,
+    0.821
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "hubcap_rl",
+   "papel": "hubcap",
+   "raio": [
+    0.0,
+    0.14
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2344,
+    0.0,
+    0.28
+   ],
+   "lado": 1,
+   "y": [
+    0.616,
+    0.821
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rl_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.2
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2344,
+    0.0,
+    0.28
+   ],
+   "lado": 1,
+   "y": [
+    0.616,
+    0.821
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rl_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.292
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2382,
+    0.0,
+    0.276
+   ],
+   "lado": -1,
+   "y": [
+    0.754,
+    0.821
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "hubcap_rr",
+   "papel": "hubcap",
+   "raio": [
+    0.0,
+    0.14
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2382,
+    0.0,
+    0.276
+   ],
+   "lado": -1,
+   "y": [
+    0.603,
+    0.821
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rr_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.2
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2382,
+    0.0,
+    0.276
+   ],
+   "lado": -1,
+   "y": [
+    0.603,
+    0.821
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rr_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.288
+   ]
+  },
+  {
+   "name": "mirror_left",
+   "papel": "mirror",
+   "take": "faces",
+   "box": [
+    0.54,
+    0.694,
+    0.814,
+    0.993,
+    0.847,
+    0.989
+   ],
+   "thickness": 0.004,
+   "pocket": 0.015
+  },
+  {
+   "name": "mirror_right",
+   "papel": "mirror",
+   "take": "faces",
+   "box": [
+    0.54,
+    0.694,
+    -0.993,
+    -0.807,
+    0.841,
+    0.989
+   ],
+   "thickness": 0.004,
+   "pocket": 0.015
+  },
+  {
+   "name": "plate_rear",
+   "papel": "plate",
+   "take": "textura",
+   "box": [
+    -2.19,
+    -2.144,
+    -0.219,
+    0.214,
+    0.344,
+    0.468
+   ],
+   "thickness": 0.004,
+   "pocket": 0.012
+  },
+  {
+   "name": "headlight_left",
+   "papel": "headlight",
+   "take": "textura",
+   "box": [
+    2.04,
+    2.116,
+    0.29,
+    0.47,
+    0.508,
+    0.618
+   ],
+   "thickness": 0.004,
+   "pocket": 0.05
+  },
+  {
+   "name": "headlight_right",
+   "papel": "headlight",
+   "take": "textura",
+   "box": [
+    2.049,
+    2.119,
+    -0.445,
+    -0.292,
+    0.509,
+    0.623
+   ],
+   "thickness": 0.004,
+   "pocket": 0.05
+  },
+  {
+   "name": "taillight_left",
+   "papel": "taillight",
+   "take": "textura",
+   "box": [
+    -2.18,
+    -1.934,
+    0.315,
+    0.763,
+    0.405,
+    0.82
+   ],
+   "thickness": 0.004,
+   "pocket": 0.05
+  },
+  {
+   "name": "taillight_right",
+   "papel": "taillight",
+   "take": "textura",
+   "box": [
+    -2.181,
+    -1.931,
+    -0.766,
+    -0.31,
+    0.403,
+    0.819
+   ],
+   "thickness": 0.004,
+   "pocket": 0.05
+  },
+  {
+   "name": "glass_door_fl",
+   "papel": "glass_door",
+   "take": "textura",
+   "box": [
+    -0.28,
+    0.829,
+    -0.818,
+    0.827,
+    0.811,
+    1.334
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_door_fr",
+   "papel": "glass_door",
+   "take": "textura",
+   "box": [
+    -0.28,
+    0.83,
+    -0.827,
+    0.818,
+    0.804,
+    1.337
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_door_rl",
+   "papel": "glass_door",
+   "take": "textura",
+   "box": [
+    -1.224,
+    -0.242,
+    -0.799,
+    0.821,
+    0.849,
+    1.335
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_door_rr",
+   "papel": "glass_door",
+   "take": "textura",
+   "box": [
+    -1.224,
+    -0.242,
+    -0.821,
+    0.775,
+    0.85,
+    1.335
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_windshield",
+   "papel": "glass_windshield",
+   "take": "textura",
+   "box": [
+    0.238,
+    1.113,
+    -0.705,
+    0.706,
+    0.888,
+    1.327
+   ],
+   "thickness": 0.006,
+   "pocket": 0.35
+  },
+  {
+   "name": "glass_rear",
+   "papel": "glass_rear",
+   "take": "textura",
+   "box": [
+    -1.731,
+    -1.049,
+    -0.652,
+    0.648,
+    0.984,
+    1.35
+   ],
+   "thickness": 0.006,
+   "pocket": 0.35
+  },
+  {
+   "name": "bumper_front",
+   "papel": "bumper_front",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "box": [
+    1.827,
+    2.227,
+    -0.902,
+    0.902,
+    -0.05,
+    0.479
+   ],
+   "thickness": 0.012,
+   "pocket": 0.15
+  },
+  {
+   "name": "bumper_rear",
+   "papel": "bumper_rear",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "box": [
+    -2.261,
+    -1.861,
+    -0.902,
+    0.902,
+    -0.05,
+    0.413
+   ],
+   "thickness": 0.012,
+   "pocket": 0.15
+  },
+  {
+   "name": "hood",
+   "papel": "hood",
+   "take": "faces",
+   "normal": [
+    0.0,
+    0.0,
+    1.0,
+    0.3
+   ],
+   "box": [
+    1.095,
+    2.197,
+    -0.639,
+    0.639,
+    0.499,
+    1.377
+   ],
+   "thickness": 0.012,
+   "pocket": 0.12
+  },
+  {
+   "name": "trunk",
+   "papel": "trunk",
+   "take": "faces",
+   "normal": [
+    -0.35,
+    0.0,
+    0.94,
+    0.25
+   ],
+   "box": [
+    -2.261,
+    -1.715,
+    -0.682,
+    0.682,
+    0.443,
+    1.377
+   ],
+   "thickness": 0.012,
+   "pocket": 0.12
+  },
+  {
+   "name": "side_skirt_left",
+   "papel": "side_skirt",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    1.0,
+    0.0,
+    -0.3
+   ],
+   "box": [
+    -0.917,
+    0.917,
+    0.552,
+    0.902,
+    -0.05,
+    0.323
+   ],
+   "thickness": 0.012,
+   "pocket": 0.08
+  },
+  {
+   "name": "door_fl",
+   "papel": "door",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    1.0,
+    0.0,
+    0.3
+   ],
+   "box": [
+    -0.24,
+    0.847,
+    0.552,
+    0.902,
+    0.323,
+    0.859
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12
+  },
+  {
+   "name": "door_rl",
+   "papel": "door",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    1.0,
+    0.0,
+    0.3
+   ],
+   "box": [
+    -1.153,
+    -0.28,
+    0.552,
+    0.902,
+    0.323,
+    0.859
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12
+  },
+  {
+   "name": "fender_front_left",
+   "papel": "fender",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    1.0,
+    0.0,
+    -0.2
+   ],
+   "box": [
+    0.847,
+    1.827,
+    0.469,
+    0.902,
+    0.05,
+    0.874
+   ],
+   "thickness": 0.012,
+   "pocket": 0.1
+  },
+  {
+   "name": "fender_rear_left",
+   "papel": "fender",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    1.0,
+    0.0,
+    -0.2
+   ],
+   "box": [
+    -1.861,
+    -1.153,
+    0.469,
+    0.902,
+    0.05,
+    0.874
+   ],
+   "thickness": 0.012,
+   "pocket": 0.1
+  },
+  {
+   "name": "side_skirt_right",
+   "papel": "side_skirt",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    -1.0,
+    0.0,
+    -0.3
+   ],
+   "box": [
+    -0.917,
+    0.917,
+    -0.902,
+    -0.552,
+    -0.05,
+    0.323
+   ],
+   "thickness": 0.012,
+   "pocket": 0.08
+  },
+  {
+   "name": "door_fr",
+   "papel": "door",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    -1.0,
+    0.0,
+    0.3
+   ],
+   "box": [
+    -0.24,
+    0.847,
+    -0.902,
+    -0.552,
+    0.323,
+    0.859
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12
+  },
+  {
+   "name": "door_rr",
+   "papel": "door",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    -1.0,
+    0.0,
+    0.3
+   ],
+   "box": [
+    -1.153,
+    -0.28,
+    -0.902,
+    -0.552,
+    0.323,
+    0.859
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12
+  },
+  {
+   "name": "fender_front_right",
+   "papel": "fender",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    -1.0,
+    0.0,
+    -0.2
+   ],
+   "box": [
+    0.847,
+    1.827,
+    -0.902,
+    -0.469,
+    0.05,
+    0.874
+   ],
+   "thickness": 0.012,
+   "pocket": 0.1
+  },
+  {
+   "name": "fender_rear_right",
+   "papel": "fender",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "normal": [
+    0.0,
+    -1.0,
+    0.0,
+    -0.2
+   ],
+   "box": [
+    -1.861,
+    -1.153,
+    -0.902,
+    -0.469,
+    0.05,
+    0.874
+   ],
+   "thickness": 0.012,
+   "pocket": 0.1
+  }
+ ]
+}
