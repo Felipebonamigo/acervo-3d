@@ -60,6 +60,27 @@
       "task_id": "01a1693c-4f13-7342-bfeb-6d5bea837d2f",
       "creditos": 30,
       "criado": "2026-10-23 14:48"
+    },
+    {
+      "id": "cuiabano-fotos",
+      "modo": "image-to-image nano-banana-2 (4 vistas)",
+      "task_ids": {
+        "heroi-frente34": "01a16943-be4d-7105-8280-c2ee7840962f",
+        "heroi-lateral": "01a16943-c0f1-73db-959c-f23c798951bb",
+        "heroi-tras34": "01a16943-c32f-76ce-a8aa-73d5629178bb",
+        "heroi-frente": "01a16943-c516-76b0-b9f5-bb4f02489354"
+      },
+      "creditos": 24,
+      "criado": "2026-10-23 14:57",
+      "prompt": "Turn this 3D render into a real photograph of a real used car. Keep exactly the same car shape, proportions, body panels, window outlines, headlight and taillight positions, wheel size and the same camera angle. Realistic faded red automotive paint with clear coat reflections and light road dust, real tinted glass with reflections, normal-size thin black wipers, black rubber seals, unpainted black plastic bumpers, plain steel wheels with real rubber tires, soft overcast daylight, plain light grey seamless studio background. No logos, no badges, no emblems, no text, blank license plates."
+    },
+    {
+      "id": "cuiabano-foto-3d",
+      "modo": "multi-image-to-3d das 4 fotos (PBR 2K)",
+      "task_id": "01a16944-7418-76c0-a159-cfde53e24473",
+      "creditos": 30,
+      "criado": "2026-10-23 15:00",
+      "status": "SUCCEEDED"
     }
   ],
   "resultado": "Teste de 23/10/2026: 40 créditos, 2 prévias reprovadas. Texto sozinho não segura proporção de carro nacional; próximo passo proposto: silhueta própria desenhada no Blender e imagem-para-3D, só com novo ok do Felipe. Carros genéricos de rua vêm da série modular CC BY de Daniel Zhabotinsky (sem crédito do Meshy)."
