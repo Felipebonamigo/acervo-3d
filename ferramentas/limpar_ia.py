@@ -9,7 +9,8 @@ O que faz, nesta ordem:
   1. importa o GLB/FBX/OBJ e junta tudo num objeto (--juntar, padrão) ou mantém as partes;
   2. aplica rotação e escala; escala pela altura real em metros (--altura) ou pela maior medida (--maior);
   3. remove vértices duplicados e, com --sem-soltos, as ilhas com menos de 0,5 % dos vértices (lixo do gerador);
-  4. põe o pivô no centro da base (chão em z = 0) e vira a frente para o eixo pedido (padrão +X, o do Unreal);
+  4. põe o pivô no centro da base (chão em z = 0) e vira a frente para +X, o do Unreal (--frente diz para onde ela
+     aponta no arquivo de entrada; use -x num modelo que chegou de traseira para +X);
   5. gera LODs por Decimate (colapso, UVs preservadas aproximadamente) nas razões de --lods;
   6. exporta GLB (e FBX com --fbx) com o nome de saída; LODs como <saida>_LOD1.glb etc.
 Não faz remesh nem bake: o Meshy já entrega malha remalhada com UV e PBR; malha crua do TripoSG (sem UV) precisa
@@ -93,8 +94,12 @@ def main():
         lixo = [v for ilha in ilhas if len(ilha) < 0.005 * total for v in ilha]
         if lixo: bmesh.ops.delete(bm, geom=lixo, context="VERTS"); print(f"ilhas soltas removidas: {sum(1 for i in ilhas if len(i) < 0.005 * total)}")
     bm.to_mesh(obj.data); bm.free()
-    # frente: o glTF chega com -Y para frente (câmera do Blender); gira até o eixo pedido
-    giro = {"+x": -90, "-x": 90, "+y": 180, "-y": 0}[a.frente]
+    # frente: --frente diz para onde a frente do modelo aponta como ele chegou; o script gira até +X (o do Unreal).
+    # Antes de 23/10/2026 este giro não fazia nada (o importador do
+    # glTF deixa a rotação em quaternion e o ângulo era ignorado), por isso o padrão +x não gira. Os carros do Meshy
+    # (multi-image-to-3d) chegam com a frente em -X: use --frente=-x neles.
+    giro = {"+x": 0, "-x": 180, "+y": -90, "-y": 90}[a.frente]
+    obj.rotation_mode = "XYZ"
     obj.rotation_euler = (0, 0, math.radians(giro)); bpy.ops.object.transform_apply(rotation=True)
     # pivô no centro da base
     mn, mx = medidas(obj)
