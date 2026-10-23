@@ -23,7 +23,7 @@
     "vertices_depois": 37989,
     "arestas_de_borda": 374
   },
-  "mapa": "furgaozinho-da-firma_mapa.json (ajustado à mão: capô pelo perfil do teto)",
+  "mapa": "furgaozinho-da-firma_mapa.json (ajustado à mão)",
   "textura": {
     "pintura_rgb": [
       0.195,
@@ -111,6 +111,10 @@
     "rim": [
       "cromado"
     ],
+    "roof_rack": [
+      "chassi",
+      "pintura"
+    ],
     "side_skirt": [
       "chassi",
       "pintura"
@@ -172,6 +176,9 @@
       "wheel_rl_rim",
       "wheel_rr_rim"
     ],
+    "roof_rack": [
+      "roof_rack"
+    ],
     "side_skirt": [
       "side_skirt_left",
       "side_skirt_right"
@@ -196,6 +203,7 @@
     "mirror_right",
     "plate_front",
     "plate_rear",
+    "roof_rack",
     "side_skirt_left",
     "side_skirt_right",
     "wheel_fl_rim",
@@ -283,19 +291,19 @@
         -0.9753,
         0.9753,
         0.1555,
-        1.7024
+        1.53
       ],
       "centro": [
         0.0585,
         -0.0,
-        0.9289
+        0.8428
       ],
       "pivo_m": [
         0.0,
         0.0,
         0.0
       ],
-      "triangulos": 70606,
+      "triangulos": 62362,
       "materiais": [
         "pintura",
         "chassi",
@@ -309,7 +317,7 @@
         "vertices_soltos_tirados": 9358,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.759,
+        "area_para_fora": 0.771,
         "virada": null
       },
       "fbx": "furgaozinho-da-firma_pecas/body.fbx"
@@ -1151,6 +1159,46 @@
       "fbx": "furgaozinho-da-firma_pecas/plate_rear.fbx"
     },
     {
+      "nome": "roof_rack",
+      "papel": "roof_rack",
+      "detonauto": null,
+      "caixa_m": [
+        -1.258,
+        0.1564,
+        -0.577,
+        0.5568,
+        1.5267,
+        1.7024
+      ],
+      "centro": [
+        -0.5508,
+        -0.0101,
+        1.6145
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 17886,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 8581 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "furgaozinho-da-firma_pecas/roof_rack.fbx"
+    },
+    {
       "nome": "side_skirt_left",
       "papel": "side_skirt",
       "detonauto": null,
@@ -1637,7 +1685,7 @@
       "frente+esquerda": 0.0,
       "traseira+direita+teto": 0.0
     },
-    "vertices_na_costura": 4559,
+    "vertices_na_costura": 4749,
     "zonas": "make_damage_morphs.displacement do Detonauto, semente 17"
   }
 }

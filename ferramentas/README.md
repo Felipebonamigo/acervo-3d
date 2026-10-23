@@ -130,8 +130,9 @@ pela janela.
 (~40 MB por carro) não entram no acervo: saem de novo em ~2,5 min com
 `carro_quebravel.py -- --entrada veiculos/meshy-conta/<carro>__<id>.glb --out <pasta> --portas N --mapa veiculos/meshy-conta/quebravel/<carro>/<carro>_mapa.json`.
 De 28 a 40 peças por carro; fresta zero ao amassar nos 13. No Pampeiro, no Furgãozinho e no Trilheiro o para-brisa não sai
-pela cor, então o capô (e no jipe o para-choque dianteiro) foi posto à mão no mapa, pelo perfil do teto. Pendente: o
-bagageiro do Furgãozinho fica no corpo (devia soltar com a escada).
+pela cor, então o capô (e no jipe o para-choque dianteiro) foi posto à mão no mapa, pelo perfil do teto. O bagageiro do
+Furgãozinho sai como peça (`roof_rack`, de 1,53 m para cima) para soltar junto com a escada; no Besouro as tampas (capô e
+motor) foram limitadas a ~85 cm de largura e o para-choque traseiro à lâmina da ponta, para não levar os para-lamas.
 
 ### O que falta para o pipeline de dano do Detonauto
 

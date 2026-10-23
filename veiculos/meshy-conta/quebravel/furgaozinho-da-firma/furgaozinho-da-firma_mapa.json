@@ -1,6 +1,6 @@
 {
  "car": "furgaozinho-da-firma",
- "notes": "Gerado por carro_quebravel.py (malha única) a partir das proporções; edite e rode de novo com --mapa. Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos. take: roda (cilindro: centro, raio [r0, r1], y [|y| mínimo, máximo] do lado), textura (faces com o rótulo da peça, achado pela cor da textura, dentro da caixa), faces (corte pelos planos da caixa, como Tools/Blender/split_car_parts.py do Detonauto, com 'normal' [nx, ny, nz, mínimo]). fora_das_rodas: não leva faces da caixa de roda. thickness: espessura da peça; pocket: profundidade do vão escuro.",
+ "notes": "Gerado por carro_quebravel.py (malha única) a partir das proporções; edite e rode de novo com --mapa. Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos. take: roda (cilindro: centro, raio [r0, r1], y [|y| mínimo, máximo] do lado), textura (faces com o rótulo da peça, achado pela cor da textura, dentro da caixa), faces (corte pelos planos da caixa, como Tools/Blender/split_car_parts.py do Detonauto, com 'normal' [nx, ny, nz, mínimo]). fora_das_rodas: não leva faces da caixa de roda. thickness: espessura da peça; pocket: profundidade do vão escuro. | 23/10/2026: bagageiro de teto separado (roof_rack), de 1,53 m para cima; os pés curtos ficam no teto",
  "medidas": {
   "comprimento": 3.689,
   "meia_largura": 0.85,
@@ -473,6 +473,21 @@
    ],
    "thickness": 0.012,
    "pocket": 0.12
+  },
+  {
+   "name": "roof_rack",
+   "papel": "roof_rack",
+   "take": "faces",
+   "box": [
+    -1.36,
+    0.16,
+    -0.64,
+    0.64,
+    1.53,
+    1.76
+   ],
+   "thickness": 0.004,
+   "pocket": 0.0
   },
   {
    "name": "side_skirt_left",

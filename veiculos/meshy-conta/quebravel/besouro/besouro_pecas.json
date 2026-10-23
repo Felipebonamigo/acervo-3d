@@ -16,14 +16,14 @@
     "motivo": "malha única: pelo comprimento"
   },
   "orientacao": [
-    "180° em Z (retrovisores em x = -0.56 m)"
+    "frente já em +X (retrovisores em x = 0.56 m)"
   ],
   "solda": {
-    "vertices_antes": 65144,
+    "vertices_antes": 64752,
     "vertices_depois": 39378,
     "arestas_de_borda": 272
   },
-  "mapa": "besouro_mapa.json (gerado pelas proporções)",
+  "mapa": "besouro_mapa.json (ajustado à mão)",
   "textura": {
     "pintura_rgb": [
       0.396,
@@ -287,7 +287,7 @@
       "papel": "body",
       "detonauto": "Body (carroceria; portas e para-lamas ainda fundidos: cortar com split_car_parts.py)",
       "caixa_m": [
-        -2.0754,
+        -2.076,
         1.9762,
         -0.8753,
         0.8753,
@@ -295,8 +295,8 @@
         1.5261
       ],
       "centro": [
-        -0.0496,
-        -0.0,
+        -0.0499,
+        0.0,
         0.8176
       ],
       "pivo_m": [
@@ -304,7 +304,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 92792,
+      "triangulos": 90152,
       "materiais": [
         "pintura",
         "chassi",
@@ -315,10 +315,10 @@
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
-        "vertices_soltos_tirados": 12952,
+        "vertices_soltos_tirados": 9831,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.507,
+        "area_para_fora": 0.504,
         "virada": null
       },
       "fbx": "besouro_pecas/body.fbx"
@@ -369,29 +369,29 @@
       "detonauto": "BumperRear",
       "caixa_m": [
         -2.1038,
-        -1.744,
-        -0.8022,
-        0.7998,
-        0.2394,
-        0.517
+        -1.9207,
+        -0.6367,
+        0.6358,
+        0.335,
+        0.4703
       ],
       "centro": [
-        -1.9239,
-        -0.0012,
-        0.3782
+        -2.0122,
+        -0.0004,
+        0.4026
       ],
       "pivo_m": [
         0.0,
         0.0,
         0.0
       ],
-      "triangulos": 14278,
+      "triangulos": 4824,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 6327 faces"
+        "malha única, faces: 2099 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -505,13 +505,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 6572,
+      "triangulos": 6876,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 2314 faces"
+        "malha única, faces: 2534 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -545,13 +545,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 6360,
+      "triangulos": 6726,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 2289 faces"
+        "malha única, faces: 2607 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -585,13 +585,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 5278,
+      "triangulos": 5562,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 1896 faces"
+        "malha única, faces: 2097 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -625,13 +625,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 5366,
+      "triangulos": 5650,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 1920 faces"
+        "malha única, faces: 2127 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -928,37 +928,37 @@
       "papel": "hood",
       "detonauto": "Hood",
       "caixa_m": [
-        0.699,
-        1.8132,
-        -0.576,
-        0.576,
-        0.429,
-        1.0637
+        0.72,
+        1.78,
+        -0.42,
+        0.42,
+        0.6,
+        1.0634
       ],
       "centro": [
-        1.2561,
+        1.25,
         0.0,
-        0.7463
+        0.8317
       ],
       "pivo_m": [
         0.0,
         0.0,
         0.0
       ],
-      "triangulos": 10460,
+      "triangulos": 2352,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 3878 faces"
+        "malha única, faces: 928 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.509,
+        "area_para_fora": 0.512,
         "virada": null
       },
       "fbx": "besouro_pecas/hood.fbx"
@@ -1181,13 +1181,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 4296,
+      "triangulos": 4288,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 1598 faces"
+        "malha única, faces: 1597 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -1221,13 +1221,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 4086,
+      "triangulos": 4062,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 1501 faces"
+        "malha única, faces: 1497 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -1244,37 +1244,37 @@
       "papel": "trunk",
       "detonauto": "Trunk",
       "caixa_m": [
-        -1.9006,
-        -1.5228,
-        -0.693,
-        0.693,
-        0.544,
-        1.0405
+        -1.898,
+        -1.4448,
+        -0.42,
+        0.42,
+        0.55,
+        1.0934
       ],
       "centro": [
-        -1.7117,
+        -1.6714,
         0.0,
-        0.7922
+        0.8217
       ],
       "pivo_m": [
         0.0,
         0.0,
         0.0
       ],
-      "triangulos": 5188,
+      "triangulos": 4904,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 1947 faces"
+        "malha única, faces: 1666 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.506,
+        "area_para_fora": 0.498,
         "virada": null
       },
       "fbx": "besouro_pecas/trunk.fbx"
@@ -1606,7 +1606,7 @@
       "frente+esquerda": 0.0,
       "traseira+direita+teto": 0.0
     },
-    "vertices_na_costura": 8243,
+    "vertices_na_costura": 7210,
     "zonas": "make_damage_morphs.displacement do Detonauto, semente 17"
   }
 }
