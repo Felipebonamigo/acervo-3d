@@ -105,6 +105,7 @@ graça entrou do Sketchfab (guarda-sol, cadeira e kit de praia, ducha de calçad
 - **Carcaças** (`veiculos/meshy-conta/carcacas/`): queimada e abandonada dos 13 carros nacionais, e abandonada das 2 reservas,
   por retexture com a UV original: a malha é a mesma do carro, então o mapa de `quebravel/<carro>/` vale. Os queimados por
   texto saíram cinza com manchas laranja e foram refeitos com a foto do Besouro queimado como estilo; as 2 reservas ficaram sem
-  queimado. Nos abandonados, o retexture pintou números de placa e um nome de modelo: apagados com `apagar_letreiro.py`.
+  queimado. Nos queimados a borracha dos pneus foi apagada da malha (raio e posição das rodas do mapa de corte) e o carro
+  assentou no aro chamuscado, 6 a 11 cm mais baixo. Nos abandonados, o retexture pintou números de placa e um nome de modelo: apagados com `apagar_letreiro.py`.
 - **Orla e rua** (`mobiliario-urbano/meshy-conta/`): posto de salva-vidas (monte de areia cortado), placa de esquina em
   branco, cavalete de obra e papeleira laranja (image-to-3d).
