@@ -89,3 +89,21 @@ pivô na base, frente em +X). Pastas `<categoria>/meshy-conta/`; livro-caixa em 
 em `meshy/previas/2026-10/`; manifesto com prompts em `meshy/lote-2026-10.json`. Tudo é `gerado_por_ia` e entra
 na declaração de IA da Steam do jogo que usar. Reprovados e não refinados: orelhão v1 (forma errada), banca de
 jornal v1 (faces esticadas) e v2 (letreiro em relevo); a v3 ficou como reserva.
+
+## Lote do Meshy (24/10/2026)
+
+Lote 2026-10c, aprovado pelo Felipe com teto de 800 créditos (gastos 796, saldo 790). Antes de gerar, o que já existia de
+graça entrou do Sketchfab (guarda-sol, cadeira e kit de praia, ducha de calçadão, caçamba de entulho). Prévias em
+`meshy/previas/2026-10c/`, manifesto em `meshy/lote-2026-10c.json`.
+
+- **Tráfego** (`veiculos/meshy-conta/`): picape pequena, moto de entrega 150 cc, ônibus urbano, caminhão baú leve e van de
+  passageiros, pelo método das vistas com traseira (multi-image-to-3d PBR 2K). Chegaram sem remesh (0,6 a 2,5 milhões de
+  triângulos) e foram reduzidos por Decimate (60 a 100 mil) antes do `limpar_ia.py --frente=-x`. O táxi é o Barão
+  retexturizado com uma caixa de teto lisa posta no Blender. Corte em peças só da picape (`quebravel/picape-pequena/`, mapa a
+  acertar à mão); na van o `carro_quebravel.py` não achou o contato da roda dianteira esquerda com o chão.
+- **Carcaças** (`veiculos/meshy-conta/carcacas/`): queimada e abandonada dos 13 carros nacionais, e abandonada das 2 reservas,
+  por retexture com a UV original: a malha é a mesma do carro, então o mapa de `quebravel/<carro>/` vale. Os queimados por
+  texto saíram cinza com manchas laranja e foram refeitos com a foto do Besouro queimado como estilo; as 2 reservas ficaram sem
+  queimado. Nos abandonados, o retexture pintou números de placa e um nome de modelo: apagados com `apagar_letreiro.py`.
+- **Orla e rua** (`mobiliario-urbano/meshy-conta/`): posto de salva-vidas (monte de areia cortado), placa de esquina em
+  branco, cavalete de obra e papeleira laranja (image-to-3d).

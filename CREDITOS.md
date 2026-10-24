@@ -93,3 +93,4 @@ Gerado do `catalogo.csv`. Todo jogo que usar um destes modelos põe a linha na t
 - **Cuiabano (veiculos/meshy-conta/cuiabano__01a16944.glb)**: 3D models generated with Meshy (meshy.ai).
 - **Palm Tree (palmeira, Detonauto)**: Palm Tree por joeogles (galeria do Meshy), CC0; modelo gerado por IA.
 - **Carros nacionais do Detonauto (hatch-quadrado, besouro, pao-de-forma, tupiniquim, barao, sagui, pampeiro, furgaozinho-da-firma, gaucho-v8, jabuti, caipora, lambari, trilheiro e as reservas hatch-arredondado e seda-compacto-80 em veiculos/meshy-conta/)**: 3D models generated with Meshy (meshy.ai).
+- **Lote do Meshy de 24/10/2026 (picape-pequena, moto-entrega-150, onibus-urbano, caminhao-bau-leve, van-passageiros e taxi-barao em veiculos/meshy-conta/; carcaças queimadas e abandonadas em veiculos/meshy-conta/carcacas/; posto-salva-vidas, placa-de-rua, cavalete-de-obra e papeleira-laranja em mobiliario-urbano/meshy-conta/)**: 3D models generated with Meshy (meshy.ai).
