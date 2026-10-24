@@ -1,0 +1,52 @@
+{
+  "preset": "explosao",
+  "descricao": "Bola de fogo de ~3 m, turbulenta desde o início, que se apaga rápido e sobe como fumaça escura.",
+  "quadros": 64,
+  "linhas": 8,
+  "colunas": 8,
+  "lado_quadro_px": 512,
+  "atlas_px": [
+    4096,
+    4096
+  ],
+  "fps_sugerido": 24,
+  "loop": false,
+  "escala_quadro_m": 4.6,
+  "base_do_quadro_m": -0.05,
+  "nota_base": "altura (em metros) do chão em relação à borda de baixo do quadro é o negativo deste valor; 0 = o emissor está junto da borda de baixo",
+  "elevacao_camera_graus": 0.0,
+  "alfa": "reto (não pré-multiplicado); cor em sRGB",
+  "emissao": true,
+  "arquivos": {
+    "atlas": "explosao_atlas.png",
+    "emissao": "explosao_emissao.png",
+    "6way_a": "explosao_6way_a.png",
+    "6way_b": "explosao_6way_b.png",
+    "6way_escala": 0.04413231834769249,
+    "folha": "explosao_folha.png",
+    "gif": "explosao.gif"
+  },
+  "simulacao": {
+    "motor": "Mantaflow (Blender 5.2.3 LTS, módulo bpy)",
+    "dominio_m": [
+      4.8,
+      4.8,
+      5.0
+    ],
+    "resolucao": 72,
+    "ruido_upres": 3,
+    "quadros_simulados": 66,
+    "quadros_renderizados": [
+      3,
+      66
+    ],
+    "amostras_cycles": 96,
+    "semente": 1717
+  },
+  "tempos": {
+    "render_s": 7582.7
+  },
+  "licenca": "Conteúdo próprio do estúdio (gerado por simulação física, sem IA, sem asset de terceiros)",
+  "gerado_por_ia": false,
+  "ferramenta": "acervo-3d/ferramentas/flipbook_fluido.py"
+}

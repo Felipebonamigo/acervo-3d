@@ -1,0 +1,49 @@
+{
+  "preset": "fumaca_preta",
+  "descricao": "Coluna de fumaça preta densa de motor ou pneu queimando, ~4 m, pendendo com vento leve.",
+  "quadros": 64,
+  "linhas": 8,
+  "colunas": 8,
+  "lado_quadro_px": 256,
+  "atlas_px": [
+    2048,
+    2048
+  ],
+  "fps_sugerido": 18,
+  "loop": true,
+  "escala_quadro_m": 4.4,
+  "base_do_quadro_m": 0.0,
+  "nota_base": "altura (em metros) do chão em relação à borda de baixo do quadro é o negativo deste valor; 0 = o emissor está junto da borda de baixo",
+  "elevacao_camera_graus": 0.0,
+  "alfa": "reto (não pré-multiplicado); cor em sRGB",
+  "emissao": false,
+  "arquivos": {
+    "atlas": "fumaca_preta_atlas.png",
+    "6way_a": "fumaca_preta_6way_a.png",
+    "6way_b": "fumaca_preta_6way_b.png",
+    "6way_escala": 0.0496908463537693,
+    "folha": "fumaca_preta_folha.png",
+    "gif": "fumaca_preta.gif"
+  },
+  "simulacao": {
+    "motor": "Mantaflow (Blender 5.2.3 LTS, módulo bpy)",
+    "dominio_m": [
+      5.6,
+      3.2,
+      5.2
+    ],
+    "resolucao": 112,
+    "ruido_upres": 2,
+    "quadros_simulados": 190,
+    "quadros_renderizados": [
+      111,
+      190
+    ],
+    "amostras_cycles": 128,
+    "semente": 1717
+  },
+  "tempos": {},
+  "licenca": "Conteúdo próprio do estúdio (gerado por simulação física, sem IA, sem asset de terceiros)",
+  "gerado_por_ia": false,
+  "ferramenta": "acervo-3d/ferramentas/flipbook_fluido.py"
+}
