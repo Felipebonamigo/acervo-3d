@@ -2,6 +2,11 @@
 
 Toda operação que gasta crédito entra aqui na hora, com o saldo lido pela API depois (`GET /openapi/v1/balance`).
 
+**Economia até a renovação (decisão do Felipe, 24/10/2026: "vamos cuidar com o Meshy agora, já gastamos boa parte do pacote e só
+renova em um mês").** Saldo lido em 24/10/2026: 790 (757 mensais + 33 permanentes); o mensal renova em 23/11/2026. Até lá, nada de
+gerar, refinar ou retexturizar sem o Felipe aprovar aquele pedido específico, com o número de créditos e o saldo que sobra. Antes
+de propor, procure no acervo, nos gratuitos CC0 ou do Fab, ou faça por script no Blender. Ler o saldo não gasta crédito.
+
 | Data (UTC) | Lote | Item | Operação | Tarefa | Créditos | Saldo depois (mensal + permanente) | Aprovou |
 |---|---|---|---|---|---|---|---|
 | 2026-10-22 13:05 | 2026-10 | orelhao | text-to-3d preview | 01a163b5-ec93-70c8-9b90-6acd0362ff66 | 20 | 562 (512 + 50) | Felipe, 22/10/2026 ("ok, siga" ao lote proposto de ~560 créditos; os 792 mensais vencem em 03/11) |
