@@ -1,0 +1,142 @@
+{
+  "lote": "2026-10c",
+  "aprovado_por": "Felipe, 24/10/2026 (lote de tráfego, carcaças, orla de BC e rua, teto de 800 créditos; \"eu permito voce fazer o que precisar\")",
+  "teto_creditos": 800,
+  "itens": [
+    {
+      "id": "picape-pequena-vistas",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "prompt": "Professional photograph of a generic small car-based compact pickup truck typical of Brazilian streets in the 2010s, two doors, single cab, short open cargo bed with a plain tailgate, black plastic bumpers, 14 inch steel wheels with plain black centre caps, white paint slightly dusty, plain black grille of horizontal bars with no emblem. Seen from several angles: front three-quarter, side and REAR. The rear is a flat tailgate with two vertical red-and-amber taillights at the corners and a black step bumper; there is NO grille and NO headlights at the rear. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-aba4-7715-aa60-54458801a4ef",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "moto-entrega-150-vistas",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "prompt": "Professional photograph of a generic 150cc street commuter motorcycle used for food delivery in Brazil, upright naked design, red fuel tank, black seat, spoked black wheels, round headlight, chrome exhaust on the right, rear luggage rack carrying a plain square black thermal delivery box, centre stand down, slightly used. Seen from several angles: front three-quarter, side and REAR. The rear shows the back of the delivery box, a small red taillight and the blank white license plate under it. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-af21-77b1-bdab-ab66401aaa7b",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "onibus-urbano-vistas",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "prompt": "Professional photograph of a generic 12 metre Brazilian city bus, front-engine high-floor body, flat front with a large windscreen, two folding doors on the right side (front and middle), tinted side windows, white paint with plain blue and green horizontal stripes, black destination display above the windscreen showing nothing, steel wheels. Seen from several angles: front three-quarter, side and REAR. The rear is a flat panel with a small upper window, vertical red taillight clusters at both corners and a ventilation grille low down; no doors at the rear. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-b0a0-7128-b38a-bbf1404c35be",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "caminhao-bau-leve-vistas",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "prompt": "Professional photograph of a generic light urban delivery truck (3.5 to 6 tonnes) typical of Brazilian cities, cab-over flat-front white cab, plain aluminium box body behind the cab, dual rear wheels, black bumper, plain grille with no emblem, slightly dirty from work. Seen from several angles: front three-quarter, side and REAR. The rear is the back of the aluminium box with two tall swing doors, a steel under-ride bar and small red taillights low on the chassis. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-b218-720f-bb64-108ebdd1fc6f",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "van-passageiros-vistas",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "prompt": "Professional photograph of a generic high-roof passenger van for 15 people typical of Brazilian school and tourism transport, white paint, sloping short hood, black bumpers, full row of tinted side windows, sliding side door on the right, steel wheels, plain grille with no emblem. Seen from several angles: front three-quarter, side and REAR. The rear has two tall swing doors with windows, tall vertical taillights at the corners and a black bumper; there is NO grille and NO headlights at the rear. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-b38b-748c-95f0-368472080b27",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "taxi-barao-vistas",
+      "modo": "image-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "input_task_id": "01a16960-509a-7547-bb66-4de272a2a26b",
+      "prompt": "Professional realistic photograph of exactly this same car, same body, proportions, lights and wheels, now working as a generic Brazilian city taxi: solid white paint, a small plain white roof sign box with nothing written on it, slightly used. Seen from several angles: front three-quarter, side and REAR. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-b4fc-70ef-b519-8d1f10027f20",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "besouro-queimado-vistas",
+      "modo": "image-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "input_task_id": "01a16953-7df3-712b-aa74-72df0e139769",
+      "prompt": "Professional realistic photograph of exactly this same car body, same shape and proportions, as a completely burnt-out wreck after a fire: charred black and grey metal, blistered and peeled paint with patches of orange heat rust, all windows shattered and gone, headlight glass gone, no tyres, only the bare blackened steel rims, burnt interior visible through the empty windows, soot everywhere. Seen from several angles: front three-quarter, side and REAR. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-b91d-71b2-9387-55ed32d32b24",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "besouro-abandonado-vistas",
+      "modo": "image-to-image",
+      "ai_model": "nano-banana-pro",
+      "creditos": 9,
+      "input_task_id": "01a16953-7df3-712b-aa74-72df0e139769",
+      "prompt": "Professional realistic photograph of exactly this same car body, same shape and proportions, as an old car abandoned for years in a Brazilian vacant lot: sun-faded chalky paint, large patches of brown rust on the fenders, sills and roof, dented panels, dirty cracked windows, flat sagging tyres, dust and dried mud, but complete. Seen from several angles: front three-quarter, side and REAR. No logos, no badges, no emblems, no brand names, no lettering, no text, no stickers, blank white license plates. Neutral overcast daylight, plain light grey seamless studio background, sharp detailed realistic photo.",
+      "task_id": "01a16c14-bc42-739c-999f-3da428fcb089",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 9
+    },
+    {
+      "id": "posto-salva-vidas",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-2",
+      "creditos": 6,
+      "prompt": "A Brazilian beach lifeguard watch post: small square cabin raised about three metres on four steel legs, red and white painted walls, wide open window facing the sea with a small balcony, steep steel ladder, short flag pole on the roof with a plain red flag, sitting on sand. Isolated product photo of the whole object, three-quarter view from slightly above, plain white seamless background, soft daylight, no people, no text, no logos, sharp realistic photo.",
+      "task_id": "01a16c14-bf2c-75ef-8d45-e3385e4606c2",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 6
+    },
+    {
+      "id": "placa-de-rua",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-2",
+      "creditos": 6,
+      "prompt": "A Brazilian street corner name sign: two blank blue rectangular enamel street name plates with a thin white border, mounted crossed at the top of a grey galvanised steel pole about three metres tall, the plates are completely empty with no letters and no numbers. Isolated product photo of the whole object, three-quarter view from slightly above, plain white seamless background, soft daylight, no people, no text, no logos, sharp realistic photo.",
+      "task_id": "01a16c14-c0ac-7553-83e2-c53e2271d633",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 6
+    },
+    {
+      "id": "cavalete-de-obra",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-2",
+      "creditos": 6,
+      "prompt": "A Brazilian road works sawhorse barricade: two folding A-frame wooden legs painted white, one long horizontal board with diagonal orange and white reflective stripes, slightly scuffed from use, standing on asphalt. Isolated product photo of the whole object, three-quarter view from slightly above, plain white seamless background, soft daylight, no people, no text, no logos, sharp realistic photo.",
+      "task_id": "01a16c14-c220-7247-82bd-feed224409aa",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 6
+    },
+    {
+      "id": "papeleira-laranja",
+      "modo": "text-to-image",
+      "ai_model": "nano-banana-2",
+      "creditos": 6,
+      "prompt": "A Brazilian public street litter bin: an orange plastic 50 litre bin with a flip lid, hanging from a short grey steel post set in the sidewalk, slightly dirty and sun-faded, completely blank with no text. Isolated product photo of the whole object, three-quarter view from slightly above, plain white seamless background, soft daylight, no people, no text, no logos, sharp realistic photo.",
+      "task_id": "01a16c14-c39a-7565-8fa3-6fcc4a259f36",
+      "criado": "2026-10-24 04:04",
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 6
+    }
+  ]
+}
