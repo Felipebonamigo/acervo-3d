@@ -109,3 +109,6 @@ graça entrou do Sketchfab (guarda-sol, cadeira e kit de praia, ducha de calçad
   assentou no aro chamuscado, 6 a 11 cm mais baixo. Nos abandonados, o retexture pintou números de placa e um nome de modelo: apagados com `apagar_letreiro.py`.
 - **Orla e rua** (`mobiliario-urbano/meshy-conta/`): posto de salva-vidas (monte de areia cortado), placa de esquina em
   branco, cavalete de obra e papeleira laranja (image-to-3d).
+
+
+Pendente: a van de passageiros tem buracos no para-brisa (na malha; repintar, aplainar e tapar no Blender não resolveram). O Felipe vai tentar o Free Retry no site do Meshy (sem crédito) na tarefa `01a16c1b-c8b8-7786-b239-2821820ef791`; a API não tem retry grátis. Se sair boa: baixar, Decimate para ~80 mil, `limpar_ia.py --maior 5.95 --frente=-x`, nivelar pelas rodas e `carro_quebravel.py --portas 2`, e trocar `veiculos/meshy-conta/van-passageiros__01a16c1b.glb`.
