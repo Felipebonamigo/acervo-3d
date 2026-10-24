@@ -99,8 +99,9 @@ graça entrou do Sketchfab (guarda-sol, cadeira e kit de praia, ducha de calçad
 - **Tráfego** (`veiculos/meshy-conta/`): picape pequena, moto de entrega 150 cc, ônibus urbano, caminhão baú leve e van de
   passageiros, pelo método das vistas com traseira (multi-image-to-3d PBR 2K). Chegaram sem remesh (0,6 a 2,5 milhões de
   triângulos) e foram reduzidos por Decimate (60 a 100 mil) antes do `limpar_ia.py --frente=-x`. O táxi é o Barão
-  retexturizado com uma caixa de teto lisa posta no Blender. Corte em peças só da picape (`quebravel/picape-pequena/`, mapa a
-  acertar à mão); na van o `carro_quebravel.py` não achou o contato da roda dianteira esquerda com o chão.
+  retexturizado com uma caixa de teto lisa posta no Blender. Corte em peças da picape (`quebravel/picape-pequena/`, mapa
+  acertado à mão: 28 peças) e da van (`quebravel/van-passageiros/`, 31 peças, bruto). A van saiu do gerador com a frente
+  1,5 cm acima do chão e foi nivelada (0,23°) para o `carro_quebravel.py` achar as quatro rodas.
 - **Carcaças** (`veiculos/meshy-conta/carcacas/`): queimada e abandonada dos 13 carros nacionais, e abandonada das 2 reservas,
   por retexture com a UV original: a malha é a mesma do carro, então o mapa de `quebravel/<carro>/` vale. Os queimados por
   texto saíram cinza com manchas laranja e foram refeitos com a foto do Besouro queimado como estilo; as 2 reservas ficaram sem

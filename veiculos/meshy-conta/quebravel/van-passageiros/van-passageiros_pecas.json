@@ -1,0 +1,1574 @@
+{
+  "id": "van-passageiros",
+  "entrada": "van-passageiros.glb",
+  "gerado_por": "acervo-3d/ferramentas/carro_quebravel.py (malha única)",
+  "convencao": "metros; eixos do Blender: frente +X, ESQUERDA +Y, cima +Z; pivô do carro no chão, no centro entre os eixos; caixa_m = [xmin, xmax, ymin, ymax, zmin, zmax] no espaço do carro; rodas, aros e calotas com pivô no centro do cubo",
+  "dimensoes_m": {
+    "comprimento": 5.95,
+    "largura": 2.614,
+    "altura": 2.787,
+    "entre_eixos": 3.589,
+    "raio_roda": 0.355
+  },
+  "escala": {
+    "fator": 1.0,
+    "comprimento_original": 5.9497,
+    "motivo": "malha única: pelo comprimento"
+  },
+  "orientacao": [
+    "frente já em +X (retrovisores em x = 1.71 m)"
+  ],
+  "solda": {
+    "vertices_antes": 74719,
+    "vertices_depois": 64956,
+    "arestas_de_borda": 55882
+  },
+  "mapa": "van-passageiros_mapa.json (gerado pelas proporções)",
+  "textura": {
+    "pintura_rgb": [
+      0.958,
+      0.958,
+      0.958
+    ],
+    "pintura_sat": 0.007,
+    "pintura_val": 0.958,
+    "cercado_pela_borracha": 2392,
+    "portas": 2,
+    "janelas_por_lado": {
+      "l": [
+        [
+          0.43,
+          0.61
+        ],
+        [
+          0.38,
+          0.58
+        ],
+        [
+          -1.27,
+          0.24
+        ],
+        [
+          -0.82,
+          -0.59
+        ],
+        [
+          -0.82,
+          -0.6
+        ],
+        [
+          -1.4,
+          -0.9
+        ],
+        [
+          -1.34,
+          -1.19
+        ],
+        [
+          -2.34,
+          -1.29
+        ],
+        [
+          -1.55,
+          -1.32
+        ],
+        [
+          -3.04,
+          -2.68
+        ],
+        [
+          -2.98,
+          -2.73
+        ],
+        [
+          -3.06,
+          -2.89
+        ]
+      ],
+      "r": [
+        [
+          0.37,
+          0.65
+        ],
+        [
+          -2.13,
+          0.36
+        ],
+        [
+          -0.82,
+          -0.61
+        ],
+        [
+          -0.85,
+          -0.65
+        ],
+        [
+          -1.37,
+          -1.16
+        ],
+        [
+          -2.84,
+          -2.06
+        ],
+        [
+          -3.07,
+          -2.63
+        ],
+        [
+          -3.04,
+          -2.78
+        ]
+      ]
+    }
+  },
+  "faces_por_classe": {
+    "vidro": 4470,
+    "farol": 0,
+    "lanterna": 37,
+    "placa": 0,
+    "grade": 0
+  },
+  "materiais": {
+    "Material_0 (Meshy)": "pintura; cópias com a mesma textura: vidro, luz, pneu, cromado; sem textura: chassi, MI_DNVao"
+  },
+  "papel_material": {
+    "body": [
+      "MI_DNVao",
+      "chassi",
+      "pintura"
+    ],
+    "bumper_front": [
+      "chassi",
+      "pintura"
+    ],
+    "bumper_rear": [
+      "chassi",
+      "pintura"
+    ],
+    "fender": [
+      "chassi",
+      "pintura"
+    ],
+    "glass_door": [
+      "chassi",
+      "vidro"
+    ],
+    "glass_rear": [
+      "chassi",
+      "vidro"
+    ],
+    "glass_windshield": [
+      "chassi",
+      "vidro"
+    ],
+    "hood": [
+      "chassi",
+      "pintura"
+    ],
+    "hubcap": [
+      "cromado"
+    ],
+    "mirror": [
+      "chassi",
+      "pintura"
+    ],
+    "rim": [
+      "cromado"
+    ],
+    "side_skirt": [
+      "chassi",
+      "pintura"
+    ],
+    "taillight": [
+      "chassi",
+      "luz"
+    ],
+    "trunk": [
+      "chassi",
+      "pintura"
+    ],
+    "wheel": [
+      "pneu"
+    ]
+  },
+  "pecas_por_papel": {
+    "body": [
+      "body"
+    ],
+    "bumper_front": [
+      "bumper_front"
+    ],
+    "bumper_rear": [
+      "bumper_rear"
+    ],
+    "fender": [
+      "fender_front_left",
+      "fender_front_right",
+      "fender_rear_left",
+      "fender_rear_right"
+    ],
+    "glass_door": [
+      "glass_door_fl",
+      "glass_door_fr",
+      "glass_door_rl",
+      "glass_door_rr"
+    ],
+    "glass_rear": [
+      "glass_rear"
+    ],
+    "glass_windshield": [
+      "glass_windshield"
+    ],
+    "hood": [
+      "hood"
+    ],
+    "hubcap": [
+      "hubcap_fl",
+      "hubcap_fr"
+    ],
+    "mirror": [
+      "mirror_left",
+      "mirror_right"
+    ],
+    "rim": [
+      "wheel_fl_rim",
+      "wheel_fr_rim",
+      "wheel_rl_rim",
+      "wheel_rr_rim"
+    ],
+    "side_skirt": [
+      "side_skirt_left",
+      "side_skirt_right"
+    ],
+    "taillight": [
+      "taillight_left",
+      "taillight_right"
+    ],
+    "trunk": [
+      "trunk"
+    ],
+    "wheel": [
+      "wheel_fl_tire",
+      "wheel_fr_tire",
+      "wheel_rl_tire",
+      "wheel_rr_tire"
+    ]
+  },
+  "fora_do_vocabulario_do_detonauto": [
+    "hubcap_fl",
+    "hubcap_fr",
+    "mirror_left",
+    "mirror_right",
+    "side_skirt_left",
+    "side_skirt_right",
+    "wheel_fl_rim",
+    "wheel_fl_tire",
+    "wheel_fr_rim",
+    "wheel_fr_tire",
+    "wheel_rl_rim",
+    "wheel_rl_tire",
+    "wheel_rr_rim",
+    "wheel_rr_tire"
+  ],
+  "removidos": [],
+  "outros": [],
+  "avisos": [
+    "placas: pintura clara demais para separar a placa branca pela cor; ficaram no corpo",
+    "prévia amassada: não achei /home/user/acervo-3d/ferramentas/../../Detonauto/Tools/Blender/make_damage_morphs.py (use --detonauto)"
+  ],
+  "rodas_cm": {
+    "front_axle_cm": 179.46,
+    "rear_axle_cm": -179.46,
+    "wheel_radius_cm": 35.5,
+    "nota": "espaço do carro do carro_quebravel (frente +X, pivô entre os eixos); formato de Tools/Unreal/damage_body.py"
+  },
+  "rodas_achadas": [
+    {
+      "nome": "fl",
+      "lado": 1,
+      "cx": 1.7847,
+      "cz": 0.352,
+      "raio": 0.352,
+      "y_dentro": 0.7972,
+      "y_fora": 1.0172,
+      "y_alcance": 1.0829,
+      "raio_aro": 0.26,
+      "raio_calota": 0.1,
+      "pontos_banda": 420
+    },
+    {
+      "nome": "fr",
+      "lado": -1,
+      "cx": 1.8045,
+      "cz": 0.356,
+      "raio": 0.356,
+      "y_dentro": 0.7926,
+      "y_fora": 1.0179,
+      "y_alcance": 1.0784,
+      "raio_aro": 0.26,
+      "raio_calota": 0.16,
+      "pontos_banda": 546
+    },
+    {
+      "nome": "rl",
+      "lado": 1,
+      "cx": -1.802,
+      "cz": 0.36,
+      "raio": 0.36,
+      "y_dentro": 0.8105,
+      "y_fora": 1.0123,
+      "y_alcance": 1.0422,
+      "raio_aro": 0.26,
+      "raio_calota": null,
+      "pontos_banda": 686
+    },
+    {
+      "nome": "rr",
+      "lado": -1,
+      "cx": -1.7872,
+      "cz": 0.352,
+      "raio": 0.352,
+      "y_dentro": 0.6779,
+      "y_fora": 1.0128,
+      "y_alcance": 1.0359,
+      "raio_aro": 0.24,
+      "raio_calota": null,
+      "pontos_banda": 356
+    }
+  ],
+  "pecas": [
+    {
+      "nome": "body",
+      "papel": "body",
+      "detonauto": "Body (carroceria; portas e para-lamas ainda fundidos: cortar com split_car_parts.py)",
+      "caixa_m": [
+        -3.2201,
+        2.7295,
+        -1.3072,
+        1.3072,
+        0.017,
+        2.7865
+      ],
+      "centro": [
+        -0.2453,
+        0.0,
+        1.4018
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 98816,
+      "materiais": [
+        "pintura",
+        "chassi",
+        "MI_DNVao"
+      ],
+      "origem": [
+        "malha única: o que sobrou, com os vãos e as caixas de roda"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 1,
+        "vertices_soltos_tirados": 1755,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.547,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/body.fbx"
+    },
+    {
+      "nome": "bumper_front",
+      "papel": "bumper_front",
+      "detonauto": "BumperFront",
+      "caixa_m": [
+        2.369,
+        2.7295,
+        -0.9145,
+        0.9883,
+        0.2838,
+        0.5628
+      ],
+      "centro": [
+        2.5493,
+        0.0369,
+        0.4233
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2300,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 619 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.503,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/bumper_front.fbx"
+    },
+    {
+      "nome": "bumper_rear",
+      "papel": "bumper_rear",
+      "detonauto": "BumperRear",
+      "caixa_m": [
+        -3.2201,
+        -2.8617,
+        -1.0139,
+        1.0222,
+        0.3582,
+        0.5628
+      ],
+      "centro": [
+        -3.0409,
+        0.0042,
+        0.4605
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1592,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 448 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/bumper_rear.fbx"
+    },
+    {
+      "nome": "fender_front_left",
+      "papel": "fender",
+      "detonauto": "FenderFrontLeft",
+      "caixa_m": [
+        0.634,
+        2.375,
+        0.5929,
+        1.139,
+        0.1966,
+        1.484
+      ],
+      "centro": [
+        1.5045,
+        0.8659,
+        0.8403
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 6120,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 1664 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.504,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/fender_front_left.fbx"
+    },
+    {
+      "nome": "fender_front_right",
+      "papel": "fender",
+      "detonauto": "FenderFrontRight",
+      "caixa_m": [
+        0.634,
+        2.375,
+        -1.0868,
+        -0.587,
+        0.2026,
+        1.484
+      ],
+      "centro": [
+        1.5045,
+        -0.8369,
+        0.8433
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 6800,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 1829 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.505,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/fender_front_right.fbx"
+    },
+    {
+      "nome": "fender_rear_left",
+      "papel": "fender",
+      "detonauto": "FenderRearLeft",
+      "caixa_m": [
+        -2.868,
+        -1.19,
+        0.5875,
+        1.0773,
+        0.0611,
+        1.484
+      ],
+      "centro": [
+        -2.029,
+        0.8324,
+        0.7725
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 4498,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 1211 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 2,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/fender_rear_left.fbx"
+    },
+    {
+      "nome": "fender_rear_right",
+      "papel": "fender",
+      "detonauto": "FenderRearRight",
+      "caixa_m": [
+        -2.868,
+        -1.2698,
+        -1.0652,
+        -0.5924,
+        0.1468,
+        1.484
+      ],
+      "centro": [
+        -2.0689,
+        -0.8288,
+        0.8154
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2088,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 575 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.504,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/fender_rear_right.fbx"
+    },
+    {
+      "nome": "glass_door_fl",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideLeft",
+      "caixa_m": [
+        0.4112,
+        0.6118,
+        0.9646,
+        1.0456,
+        1.444,
+        1.9907
+      ],
+      "centro": [
+        0.5115,
+        1.0051,
+        1.7173
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 212,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 55 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.489,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/glass_door_fl.fbx"
+    },
+    {
+      "nome": "glass_door_fr",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideRight",
+      "caixa_m": [
+        0.3672,
+        0.718,
+        0.8289,
+        0.8898,
+        1.9118,
+        2.4398
+      ],
+      "centro": [
+        0.5426,
+        0.8594,
+        2.1758
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 172,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 38 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.492,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/glass_door_fr.fbx"
+    },
+    {
+      "nome": "glass_door_rl",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideLeft",
+      "caixa_m": [
+        -3.0738,
+        0.5929,
+        -1.0236,
+        1.0552,
+        1.3805,
+        2.7514
+      ],
+      "centro": [
+        -1.2404,
+        0.0158,
+        2.0659
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 4456,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 1032 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.499,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/glass_door_rl.fbx"
+    },
+    {
+      "nome": "glass_door_rr",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideRight",
+      "caixa_m": [
+        -3.0777,
+        0.3672,
+        -1.0421,
+        1.0336,
+        1.4024,
+        2.7581
+      ],
+      "centro": [
+        -1.3552,
+        -0.0043,
+        2.0803
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 3028,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 710 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/glass_door_rr.fbx"
+    },
+    {
+      "nome": "glass_rear",
+      "papel": "glass_rear",
+      "detonauto": "Glass_Rear",
+      "caixa_m": [
+        -3.1715,
+        -3.1433,
+        -0.1807,
+        0.1436,
+        1.4119,
+        2.1127
+      ],
+      "centro": [
+        -3.1574,
+        -0.0186,
+        1.7623
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 124,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 31 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.497,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/glass_rear.fbx"
+    },
+    {
+      "nome": "glass_windshield",
+      "papel": "glass_windshield",
+      "detonauto": "Glass_Windshield",
+      "caixa_m": [
+        1.0634,
+        2.0907,
+        -0.9807,
+        0.9913,
+        1.4073,
+        2.2156
+      ],
+      "centro": [
+        1.5771,
+        0.0053,
+        1.8115
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 10472,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 2632 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.504,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/glass_windshield.fbx"
+    },
+    {
+      "nome": "hood",
+      "papel": "hood",
+      "detonauto": "Hood",
+      "caixa_m": [
+        1.9706,
+        2.6854,
+        -0.85,
+        0.85,
+        0.7318,
+        1.4897
+      ],
+      "centro": [
+        2.328,
+        0.0,
+        1.1107
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1568,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 429 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/hood.fbx"
+    },
+    {
+      "nome": "hubcap_fl",
+      "papel": "hubcap",
+      "detonauto": null,
+      "caixa_m": [
+        1.6768,
+        1.8998,
+        1.067,
+        1.0807,
+        0.235,
+        0.4384
+      ],
+      "centro": [
+        1.7883,
+        1.0739,
+        0.3367
+      ],
+      "pivo_m": [
+        1.7847,
+        0.9072,
+        0.352
+      ],
+      "triangulos": 29,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 29 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 20,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.703,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/hubcap_fl.fbx"
+    },
+    {
+      "nome": "hubcap_fr",
+      "papel": "hubcap",
+      "detonauto": null,
+      "caixa_m": [
+        1.6407,
+        1.9683,
+        -1.0782,
+        -0.9704,
+        0.1865,
+        0.513
+      ],
+      "centro": [
+        1.8045,
+        -1.0243,
+        0.3497
+      ],
+      "pivo_m": [
+        1.8045,
+        -0.9052,
+        0.356
+      ],
+      "triangulos": 269,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 269 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 272,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.892,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/hubcap_fr.fbx"
+    },
+    {
+      "nome": "mirror_left",
+      "papel": "mirror",
+      "detonauto": null,
+      "caixa_m": [
+        1.338,
+        1.5759,
+        0.9663,
+        1.2935,
+        1.522,
+        1.8
+      ],
+      "centro": [
+        1.4569,
+        1.1299,
+        1.661
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 896,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 216 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/mirror_left.fbx"
+    },
+    {
+      "nome": "mirror_right",
+      "papel": "mirror",
+      "detonauto": null,
+      "caixa_m": [
+        1.365,
+        1.6,
+        -1.2983,
+        -0.9612,
+        1.5259,
+        1.788
+      ],
+      "centro": [
+        1.4825,
+        -1.1297,
+        1.657
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 848,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 194 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/mirror_right.fbx"
+    },
+    {
+      "nome": "side_skirt_left",
+      "papel": "side_skirt",
+      "detonauto": null,
+      "caixa_m": [
+        -1.2528,
+        1.3724,
+        0.7813,
+        1.05,
+        0.2559,
+        0.4544
+      ],
+      "centro": [
+        0.0598,
+        0.9157,
+        0.3551
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2100,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 568 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/side_skirt_left.fbx"
+    },
+    {
+      "nome": "side_skirt_right",
+      "papel": "side_skirt",
+      "detonauto": null,
+      "caixa_m": [
+        -1.4,
+        1.3722,
+        -1.0391,
+        -0.7808,
+        0.2586,
+        0.4544
+      ],
+      "centro": [
+        -0.0139,
+        -0.91,
+        0.3565
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1836,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 490 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/side_skirt_right.fbx"
+    },
+    {
+      "nome": "taillight_left",
+      "papel": "taillight",
+      "detonauto": "Glass_TaillightLeft",
+      "caixa_m": [
+        -3.1051,
+        -2.9753,
+        0.9124,
+        1.0475,
+        0.7906,
+        1.423
+      ],
+      "centro": [
+        -3.0402,
+        0.98,
+        1.1068
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 112,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 26 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/taillight_left.fbx"
+    },
+    {
+      "nome": "taillight_right",
+      "papel": "taillight",
+      "detonauto": "Glass_TaillightRight",
+      "caixa_m": [
+        -3.0829,
+        -2.9862,
+        -1.0399,
+        -0.9877,
+        0.9581,
+        1.1832
+      ],
+      "centro": [
+        -3.0345,
+        -1.0138,
+        1.0707
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 52,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 11 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.497,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/taillight_right.fbx"
+    },
+    {
+      "nome": "trunk",
+      "papel": "trunk",
+      "detonauto": "Trunk",
+      "caixa_m": [
+        -3.1863,
+        -3.1004,
+        -0.22,
+        0.22,
+        0.5744,
+        1.4
+      ],
+      "centro": [
+        -3.1434,
+        0.0,
+        0.9872
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 568,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 133 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.487,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/trunk.fbx"
+    },
+    {
+      "nome": "wheel_fl_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        1.5212,
+        2.0507,
+        0.6898,
+        1.0735,
+        0.0645,
+        0.6132
+      ],
+      "centro": [
+        1.786,
+        0.8817,
+        0.3389
+      ],
+      "pivo_m": [
+        1.7847,
+        0.9072,
+        0.352
+      ],
+      "triangulos": 1986,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 1986 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1714,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.494,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_fl_rim.fbx"
+    },
+    {
+      "nome": "wheel_fl_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        1.4303,
+        2.1569,
+        0.7792,
+        1.0404,
+        0.0014,
+        0.7015
+      ],
+      "centro": [
+        1.7936,
+        0.9098,
+        0.3515
+      ],
+      "pivo_m": [
+        1.7847,
+        0.9072,
+        0.352
+      ],
+      "triangulos": 1037,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 1037 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 828,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.966,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_fl_tire.fbx"
+    },
+    {
+      "nome": "wheel_fr_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        1.5361,
+        2.0735,
+        -1.0314,
+        -0.6696,
+        0.0877,
+        0.6192
+      ],
+      "centro": [
+        1.8048,
+        -0.8505,
+        0.3534
+      ],
+      "pivo_m": [
+        1.8045,
+        -0.9052,
+        0.356
+      ],
+      "triangulos": 1820,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 1820 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1584,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.432,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_fr_rim.fbx"
+    },
+    {
+      "nome": "wheel_fr_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        1.4334,
+        2.1746,
+        -1.034,
+        -0.7525,
+        0.0,
+        0.7045
+      ],
+      "centro": [
+        1.804,
+        -0.8933,
+        0.3523
+      ],
+      "pivo_m": [
+        1.8045,
+        -0.9052,
+        0.356
+      ],
+      "triangulos": 1126,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 1126 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 873,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.967,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_fr_tire.fbx"
+    },
+    {
+      "nome": "wheel_rl_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        -2.0778,
+        -1.5278,
+        0.7545,
+        1.0357,
+        0.0925,
+        0.6261
+      ],
+      "centro": [
+        -1.8028,
+        0.8951,
+        0.3593
+      ],
+      "pivo_m": [
+        -1.802,
+        0.9114,
+        0.36
+      ],
+      "triangulos": 2295,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 2295 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1934,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.354,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_rl_rim.fbx"
+    },
+    {
+      "nome": "wheel_rl_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        -2.171,
+        -1.4454,
+        0.7612,
+        1.0379,
+        0.0,
+        0.7216
+      ],
+      "centro": [
+        -1.8082,
+        0.8995,
+        0.3608
+      ],
+      "pivo_m": [
+        -1.802,
+        0.9114,
+        0.36
+      ],
+      "triangulos": 1354,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 1354 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1112,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.943,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_rl_tire.fbx"
+    },
+    {
+      "nome": "wheel_rr_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        -2.0316,
+        -1.532,
+        -1.0257,
+        -0.7507,
+        0.0997,
+        0.5925
+      ],
+      "centro": [
+        -1.7818,
+        -0.8882,
+        0.3461
+      ],
+      "pivo_m": [
+        -1.7872,
+        -0.8453,
+        0.352
+      ],
+      "triangulos": 2218,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 2218 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1875,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.302,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_rr_rim.fbx"
+    },
+    {
+      "nome": "wheel_rr_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        -2.1673,
+        -1.3984,
+        -1.032,
+        -0.5973,
+        0.0016,
+        0.7524
+      ],
+      "centro": [
+        -1.7829,
+        -0.8147,
+        0.377
+      ],
+      "pivo_m": [
+        -1.7872,
+        -0.8453,
+        0.352
+      ],
+      "triangulos": 1553,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 1553 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1308,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.85,
+        "virada": null
+      },
+      "fbx": "van-passageiros_pecas/wheel_rr_tire.fbx"
+    }
+  ],
+  "texturas": "van-passageiros_texturas/ (3 arquivos)",
+  "amassada": null
+}
