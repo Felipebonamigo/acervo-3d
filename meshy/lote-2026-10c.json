@@ -137,6 +137,903 @@
       "criado": "2026-10-24 04:04",
       "status": "SUCCEEDED",
       "creditos_cobrados": 6
+    },
+    {
+      "id": "picape-pequena-3d",
+      "modo": "multi-image-to-3d",
+      "categoria": "veiculos",
+      "creditos": 30,
+      "task_id": "01a16c1b-b461-72d3-9a42-c3b3ae60a034",
+      "criado": "2026-10-24 04:11",
+      "corpo": {
+        "image_urls": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "moto-entrega-150-3d",
+      "modo": "multi-image-to-3d",
+      "categoria": "veiculos",
+      "creditos": 30,
+      "task_id": "01a16c1b-b939-77d9-9f97-621fe2d9e745",
+      "criado": "2026-10-24 04:11",
+      "corpo": {
+        "image_urls": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "onibus-urbano-3d",
+      "modo": "multi-image-to-3d",
+      "categoria": "veiculos",
+      "creditos": 30,
+      "task_id": "01a16c1b-bea8-7348-b663-c35e36d26647",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "image_urls": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "caminhao-bau-leve-3d",
+      "modo": "multi-image-to-3d",
+      "categoria": "veiculos",
+      "creditos": 30,
+      "task_id": "01a16c1b-c3c7-7182-9d1f-d82b05c7f323",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "image_urls": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "van-passageiros-3d",
+      "modo": "multi-image-to-3d",
+      "categoria": "veiculos",
+      "creditos": 30,
+      "task_id": "01a16c1b-c8b8-7786-b239-2821820ef791",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "image_urls": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "posto-salva-vidas-3d",
+      "modo": "image-to-3d",
+      "categoria": "mobiliario-urbano",
+      "creditos": 30,
+      "task_id": "01a16c1b-ce1e-70cf-a310-cdd8ba4fb43c",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "image_url": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "placa-de-rua-3d",
+      "modo": "image-to-3d",
+      "categoria": "mobiliario-urbano",
+      "creditos": 30,
+      "task_id": "01a16c1b-d2a8-72b2-80c0-8c286d974a27",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "image_url": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "cavalete-de-obra-3d",
+      "modo": "image-to-3d",
+      "categoria": "mobiliario-urbano",
+      "creditos": 30,
+      "task_id": "01a16c1b-d785-70c2-9a37-01c55d48dff1",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "image_url": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "papeleira-laranja-3d",
+      "modo": "image-to-3d",
+      "categoria": "mobiliario-urbano",
+      "creditos": 30,
+      "task_id": "01a16c1b-dc1e-71fd-b66b-42d5fa059bfc",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "image_url": "(URLs das prévias)",
+        "should_texture": true,
+        "enable_pbr": true
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 30
+    },
+    {
+      "id": "taxi-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1b-e07e-71a2-b0d7-2b8586bebf40",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16960-d7c1-731a-8765-5c7c1b961c09",
+        "ai_model": "meshy-7",
+        "multiview_image_urls": "(URLs das prévias)"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "hatch-quadrado-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1b-e516-77e1-8987-dac8c268ed96",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-7698-7447-b7e3-888a846cb5c3",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "hatch-quadrado-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1b-ec7d-713b-8079-e3e253645798",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-7698-7447-b7e3-888a846cb5c3",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: white paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "tupiniquim-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1b-f3a9-70c2-82be-22664598f03d",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-8716-745a-902f-44b1af40cef7",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "tupiniquim-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1b-fc76-7016-8e74-6ccb9bd281d1",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-8716-745a-902f-44b1af40cef7",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: dark red paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "caipora-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-0410-7345-b266-9ab86016de0d",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1698b-77aa-7042-9af8-53f059ba8f82",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "caipora-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-05c1-7243-89a6-ff970b1ab083",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1698b-77aa-7042-9af8-53f059ba8f82",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: silver grey paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "pampeiro-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-0cf8-7549-8854-4baa481180da",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1697e-4d4a-73d9-b550-b0b4df221a5a",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "pampeiro-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-0ea2-7117-b59a-7ee8e927c326",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1697e-4d4a-73d9-b550-b0b4df221a5a",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: dark green paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "barao-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-17f6-761a-9b55-1e14c467ee16",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16960-d7c1-731a-8765-5c7c1b961c09",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "barao-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-19ab-7073-9348-577ae052e99e",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16960-d7c1-731a-8765-5c7c1b961c09",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: navy blue paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "furgaozinho-da-firma-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-220d-7665-8c06-2e6d32db385b",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1697e-e75f-73a3-bfec-c1b7398f61fc",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "furgaozinho-da-firma-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-23c3-7659-952d-296cb45166ef",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1697e-e75f-73a3-bfec-c1b7398f61fc",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: white paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "besouro-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-2646-77ed-9ced-666bdf7e742d",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-7c1c-72ab-a69d-79b66ea9758b",
+        "ai_model": "meshy-7",
+        "multiview_image_urls": "(URLs das prévias)"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "besouro-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-2bcd-775b-88db-030aa5c2e8a7",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-7c1c-72ab-a69d-79b66ea9758b",
+        "ai_model": "meshy-7",
+        "multiview_image_urls": "(URLs das prévias)"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "pao-de-forma-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-3270-77aa-8b80-7ca2b93bc3c9",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-8288-713c-8fa2-3174f7dfdb60",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "pao-de-forma-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-3418-726e-b40e-d9a9d8ff2acd",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16954-8288-713c-8fa2-3174f7dfdb60",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: beige and white two-tone paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "gaucho-v8-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-3b35-763d-91ee-c151d305870d",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-c0ac-73ba-aca5-46cfcc09afb8",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "gaucho-v8-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-3cd1-722a-ab09-ea38b6e5cbb1",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-c0ac-73ba-aca5-46cfcc09afb8",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: mustard yellow paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "trilheiro-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-4503-7619-802b-6568765b8391",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1698c-ced9-7267-bac9-f788154bccde",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "trilheiro-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-4776-7594-a573-6b212a0e11f2",
+      "criado": "2026-10-24 04:12",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1698c-ced9-7267-bac9-f788154bccde",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: olive green paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "lambari-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-c704-7701-bd55-de03788b38a0",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a169ed-0870-7420-bec6-e5820902348d",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "lambari-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-c8c2-740b-b40a-ef22c3585570",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a169ed-0870-7420-bec6-e5820902348d",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: bronze brown paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "jabuti-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-d0b8-77a1-ba17-fc478e8b9194",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-c03d-70dd-a261-b9debd5d001c",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "jabuti-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-d25f-72b2-aa37-6d39cdf32d72",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-c03d-70dd-a261-b9debd5d001c",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: orange paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "sagui-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-dae7-746f-bf65-1c1e8b0ace1a",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1697e-4dff-7056-a5d6-cd0914bfea6d",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "sagui-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-dc88-7364-a779-2065e6a54e6f",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a1697e-4dff-7056-a5d6-cd0914bfea6d",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: light blue paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "hatch-arredondado-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-e437-744c-92b6-18b1875cfbba",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-bfa3-7486-920c-2e731df3ef74",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "hatch-arredondado-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-e5de-75ca-8884-925c28d191fd",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-bfa3-7486-920c-2e731df3ef74",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: metallic grey paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "seda-compacto-80-queimado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-ed79-762c-92b9-186f5f26e43d",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-c104-743c-9db0-9d04bc337560",
+        "text_style_prompt": "Completely burnt-out car wreck after a fire: charred matte black and dark grey metal body, blistered and peeled paint with patches of orange heat rust and pale ash, all window glass shattered and missing, the openings show a dark burnt interior, headlight and taillight lenses melted away, tyres burnt off so the wheels are bare blackened steel rims, black soot streaks, plastic bumpers melted and black. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10,
+      "aprovado": false,
+      "nota": "Reprovado (24/10): o retexture por texto saiu cinza com manchas laranja, vidro e pneu inteiros, sem cara de fogo."
+    },
+    {
+      "id": "seda-compacto-80-abandonado-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16c1c-ef3c-7260-b271-116617ceb21a",
+      "criado": "2026-10-24 04:13",
+      "corpo": {
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k",
+        "input_task_id": "01a16982-c104-743c-9db0-9d04bc337560",
+        "text_style_prompt": "Old car abandoned for years in a Brazilian vacant lot: wine red paint sun-faded and chalky, large patches of brown rust on the fenders, sills, door bottoms and roof edges, scratches and small dents, dirty cracked windows coated in dust, flat dusty tyres, dried mud splashes on the lower body, chrome dull and pitted, plastic parts faded grey. No logos, no badges, no emblems, no lettering, no text, no license plate numbers."
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "hatch-quadrado-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-6648-73b2-9c20-349f5fdbf934",
+      "criado": "2026-10-24 12:07",
+      "corpo": {
+        "input_task_id": "01a16954-7698-7447-b7e3-888a846cb5c3",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "tupiniquim-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-6c12-74e6-b6d1-492a9f155009",
+      "criado": "2026-10-24 12:07",
+      "corpo": {
+        "input_task_id": "01a16954-8716-745a-902f-44b1af40cef7",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "caipora-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-73fd-71a3-a620-64d878d59973",
+      "criado": "2026-10-24 12:07",
+      "corpo": {
+        "input_task_id": "01a1698b-77aa-7042-9af8-53f059ba8f82",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "pampeiro-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-7de5-7199-95a2-5714ca171f0b",
+      "criado": "2026-10-24 12:07",
+      "corpo": {
+        "input_task_id": "01a1697e-4d4a-73d9-b550-b0b4df221a5a",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "barao-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-861b-7755-942e-d17edc340293",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a16960-d7c1-731a-8765-5c7c1b961c09",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "furgaozinho-da-firma-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-8a76-7596-9be1-18f57c448193",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a1697e-e75f-73a3-bfec-c1b7398f61fc",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "pao-de-forma-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-8e42-720e-b55f-13df9f4c9ef8",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a16954-8288-713c-8fa2-3174f7dfdb60",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "gaucho-v8-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-91dc-7076-a1a9-449c5508e736",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a16982-c0ac-73ba-aca5-46cfcc09afb8",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "trilheiro-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-977e-70c7-a93b-0dadc9039957",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a1698c-ced9-7267-bac9-f788154bccde",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "lambari-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-9be4-769a-9dee-b2476e4879c8",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a169ed-0870-7420-bec6-e5820902348d",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "jabuti-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-a1ad-74ca-ac58-6b681748a57f",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a16982-c03d-70dd-a261-b9debd5d001c",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
+    },
+    {
+      "id": "sagui-queimado-v2-3d",
+      "modo": "retexture",
+      "categoria": "veiculos",
+      "creditos": 10,
+      "task_id": "01a16dcf-aa89-717d-b3cc-a63f76a986a2",
+      "criado": "2026-10-24 12:08",
+      "corpo": {
+        "input_task_id": "01a1697e-4dff-7056-a5d6-cd0914bfea6d",
+        "image_style_url": "1ª vista de besouro-queimado-vistas",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "texture_resolution": "2k"
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 10
     }
   ]
 }
