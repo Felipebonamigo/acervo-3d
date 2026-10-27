@@ -1,0 +1,281 @@
+{
+  "nota": "Dados do carro_completo.py. 'carros': o que o corte não diz (época do interior, motor, tração, onde fica o estepe e o tanque). 'epocas': o estilo do habitáculo e das portas por época. Cores em sRGB 0-1. Tudo próprio, sem marca, sem texto. Carro fora da lista usa 'padrao' (aviso no relatório); --epoca e --motor mudam na linha de comando.",
+  "carros": {
+    "hatch-quadrado": {
+      "nome": "Cuiabano",
+      "epoca": "90",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch"
+    },
+    "besouro": {
+      "nome": "Besouro",
+      "epoca": "70",
+      "motor": "boxer_traseiro",
+      "tracao": "traseira",
+      "estepe": "frente_inclinado",
+      "tanque": "frente",
+      "carroceria": "sedan",
+      "nota": "motor traseiro arrefecido a ar (sem radiador: a ventoinha fica na carcaça do motor); porta-malas, estepe e tanque na frente"
+    },
+    "gaucho-v8": {
+      "nome": "Gaúcho V8",
+      "epoca": "80",
+      "motor": "v8_longitudinal",
+      "tracao": "traseira",
+      "estepe": "lateral",
+      "tanque": "sob_porta_malas",
+      "carroceria": "sedan",
+      "nota": "sedã V8 dos anos 70 que seguiu em linha até os 90: interior da reforma dos anos 80"
+    }
+  },
+  "padrao": {
+    "epoca": "90",
+    "motor": "l4_transversal",
+    "tracao": "dianteira",
+    "estepe": "poco",
+    "tanque": "sob_banco_traseiro",
+    "carroceria": "hatch"
+  },
+  "epocas": {
+    "70": {
+      "descricao": "anos 70: vinil com gomos costurados, painel de chapa pintada na cor do carro, um mostrador grande, volante fino de dois raios e aro grande, manivela e pino de trava",
+      "banco": "vinil",
+      "gomos": 6,
+      "abas_laterais": false,
+      "cor_banco": [
+        0.09,
+        0.075,
+        0.065
+      ],
+      "cor_banco_2": [
+        0.3,
+        0.2,
+        0.13
+      ],
+      "cor_plastico": [
+        0.07,
+        0.065,
+        0.06
+      ],
+      "cor_carpete": [
+        0.1,
+        0.085,
+        0.07
+      ],
+      "cor_teto": [
+        0.62,
+        0.58,
+        0.5
+      ],
+      "painel": "chapa",
+      "mostradores": [
+        [
+          0.068,
+          "velocimetro"
+        ],
+        [
+          0.035,
+          "combustivel"
+        ]
+      ],
+      "saidas": "fendas",
+      "volante_raio": 0.205,
+      "volante_raios": 2,
+      "volante_tubo": 0.011,
+      "aro_cromado_buzina": true,
+      "manivela": true,
+      "pino_trava": true,
+      "alto_falante_porta": false,
+      "vidro_eletrico": false,
+      "console": "nenhum",
+      "cambio": "longo",
+      "encosto_cabeca_traseiro": false,
+      "freio_traseiro": "tambor",
+      "nota": "banco traseiro sem encosto de cabeça, como os carros da época (o pedido lista; ligue em encosto_cabeca_traseiro se o Felipe quiser)"
+    },
+    "80": {
+      "descricao": "anos 80: tecido listrado com abas, painel de plástico reto com quadro retangular, quatro saídas retangulares, volante de quatro raios",
+      "banco": "tecido",
+      "gomos": 3,
+      "abas_laterais": true,
+      "cor_banco": [
+        0.24,
+        0.17,
+        0.11
+      ],
+      "cor_banco_2": [
+        0.15,
+        0.11,
+        0.075
+      ],
+      "cor_plastico": [
+        0.13,
+        0.1,
+        0.075
+      ],
+      "cor_carpete": [
+        0.13,
+        0.1,
+        0.075
+      ],
+      "cor_teto": [
+        0.66,
+        0.61,
+        0.52
+      ],
+      "painel": "reto",
+      "mostradores": [
+        [
+          0.062,
+          "velocimetro"
+        ],
+        [
+          0.062,
+          "conta_giros"
+        ]
+      ],
+      "saidas": "retangulares",
+      "volante_raio": 0.19,
+      "volante_raios": 4,
+      "volante_tubo": 0.015,
+      "aro_cromado_buzina": false,
+      "manivela": true,
+      "pino_trava": true,
+      "alto_falante_porta": true,
+      "vidro_eletrico": false,
+      "console": "curto",
+      "cambio": "medio",
+      "encosto_cabeca_traseiro": true,
+      "freio_traseiro": "tambor"
+    },
+    "90": {
+      "descricao": "anos 90: tecido cinza com miolo estampado, painel arredondado com capuz, quatro mostradores, volante de três raios almofadado",
+      "banco": "tecido",
+      "gomos": 1,
+      "abas_laterais": true,
+      "cor_banco": [
+        0.2,
+        0.205,
+        0.215
+      ],
+      "cor_banco_2": [
+        0.11,
+        0.115,
+        0.125
+      ],
+      "cor_plastico": [
+        0.075,
+        0.078,
+        0.085
+      ],
+      "cor_carpete": [
+        0.075,
+        0.075,
+        0.08
+      ],
+      "cor_teto": [
+        0.58,
+        0.58,
+        0.57
+      ],
+      "painel": "arredondado",
+      "mostradores": [
+        [
+          0.058,
+          "velocimetro"
+        ],
+        [
+          0.058,
+          "conta_giros"
+        ],
+        [
+          0.028,
+          "combustivel"
+        ],
+        [
+          0.028,
+          "temperatura"
+        ]
+      ],
+      "saidas": "retangulares",
+      "volante_raio": 0.185,
+      "volante_raios": 3,
+      "volante_tubo": 0.017,
+      "aro_cromado_buzina": false,
+      "manivela": true,
+      "pino_trava": true,
+      "alto_falante_porta": true,
+      "vidro_eletrico": false,
+      "console": "medio",
+      "cambio": "curto",
+      "encosto_cabeca_traseiro": true,
+      "freio_traseiro": "tambor"
+    },
+    "2000": {
+      "descricao": "anos 2000: tecido grafite com miolo de trama, painel de duas cores com saídas redondas, volante com bolsa de ar, vidro elétrico",
+      "banco": "tecido",
+      "gomos": 1,
+      "abas_laterais": true,
+      "cor_banco": [
+        0.1,
+        0.1,
+        0.105
+      ],
+      "cor_banco_2": [
+        0.2,
+        0.2,
+        0.21
+      ],
+      "cor_plastico": [
+        0.05,
+        0.05,
+        0.055
+      ],
+      "cor_carpete": [
+        0.05,
+        0.05,
+        0.055
+      ],
+      "cor_teto": [
+        0.55,
+        0.55,
+        0.54
+      ],
+      "painel": "duas_cores",
+      "mostradores": [
+        [
+          0.055,
+          "velocimetro"
+        ],
+        [
+          0.055,
+          "conta_giros"
+        ],
+        [
+          0.024,
+          "combustivel"
+        ],
+        [
+          0.024,
+          "temperatura"
+        ]
+      ],
+      "saidas": "redondas",
+      "volante_raio": 0.18,
+      "volante_raios": 4,
+      "volante_tubo": 0.018,
+      "aro_cromado_buzina": false,
+      "manivela": false,
+      "pino_trava": false,
+      "alto_falante_porta": true,
+      "vidro_eletrico": true,
+      "console": "longo",
+      "cambio": "curto",
+      "encosto_cabeca_traseiro": true,
+      "freio_traseiro": "disco"
+    }
+  }
+}
