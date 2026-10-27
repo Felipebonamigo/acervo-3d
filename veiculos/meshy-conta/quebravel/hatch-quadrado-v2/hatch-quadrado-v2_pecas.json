@@ -1,0 +1,1756 @@
+{
+  "id": "hatch-quadrado-v2",
+  "entrada": "hatch-quadrado-v2-120k__01a17dd1.glb",
+  "gerado_por": "acervo-3d/ferramentas/carro_quebravel.py (malha única)",
+  "convencao": "metros; eixos do Blender: frente +X, ESQUERDA +Y, cima +Z; pivô do carro no chão, no centro entre os eixos; caixa_m = [xmin, xmax, ymin, ymax, zmin, zmax] no espaço do carro; rodas, aros e calotas com pivô no centro do cubo",
+  "dimensoes_m": {
+    "comprimento": 3.81,
+    "largura": 1.825,
+    "altura": 1.431,
+    "entre_eixos": 2.331,
+    "raio_roda": 0.286
+  },
+  "escala": {
+    "fator": 1.0,
+    "comprimento_original": 3.81,
+    "motivo": "malha única: pelo comprimento"
+  },
+  "orientacao": [
+    "frente já em +X (retrovisores em x = 0.43 m)"
+  ],
+  "solda": {
+    "vertices_antes": 88682,
+    "vertices_depois": 71868,
+    "arestas_de_borda": 35161
+  },
+  "mapa": "hatch-quadrado-v2_mapa.json (lido de /tmp/claude-0/-home-user/2dbaf560-e7e1-5ed0-bf0a-dfa61c37d678/scratchpad/mapa-v2.json)",
+  "textura": {
+    "pintura_rgb": [
+      0.506,
+      0.062,
+      0.094
+    ],
+    "pintura_sat": 0.878,
+    "pintura_val": 0.506,
+    "cercado_pela_borracha": 960,
+    "portas": 2,
+    "janelas_por_lado": {
+      "l": [
+        [
+          -0.41,
+          0.54
+        ],
+        [
+          -1.43,
+          -0.49
+        ]
+      ],
+      "r": [
+        [
+          -0.41,
+          0.55
+        ],
+        [
+          -1.42,
+          -0.48
+        ]
+      ]
+    }
+  },
+  "faces_por_classe": {
+    "vidro": 6807,
+    "farol": 531,
+    "lanterna": 227,
+    "placa": 246,
+    "grade": 624
+  },
+  "materiais": {
+    "Material_0 (Meshy)": "pintura; cópias com a mesma textura: vidro, luz, pneu, cromado; sem textura: chassi, MI_DNVao"
+  },
+  "papel_material": {
+    "body": [
+      "MI_DNVao",
+      "chassi",
+      "pintura"
+    ],
+    "bumper_front": [
+      "chassi",
+      "pintura"
+    ],
+    "bumper_rear": [
+      "chassi",
+      "pintura"
+    ],
+    "door": [
+      "chassi",
+      "pintura"
+    ],
+    "fender": [
+      "chassi",
+      "pintura"
+    ],
+    "glass_door": [
+      "chassi",
+      "vidro"
+    ],
+    "glass_rear": [
+      "chassi",
+      "vidro"
+    ],
+    "glass_windshield": [
+      "chassi",
+      "vidro"
+    ],
+    "grille": [
+      "chassi",
+      "pintura"
+    ],
+    "headlight": [
+      "chassi",
+      "luz"
+    ],
+    "hood": [
+      "chassi",
+      "pintura"
+    ],
+    "hubcap": [
+      "cromado"
+    ],
+    "mirror": [
+      "chassi",
+      "pintura"
+    ],
+    "plate": [
+      "chassi",
+      "pintura"
+    ],
+    "rim": [
+      "cromado"
+    ],
+    "side_skirt": [
+      "chassi",
+      "pintura"
+    ],
+    "taillight": [
+      "chassi",
+      "luz"
+    ],
+    "trunk": [
+      "chassi",
+      "pintura"
+    ],
+    "wheel": [
+      "pneu"
+    ]
+  },
+  "pecas_por_papel": {
+    "body": [
+      "body"
+    ],
+    "bumper_front": [
+      "bumper_front"
+    ],
+    "bumper_rear": [
+      "bumper_rear"
+    ],
+    "door": [
+      "door_fl",
+      "door_fr"
+    ],
+    "fender": [
+      "fender_front_left",
+      "fender_front_right"
+    ],
+    "glass_door": [
+      "glass_door_fl",
+      "glass_door_fr",
+      "glass_door_rl",
+      "glass_door_rr"
+    ],
+    "glass_rear": [
+      "glass_rear"
+    ],
+    "glass_windshield": [
+      "glass_windshield"
+    ],
+    "grille": [
+      "grille"
+    ],
+    "headlight": [
+      "headlight_left",
+      "headlight_right"
+    ],
+    "hood": [
+      "hood"
+    ],
+    "hubcap": [
+      "hubcap_fl",
+      "hubcap_rl"
+    ],
+    "mirror": [
+      "mirror_left",
+      "mirror_right"
+    ],
+    "plate": [
+      "plate_front",
+      "plate_rear"
+    ],
+    "rim": [
+      "wheel_fl_rim",
+      "wheel_fr_rim",
+      "wheel_rl_rim",
+      "wheel_rr_rim"
+    ],
+    "side_skirt": [
+      "side_skirt_left",
+      "side_skirt_right"
+    ],
+    "taillight": [
+      "taillight_left",
+      "taillight_right"
+    ],
+    "trunk": [
+      "trunk"
+    ],
+    "wheel": [
+      "wheel_fl_tire",
+      "wheel_fr_tire",
+      "wheel_rl_tire",
+      "wheel_rr_tire"
+    ]
+  },
+  "fora_do_vocabulario_do_detonauto": [
+    "grille",
+    "hubcap_fl",
+    "hubcap_rl",
+    "mirror_left",
+    "mirror_right",
+    "plate_front",
+    "plate_rear",
+    "side_skirt_left",
+    "side_skirt_right",
+    "wheel_fl_rim",
+    "wheel_fl_tire",
+    "wheel_fr_rim",
+    "wheel_fr_tire",
+    "wheel_rl_rim",
+    "wheel_rl_tire",
+    "wheel_rr_rim",
+    "wheel_rr_tire"
+  ],
+  "removidos": [],
+  "outros": [],
+  "faces_removidas": {},
+  "avisos": [
+    "portas: 1 por lado, estimado pelas janelas (confira; --portas força)"
+  ],
+  "rodas_cm": {
+    "front_axle_cm": 116.56,
+    "rear_axle_cm": -116.56,
+    "wheel_radius_cm": 28.6,
+    "nota": "espaço do carro do carro_quebravel (frente +X, pivô entre os eixos); formato de Tools/Unreal/damage_body.py"
+  },
+  "rodas_achadas": [
+    {
+      "nome": "fl",
+      "lado": 1,
+      "cx": 1.166,
+      "cz": 0.288,
+      "raio": 0.288,
+      "y_dentro": 0.6168,
+      "y_fora": 0.757,
+      "y_alcance": 0.785,
+      "raio_aro": 0.2,
+      "raio_calota": 0.02,
+      "pontos_banda": 2638
+    },
+    {
+      "nome": "fr",
+      "lado": -1,
+      "cx": 1.1651,
+      "cz": 0.288,
+      "raio": 0.288,
+      "y_dentro": 0.6149,
+      "y_fora": 0.7554,
+      "y_alcance": 0.7827,
+      "raio_aro": 0.2,
+      "raio_calota": null,
+      "pontos_banda": 2532
+    },
+    {
+      "nome": "rl",
+      "lado": 1,
+      "cx": -1.1639,
+      "cz": 0.284,
+      "raio": 0.284,
+      "y_dentro": 0.6165,
+      "y_fora": 0.7605,
+      "y_alcance": 0.7855,
+      "raio_aro": 0.2,
+      "raio_calota": 0.02,
+      "pontos_banda": 2914
+    },
+    {
+      "nome": "rr",
+      "lado": -1,
+      "cx": -1.1674,
+      "cz": 0.284,
+      "raio": 0.284,
+      "y_dentro": 0.6141,
+      "y_fora": 0.7574,
+      "y_alcance": 0.7837,
+      "raio_aro": 0.2,
+      "raio_calota": null,
+      "pontos_banda": 2814
+    }
+  ],
+  "pecas": [
+    {
+      "nome": "body",
+      "papel": "body",
+      "detonauto": "Body (carroceria; portas e para-lamas ainda fundidos: cortar com split_car_parts.py)",
+      "caixa_m": [
+        -1.8708,
+        1.9391,
+        -0.9077,
+        0.8988,
+        0.024,
+        1.431
+      ],
+      "centro": [
+        0.0342,
+        -0.0045,
+        0.7275
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 115742,
+      "materiais": [
+        "pintura",
+        "chassi",
+        "MI_DNVao"
+      ],
+      "origem": [
+        "malha única: o que sobrou, com os vãos e as caixas de roda"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 6,
+        "vertices_soltos_tirados": 9404,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.632,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/body.fbx"
+    },
+    {
+      "nome": "bumper_front",
+      "papel": "bumper_front",
+      "detonauto": "BumperFront",
+      "caixa_m": [
+        1.5791,
+        1.9307,
+        -0.78,
+        0.7804,
+        0.2589,
+        0.488
+      ],
+      "centro": [
+        1.7549,
+        0.0002,
+        0.3735
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 12004,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 3854 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/bumper_front.fbx"
+    },
+    {
+      "nome": "bumper_rear",
+      "papel": "bumper_rear",
+      "detonauto": "BumperRear",
+      "caixa_m": [
+        -1.8659,
+        -1.5097,
+        -0.7629,
+        0.765,
+        0.2652,
+        0.4881
+      ],
+      "centro": [
+        -1.6878,
+        0.001,
+        0.3767
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 7416,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 2491 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/bumper_rear.fbx"
+    },
+    {
+      "nome": "door_fl",
+      "papel": "door",
+      "detonauto": "DoorLeft",
+      "caixa_m": [
+        -0.437,
+        0.601,
+        0.6926,
+        0.806,
+        0.427,
+        0.967
+      ],
+      "centro": [
+        0.082,
+        0.7493,
+        0.697
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2428,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 675 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.498,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/door_fl.fbx"
+    },
+    {
+      "nome": "door_fr",
+      "papel": "door",
+      "detonauto": "DoorRight",
+      "caixa_m": [
+        -0.437,
+        0.601,
+        -0.8057,
+        -0.6996,
+        0.427,
+        0.967
+      ],
+      "centro": [
+        0.082,
+        -0.7526,
+        0.697
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2540,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 714 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.499,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/door_fr.fbx"
+    },
+    {
+      "nome": "fender_front_left",
+      "papel": "fender",
+      "detonauto": "FenderFrontLeft",
+      "caixa_m": [
+        0.601,
+        1.589,
+        0.4342,
+        0.8183,
+        0.2652,
+        0.982
+      ],
+      "centro": [
+        1.095,
+        0.6262,
+        0.6236
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 10340,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 3399 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.507,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/fender_front_left.fbx"
+    },
+    {
+      "nome": "fender_front_right",
+      "papel": "fender",
+      "detonauto": "FenderFrontRight",
+      "caixa_m": [
+        0.601,
+        1.589,
+        -0.8172,
+        -0.4342,
+        0.2656,
+        0.982
+      ],
+      "centro": [
+        1.095,
+        -0.6257,
+        0.6238
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 9784,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 3288 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 4,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.506,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/fender_front_right.fbx"
+    },
+    {
+      "nome": "glass_door_fl",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideLeft",
+      "caixa_m": [
+        -0.4257,
+        0.5543,
+        -0.6887,
+        0.7329,
+        0.9275,
+        1.3314
+      ],
+      "centro": [
+        0.0643,
+        0.0221,
+        1.1294
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 3488,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 1021 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.501,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/glass_door_fl.fbx"
+    },
+    {
+      "nome": "glass_door_fr",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideRight",
+      "caixa_m": [
+        -0.4176,
+        0.5525,
+        -0.7309,
+        0.6824,
+        0.9331,
+        1.3316
+      ],
+      "centro": [
+        0.0675,
+        -0.0242,
+        1.1324
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2980,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 874 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/glass_door_fr.fbx"
+    },
+    {
+      "nome": "glass_door_rl",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideLeft",
+      "caixa_m": [
+        -1.4341,
+        -0.4853,
+        -0.6815,
+        0.7179,
+        0.9651,
+        1.3653
+      ],
+      "centro": [
+        -0.9597,
+        0.0182,
+        1.1652
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2036,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 659 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.503,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/glass_door_rl.fbx"
+    },
+    {
+      "nome": "glass_door_rr",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideRight",
+      "caixa_m": [
+        -1.4307,
+        -0.478,
+        -0.7213,
+        0.6784,
+        0.9528,
+        1.367
+      ],
+      "centro": [
+        -0.9544,
+        -0.0214,
+        1.1599
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2448,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 820 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/glass_door_rr.fbx"
+    },
+    {
+      "nome": "glass_rear",
+      "papel": "glass_rear",
+      "detonauto": "Glass_Rear",
+      "caixa_m": [
+        -1.7919,
+        -1.264,
+        -0.5448,
+        0.5497,
+        1.0001,
+        1.3403
+      ],
+      "centro": [
+        -1.5279,
+        0.0024,
+        1.1702
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1584,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 573 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.505,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/glass_rear.fbx"
+    },
+    {
+      "nome": "glass_windshield",
+      "papel": "glass_windshield",
+      "detonauto": "Glass_Windshield",
+      "caixa_m": [
+        0.2243,
+        0.9108,
+        -0.6809,
+        0.6797,
+        0.947,
+        1.394
+      ],
+      "centro": [
+        0.5675,
+        -0.0006,
+        1.1705
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 9160,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, textura: 2866 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.504,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/glass_windshield.fbx"
+    },
+    {
+      "nome": "grille",
+      "papel": "grille",
+      "detonauto": null,
+      "caixa_m": [
+        1.8226,
+        1.8986,
+        -0.3848,
+        0.359,
+        0.602,
+        0.7823
+      ],
+      "centro": [
+        1.8606,
+        -0.0129,
+        0.6921
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1160,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 320 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/grille.fbx"
+    },
+    {
+      "nome": "headlight_left",
+      "papel": "headlight",
+      "detonauto": "Glass_HeadlightLeft",
+      "caixa_m": [
+        1.7871,
+        1.8959,
+        0.3624,
+        0.7482,
+        0.605,
+        0.807
+      ],
+      "centro": [
+        1.8415,
+        0.5553,
+        0.706
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2270,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 760 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 2,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.501,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/headlight_left.fbx"
+    },
+    {
+      "nome": "headlight_right",
+      "papel": "headlight",
+      "detonauto": "Glass_HeadlightRight",
+      "caixa_m": [
+        1.7822,
+        1.8952,
+        -0.749,
+        -0.3634,
+        0.608,
+        0.809
+      ],
+      "centro": [
+        1.8387,
+        -0.5562,
+        0.7085
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2716,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 864 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/headlight_right.fbx"
+    },
+    {
+      "nome": "hood",
+      "papel": "hood",
+      "detonauto": "Hood",
+      "caixa_m": [
+        0.913,
+        1.8946,
+        -0.624,
+        0.624,
+        0.7907,
+        0.9717
+      ],
+      "centro": [
+        1.4038,
+        0.0,
+        0.8812
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 3268,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 1001 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.511,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/hood.fbx"
+    },
+    {
+      "nome": "hubcap_fl",
+      "papel": "hubcap",
+      "detonauto": null,
+      "caixa_m": [
+        1.1091,
+        1.2259,
+        0.7756,
+        0.7804,
+        0.2492,
+        0.3271
+      ],
+      "centro": [
+        1.1675,
+        0.778,
+        0.2882
+      ],
+      "pivo_m": [
+        1.166,
+        0.6869,
+        0.288
+      ],
+      "triangulos": 2,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 2 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 6,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 1.0,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/hubcap_fl.fbx"
+    },
+    {
+      "nome": "hubcap_rl",
+      "papel": "hubcap",
+      "detonauto": null,
+      "caixa_m": [
+        -1.2081,
+        -1.1048,
+        0.7803,
+        0.7806,
+        0.2114,
+        0.309
+      ],
+      "centro": [
+        -1.1565,
+        0.7804,
+        0.2602
+      ],
+      "pivo_m": [
+        -1.1639,
+        0.6885,
+        0.284
+      ],
+      "triangulos": 1,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 1 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.0,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/hubcap_rl.fbx"
+    },
+    {
+      "nome": "mirror_left",
+      "papel": "mirror",
+      "detonauto": null,
+      "caixa_m": [
+        0.4566,
+        0.5748,
+        0.7753,
+        0.9125,
+        0.9537,
+        1.0716
+      ],
+      "centro": [
+        0.5157,
+        0.8439,
+        1.0126
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1088,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 381 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/mirror_left.fbx"
+    },
+    {
+      "nome": "mirror_right",
+      "papel": "mirror",
+      "detonauto": null,
+      "caixa_m": [
+        0.4566,
+        0.565,
+        -0.9125,
+        -0.7753,
+        0.9541,
+        1.0715
+      ],
+      "centro": [
+        0.5108,
+        -0.8439,
+        1.0128
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 924,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 340 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.496,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/mirror_right.fbx"
+    },
+    {
+      "nome": "plate_front",
+      "papel": "plate",
+      "detonauto": null,
+      "caixa_m": [
+        1.8921,
+        1.9368,
+        -0.225,
+        0.224,
+        0.363,
+        0.5116
+      ],
+      "centro": [
+        1.9144,
+        -0.0005,
+        0.4373
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1020,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 291 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.499,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/plate_front.fbx"
+    },
+    {
+      "nome": "plate_rear",
+      "papel": "plate",
+      "detonauto": null,
+      "caixa_m": [
+        -1.8443,
+        -1.8059,
+        -0.209,
+        0.211,
+        0.654,
+        0.826
+      ],
+      "centro": [
+        -1.8251,
+        0.001,
+        0.74
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1152,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 388 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.498,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/plate_rear.fbx"
+    },
+    {
+      "nome": "side_skirt_left",
+      "papel": "side_skirt",
+      "detonauto": null,
+      "caixa_m": [
+        -0.84,
+        0.84,
+        0.4983,
+        0.7749,
+        0.2366,
+        0.4315
+      ],
+      "centro": [
+        0.0,
+        0.6366,
+        0.334
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 5032,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 1705 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.504,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/side_skirt_left.fbx"
+    },
+    {
+      "nome": "side_skirt_right",
+      "papel": "side_skirt",
+      "detonauto": null,
+      "caixa_m": [
+        -0.84,
+        0.84,
+        -0.7738,
+        -0.4984,
+        0.2365,
+        0.4315
+      ],
+      "centro": [
+        0.0,
+        -0.6361,
+        0.334
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 5588,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 1896 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.503,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/side_skirt_right.fbx"
+    },
+    {
+      "nome": "taillight_left",
+      "papel": "taillight",
+      "detonauto": "Glass_TaillightLeft",
+      "caixa_m": [
+        -1.843,
+        -1.7379,
+        0.3983,
+        0.7294,
+        0.6898,
+        0.86
+      ],
+      "centro": [
+        -1.7905,
+        0.5639,
+        0.7749
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1644,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 558 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/taillight_left.fbx"
+    },
+    {
+      "nome": "taillight_right",
+      "papel": "taillight",
+      "detonauto": "Glass_TaillightRight",
+      "caixa_m": [
+        -1.8428,
+        -1.7351,
+        -0.729,
+        -0.3983,
+        0.6898,
+        0.86
+      ],
+      "centro": [
+        -1.789,
+        -0.5637,
+        0.7749
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1616,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 533 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/taillight_right.fbx"
+    },
+    {
+      "nome": "trunk",
+      "papel": "trunk",
+      "detonauto": "Trunk",
+      "caixa_m": [
+        -1.8708,
+        -1.2476,
+        -0.616,
+        0.616,
+        0.491,
+        1.3568
+      ],
+      "centro": [
+        -1.5592,
+        0.0,
+        0.9239
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 9402,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 2997 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.503,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/trunk.fbx"
+    },
+    {
+      "nome": "wheel_fl_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        0.9537,
+        1.3784,
+        0.5542,
+        0.7804,
+        0.0875,
+        0.5039
+      ],
+      "centro": [
+        1.1661,
+        0.6673,
+        0.2957
+      ],
+      "pivo_m": [
+        1.166,
+        0.6869,
+        0.288
+      ],
+      "triangulos": 5934,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 5934 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3653,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.627,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_fl_rim.fbx"
+    },
+    {
+      "nome": "wheel_fl_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        0.8659,
+        1.4547,
+        0.5604,
+        0.7636,
+        0.0013,
+        0.5926
+      ],
+      "centro": [
+        1.1603,
+        0.662,
+        0.2969
+      ],
+      "pivo_m": [
+        1.166,
+        0.6869,
+        0.288
+      ],
+      "triangulos": 5761,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 5761 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3512,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.886,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_fl_tire.fbx"
+    },
+    {
+      "nome": "wheel_fr_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        0.9508,
+        1.3703,
+        -0.7783,
+        -0.5405,
+        0.0872,
+        0.4996
+      ],
+      "centro": [
+        1.1605,
+        -0.6594,
+        0.2934
+      ],
+      "pivo_m": [
+        1.1651,
+        -0.6851,
+        0.288
+      ],
+      "triangulos": 5948,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 5948 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3724,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.63,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_fr_rim.fbx"
+    },
+    {
+      "nome": "wheel_fr_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        0.866,
+        1.4552,
+        -0.761,
+        -0.5649,
+        0.0012,
+        0.5924
+      ],
+      "centro": [
+        1.1606,
+        -0.6629,
+        0.2968
+      ],
+      "pivo_m": [
+        1.1651,
+        -0.6851,
+        0.288
+      ],
+      "triangulos": 5615,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 5615 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3388,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.887,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_fr_tire.fbx"
+    },
+    {
+      "nome": "wheel_rl_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        -1.3765,
+        -0.9586,
+        0.5412,
+        0.7806,
+        0.0714,
+        0.4951
+      ],
+      "centro": [
+        -1.1675,
+        0.6609,
+        0.2832
+      ],
+      "pivo_m": [
+        -1.1639,
+        0.6885,
+        0.284
+      ],
+      "triangulos": 6182,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 6182 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3792,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.615,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_rl_rim.fbx"
+    },
+    {
+      "nome": "wheel_rl_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        -1.4604,
+        -0.8751,
+        0.5624,
+        0.766,
+        0.0,
+        0.5948
+      ],
+      "centro": [
+        -1.1678,
+        0.6642,
+        0.2974
+      ],
+      "pivo_m": [
+        -1.1639,
+        0.6885,
+        0.284
+      ],
+      "triangulos": 6219,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 6219 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3822,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.887,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_rl_tire.fbx"
+    },
+    {
+      "nome": "wheel_rr_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        -1.374,
+        -0.9535,
+        -0.7787,
+        -0.5522,
+        0.0756,
+        0.4976
+      ],
+      "centro": [
+        -1.1638,
+        -0.6655,
+        0.2866
+      ],
+      "pivo_m": [
+        -1.1674,
+        -0.6857,
+        0.284
+      ],
+      "triangulos": 6065,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 6065 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3709,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.62,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_rr_rim.fbx"
+    },
+    {
+      "nome": "wheel_rr_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        -1.4611,
+        -0.8746,
+        -0.7625,
+        -0.5554,
+        0.0009,
+        0.5957
+      ],
+      "centro": [
+        -1.1678,
+        -0.659,
+        0.2983
+      ],
+      "pivo_m": [
+        -1.1674,
+        -0.6857,
+        0.284
+      ],
+      "triangulos": 6128,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 6128 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 3735,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.892,
+        "virada": null
+      },
+      "fbx": "hatch-quadrado-v2_pecas/wheel_rr_tire.fbx"
+    }
+  ],
+  "amassada": {
+    "determinante_minimo": {
+      "DN_Front": 0.143,
+      "DN_Rear": 0.386,
+      "DN_Left": 0.534,
+      "DN_Right": 0.575,
+      "DN_Roof": 0.703
+    },
+    "fresta_maxima_mm": {
+      "intacto": 0.0,
+      "frente+esquerda": 0.0,
+      "traseira+direita+teto": 0.0
+    },
+    "vertices_na_costura": 15123,
+    "zonas": "make_damage_morphs.displacement do Detonauto, semente 17"
+  }
+}
