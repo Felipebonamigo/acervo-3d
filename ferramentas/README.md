@@ -171,3 +171,61 @@ Trilheiro um do tamanho do pneu; sem esse limite o primeiro perdeu o aro e o seg
 Retexture e malha: o retexture do Meshy (10 créditos, `enable_original_uv`) mantém malha e UV, então o mapa de corte do carro
 original vale; mas não cria geometria (a caixa de teto do táxi foi posta no Blender) e, por texto, tende a pintar número em
 placa. O que funcionou para o fogo foi passar a foto aprovada como `image_style_url`.
+
+## carro_completo.py
+
+Gera, para um carro já cortado pelo `carro_quebravel.py`, as partes que faltam para ele ficar completo por dentro e por baixo
+(pedido do Felipe de 26/10/2026, `Detonauto/docs/pedido-carro-completo.md`), encaixadas nas medidas daquele carro. Tudo é
+geometria e textura feitas pelo script: licença CC0 do estúdio, sem marca, sem logo, sem texto, sem IA.
+
+```
+python -I ferramentas/carro_completo.py -- --corte veiculos/meshy-conta/quebravel/<carro> --glb <pasta do corte>/<carro>.glb \
+    --id <carro> --out veiculos/meshy-conta/completo/<carro> [--epoca 70|80|90|2000] [--motor ...] [--amostras 24] [--sem-previa]
+python -I ferramentas/carro_completo.py -- --corte veiculos/meshy-conta/quebravel/<carro> --id <carro> --so-medidas
+python3 -m unittest ferramentas/test_carro_completo.py     # medidas, sem Blender
+```
+
+O `<carro>.glb` do corte não fica no acervo (~20 MB): sai em ~1 min com `carro_quebravel.py -- --entrada <carro>__<id>.glb
+--out <pasta> --portas N --mapa quebravel/<carro>/<carro>_mapa.json --sem-previa --sem-fbx`. Sem ele o kit sai só pelas medidas
+dos JSON (sem assentar na casca e sem prévias). ~1 min para gerar o kit e ~4 min de prévias por carro, na CPU (módulo `bpy` 5.2.3).
+
+**Medidas (parte pura, testada):** entre-eixos e raio pelo `_wheels.json`; bitola e face de dentro do pneu pelas rodas do mapa;
+cabine pela caixa do para-brisa (base = corta-fogo e topo do painel; a inclinação dá a profundidade do painel), do vidro traseiro e
+da coluna B; assoalho pela saia; portas pelas caixas `door_*` e pela altura do vidro da mesma posição; vão do motor pelo capô e
+pela face de dentro dos pneus; porta-malas pela tampa e pelas lanternas. Com o GLB do corte, raios assentam o forro do teto (só
+onde há chapa em cima), forros de porta (na face de dentro da porta), acabamentos laterais, vão da porta e a altura do capô.
+
+**Época e mecânica** (`ferramentas/carro_completo_dados.json`; `--epoca` e `--motor` forçam): 70 (vinil com gomos, painel de
+chapa na cor do carro, volante fino de dois raios com aro de buzina, manivela e pino), 80 (tecido listrado, painel reto, quatro
+raios), 90 (tecido com miolo, painel arredondado com capuz, três raios) e 2000 (duas cores, saídas redondas, volante com bolsa,
+vidro elétrico, console longo). Motores: `l4_transversal`, `l4_longitudinal`, `v8_longitudinal` e `boxer_traseiro` (arrefecido a
+ar, sem radiador: a ventoinha fica na carcaça; porta-malas, estepe e tanque na frente).
+
+**Peças** (um objeto por peça, no espaço do carro do corte, nomes do kit de quebra; `segue` no JSON diz a peça do corte que
+leva junto):
+
+| Grupo | Peças |
+| --- | --- |
+| habitáculo | `interior_carpete`, `interior_banco_dianteiro_esq/dir`, `interior_banco_traseiro` (encostos de cabeça), `interior_painel` (mostradores sem número, saídas de ar, rádio, ar, porta-luvas), `interior_volante` (e coluna), `interior_pedais`, `interior_cambio`, `interior_freio_mao`, `interior_console`, `interior_cintos`, `interior_forro_teto` (luz e alças), `interior_quebra_sois`, `interior_retrovisor`, `interior_acabamento_colunas`, `interior_acabamento_pe_*`, `interior_lateral_traseira_*` (2 portas) |
+| porta | `door_card_<pos>` (forro: puxador, maçaneta em concha, alto-falante, bolso, manivela e pino nas de época, botões do vidro elétrico), `door_card_<pos>_chapa` (chapa interna com recortes, bordas pintadas que dão a espessura, máquina do vidro, fechadura, dobradiças) — ambos `segue: door_<pos>` |
+| vão da porta | `jamb_<pos>_soleira`, `_colunas` (A/B ou B/C por dentro, na cor do carro), `_borracha` (vedação em volta do vão), `_dobradicas` (e limitador), `_batente` |
+| porta-malas | `interior_portamalas_carpete` (poço do estepe), `_estepe`, `_lanternas` (por dentro), `_tampao` |
+| motor | `engine_motor`, `engine_bateria`, `engine_radiador`, `engine_ventoinha`, `engine_reservatorios`, `engine_mangueiras`, `engine_paralama_interno_*` (torres), `engine_longarina_*`, `engine_corta_fogo` (servo-freio e cilindro mestre), `engine_travessa` |
+| embaixo | `under_assoalho` (túnel e nervuras), `under_escapamento` (catalisador nos 90/2000, abafador, silencioso, ponteira; duplo no V8), `under_tanque`, `under_berco`, `under_suspensao_dianteira_*` (bandeja, manga, amortecedor e mola, barra de direção, semieixo com coifas), `under_eixo_traseiro` (eixo de torção, eixo rígido com diferencial e cardã, ou semieixos oscilantes), `under_caixa_roda_<pos>` |
+| freios | `brake_<pos>_disco` (ventilado nos 90/2000), `_pinca`, `_protecao`, `_cubo` (prisioneiros), `_tambor` e `_espelho` atrás até os 90 — disco, tambor e cubo `segue: wheel_<pos> (gira)`, pinça e chapa `segue: wheel_<pos> (manga)` |
+
+LOD1 de cada peça (Decimate a 30 %, sufixo `_LOD1`) no mesmo GLB, para as texturas não irem duas vezes. Malha com chanfros e
+estofados por superelipsoide; UV por projeção em caixa na escala do material (texel igual em todas as peças); materiais PBR
+(cor, aspereza/metálico e normal) assados em numpy, 256 px, ladrilháveis: tecido trançado, tecido estampado e listrado, vinil,
+plástico texturizado, borracha, carpete, feltro do teto, metal escovado e fundido, pintura na cor do carro (lida do
+`_pecas.json`), chassi com antirruído, ferro com ferrugem, colmeia do radiador, grade do alto-falante, mostrador.
+
+**O que o Detonauto faz ao usar o kit** (no `<carro>_completo.json`): tirar do corte a casca escura `MI_DNVao` nas caixas
+`vaos_a_tirar_do_corte` (atrás dos vidros, das portas, do capô e da tampa) e o fundo liso da casca do Meshy
+(`fundo_a_tirar_do_corte`), senão o interior fica escondido; prender cada peça na que ela `segue`; mostrar o interior só perto
+da câmera (≤ 15 m, pedido) e medir com 40 carros de tráfego.
+
+Prévias (Cycles na CPU): porta dianteira esquerda arrancada vista de lado a 1,5 m, a porta caída vista por dentro, cabine pelo
+para-brisa, painel visto de dentro, capô aberto (no motor traseiro também a tampa de trás) e por baixo. Onde o corte deixou a
+casca inteira debaixo de uma tampa ou pedaços do para-brisa na carroceria, **só a prévia** tira essas faces (o Besouro tem o capô,
+a tampa do motor e o para-brisa assim; a porta do Besouro também não abre o vão: fica para um mapa acertado à mão).
