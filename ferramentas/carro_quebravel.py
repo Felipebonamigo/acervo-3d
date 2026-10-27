@@ -1865,7 +1865,7 @@ def _gerar_mapa(cid, cen, nor, rodas, retros, janelas, pecas_tex, info, rel):
                   "ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos. take: roda (cilindro: centro, raio [r0, r1], y [|y| "
                   "mínimo, máximo] do lado), textura (faces com o rótulo da peça, achado pela cor da textura, dentro da caixa), faces "
                   "(corte pelos planos da caixa, como Tools/Blender/split_car_parts.py do Detonauto, com 'normal' [nx, ny, nz, mínimo]). "
-                  "fora_das_rodas: não leva faces da caixa de roda. thickness: espessura da peça; pocket: profundidade do vão escuro.")
+                  "fora_das_rodas: não leva faces da caixa de roda. ignorar_rotulos: leva também faces que a cor marcou como outra peça. thickness: espessura da peça; pocket: profundidade do vão escuro.")
     return m
 
 
@@ -1939,7 +1939,7 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca):
         c = f.calc_center_median()
         if not _na_caixa(c, b):
             continue
-        if f[camada_peca] > 0:
+        if f[camada_peca] > 0 and not p.get("ignorar_rotulos"):
             continue  # face de peça da textura que ficou de fora da caixa dela: não vai para a lataria
         if p.get("fora_das_rodas"):
             if any(_m.hypot(c.x - r["cx"], c.z - r["cz"]) < r["raio"] + 0.06 and c.y * r["lado"] > r["y_dentro"] - 0.10 for r in rodas):
@@ -2093,6 +2093,14 @@ def _executar_mapa(obj, mapa, rodas, rel):
             rel["avisos"].append("peça %s: nenhuma face (ficou no corpo)" % p["name"])
             continue
         papel = p.get("papel", p["name"])
+        if papel == "remover":
+            # casca de dentro (o Besouro do Meshy tem parede dupla atrás dos vidros, da porta e das tampas): sai da carroceria, sem
+            # virar peça nem deixar vão
+            rel.setdefault("faces_removidas", {})[p["name"]] = len(faces)
+            bmesh.ops.delete(bm, geom=faces, context="FACES_ONLY")
+            bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+            bm.faces.ensure_lookup_table()
+            continue
         nb = _casca(bm, faces, float(p.get("thickness", 0.0)), escuro, True, nucleo, mat_papel.get(papel))
         if float(p.get("pocket", 0.0)) > 0.0:
             vaos.append(_casca(bm, faces, float(p["pocket"]), vao, False, nucleo))
@@ -2425,6 +2433,7 @@ def principal_unica(args, meshes, cid, out, rel):
         "papel_material": {k: sorted(v_) for k, v_ in sorted(papel_material.items())},
         "pecas_por_papel": {k: sorted(v_) for k, v_ in sorted(pecas_por_papel.items())},
         "fora_do_vocabulario_do_detonauto": fora, "removidos": [], "outros": [],
+        "faces_removidas": rel.get("faces_removidas", {}),
         "avisos": rel["avisos"], "rodas_cm": rodas_json, "rodas_achadas": rodas,
         "pecas": [i for _, i in infos],
     }
