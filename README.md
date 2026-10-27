@@ -143,3 +143,17 @@ proporções reais no banco e no forro de porta, e as carrocerias de furgão, ca
 O mapa de corte do Besouro foi acertado à mão (porta até a dobradiça, capô e tampa na largura de verdade, para-brisa por
 planos e a casca de dentro tirada com o papel `remover`), e o do Trilheiro também (a porta estava no para-lama). Ainda não foi
 para o Unreal nem aprovado por captura ao lado de foto real (`aprovar-visual` do Detonauto).
+
+## Carro ultra realista: o método (27/10/2026)
+
+Vale para qualquer jogo do estúdio com carro. Plano completo em `docs/carro-completo.md` do Detonauto; anotado também na aba
+"Realismo" do doc do estúdio. O Cuiabano é o molde; o que aprovar nele copia para os outros nacionais e para os outros jogos.
+
+- **O Meshy só dá a pele** (casca única: pintura, painéis, vidros, faróis, lanternas, placas em branco; ~53 créditos com vistas de
+  traseira, `meshy/cuiabano-v2.json`). Amassado, corte em peças, cor trocável, interior, rodas e pneus não passam por ele.
+- **Por dentro e por baixo** vem do kit CC0 por script (`ferramentas/carro_completo.py`, 78 peças em `veiculos/meshy-conta/completo/`),
+  um para todos os carros, ajustado por entre-eixos, bitola e época.
+- **Rodas** por script (`rodas_kit.py`, a escrever): aros e pneus separados, pneu em 3 malhas (bom, furado, estourado), calota.
+- **Quebra:** peça que solta nunca deixa buraco; vidro da porta vai com a porta; roda torta puxa, pneu furado baixa raio e atrito,
+  roda solta é experimento com prazo. Tudo em CSV e regras puras testadas.
+- **Ordem:** lotes pequenos fechados por captura ao lado de foto real e medição a 60 fps; o primeiro cabe num dia. 0 créditos.
