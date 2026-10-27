@@ -295,3 +295,23 @@ interpolada entre eles quebra o reflexo.
 
 Medida no teste do verniz (listras refletidas, `meshy/previas/cuiabano-v2/`): as listras da lateral passam de picotadas a retas e contínuas.
 Tentativas que pioraram, para não repetir: alisamento ponto a ponto (Taubin) só na tinta ou em tudo, e filtro igual nos dois eixos.
+
+## alisar_pecas.py (27/10/2026)
+
+Segundo passo da chapa de carro novo, depois do corte (`carro_quebravel.py`). Em cada peça pintada (portas, capô, tampa, para-lamas
+dianteiros) e na carroceria, ajusta a cada pedaço de chapa uma superfície lisa (B-spline cúbica, um ponto de controle a cada 30 cm, com
+penalidade de curvatura) e tira dela a normal. O reflexo deixa de seguir os triângulos do Meshy e passa a correr reto como numa chapa
+estampada.
+
+- **Pedaços de chapa:** 9 direções (laterais, topo, frente, traseira e diagonais), a carroceria em faixas no comprimento e na altura, e
+  dentro de cada uma o pedaço ligado pelas arestas. Sem a separação por pedaço, a lateral traseira e o pé da coluna caíam no mesmo ajuste
+  e o desvio mediano passava de 50 mm; com ela fica entre 0,5 e 11 mm.
+- **O que não mexe:** pontos a mais de 10 mm da superfície (maçaneta, friso, borda da caixa de roda) ficam com a normal de antes, com
+  transição suave. Os vértices não andam (`--max-mm 0`): deslocar a forma abriu rachas entre as peças nos testes.
+- **Ordem:** `alisar_lataria` → `decimar` → `carro_quebravel --manter-normais` → `alisar_pecas` (grava por cima do corte).
+
+    python -I ferramentas/alisar_pecas.py -- <pasta>/<id>.glb <pasta>/<id>_mapa.json <pasta>/<id>.glb
+
+Prévia em `meshy/previas/cuiabano-v2/cuiabano-v2-chapa-por-painel-antes-depois.jpg` (cor lisa, mesmo ângulo da foto de referência).
+O que ainda falta para "carro de estúdio": a costura da porta com a lateral traseira tem um vinco, as bordas das janelas e do teto
+seguem ásperas e as frestas entre as peças não são retas. Isso é forma, não normal: precisa refazer esses trechos da malha.
