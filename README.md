@@ -113,21 +113,33 @@ graça entrou do Sketchfab (guarda-sol, cadeira e kit de praia, ducha de calçad
 
 Pendente: a van de passageiros tem buracos no para-brisa (na malha; repintar, aplainar e tapar no Blender não resolveram). O Felipe vai tentar o Free Retry no site do Meshy (sem crédito) na tarefa `01a16c1b-c8b8-7786-b239-2821820ef791`; a API não tem retry grátis. Se sair boa: baixar, Decimate para ~80 mil, `limpar_ia.py --maior 5.95 --frente=-x`, nivelar pelas rodas e `carro_quebravel.py --portas 2`, e trocar `veiculos/meshy-conta/van-passageiros__01a16c1b.glb`.
 
-## Carro completo por dentro e por baixo (26/10/2026)
+## Carro completo por dentro e por baixo (v2, 27/10/2026)
 
 Pedido do Felipe (`Detonauto/docs/pedido-carro-completo.md`: "o carro tem que ser real, com as partes internas, externas, TUDO
-COMPLETO"). `ferramentas/carro_completo.py` gera, encaixado nas medidas de cada carro cortado, o habitáculo (painel por época,
-volante, pedais, câmbio, freio de mão, console, bancos com encosto de cabeça, cintos, forro do teto, quebra-sóis, retrovisor,
-carpete), o forro e a chapa interna de cada porta, o vão da porta (soleira, colunas, borracha, dobradiças, batente), o
-porta-malas com estepe, o vão do motor, o embaixo e os freios. Próprio, CC0, sem IA. Em `veiculos/meshy-conta/completo/<carro>/`:
-o GLB (LOD0 + LOD1), o JSON com as peças e o que tirar do corte, e as prévias.
+COMPLETO"). `ferramentas/carro_completo.py` gera, encaixado nas medidas de cada carro cortado, o habitáculo, o forro e a chapa
+interna de cada porta, o vão da porta, o porta-malas (ou a área de carga), o vão do motor, o embaixo e os freios. Próprio, CC0,
+sem IA. Em `veiculos/meshy-conta/completo/<carro>/`: o GLB (LOD0 + LOD1), o JSON com as peças e o que tirar do corte, e as
+prévias (porta arrancada a 1,5 m, porta caída por dentro, cabine pelo para-brisa, painel, capô aberto, motor de trás, embaixo).
+A v2 trouxe o vão do motor denso por época e motor, materiais 1024 com sujeira de uso (pó, graxa, gasto) e oclusão nos vértices,
+proporções reais no banco e no forro de porta, e as carrocerias de furgão, cabine avançada e jipe; detalhes e limites em
+`ferramentas/README.md`. Comparação com a v1: `completo/hatch-quadrado/hatch-quadrado_v1_x_v2.jpg`.
 
-| Carro | Época | Motor | Peças | Triângulos LOD0 / LOD1 |
-| --- | --- | --- | --- | --- |
-| Cuiabano (`hatch-quadrado`) | 90 | 4 cilindros transversal | 74 | 141.580 / 42.425 |
-| Besouro (`besouro`) | 70 | 4 opostos a ar, atrás | 66 | 128.592 / 38.531 |
-| Gaúcho V8 (`gaucho-v8`) | 80 | V8 longitudinal | 86 | 164.720 / 49.358 |
+| Carro | Época | Carroceria | Motor | Peças | Triângulos LOD0 / LOD1 | MB |
+| --- | --- | --- | --- | --- | --- | --- |
+| Cuiabano (`hatch-quadrado`) | 90 | hatch | l4_transversal | 78 | 243.372 / 72.955 | 21,5 |
+| Tupiniquim (`tupiniquim`) | 90 | hatch | l4_transversal | 90 | 260.380 / 78.054 | 22,8 |
+| Caipora (`caipora`) | 90 | hatch | l4_transversal | 78 | 242.796 / 72.780 | 21,5 |
+| Pampeiro (`pampeiro`) | 2000 | hatch | l4_transversal | 92 | 278.608 / 83.515 | 24,1 |
+| Barão (`barao`) | 2000 | sedan | l4_transversal | 92 | 282.036 / 84.545 | 24,3 |
+| Furgãozinho da Firma (`furgaozinho-da-firma`) | 90 | furgao | l4_transversal | 75 | 229.216 / 68.710 | 20,6 |
+| Besouro (`besouro`) | 70 | sedan | boxer_traseiro | 66 | 190.596 / 57.137 | 16,5 |
+| Pão de Forma (`pao-de-forma`) | 70 | cabine_avancada | boxer_traseiro | 66 | 181.800 / 54.494 | 15,8 |
+| Gaúcho V8 (`gaucho-v8`) | 80 | sedan | v8_longitudinal | 90 | 277.020 / 83.048 | 24,3 |
+| Trilheiro (`trilheiro`) | 2000 | jipe | l4_longitudinal | 82 | 264.312 / 79.226 | 23,4 |
+| Lambari (`lambari`) | 70 | sedan | l4_longitudinal | 78 | 240.088 / 71.971 | 21,1 |
+| Jabuti (`jabuti`) | 70 | hatch | l4_transversal | 78 | 239.828 / 71.895 | 20,9 |
+| Sagui (`sagui`) | 2000 | hatch | l4_transversal | 79 | 249.182 / 74.689 | 21,8 |
 
-Mais a prévia do painel e da porta do Cuiabano na época 2000 (`--epoca 2000`), para mostrar a variante. Ainda não foi para o
-Unreal nem aprovado por captura ao lado de foto real (`aprovar-visual` do Detonauto); limites e próximos passos em
-`ferramentas/README.md`.
+O mapa de corte do Besouro foi acertado à mão (porta até a dobradiça, capô e tampa na largura de verdade, para-brisa por
+planos e a casca de dentro tirada com o papel `remover`), e o do Trilheiro também (a porta estava no para-lama). Ainda não foi
+para o Unreal nem aprovado por captura ao lado de foto real (`aprovar-visual` do Detonauto).
