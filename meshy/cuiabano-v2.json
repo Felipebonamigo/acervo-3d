@@ -1,0 +1,71 @@
+{
+  "pedido": "Cuiabano v2 (hatch-quadrado): lataria lisa de carro novo, faróis e placas modelados; carro de teste do Detonauto",
+  "aprovado_por": "Felipe, 27/10/2026 (pedido da sessão local do Detonauto, confirmado aqui: \"Aprovo os 44\"; uma tentativa)",
+  "teto_creditos": 44,
+  "tarefas": [
+    {
+      "nome": "imagem",
+      "modo": "text-to-image (nano-banana-pro, 4:3)",
+      "task_id": "01a17dc4-3a2b-7760-9359-73fa6330bbe8",
+      "creditos": 9,
+      "criado": "2026-10-27 14:29",
+      "corpo": {
+        "ai_model": "nano-banana-pro",
+        "prompt": "Studio product photo of a brand-new 1980s Brazilian compact 2-door hatchback, boxy and squared silhouette, short sloped hood, upright front with a horizontal black plastic slatted grille between two rectangular headlights with clear glass lenses and chrome reflectors, thin chrome bezels around the headlights, black plastic wraparound bumpers front and rear, recessed white blank license plate in the front bumper center, two rectangular red taillights wide and horizontal with a white blank license plate between them, large rear hatch window, black window rubber seals, black side mirrors, black door handles, small black side moldings, steel wheels with small round hubcaps and black tires, smooth flat body panels with crisp panel gaps, factory-new glossy solid uniform medium red paint with clear coat, perfectly clean, no dirt, no rust, no scratches, no dents, no logos, no badges, no emblems, no text, no brand, three-quarter front view from the left, full car in frame, plain white background, soft even studio lighting.",
+        "aspect_ratio": "4:3"
+      }
+    },
+    {
+      "nome": "vistas",
+      "modo": "image-to-image multi-view (nano-banana-pro) da imagem de entrada",
+      "task_id": "01a17dcf-dabd-75bf-8a6d-c7bc4c6d14b9",
+      "creditos": 9,
+      "criado": "2026-10-27 14:42",
+      "corpo": {
+        "ai_model": "nano-banana-pro",
+        "generate_multi_view": true,
+        "reference_image_urls": [
+          "meshy/previas/cuiabano-v2/cuiabano-v2-entrada_0.png (a imagem original; o Felipe aprovou as calotas como estão)"
+        ],
+        "prompt": "Professional studio photograph of exactly this same car, same boxy 2-door hatchback body, same proportions, same glossy medium red paint, same black slatted grille, rectangular headlights, black bumpers and steel wheels with plain smooth silver hubcaps, factory-new and perfectly clean, seen from several angles: left side, front three-quarter from the right, and REAR three-quarter. The rear is a flat hatch with a large rear window with black rubber seal, two wide horizontal rectangular red taillights at the corners, a black plastic rear bumper and a recessed blank white rear license plate between the taillights; there is NO grille and NO headlights at the rear. No logos, no badges, no emblems, no lettering, no text, no brand. Plain white seamless background, soft even studio lighting, sharp detailed photo."
+      }
+    },
+    {
+      "nome": "3d",
+      "modo": "multi-image-to-3d (meshy-7.1, geometria 2k, PBR 2K, sem remesh)",
+      "task_id": "01a17dd1-546a-7596-b52b-05ceb21cb48f",
+      "creditos": 35,
+      "criado": "2026-10-27 14:43",
+      "corpo": {
+        "image_urls": [
+          "cuiabano-v2-entrada_0.png",
+          "cuiabano-v2-vista_0.png",
+          "cuiabano-v2-vista_1.png",
+          "cuiabano-v2-vista_2.png"
+        ],
+        "ai_model": "meshy-7.1",
+        "geometry_resolution": "2k",
+        "should_remesh": false,
+        "should_texture": true,
+        "texture_resolution": "2k",
+        "enable_pbr": true,
+        "image_enhancement": true,
+        "texture_prompt": "factory-new car, clean glossy uniform medium red paint, no dirt, no rust, no scratches, no wear; matte black plastic bumpers, grille, mirrors, door handles and window seals; clear glass headlight lenses over chrome reflectors; red taillight lenses; plain white license plates with no text; steel wheels with chrome hubcaps; black tires",
+        "target_formats": [
+          "glb"
+        ]
+      },
+      "status": "SUCCEEDED",
+      "creditos_cobrados": 35
+    }
+  ],
+  "desvio_do_pedido": "O pedido da sessão local mandava Image to 3D de uma imagem só (44 créditos). O Felipe aprovou aqui acrescentar as vistas de lado e de trás (image-to-image multi-view, +9) e trocar para multi-image-to-3d com as 4 imagens, porque sem a traseira o Meshy inventa as lanternas e a placa de trás (um dos três problemas do v1). Sem topology (só vale com remesh). Total 53.",
+  "observacoes": [
+    "Calotas: o miolo tem um risco fino; o Felipe disse que estavam boas e a imagem original foi usada (a versão limpa foi descartada).",
+    "Capô: a faixa escura junto ao para-brisa é reflexo (Felipe), não abertura.",
+    "Resultado: 795.154 triângulos, 3,81 x 1,82 x 1,43 m depois do limpar_ia (comprimento do v1), frente +X, pivô no chão, PBR 2K; faróis, grade, lanternas e placas modelados, placas em branco, nenhuma marca (closes em meshy/previas/cuiabano-v2/).",
+    "Lataria (teste de verniz com faixas, só a geometria, em cuiabano-v2-verniz-v1-v2.jpg): muito melhor que o v1 (zigue-zague caótico); as faixas correm quase paralelas, mas ainda ondulam de leve.",
+    "Não reduzido: a sessão local decide o Decimate (~80 mil) antes do carro_quebravel.py e do amassado."
+  ],
+  "arquivo": "veiculos/meshy-conta/hatch-quadrado-v2__01a17dd1.glb"
+}
