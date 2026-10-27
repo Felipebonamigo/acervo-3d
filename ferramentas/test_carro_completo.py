@@ -78,6 +78,60 @@ class TestMedidas(unittest.TestCase):
         self.assertTrue(cc._dentro_vaos((1.4, 0.0, 0.7), M["vaos"]))  # sob o capô
 
 
+NACIONAIS = ("hatch-quadrado", "tupiniquim", "caipora", "pampeiro", "barao", "furgaozinho-da-firma", "besouro", "pao-de-forma",
+             "gaucho-v8", "trilheiro", "lambari", "jabuti", "sagui")
+
+
+class TestNacionais(unittest.TestCase):
+    def test_os_13_tem_dados_e_medidas_sem_aviso(self):
+        for cid in NACIONAIS:
+            M, cfg, _, avisos = _medidas(cid)
+            self.assertEqual(avisos, [], cid)
+            self.assertEqual(M["avisos"], [], cid)
+            self.assertIn(cfg["carroceria"], cc.CARROCERIAS, cid)
+
+    def test_proporcoes_reais_da_cabine(self):
+        for cid in NACIONAIS:
+            M, *_ = _medidas(cid)
+            # assento a 0,27 m do piso e espaço para a cabeça de carro de verdade (0,8 a 1,15 m do assento ao forro; furgão e jipe
+            # são altos, até 1,25 m)
+            self.assertAlmostEqual(M["z_assento"] - M["z_piso"], 0.27, places=3)
+            teto = 1.25 if M["carroceria"] in ("cabine_avancada", "jipe") else 1.15
+            self.assertTrue(0.8 <= M["z_teto_int"] - M["z_assento"] <= teto, (cid, M["z_teto_int"] - M["z_assento"]))
+            # piso abaixo da soleira e painel na frente do banco, com espaço para as pernas
+            self.assertLess(M["z_piso"], M["z_saia"], cid)
+            self.assertGreater(M["x_painel"] - M["x_encosto_d"], 0.55, cid)
+
+    def test_antena_e_bagageiro_nao_entram_na_altura(self):
+        for cid, alt in (("caipora", 1.49), ("sagui", 1.54), ("furgaozinho-da-firma", 1.48), ("pampeiro", 1.475)):
+            M, *_ = _medidas(cid)
+            self.assertAlmostEqual(M["z_teto"], alt, places=3)
+
+    def test_cabine_avancada_sem_capo(self):
+        M, cfg, *_ = _medidas("pao-de-forma")
+        self.assertEqual(cfg["carroceria"], "cabine_avancada")
+        self.assertTrue(M["motor_traseiro"])
+        self.assertGreater(M["x_encosto_d"], M["xd"] - 0.5)          # o motorista vai perto do eixo da frente
+        self.assertGreater(M["x_corta_fogo"], M["xd"] + 0.6)         # a parede da frente é o corta-fogo
+        self.assertNotIn("frente", M["vaos"])
+
+    def test_jipe_com_a_porta_no_lugar(self):
+        M, cfg, *_ = _medidas("trilheiro")
+        self.assertEqual(cfg["tracao"], "4x4")
+        p = M["portas"]["fl"]
+        self.assertLess(p["x0"], -0.6)                # porta acertada à mão no mapa (o corte tinha pego o para-lama)
+        self.assertGreater(p["x1"], 0.2)
+        self.assertGreater(p["z1"] - p["z0"], 0.6)
+
+    def test_mapa_do_besouro_acertado(self):
+        mapa = cc.ler_corte(os.path.join(QUEBRAVEL, "besouro"), "besouro")["mapa"]
+        partes = {p["name"]: p for p in mapa["parts"]}
+        self.assertAlmostEqual(partes["door_fl"]["box"][1], 0.62)
+        self.assertEqual(partes["glass_windshield"]["take"], "faces")
+        remover = [p for p in mapa["parts"] if p.get("papel") == "remover"]
+        self.assertEqual(len(remover), 8)            # casca de dentro: 2 portas, 2 janelas de trás, para-brisa, vidro de trás, 2 tampas
+
+
 class TestDados(unittest.TestCase):
     def test_epoca_por_carro_e_forcada(self):
         _, cfg, estilo, _ = _medidas("besouro")

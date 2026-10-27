@@ -29,6 +29,174 @@
       "tanque": "sob_porta_malas",
       "carroceria": "sedan",
       "nota": "sedã V8 dos anos 70 que seguiu em linha até os 90: interior da reforma dos anos 80"
+    },
+    "tupiniquim": {
+      "nome": "Tupiniquim",
+      "epoca": "90",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "nota": "hatch de 4 portas dos anos 90"
+    },
+    "caipora": {
+      "nome": "Caipora",
+      "epoca": "90",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "nota": "hatch de 2 portas dos anos 90",
+      "corrigir": {
+        "altura": 1.49,
+        "glass_windshield": [
+          0.22,
+          0.98,
+          -0.66,
+          0.66,
+          0.98,
+          1.45
+        ],
+        "nota": "medido na vista lateral de 27/10/2026: a antena levava a altura a 1,65 m e o para-brisa achado pela cor ia até o capô"
+      }
+    },
+    "pampeiro": {
+      "nome": "Pampeiro",
+      "epoca": "2000",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "nota": "hatch de 4 portas dos anos 2000, para-brisa bem deitado",
+      "corrigir": {
+        "altura": 1.475,
+        "glass_windshield": [
+          0.2,
+          1.06,
+          -0.66,
+          0.66,
+          0.99,
+          1.45
+        ],
+        "glass_rear": [
+          -1.72,
+          -1.4,
+          -0.6,
+          0.6,
+          0.98,
+          1.42
+        ],
+        "nota": "medido na vista lateral de 27/10/2026: sem para-brisa no mapa (capô posto à mão) e a antena na altura"
+      }
+    },
+    "barao": {
+      "nome": "Barão",
+      "epoca": "2000",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "sedan",
+      "nota": "sedã de 4 portas do fim dos anos 90"
+    },
+    "furgaozinho-da-firma": {
+      "nome": "Furgãozinho da Firma",
+      "epoca": "90",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "vao_motor",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "furgao",
+      "nota": "furgão compacto: cabine de 2 lugares, divisória de grade e área de carga no lugar do banco de trás; estepe no vão do motor, como nos micros da época",
+      "corrigir": {
+        "altura": 1.48,
+        "glass_windshield": [
+          0.24,
+          0.8,
+          -0.64,
+          0.64,
+          1.02,
+          1.44
+        ],
+        "glass_rear": [
+          -1.72,
+          -1.6,
+          -0.6,
+          0.6,
+          1.0,
+          1.42
+        ],
+        "nota": "medido na vista lateral de 27/10/2026: o bagageiro levava a altura a 1,70 m e o mapa não tinha para-brisa"
+      }
+    },
+    "pao-de-forma": {
+      "nome": "Pão de Forma",
+      "epoca": "70",
+      "motor": "boxer_traseiro",
+      "tracao": "traseira",
+      "estepe": "carga",
+      "tanque": "atras",
+      "carroceria": "cabine_avancada",
+      "nota": "furgão de cabine avançada (motorista sobre o eixo da frente), motor traseiro a ar sob o deque de trás; versão de carga com divisória; interior dos anos 70, que ficou em linha por décadas",
+      "corrigir": {
+        "topo_da_saia": 0.71,
+        "nota": "o piso da cabine fica na altura da borda de baixo da porta (0,71 m), não da saia"
+      }
+    },
+    "trilheiro": {
+      "nome": "Trilheiro",
+      "epoca": "2000",
+      "motor": "l4_longitudinal",
+      "tracao": "4x4",
+      "estepe": "externo",
+      "tanque": "sob_porta_malas",
+      "carroceria": "jipe",
+      "nota": "jipe 4x4 de capota rígida: chassi de longarinas, eixos rígidos, caixa de transferência, santo-antônio e o estepe na tampa de trás",
+      "corrigir": {
+        "linha_de_cintura": 1.36,
+        "coluna_b": -0.66,
+        "coluna_a": 0.45,
+        "topo_da_saia": 0.62,
+        "altura": 2.0,
+        "nota": "medido na vista lateral de 27/10/2026 (o corte automático tinha a porta no para-lama; mapa acertado à mão)"
+      }
+    },
+    "lambari": {
+      "nome": "Lambari",
+      "epoca": "70",
+      "motor": "l4_longitudinal",
+      "tracao": "traseira",
+      "estepe": "poco",
+      "tanque": "sob_porta_malas",
+      "carroceria": "sedan",
+      "nota": "sedã de 2 portas dos anos 70, tração traseira"
+    },
+    "jabuti": {
+      "nome": "Jabuti",
+      "epoca": "70",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "vao_motor",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "nota": "hatch pequeno dos anos 70, motor transversal e o estepe no vão do motor"
+    },
+    "sagui": {
+      "nome": "Sagui",
+      "epoca": "2000",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "nota": "hatch pequeno dos anos 2000",
+      "corrigir": {
+        "altura": 1.54,
+        "nota": "a antena levava a altura a 1,80 m (vista lateral de 27/10/2026)"
+      }
     }
   },
   "padrao": {
@@ -277,5 +445,68 @@
       "encosto_cabeca_traseiro": true,
       "freio_traseiro": "disco"
     }
+  },
+  "medidas_reais": {
+    "nota": "Medidas de referência usadas nas peças (aproximadas, de carro pequeno/médio de série; não são de um modelo específico). Fontes: SAE J1100 (dimensões do habitáculo: altura do ponto H ao piso, espaço para a cabeça), ONU/ECE R17 (encosto de cabeça) e R16 (cintos), e medidas tiradas de fotos de carros comuns com referência de escala. Valores de memória das normas, não conferidos linha a linha nesta sessão: conferir antes de usar como dado de engenharia.",
+    "assento_ao_piso_m": [
+      0.25,
+      0.3,
+      "topo da almofada ao carpete; usado 0,27 (frente) e 0,25 (trás)"
+    ],
+    "profundidade_almofada_m": [
+      0.48,
+      0.52,
+      "usado 0,50"
+    ],
+    "largura_banco_dianteiro_m": [
+      0.48,
+      0.54,
+      "usado 0,50"
+    ],
+    "altura_encosto_m": [
+      0.58,
+      0.65,
+      "do assento ao topo do encosto, sem o de cabeça; usado 0,60"
+    ],
+    "encosto_de_cabeca_m": [
+      0.24,
+      0.28,
+      "largura; altura 0,17-0,20; hastes de 12-14 mm a ~14 cm uma da outra (ECE R17 pede o topo a >= 0,80 m do ponto H na frente)"
+    ],
+    "cinto_largura_m": [
+      0.046,
+      0.05,
+      "cadarço do cinto; usado 0,048"
+    ],
+    "volante_diametro_m": [
+      0.36,
+      0.42,
+      "anos 70 maiores (0,41), anos 2000 menores (0,36)"
+    ],
+    "apoio_de_braco_acima_do_assento_m": [
+      0.2,
+      0.25,
+      "usado 0,22"
+    ],
+    "forro_de_porta_espessura_m": [
+      0.03,
+      0.06,
+      "do lado de dentro da chapa à face do forro; apoio de braço sai 0,08-0,10"
+    ],
+    "alto_falante_porta_m": [
+      0.165,
+      0.165,
+      "6,5 polegadas"
+    ],
+    "pedal_largura_m": [
+      0.05,
+      0.08,
+      "acelerador 0,05; freio e embreagem 0,075"
+    ],
+    "piso_abaixo_da_soleira_m": [
+      0.1,
+      0.15,
+      "o topo da soleira fica acima do piso; usado 0,13"
+    ]
   }
 }
