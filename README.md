@@ -27,7 +27,7 @@ próprio).
 | `edificios/` | Edifícios e maravilhas do Age of Earth; torres, fortaleza e acampamento do TDFende (`torres-tdfende/`) |
 | `natureza/` | Árvores, arbustos, rochas, veios de ouro, tocos; a amendoeira de orla do Detonauto (`proprios/`, por script) |
 | `veiculos/` | Galeão, o carro Falcão do Kenney, os 13 moldes de carroceria do Speed Tchê, os veículos genéricos do Sketchfab (sem marca), os carros nacionais do Meshy com o corte em peças (`meshy-conta/quebravel/`) e o kit de carro completo por dentro e por baixo (`meshy-conta/completo/`) |
-| `mobiliario-urbano/` | Postes, lixeiras, telefones públicos, bueiro, ponto de ônibus, cone, barreira, banco de praça, caçamba, carrinho de pipoca (Detonauto e AO VIVO) |
+| `mobiliario-urbano/` | Postes, lixeiras, telefones públicos, bueiro, ponto de ônibus, cone, barreira, banco de praça, caçamba, carrinho de pipoca (Detonauto e AO VIVO); a rede aérea (poste de concreto e fios) do Detonauto em `proprios/` |
 | `marcos/` | Pontos turísticos em domínio público: Theatro Municipal do Rio (Sketchfab), Arcos da Lapa, relevo do Pão de Açúcar, roda-gigante genérica e estátua estilizada de braços abertos (`proprios/`, feitos por script no Detonauto) |
 | `cidade/` | Peças de cidade feitas por script no Detonauto (`detonauto-script/`) |
 
