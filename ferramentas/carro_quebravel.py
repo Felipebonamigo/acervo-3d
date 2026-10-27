@@ -138,6 +138,9 @@ def parse_args(argv):
     p.add_argument("--amostras", type=int, default=24)
     p.add_argument("--sem-previa", action="store_true")
     p.add_argument("--sem-fbx", action="store_true")
+    # malha única: mantém as normais que vieram no arquivo (a casca alisada pelo alisar_lataria.py); sem a opção, a solda recalcula as
+    # normais pelos triângulos, como sempre foi
+    p.add_argument("--manter-normais", action="store_true")
     # malha única (Meshy): automático quando o arquivo tem um objeto só
     p.add_argument("--malha-unica", action="store_true", help="força o modo malha única")
     p.add_argument("--em-pecas", action="store_true", help="força o modo em peças mesmo com um objeto só")
@@ -1084,10 +1087,15 @@ def _componentes(sel, viz):
         lab = novo
 
 
-def _soldar(obj, rel):
-    """Solda os vértices repetidos das costuras de UV (os UVs ficam nos cantos) e marca arestas vivas acima de 50 graus."""
+def _soldar(obj, rel, manter_normais=False):
+    """
+    Solda os vértices repetidos das costuras de UV (os UVs ficam nos cantos) e marca arestas vivas acima de 50 graus. Com manter_normais,
+    a normal de cada canto que veio no arquivo atravessa a solda (atributo de canto) e volta como normal personalizada.
+    """
     import bmesh
     me = obj.data
+    if manter_normais:
+        guardar_normais(me)
     bm = bmesh.new()
     bm.from_mesh(me)
     v0 = len(bm.verts)
@@ -1102,6 +1110,8 @@ def _soldar(obj, rel):
     bm.free()
     if "custom_normal" in me.attributes:
         me.attributes.remove(me.attributes["custom_normal"])
+    if manter_normais:
+        restaurar_normais(me)
     rel["solda"] = {"vertices_antes": v0, "vertices_depois": len(me.vertices), "arestas_de_borda": borda}
 
 
@@ -2319,7 +2329,7 @@ def principal_unica(args, meshes, cid, out, rel):
         juntar(meshes, "malha")
     obj = [o for o in bpy.data.objects if o.type == "MESH"][0]
     assar_transformacoes([obj])
-    _soldar(obj, rel)
+    _soldar(obj, rel, getattr(args, "manter_normais", False))
     _orientar_unica(obj, args.frente, rel)
     me = obj.data
     cen, nor, area = _faces_np(me)

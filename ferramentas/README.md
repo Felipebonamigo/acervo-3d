@@ -275,3 +275,23 @@ raio 6 cm menor no chão e `_Torn` estourado), e 2 calotas. Redondas de verdade 
     python -I ferramentas/test_rodas_kit.py -v
 
 Falta melhorar: as tiras do pneu estourado parecem alças de lado; os sulcos da banda somem a 4 m.
+
+## alisar_lataria.py (27/10/2026)
+
+Deixa a lataria do Meshy com reflexo de carro novo. O Felipe comparou o Cuiabano com a foto de um carro de estúdio: "o outro parece massa
+de modelar". O defeito é mais de sombreamento do que de forma. O Meshy faz triângulos grandes e tortos na chapa lisa, e a normal
+interpolada entre eles quebra o reflexo.
+
+- **Como funciona:** a chapa é vista de 9 direções: as duas laterais, o topo, a frente, a traseira e 4 diagonais. Em cada vista ela vira
+  um relevo numa grade de 1 cm, alisado por um filtro longo no comprimento e curto na altura. A normal de cada ponto sai desse relevo
+  alisado, e a forma anda no máximo 6 mm.
+- **Vincos e bordas:** onde a chapa vira, ou onde o relevo alisado discorda da chapa em mais de 35°, fica a normal média.
+- **Ordem:** rode na malha CHEIA e depois reduza com o `decimar.py`, que leva a normal nova para a malha reduzida. Corte com
+  `carro_quebravel.py --manter-normais`; sem a opção, a solda recalcula as normais e desfaz o alisamento.
+
+    python -I ferramentas/alisar_lataria.py -- <cheio.glb> <alisado.glb>
+    python -I ferramentas/decimar.py <alisado.glb> <reduzido.glb> 120000
+    python -I ferramentas/carro_quebravel.py -- --entrada <reduzido.glb> --out <pasta> --mapa <id>_mapa.json --manter-normais
+
+Medida no teste do verniz (listras refletidas, `meshy/previas/cuiabano-v2/`): as listras da lateral passam de picotadas a retas e contínuas.
+Tentativas que pioraram, para não repetir: alisamento ponto a ponto (Taubin) só na tinta ou em tudo, e filtro igual nos dois eixos.
