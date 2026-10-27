@@ -262,3 +262,16 @@ por baixo. Só a prévia da cabine tira do corpo as faces no plano do para-brisa
 (sem escultura), o tecido e o plástico ficam corretos de perto mas planos na luz difusa, os mostradores não têm vidro, e a
 sujeira por vértice depende da densidade da malha (painéis grandes ficam limpos). Ainda falta a aprovação por captura ao
 lado de foto real (`aprovar-visual` do Detonauto) e a medição no Unreal com 40 carros.
+
+## rodas_kit.py (27/10/2026)
+
+Rodas CC0 feitas do zero por geometria para o carro completo do Detonauto (lote 5 de `docs/carro-completo.md` lá): 4 aros (`aro_aco13`,
+`aro_aco14`, `aro_liga13`, `aro_liga14`), 3 pneus (`pneu_p165_70`, `pneu_p175_70`, `pneu_p185_60`), cada um em 3 malhas (`_Ok`, `_Flat` com o
+raio 6 cm menor no chão e `_Torn` estourado), e 2 calotas. Redondas de verdade (64 segmentos, desvio < 0,4 mm), pivô no cubo, face de fora em
++Y (roda esquerda; a direita gira 180° em Z), LOD1 no mesmo GLB, roda completa ≤ 9 mil triângulos. Saída em `veiculos/proprios/rodas/` com o
+`rodas_kit.json` e a prévia. Aro e pneu são independentes: é o que deixa trocar um sem o outro.
+
+    python -I ferramentas/rodas_kit.py -- [--out <pasta>] [--amostras 32] [--sem-previa]
+    python -I ferramentas/test_rodas_kit.py -v
+
+Falta melhorar: as tiras do pneu estourado parecem alças de lado; os sulcos da banda somem a 4 m.

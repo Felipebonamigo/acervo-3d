@@ -1,0 +1,265 @@
+{
+ "gerado_por": "acervo-3d/ferramentas/rodas_kit.py",
+ "licenca": "CC0 (próprio do estúdio; geometria feita pelo script, nada baixado, nada de IA, sem marca, logo nem letra)",
+ "convencao": "metros; eixo da roda em Y, frente +X, cima +Z; pivô no centro do cubo; y = 0 no meio da largura do aro; face de fora em +Y (roda esquerda; a direita gira 180° em Z); as 3 malhas de um pneu têm o mesmo pivô",
+ "segmentos": {
+  "aro_pneu_calota": 64,
+  "pneu_torn": 96
+ },
+ "lod1_razao": 0.4,
+ "normal_map": "pneu_sulcos_normal.png",
+ "orcamento_roda_lod0": 9000,
+ "itens": [
+  {
+   "id": "aro_aco13",
+   "tipo": "aro",
+   "material": "aro_aco",
+   "nome": "Aço estampado 13\" (6 furos redondos)",
+   "polegadas": 13,
+   "largura_aro_pol": 5.5,
+   "raio_externo_cm": 18.43,
+   "largura_cm": 15.99,
+   "triangulos_lod0": 4792,
+   "triangulos_lod1": 1916,
+   "objetos": [
+    "aro_aco13",
+    "aro_aco13_LOD1"
+   ],
+   "arquivo": "aro_aco13.glb"
+  },
+  {
+   "id": "aro_aco14",
+   "tipo": "aro",
+   "material": "aro_aco",
+   "nome": "Aço estampado 14\" (8 furos redondos)",
+   "polegadas": 14,
+   "largura_aro_pol": 5.5,
+   "raio_externo_cm": 19.7,
+   "largura_cm": 15.99,
+   "triangulos_lod0": 4952,
+   "triangulos_lod1": 1980,
+   "objetos": [
+    "aro_aco14",
+    "aro_aco14_LOD1"
+   ],
+   "arquivo": "aro_aco14.glb"
+  },
+  {
+   "id": "aro_liga13",
+   "tipo": "aro",
+   "material": "aro_liga",
+   "nome": "Liga leve 13\" (8 furos ovais)",
+   "polegadas": 13,
+   "largura_aro_pol": 5.5,
+   "raio_externo_cm": 18.43,
+   "largura_cm": 16.08,
+   "triangulos_lod0": 5216,
+   "triangulos_lod1": 2086,
+   "objetos": [
+    "aro_liga13",
+    "aro_liga13_LOD1"
+   ],
+   "arquivo": "aro_liga13.glb"
+  },
+  {
+   "id": "aro_liga14",
+   "tipo": "aro",
+   "material": "aro_liga",
+   "nome": "Liga leve 14\" (10 raios retos)",
+   "polegadas": 14,
+   "largura_aro_pol": 5.5,
+   "raio_externo_cm": 19.7,
+   "largura_cm": 16.08,
+   "triangulos_lod0": 5960,
+   "triangulos_lod1": 2384,
+   "objetos": [
+    "aro_liga14",
+    "aro_liga14_LOD1"
+   ],
+   "arquivo": "aro_liga14.glb"
+  },
+  {
+   "id": "calota13",
+   "tipo": "calota",
+   "material": "calota",
+   "polegadas": 13,
+   "raio_externo_cm": 17.11,
+   "largura_cm": 2.22,
+   "triangulos_lod0": 880,
+   "triangulos_lod1": 364,
+   "objetos": [
+    "calota13",
+    "calota13_LOD1"
+   ],
+   "arquivo": "calota13.glb"
+  },
+  {
+   "id": "calota14",
+   "tipo": "calota",
+   "material": "calota",
+   "polegadas": 14,
+   "raio_externo_cm": 18.38,
+   "largura_cm": 2.22,
+   "triangulos_lod0": 880,
+   "triangulos_lod1": 364,
+   "objetos": [
+    "calota14",
+    "calota14_LOD1"
+   ],
+   "arquivo": "calota14.glb"
+  },
+  {
+   "id": "pneu_p165_70",
+   "tipo": "pneu",
+   "material": "pneu",
+   "medida": "165/70 R13",
+   "polegadas": 13,
+   "largura_mm": 165,
+   "perfil_pct": 70,
+   "raio_externo_cm": 28.05,
+   "raio_nominal_cm": 28.06,
+   "largura_cm": 16.5,
+   "raio_contato_cm": {
+    "Ok": 28.05,
+    "Flat": 22.05,
+    "Torn": 20.07
+   },
+   "triangulos_lod0": 14168,
+   "triangulos_lod1": 5666,
+   "triangulos_por_objeto": {
+    "pneu_p165_70_Ok": 2816,
+    "pneu_p165_70_Flat": 2816,
+    "pneu_p165_70_Torn": 8536,
+    "pneu_p165_70_Ok_LOD1": 1126,
+    "pneu_p165_70_Flat_LOD1": 1126,
+    "pneu_p165_70_Torn_LOD1": 3414
+   },
+   "objetos": [
+    "pneu_p165_70_Ok",
+    "pneu_p165_70_Flat",
+    "pneu_p165_70_Torn",
+    "pneu_p165_70_Ok_LOD1",
+    "pneu_p165_70_Flat_LOD1",
+    "pneu_p165_70_Torn_LOD1"
+   ],
+   "arquivo": "pneu_p165_70.glb"
+  },
+  {
+   "id": "pneu_p175_70",
+   "tipo": "pneu",
+   "material": "pneu",
+   "medida": "175/70 R13",
+   "polegadas": 13,
+   "largura_mm": 175,
+   "perfil_pct": 70,
+   "raio_externo_cm": 28.75,
+   "raio_nominal_cm": 28.76,
+   "largura_cm": 17.5,
+   "raio_contato_cm": {
+    "Ok": 28.75,
+    "Flat": 22.75,
+    "Torn": 20.07
+   },
+   "triangulos_lod0": 14168,
+   "triangulos_lod1": 5666,
+   "triangulos_por_objeto": {
+    "pneu_p175_70_Ok": 2816,
+    "pneu_p175_70_Flat": 2816,
+    "pneu_p175_70_Torn": 8536,
+    "pneu_p175_70_Ok_LOD1": 1126,
+    "pneu_p175_70_Flat_LOD1": 1126,
+    "pneu_p175_70_Torn_LOD1": 3414
+   },
+   "objetos": [
+    "pneu_p175_70_Ok",
+    "pneu_p175_70_Flat",
+    "pneu_p175_70_Torn",
+    "pneu_p175_70_Ok_LOD1",
+    "pneu_p175_70_Flat_LOD1",
+    "pneu_p175_70_Torn_LOD1"
+   ],
+   "arquivo": "pneu_p175_70.glb"
+  },
+  {
+   "id": "pneu_p185_60",
+   "tipo": "pneu",
+   "material": "pneu",
+   "medida": "185/60 R14",
+   "polegadas": 14,
+   "largura_mm": 185,
+   "perfil_pct": 60,
+   "raio_externo_cm": 28.87,
+   "raio_nominal_cm": 28.88,
+   "largura_cm": 18.5,
+   "raio_contato_cm": {
+    "Ok": 28.87,
+    "Flat": 22.87,
+    "Torn": 21.33
+   },
+   "triangulos_lod0": 14168,
+   "triangulos_lod1": 5666,
+   "triangulos_por_objeto": {
+    "pneu_p185_60_Ok": 2816,
+    "pneu_p185_60_Flat": 2816,
+    "pneu_p185_60_Torn": 8536,
+    "pneu_p185_60_Ok_LOD1": 1126,
+    "pneu_p185_60_Flat_LOD1": 1126,
+    "pneu_p185_60_Torn_LOD1": 3414
+   },
+   "objetos": [
+    "pneu_p185_60_Ok",
+    "pneu_p185_60_Flat",
+    "pneu_p185_60_Torn",
+    "pneu_p185_60_Ok_LOD1",
+    "pneu_p185_60_Flat_LOD1",
+    "pneu_p185_60_Torn_LOD1"
+   ],
+   "arquivo": "pneu_p185_60.glb"
+  }
+ ],
+ "rodas_completas": [
+  {
+   "aro": "aro_aco13",
+   "pneu": "pneu_p165_70_Ok",
+   "calota": "calota13",
+   "triangulos_lod0": 8488,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_aco13",
+   "pneu": "pneu_p175_70_Ok",
+   "calota": "calota13",
+   "triangulos_lod0": 8488,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_aco14",
+   "pneu": "pneu_p185_60_Ok",
+   "calota": "calota14",
+   "triangulos_lod0": 8648,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga13",
+   "pneu": "pneu_p165_70_Ok",
+   "calota": null,
+   "triangulos_lod0": 8032,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga13",
+   "pneu": "pneu_p175_70_Ok",
+   "calota": null,
+   "triangulos_lod0": 8032,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga14",
+   "pneu": "pneu_p185_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 8776,
+   "dentro_do_orcamento": true
+  }
+ ],
+ "previa": "rodas_kit_previa.jpg"
+}

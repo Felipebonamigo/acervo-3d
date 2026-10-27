@@ -3,7 +3,16 @@
   "carros": {
     "hatch-quadrado": {
       "nome": "Cuiabano",
-      "epoca": "90",
+      "epoca": "80",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch"
+    },
+    "hatch-quadrado-v2": {
+      "nome": "Cuiabano v2 (casca de 120 mil, carro completo do Detonauto)",
+      "epoca": "80",
       "motor": "l4_transversal",
       "tracao": "dianteira",
       "estepe": "poco",
