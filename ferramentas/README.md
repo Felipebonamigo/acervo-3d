@@ -296,22 +296,41 @@ interpolada entre eles quebra o reflexo.
 Medida no teste do verniz (listras refletidas, `meshy/previas/cuiabano-v2/`): as listras da lateral passam de picotadas a retas e contínuas.
 Tentativas que pioraram, para não repetir: alisamento ponto a ponto (Taubin) só na tinta ou em tudo, e filtro igual nos dois eixos.
 
-## alisar_pecas.py (27/10/2026)
+## Acabamento da chapa depois do corte (27 e 28/10/2026)
 
-Segundo passo da chapa de carro novo, depois do corte (`carro_quebravel.py`). Em cada peça pintada (portas, capô, tampa, para-lamas
-dianteiros) e na carroceria, ajusta a cada pedaço de chapa uma superfície lisa (B-spline cúbica, um ponto de controle a cada 30 cm, com
-penalidade de curvatura) e tira dela a normal. O reflexo deixa de seguir os triângulos do Meshy e passa a correr reto como numa chapa
-estampada.
+Pedido do Felipe ("faça tudo até ficar perfeito", com a foto de um carro de estúdio como referência). São três passos no GLB do
+`carro_quebravel.py`, nesta ordem, cada um gravando por cima:
 
-- **Pedaços de chapa:** 9 direções (laterais, topo, frente, traseira e diagonais), a carroceria em faixas no comprimento e na altura, e
-  dentro de cada uma o pedaço ligado pelas arestas. Sem a separação por pedaço, a lateral traseira e o pé da coluna caíam no mesmo ajuste
-  e o desvio mediano passava de 50 mm; com ela fica entre 0,5 e 11 mm.
-- **O que não mexe:** pontos a mais de 10 mm da superfície (maçaneta, friso, borda da caixa de roda) ficam com a normal de antes, com
-  transição suave. Os vértices não andam (`--max-mm 0`): deslocar a forma abriu rachas entre as peças nos testes.
-- **Ordem:** `alisar_lataria` → `decimar` → `carro_quebravel --manter-normais` → `alisar_pecas` (grava por cima do corte).
+    python -I ferramentas/fechar_rachas.py  -- <pasta>/<id>.glb <pasta>/<id>.glb
+    python -I ferramentas/alisar_pecas.py   -- <pasta>/<id>.glb <pasta>/<id>_mapa.json <pasta>/<id>.glb
+    python -I ferramentas/vedacao_vidros.py -- <pasta>/<id>.glb <pasta>/<id>.glb
 
-    python -I ferramentas/alisar_pecas.py -- <pasta>/<id>.glb <pasta>/<id>_mapa.json <pasta>/<id>.glb
+Depois disso, refaça o kit (`carro_completo.py`) sobre o corte novo.
 
-Prévia em `meshy/previas/cuiabano-v2/cuiabano-v2-chapa-por-painel-antes-depois.jpg` (cor lisa, mesmo ângulo da foto de referência).
-O que ainda falta para "carro de estúdio": a costura da porta com a lateral traseira tem um vinco, as bordas das janelas e do teto
-seguem ásperas e as frestas entre as peças não são retas. Isso é forma, não normal: precisa refazer esses trechos da malha.
+- **`fechar_rachas.py`:** a malha do Meshy tem costuras internas não soldadas, com duas fileiras de vértices a menos de 2 mm e a
+  parede da espessura entre elas. De perto, viravam riscos pretos no meio do capô e do teto. O script solda os vértices de borda de
+  material que têm par a menos de 2 mm. O contorno das peças não muda, porque lá os vizinhos ficam a ~1 cm. No Cuiabano v2, o capô
+  tinha ~12 m de rachas para 4,5 m de contorno.
+- **`alisar_pecas.py`:** todas as peças pintadas entram num conjunto só de pontos. Como a fresta é 0, a lateral inteira (para-lama,
+  porta e lateral traseira) vira uma chapa só, e o reflexo atravessa as emendas reto; antes, a emenda da porta com a lateral traseira
+  saía num vinco. A chapa é separada por 13 direções (incluindo as diagonais para baixo da saia), abaixo e acima da cintura, e por
+  pedaço ligado. Cada pedaço recebe uma B-spline lisa, com um ponto de controle a cada 30 cm e penalidade de curvatura, e a normal sai
+  dela. Pedaço com mais de 1,2 m e desvio mediano acima de 6 mm (a diagonal do ombro juntava capô, para-lama e coluna) é refeito em
+  faixas no comprimento. Pontos a mais de 10 mm da superfície (maçaneta, friso, borda da caixa de roda) ficam com a normal de antes.
+  Os vértices não andam (`--max-mm 0`), porque deslocar a forma abria rachas entre as peças.
+- **`vedacao_vidros.py`:** o corte separa o vidro pelos triângulos, e a borda saía em escada (dentes brancos de 2 a 4 cm). O script
+  rasteriza a face de fora de cada vidro numa grade de 3 mm, alisa a máscara (disco de ~2 cm, corte em 0,3) e tira o contorno por
+  raios. Alisa a curva, a normal da chapa e a altura ao longo dela, e faz por cima uma borracha preta de perfil arredondado (material
+  `chassi`). A largura, de 1,6 a 3,6 cm, vem do tamanho da escada. A borracha entra na peça que leva o vidro no jogo (porta, tampa
+  traseira ou carroceria) e fica quando o vidro estoura.
+- **`carro_completo.py`:** a função `recolher_na_casca` puxa para 6 mm por dentro da chapa os vértices do interior, das portas e do
+  porta-malas que encostavam nela ou passavam dela. O teto do Meshy tem calombos, e o forro, o quebra-sol e o painel apareciam por fora
+  em manchas.
+
+Prévias em `meshy/previas/cuiabano-v2/`:
+- `cuiabano-v2-acabamento-antes-depois.jpg`: de perto, antes à esquerda e depois à direita;
+- `cuiabano-v2-chapa-por-painel-antes-depois.jpg`: no ângulo da foto de referência;
+- `cuiabano-v2-verniz-chapa-por-painel.jpg`: teste das listras.
+
+O que ainda falta é forma da malha, não reflexo: a saia das portas, o canto do para-lama perto do farol, a base do para-brisa
+(palhetas e grade de ventilação) e as frestas, que não são retas.

@@ -3743,6 +3743,54 @@ def triangulos(me):
     return len(me.loop_triangles)
 
 
+def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.03, grupos=("habitaculo", "porta", "porta_malas")):
+    """
+    Peças de dentro que encostam ou passam da chapa (o teto e o para-lama do Meshy têm calombos de 1 a 2 cm, e o forro, o quebra-sol e o
+    painel apareciam por fora em manchas): cada vértice a menos de `alcance` da face de fora da casca (tinta e vidro) e a menos de
+    `folga` por dentro dela vai para `folga` por dentro, pela normal da chapa. Devolve quantos vértices andaram, por peça.
+    """
+    import bpy
+    import bmesh
+    from mathutils.bvhtree import BVHTree
+    bm = bmesh.new()
+    for nome, ob in corte_objs.items():
+        if nome.startswith(("wheel", "hubcap")):
+            continue
+        b = bmesh.new()
+        b.from_mesh(ob.data)
+        b.transform(ob.matrix_world)
+        mats = ob.data.materials
+        fora = [f for f in b.faces if not (f.material_index < len(mats) and mats[f.material_index]
+                                           and mats[f.material_index].name.startswith(("pintura", "vidro")))]
+        bmesh.ops.delete(b, geom=fora, context="FACES")
+        me = bpy.data.meshes.new("_casca_fora")
+        b.to_mesh(me)
+        bm.from_mesh(me)
+        bpy.data.meshes.remove(me)
+        b.free()
+    arv = BVHTree.FromBMesh(bm)
+    bm.free()
+    andou = {}
+    for ob in objs:
+        if ob.get("grupo") not in grupos:
+            continue
+        M, Mi = ob.matrix_world, ob.matrix_world.inverted()
+        n = 0
+        for v in ob.data.vertices:
+            w = M @ v.co
+            loc, nor, _, d = arv.find_nearest(w, alcance)
+            if loc is None:
+                continue
+            s_ = (w - loc).dot(nor)
+            if s_ > -folga:
+                v.co = Mi @ (w - nor * (s_ + folga))
+                n += 1
+        if n:
+            ob.data.update()
+            andou[ob.name] = n
+    return andou
+
+
 def fazer_lod1(ob, razao=LOD1_RAZAO):
     import bpy
     mod = ob.modifiers.new("lod1", "DECIMATE")
@@ -4158,6 +4206,9 @@ def principal(argv):
         ob = finalizar(p, mats)
         col.objects.link(ob)
         objs.append(ob)
+    if corte_objs:
+        andou = recolher_na_casca(objs, corte_objs)
+        print("dentro da casca (vértices recolhidos):", andou)
     if a.sem_sujeira:
         sujeira_branca(objs)
     else:

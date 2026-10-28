@@ -5,8 +5,9 @@ ajustada a ela: B-spline cúbica com poucos pontos de controle (um a cada --pass
 tem como ondular: é como uma chapa estampada. O que foge mais que --robusto mm da superfície (maçaneta, friso, borda da caixa de roda)
 fica como está.
 
-Painéis: cada peça (door_fl/fr, hood, trunk, fender_front_left/right) e a carroceria (body, em faixas no comprimento e na altura), separadas
-por 9 direções de chapa e, dentro de cada uma, por pedaço de chapa ligado (a lateral traseira e o pé da coluna são chapas diferentes).
+Painéis: as peças (door_fl/fr, hood, trunk, fender_front_left/right) e a carroceria (body) num conjunto só, separadas por 13 direções de
+chapa, abaixo e acima da cintura e, dentro disso, por pedaço de chapa ligado. Com fresta 0 a lateral inteira (para-lama, porta e lateral
+traseira) é um pedaço só e o reflexo atravessa as emendas reto.
 Só as faces da pintura (o lado de fora) entram.
 
 Por padrão (--max-mm 0) os vértices não andam: só a normal sai da superfície ajustada. É o que o reflexo enxerga, e assim o mapa, as
@@ -115,21 +116,11 @@ bpy.ops.import_scene.gltf(filepath=ent)
 PIECES = ("door_fl", "door_fr", "hood", "trunk", "fender_front_left", "fender_front_right")
 
 
-def body_regions(cen, nrm):
-    x, y, z = cen.T
-    nx, ny, nz = nrm.T
-    reg = {}
-    reg["teto"] = (nz > 0.75) & (z > 1.2) & (x < 0.7)
-    for lado, s in (("esq", 1), ("dir", -1)):
-        reg["lateral_tras_" + lado] = (ny * s > 0.7) & (y * s > 0.55) & (x < -0.35) & (z > R + 0.12) & (z < CINT + 0.02)
-        reg["coluna_tras_" + lado] = (ny * s > 0.5) & (y * s > 0.45) & (x < -0.35) & (z >= CINT + 0.02) & (nz < 0.75)
-    reg["painel_tras"] = (nx < -0.7) & (x < XR - 0.4) & (z < CINT) & (z > 0.45)
-    return reg
-
-
 r2 = 2 ** -0.5
 DIRS = {"+Y": (0, 1, 0), "-Y": (0, -1, 0), "+Z": (0, 0, 1), "+X": (1, 0, 0), "-X": (-1, 0, 0),
-        "+X+Z": (r2, 0, r2), "-X+Z": (-r2, 0, r2), "+Y+Z": (0, r2, r2), "-Y+Z": (0, -r2, r2)}
+        "+X+Z": (r2, 0, r2), "-X+Z": (-r2, 0, r2), "+Y+Z": (0, r2, r2), "-Y+Z": (0, -r2, r2),
+        # a saia das portas e da lateral vira para baixo, e a frente e a traseira embaixo dos para-choques também
+        "+X-Z": (r2, 0, -r2), "-X-Z": (-r2, 0, -r2), "+Y-Z": (0, r2, -r2), "-Y-Z": (0, -r2, -r2)}
 
 
 def rotulos(n, arestas):
@@ -154,120 +145,140 @@ def smoothstep(a, b, x):
 
 
 relatorio = []
-for o in [o for o in bpy.data.objects if o.type == "MESH"]:
-    if o.name not in PIECES and o.name != "body":
-        continue
+# todas as peças pintadas num conjunto só de pontos (pela posição no mundo): com fresta 0 a borda da porta e a da carroceria são os
+# mesmos pontos, e a lateral inteira (para-lama, porta, lateral traseira) entra num ajuste só; o reflexo atravessa a emenda reto,
+# como num carro de verdade (antes cada peça tinha o seu e a emenda da porta com a lateral traseira saía num vinco)
+pecas = [o for o in bpy.data.objects if o.type == "MESH" and (o.name in PIECES or o.name == "body")]
+dados = []
+for o in pecas:
     me = o.data
     names = [s_.material.name if s_.material else "" for s_ in o.material_slots]
     n_loops = len(me.loops)
     cn = np.empty(n_loops * 3)
     me.corner_normals.foreach_get("vector", cn)
-    cn = cn.reshape(-1, 3)
     co = np.empty(len(me.vertices) * 3)
     me.vertices.foreach_get("co", co)
-    co = co.reshape(-1, 3)
+    Mw = np.array(o.matrix_world)
+    Rw, tw = Mw[:3, :3], Mw[:3, 3]
+    cow = co.reshape(-1, 3) @ Rw.T + tw
     pmat = np.empty(len(me.polygons), np.int64)
     me.polygons.foreach_get("material_index", pmat)
     pnrm = np.empty(len(me.polygons) * 3)
     me.polygons.foreach_get("normal", pnrm)
-    pnrm = pnrm.reshape(-1, 3)
+    pnrm = pnrm.reshape(-1, 3) @ np.linalg.inv(Rw)          # normal: inversa transposta
+    pnrm /= np.maximum(np.linalg.norm(pnrm, axis=1, keepdims=True), 1e-12)
     parea = np.empty(len(me.polygons))
     me.polygons.foreach_get("area", parea)
     paint = np.array([names[m].startswith("pintura") if m < len(names) else False for m in pmat])
-    # pontos únicos (as cópias da costura da textura andam juntas) e a normal média da chapa pintada em cada ponto
-    pkey = np.round(co * 1e5).astype(np.int64)
-    _, pid = np.unique(pkey, axis=0, return_inverse=True)
-    pid = pid.ravel()
-    npt = pid.max() + 1
-    Ppt = np.zeros((npt, 3))
-    Ppt[pid] = co
     lv = np.empty(n_loops, np.int64)
     me.loops.foreach_get("vertex_index", lv)
     lpoly = np.repeat(np.arange(len(me.polygons)), [p_.loop_total for p_ in me.polygons])
-    pl = paint[lpoly]
-    vnorm = np.zeros((npt, 3))
-    np.add.at(vnorm, pid[lv[pl]], pnrm[lpoly[pl]] * parea[lpoly[pl], None])
-    varea = np.zeros(npt)
-    np.add.at(varea, pid[lv[pl]], parea[lpoly[pl]])
-    vnorm /= np.maximum(np.linalg.norm(vnorm, axis=1, keepdims=True), 1e-12)
-    disp = np.zeros((npt, 3))
-    nacc = np.zeros((npt, 3))
-    wacc = np.zeros(npt)
-    # a carroceria tem chapas de várias partes do carro na mesma direção (teto e base do para-brisa; lateral traseira e pé da coluna):
-    # separada em faixas no comprimento e na altura, com transição suave de 10 cm entre elas
-    if o.name == "body":
-        x, z = Ppt[:, 0], Ppt[:, 2]
-        cortes_x = [XR - 0.15, -0.45, 0.55]
-        fx = [smoothstep(-0.05, 0.05, x - c) for c in cortes_x]
-        zonas_x = [1 - fx[0], fx[0] * (1 - fx[1]), fx[1] * (1 - fx[2]), fx[2]]
-        fz = smoothstep(-0.05, 0.05, z - (CINT + 0.03))
-        zonas = [zx * zz for zx in zonas_x for zz in (1 - fz, fz)]
-    else:
-        zonas = [np.ones(npt)]
-
-    # pedaços de chapa ligados entre si (pelas arestas das faces pintadas), cada um com o seu ajuste:
-    # a lateral traseira e o pé da coluna ficam na mesma direção, mas são chapas diferentes
-    arest = []
-    for p_ in me.polygons:
-        if paint[p_.index]:
-            vs = [pid[v] for v in p_.vertices]
+    dados.append(dict(o=o, cn=cn.reshape(-1, 3), co=co.reshape(-1, 3), cow=cow, Rw=Rw, paint=paint, pnrm=pnrm, parea=parea,
+                      lv=lv, lpoly=lpoly))
+# pontos únicos de todas as peças (as cópias da costura da textura e as bordas comuns entre peças andam juntas)
+todos_co = np.concatenate([d["cow"] for d in dados])
+_, pid_all = np.unique(np.round(todos_co * 1e5).astype(np.int64), axis=0, return_inverse=True)
+pid_all = pid_all.ravel()
+npt = pid_all.max() + 1
+Ppt = np.zeros((npt, 3))
+Ppt[pid_all] = todos_co
+k0 = 0
+for d in dados:
+    d["pid"] = pid_all[k0:k0 + len(d["cow"])]
+    k0 += len(d["cow"])
+vnorm = np.zeros((npt, 3))
+varea = np.zeros(npt)
+arest = []
+for d in dados:
+    pl = d["paint"][d["lpoly"]]
+    d["pl"] = pl
+    pv = d["pid"][d["lv"][pl]]
+    np.add.at(vnorm, pv, d["pnrm"][d["lpoly"][pl]] * d["parea"][d["lpoly"][pl], None])
+    np.add.at(varea, pv, d["parea"][d["lpoly"][pl]])
+    for p_ in d["o"].data.polygons:
+        if d["paint"][p_.index]:
+            vs = [d["pid"][v] for v in p_.vertices]
             arest += [(vs[i], vs[(i + 1) % len(vs)]) for i in range(len(vs))]
-    arest = np.array(arest, np.int64).reshape(-1, 2)
+arest = np.array(arest, np.int64).reshape(-1, 2)
+vnorm /= np.maximum(np.linalg.norm(vnorm, axis=1, keepdims=True), 1e-12)
+disp = np.zeros((npt, 3))
+nacc = np.zeros((npt, 3))
+wacc = np.zeros(npt)
+# abaixo e acima da cintura (a lateral e a coluna são chapas diferentes na mesma direção), com transição suave de 10 cm
+fz = smoothstep(-0.05, 0.05, Ppt[:, 2] - (CINT + 0.03))
+RUIM_MM = 6.0                                   # acima disso de desvio mediano o pedaço não é uma chapa só
+CORTES_X = [XR - 0.15, -0.45, 0.55, XF - 0.25]   # faixas: traseira, lateral traseira, porta, para-lama, frente
+zonas = [1 - fz, fz]
 
-    def componentes(sel, wv):
-        dentro = np.zeros(npt, bool)
-        dentro[sel] = wv[sel] > 0.3
-        a = arest[dentro[arest[:, 0]] & dentro[arest[:, 1]]]
-        lab = rotulos(npt, a)
-        nucleo = np.nonzero(dentro)[0]
-        out = []
-        for c in np.unique(lab[nucleo]):
-            pts = nucleo[lab[nucleo] == c]
-            if len(pts) < 60:
-                continue
-            # a borda de transição (peso até 0,3) vai junto com o pedaço mais perto
+
+def componentes(sel, wv):
+    """Pedaços de chapa ligados entre si (pelas arestas das faces pintadas), cada um com o seu ajuste."""
+    dentro = np.zeros(npt, bool)
+    dentro[sel] = wv[sel] > 0.3
+    a = arest[dentro[arest[:, 0]] & dentro[arest[:, 1]]]
+    lab = rotulos(npt, a)
+    nucleo = np.nonzero(dentro)[0]
+    out = []
+    for c in np.unique(lab[nucleo]):
+        pts = nucleo[lab[nucleo] == c]
+        if len(pts) >= 60:
             out.append(pts)
-        if not out:
-            return []
-        resto = sel[wv[sel] <= 0.3]
-        if len(resto):
-            todos = np.concatenate(out)
-            dono = np.concatenate([np.full(len(o_), i) for i, o_ in enumerate(out)])
-            j = np.concatenate([((Ppt[resto[k:k + 256], None] - Ppt[todos][None]) ** 2).sum(-1).argmin(1)
-                                for k in range(0, len(resto), 256)])
-            out = [np.concatenate([o_, resto[dono[j] == i]]) for i, o_ in enumerate(out)]
-        return out
+    if not out:
+        return []
+    # a borda de transição (peso até 0,3) vai junto com o pedaço mais perto
+    resto = sel[wv[sel] <= 0.3]
+    if len(resto):
+        todos = np.concatenate(out)
+        dono = np.concatenate([np.full(len(o_), i) for i, o_ in enumerate(out)])
+        j = np.concatenate([((Ppt[resto[k:k + 256], None] - Ppt[todos][None]) ** 2).sum(-1).argmin(1)
+                            for k in range(0, len(resto), 256)])
+        out = [np.concatenate([o_, resto[dono[j] == i]]) for i, o_ in enumerate(out)]
+    return out
 
-    def ajustar(sel, wv, dname):
-        P = Ppt[sel]
-        newP, nfit, used, d, r, soft = fit_panel(P, wv[sel] * varea[sel] + 1e-12, dv)
-        if np.dot(nfit.mean(axis=0), dv) < 0:
-            nfit = -nfit
-        ww = wv[sel] * soft
-        disp[sel] += (newP - P) * ww[:, None]
-        nacc[sel] += nfit * ww[:, None]
-        wacc[sel] += ww
-        pr = np.percentile(np.abs(r[wv[sel] > 0.5]) * 1000, [50, 90]) if (wv[sel] > 0.5).any() else (0, 0)
-        relatorio.append("%s %s: %d pontos, desvio da chapa p50 %.1f mm, p90 %.1f mm" % (o.name, dname, len(sel), *pr))
 
-    for (dname, dv), zona in [(kv, zn) for kv in DIRS.items() for zn in zonas]:
-        dv = np.array(dv, float)
-        wv = smoothstep(0.70, 0.90, vnorm @ dv) * (varea > 0) * zona
-        sel_all = np.nonzero(wv > 0)[0]
-        if len(sel_all) < 150:
-            continue
-        for sel in componentes(sel_all, wv):
-            ajustar(sel, wv, dname)
+for (dname, dv), zona in [(kv, zn) for kv in DIRS.items() for zn in zonas]:
+    dv = np.array(dv, float)
+    wv = smoothstep(0.70, 0.90, vnorm @ dv) * (varea > 0) * zona
+    sel_all = np.nonzero(wv > 0)[0]
+    if len(sel_all) < 150:
+        continue
+    for sel in componentes(sel_all, wv):
+        fits = [(sel, wv[sel])]
+        newP, nfit, used, d_, r, soft = fit_panel(Ppt[sel], wv[sel] * varea[sel] + 1e-12, dv)
+        p50 = np.percentile(np.abs(r[wv[sel] > 0.5]) * 1000, 50) if (wv[sel] > 0.5).any() else 0
+        if p50 > RUIM_MM and np.ptp(Ppt[sel, 0]) > 1.2:
+            # pedaço comprido que não é uma chapa só (a diagonal do ombro junta capô, para-lama e coluna): refaz em faixas no comprimento,
+            # com transição suave de 10 cm
+            fx = [smoothstep(-0.05, 0.05, Ppt[sel, 0] - c) for c in CORTES_X]
+            faixas = [1 - fx[0]] + [fx[i] * (1 - fx[i + 1]) for i in range(len(fx) - 1)] + [fx[-1]]
+            fits = [(sel[f > 0], (wv[sel] * f)[f > 0]) for f in faixas if (f * (wv[sel] > 0.3)).sum() >= 60]
+        for sub, wsub in fits:
+            P = Ppt[sub]
+            if len(fits) > 1 or sub is not sel:
+                newP, nfit, used, d_, r, soft = fit_panel(P, wsub * varea[sub] + 1e-12, dv)
+            if np.dot(nfit.mean(axis=0), dv) < 0:
+                nfit = -nfit
+            ww = wsub * soft
+            disp[sub] += (newP - P) * ww[:, None]
+            nacc[sub] += nfit * ww[:, None]
+            wacc[sub] += ww
+            pr = np.percentile(np.abs(r[wsub > 0.5]) * 1000, [50, 90]) if (wsub > 0.5).any() else (0, 0)
+            relatorio.append("%s (%.1f m%s): %d pontos, desvio da chapa p50 %.1f mm, p90 %.1f mm" % (
+                dname, np.ptp(P, axis=0).max(), ", em faixas" if len(fits) > 1 else "", len(sub), *pr))
 
-    ok = wacc > 1e-6
-    # um ponto em duas direções: a média pelos pesos; o peso total (até 1) diz quanto ele anda
-    disp[ok] = disp[ok] / wacc[ok, None] * np.minimum(wacc[ok], 1)[:, None]
-    nacc[ok] /= np.linalg.norm(nacc[ok], axis=1, keepdims=True)
-    me.vertices.foreach_set("co", (co + disp[pid]).ravel())
+ok = wacc > 1e-6
+# um ponto em duas direções: a média pelos pesos; o peso total (até 1) diz quanto ele anda
+disp[ok] = disp[ok] / wacc[ok, None] * np.minimum(wacc[ok], 1)[:, None]
+nacc[ok] /= np.linalg.norm(nacc[ok], axis=1, keepdims=True)
+for d in dados:
+    me = d["o"].data
+    Ri = np.linalg.inv(d["Rw"])
+    me.vertices.foreach_set("co", (d["co"] + disp[d["pid"]] @ Ri.T).ravel())
     me.update()
-    out = cn.copy()
+    pid, lv, pl, cn = d["pid"], d["lv"], d["pl"], d["cn"]
+    nl = nacc[pid[lv]] @ d["Rw"]                              # de volta ao espaço da peça (normal: transposta)
     wl = np.minimum(wacc[pid[lv]], 1.0) * pl
-    m_ = wl[:, None] * nacc[pid[lv]] + (1 - wl[:, None]) * cn
+    m_ = wl[:, None] * nl + (1 - wl[:, None]) * cn
     out = m_ / np.maximum(np.linalg.norm(m_, axis=1, keepdims=True), 1e-9)
     for p_ in me.polygons:
         p_.use_smooth = True
