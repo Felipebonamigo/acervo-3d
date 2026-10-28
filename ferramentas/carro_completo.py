@@ -3743,7 +3743,7 @@ def triangulos(me):
     return len(me.loop_triangles)
 
 
-def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.04, grupos=("habitaculo", "porta", "porta_malas")):
+def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habitaculo", "porta", "porta_malas")):
     """
     Peças de dentro que encostam ou passam da chapa (o teto e o para-lama do Meshy têm calombos de 1 a 2 cm, e o forro, o quebra-sol e o
     painel apareciam por fora em manchas): cada vértice a menos de `alcance` da face de fora da casca (tinta e vidro) e a menos de
