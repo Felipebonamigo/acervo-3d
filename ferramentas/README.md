@@ -305,8 +305,8 @@ Pedido do Felipe ("faça tudo até ficar perfeito", com a foto de um carro de es
     python -I ferramentas/alisar_pecas.py   -- <pasta>/<id>.glb <pasta>/<id>_mapa.json <pasta>/<id>.glb
     python -I ferramentas/vedacao_vidros.py -- <pasta>/<id>.glb <pasta>/<id>.glb
 
-Depois disso, refaça o kit (`carro_completo.py`) sobre o corte novo. Desde 28/10 a cadeia completa, com a cirurgia nas bordas
-no meio, está na seção `cirurgia_bordas.py` abaixo.
+Depois disso, refaça o kit (`carro_completo.py`) sobre o corte novo. Desde 28/10 (noite) a cadeia completa, com a cirurgia nas
+bordas, está na seção `cirurgia_bordas.py` abaixo.
 
 - **`fechar_rachas.py`:** a malha do Meshy tem costuras internas não soldadas, com duas fileiras de vértices a menos de 2 mm e a
   parede da espessura entre elas. De perto, viravam riscos pretos no meio do capô e do teto. O script solda os vértices de borda de
@@ -327,7 +327,7 @@ no meio, está na seção `cirurgia_bordas.py` abaixo.
 - **`carro_completo.py`:** a função `recolher_na_casca` puxa para 6 mm por dentro da chapa os vértices do interior, das portas e do
   porta-malas que encostavam nela ou passavam dela. O teto do Meshy tem calombos, e o forro, o quebra-sol e o painel apareciam por fora
   em manchas. Desde 28/10 (noite) a casca de fora inclui o plástico escuro acima da cintura (as borrachas dos vidros e a aba do
-  teto), a 4 cm de alcance: o forro atravessava as borrachas nos cantos dos vidros.
+  teto), a 6 cm de alcance: o forro atravessava as borrachas nos cantos dos vidros e as colunas.
 
 Prévias em `meshy/previas/cuiabano-v2/`:
 - `cuiabano-v2-acabamento-antes-depois.jpg`: de perto, antes à esquerda e depois à direita;
@@ -337,39 +337,51 @@ Prévias em `meshy/previas/cuiabano-v2/`:
 O que ainda falta é forma da malha, não reflexo: a saia das portas, o canto do para-lama perto do farol, a base do para-brisa
 (palhetas e grade de ventilação) e as frestas, que não são retas.
 
-## cirurgia_bordas.py (28/10/2026)
+## cirurgia_bordas.py, pele_de_dentro.py e a cadeia "Meshy sem borrões" (28/10/2026, noite)
 
 O Felipe viu a carroceria limpa e preferiu o Meshy ("parece mais fiel ao modelo, só precisava tirar os borrões"). O que sobrava de
-borrão no Meshy acabado era forma, não normal: bordas enroladas no fundo das portas e da saia, cantos amassados nos para-lamas e nas
-caixas de roda, frestas tortas. O script mantém a malha, o UV e os detalhes do Meshy e refaz só as bordas. A cadeia completa fica:
+borrão no Meshy acabado era forma e lasca, não normal: bordas enroladas no fundo das portas e da saia, cantos amassados nos para-lamas
+e nas caixas de roda, frestas tortas, a pele de dentro saindo por fora em toda borda, retalhos de chapa serrilhada em volta dos vidros,
+vinco no vidro da porta. A cadeia completa fica (cada passo grava por cima do anterior):
 
-    python -I ferramentas/fechar_rachas.py   -- <corte>.glb <corte>.glb
-    python -I ferramentas/alisar_pecas.py    -- <corte>.glb <mapa>.json <corte>.glb --max-mm 25     # a forma anda até 25 mm
-    python -I ferramentas/cirurgia_bordas.py -- <corte>.glb <mapa>.json <corte>.glb
-    python -I ferramentas/alisar_pecas.py    -- <corte>.glb <mapa>.json <corte>.glb                 # só a normal, de novo
-    python -I ferramentas/vedacao_vidros.py  -- <corte>.glb <corte>.glb --max-cm 1.2 --sigma 10
+    python -I ferramentas/fechar_rachas.py   -- <c>.glb <c>.glb
+    python -I ferramentas/alisar_pecas.py    -- <c>.glb <mapa>.json <c>.glb --max-mm 25     # a forma anda até 25 mm
+    python -I ferramentas/cirurgia_bordas.py -- <c>.glb <mapa>.json <c>.glb                 # bordas refeitas, sem pele
+    python -I ferramentas/vedacao_vidros.py  -- <c>.glb <c>.glb --max-cm 1.5 --sigma 10     # vidro liso, ferro, borrachas
+    python -I ferramentas/alisar_pecas.py    -- <c>.glb <mapa>.json <c>.glb                 # só a normal, por último
+    python -I ferramentas/pele_de_dentro.py  -- <c>.glb <mapa>.json <c>.glb                 # pele de dentro, por último
 
-- **Casca só:** carroceria, portas, capô, tampa, para-lamas e saias viram uma casca pintada só (`remove_doubles` de 0,8 mm nas
-  costuras dos cortes antigos). Saem as paredes de espessura do `carro_quebravel.py` (faces `chassi` coladas à borda da pintura) e
-  o forro escuro do Meshy a menos de 1 cm por baixo da chapa e não paralelo a ela (dava riscos pretos no capô). O resto do `chassi`
-  (poço das rodas, painel da frente) fica na carroceria.
-- **Cortes por plano** (`bisect_plane` nas faces da caixa, as arestas novas marcadas): porta traseira e dianteira verticais até a
-  cintura (o quadro da janela e as colunas ficam na carroceria, como no corte do Meshy); cintura do para-lama e cowl; lateral do capô em
-  y = ±borda do capô; frente do para-lama na borda do farol, do chão ao capô; frente do capô 12 mm acima dos faróis; laterais da tampa e
-  fundo no topo do para-choque; frente da tampa no vinco do teto. Depois cada face vai para a peça pela **região do centro** (portas,
-  capô, tampa, para-lamas, resto é carroceria): separar por componente ligado vazava (o poço da roda liga o para-lama ao resto).
-  `split_edges` entre peças, e a borda marcada recua meia fresta e ganha a aba escura (`cortes.fresta_e_aba`).
-- **Saia reta:** some o que fica abaixo de z = 0,30 entre as caixas de roda (a borda enrolada do Meshy) e entra uma tira pintada que
-  segue a chapa (raios a cada 2 cm, alisados), de 0,30 a 0,24, enrolando para dentro em plástico escuro.
-- **Lábio das caixas de roda:** meio tubo de 0 a 180 graus a raio da roda + 8,5 cm, encostado na chapa (y por `find_nearest`,
-  alisado), 6 mm para fora e 12 mm para dentro; pintado por fora, escuro por dentro. Vai com o para-lama na frente e a carroceria atrás.
-- **O que não fazer:** `recalc_face_normals` na casca aberta vira faces para dentro (82% da porta saiu preta); a orientação do
-  Meshy fica como está e só as faces novas (lábio e saia) são orientadas pelo lado de fora. O `alisar_pecas.py` tem que rodar **depois**
-  (a malha reconstruída perde as normais próprias, e sem elas a chapa parece enrugada); nele, normal ajustada que vira mais de 60
-  graus da normal real não vale (num canto do teto aparecia uma mancha refletindo o chão).
+- **`cirurgia_bordas.py`:** carroceria, portas, capô, tampa, para-lamas e saias viram uma casca pintada só (`remove_doubles` de 0,8 mm
+  nas costuras dos cortes antigos). Saem as paredes de espessura do `carro_quebravel.py` (faces `chassi` coladas à borda da pintura)
+  e o forro escuro do Meshy a menos de 1 cm por baixo da chapa e não paralelo a ela (dava riscos pretos no capô). Cortes por plano
+  (`bisect_plane` nas faces da caixa, arestas marcadas): porta traseira e dianteira verticais até a cintura (o quadro da janela e as
+  colunas ficam na carroceria, como no corte do Meshy); cintura do para-lama e cowl; lateral do capô; frente do para-lama na borda do
+  farol, do chão ao capô; frente do capô 12 mm acima dos faróis; laterais da tampa, fundo no topo do para-choque e frente no vinco do
+  teto. Cada face vai para a peça pela **região do centro** (separar por componente ligado vazava pelo poço da roda); `split_edges`
+  entre peças; a borda marcada recua meia fresta (4 mm no total) e ganha a aba escura. Saia reta: some o que fica abaixo de z = 0,30
+  entre as caixas de roda e entra uma tira pintada que segue a chapa, de 0,30 a 0,24, enrolando para dentro. Lábio das caixas de roda:
+  meio tubo a raio da roda + 8,5 cm, 6 mm para fora e 12 mm para dentro. O UV e a orientação do Meshy ficam (um `recalc_face_normals`
+  na casca aberta virou 82% da porta para dentro, manchas pretas); só as faces novas são orientadas pelo lado de fora.
+- **`vedacao_vidros.py` (ganhou três coisas):** *vidro liso*, a face de fora de cada vidro recebe uma superfície cúbica ajustada
+  (robusta, 6 mm) e todos os vértices do vidro vão para ela, a face de dentro na espessura mediana (classificados pela normal das faces,
+  não pelo desvio: pelo desvio a face de fora amassada caía no nível da de dentro e o vidro virava cacos); *passar a ferro*, chapa que
+  invade o vidro vai para a faixa debaixo da borracha (0,3 da meia largura), vidro que passa da curva volta para dentro, o que fica acima
+  da borracha desce para baixo dela, e chapa pintada bem dentro do vidro (o divisor serrilhado que o Meshy pintou no vidro da porta) é
+  apagada; *borracha larga nos vidros fixos* (`--max-cm-fixo 2.5`: para-brisa e vidro traseiro, 5 cm, a borda do Meshy ali tem escada de
+  5,5 cm). Nivelar a faixa inteira em volta do vidro pela mediana achatava o friso da cintura e o reflexo mostrava manchas: não fazer.
+  A projeção das colunas A e B numa superfície regrada entre as borrachas (`--colunas`) ficou desligada: de perto saía como adesivo.
+- **`alisar_pecas.py`:** normal ajustada que vira mais de 60 graus da normal real não vale (num canto do teto aparecia uma mancha
+  refletindo o chão); acima da cintura aceita desvio de 25 mm (`--robusto-cima`, colunas e quadros não têm detalhe a preservar); e as
+  quatro diagonais do plano do chão (colunas A e C, cantos). Tem que rodar **depois** da vedação: a malha reconstruída não tem normais
+  próprias, e normais calculadas antes de a vedação mexer na chapa viravam manchas escuras em volta dos vidros.
+- **`pele_de_dentro.py`:** a chapa pintada duplicada 1,5 cm para dentro e virada (MI_DNVao), 2,5 cm longe de toda borda, só abaixo da
+  cintura (o kit põe o forro em cima; nas colunas finas ela saía por fora como lasca escura, e isso era a maior parte dos borrões),
+  sem as faces que viram com o deslocamento. É o último passo porque a vedação mexe na chapa.
 - **Resultado no Cuiabano v2** (`meshy/previas/cuiabano-v2/cirurgia-*.jpg`): frestas retas nas portas, no capô e na tampa, saia reta,
-  lábios limpos nas quatro caixas de roda, capô e lateral lisos. Ainda do Meshy (não é borda): a base do para-brisa e o topo das colunas,
-  e a borda dos vidros, que a borracha de 2,4 cm cobre só em parte.
+  lábios limpos nas quatro caixas de roda, capô, portas, para-lamas e lateral lisos, vidros lisos. O que ainda é do Meshy e aparece de
+  perto: os quadros dos vidros e as colunas A e B (retalhos entre duas borrachas), a base do para-brisa e a borda do teto.
+  Próximo passo, se o Felipe ainda vir borrão: refazer só a parte de cima (colunas, quadros dos vidros e borda do teto) com superfícies
+  limpas no estilo quadrado do Gol, mantendo o Meshy abaixo da cintura.
 
 ## carroceria_limpa/ (28/10/2026)
 

@@ -8,11 +8,12 @@ borrões, não uma carroceria nova). Mantém a malha, o UV e os detalhes do Mesh
   para a peça pela região em que o centro cai; a borda do corte recua meia fresta (4 mm no total) e ganha aba escura;
 - corta reto o fundo das portas e põe uma saia reta no lugar da borda enrolada;
 - lábio limpo em arco nas caixas de roda, por cima da borda amassada;
-- pele de dentro escura (MI_DNVao), que o kit_to_detonauto tira nos vãos do kit;
+- (a pele de dentro escura, MI_DNVao, entra por último no pele_de_dentro.py, depois da vedação);
 - para-choques inteiros pretos (as manchas vermelhas do Meshy neles são defeito).
 
-Faróis, lanternas, grade, placas, retrovisores, vidros e rodas: os do Meshy, intocados. A malha sai sem normais próprias: rode o
-alisar_pecas.py depois (é ele que deixa a chapa lisa no reflexo), aí o vedacao_vidros.py, e refaça o kit (carro_completo.py).
+Faróis, lanternas, grade, placas, retrovisores, vidros e rodas: os do Meshy, intocados. A malha sai sem normais próprias: rode depois o
+vedacao_vidros.py (vidros lisos, chapa passada a ferro em volta deles e borrachas), o alisar_pecas.py (é ele que deixa a chapa lisa no
+reflexo), o pele_de_dentro.py, e refaça o kit (carro_completo.py).
 
     python -I ferramentas/cirurgia_bordas.py -- <corte>.glb <mapa>.json <saida>.glb
 """
@@ -22,7 +23,7 @@ import json
 import numpy as np
 import bpy
 import bmesh
-from mathutils import Vector
+from mathutils import Vector, kdtree
 from mathutils.bvhtree import BVHTree
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "carroceria_limpa"))
@@ -286,20 +287,7 @@ for nome, g in pecas.items():
                 ln[uv].uv = lo[uv_src].uv if uv_src is not None else ((lo.vert.co.x + 2.0) / 4.0, (lo.vert.co.z + 0.2) / 1.7)
         except ValueError:
             pass
-    # pele de dentro: a chapa pintada duplicada 1,5 cm para dentro, virada, escura
-    chapa = [f for f in bmp.faces if f.material_index == MAT["pintura"]]
-    r = bmesh.ops.duplicate(bmp, geom=chapa)
-    dup = [x for x in r["geom"] if isinstance(x, bmesh.types.BMFace)]
-    vd = set(v for f in dup for v in f.verts)
-    for v in vd:
-        nn = Vector()
-        for f in v.link_faces:
-            nn += f.normal
-        if nn.length > 1e-9:
-            v.co -= nn.normalized() * 0.015
-    for f in dup:
-        f.material_index = MAT["MI_DNVao"]
-    bmesh.ops.reverse_faces(bmp, faces=dup)
+    # a pele de dentro (MI_DNVao) entra por último, no pele_de_dentro.py, depois da vedação mexer na chapa
     mp = bpy.data.meshes.new(nome)
     bmp.to_mesh(mp)
     for mn in ("pintura", "chassi", "MI_DNVao"):

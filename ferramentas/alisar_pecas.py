@@ -31,6 +31,7 @@ def opt(name, default):
 
 
 PASSO, ROBUST, MAX_MM = opt("--passo", 30.0) / 100, opt("--robusto", 10.0) / 1000, opt("--max-mm", 0.0) / 1000
+ROBUST_CIMA = opt("--robusto-cima", 25.0) / 1000   # acima da cintura (colunas, quadros, teto) não há detalhe a preservar: aceita mais
 LAM = opt("--lam", 1e-4)
 med = json.load(open(mapa_path, encoding="utf-8"))["medidas"]
 CINT, XF, XR, R = med["linha_de_cintura"], med["eixo_dianteiro"], med["eixo_traseiro"], med["raio_roda"]
@@ -74,7 +75,7 @@ def outer_layer(P, d, cell=0.02, tol=0.015):
     return h >= top[key] - tol
 
 
-def fit_panel(P, wts, d_hint):
+def fit_panel(P, wts, d_hint, ROBUST=ROBUST):
     """Superfície h(u, v) no plano médio do painel. Devolve (posição nova, normal nova, usado?) por ponto e o desvio RMS antes e depois."""
     wts = wts * outer_layer(P, d_hint)
     c = np.average(P, axis=0, weights=wts)
@@ -120,7 +121,9 @@ r2 = 2 ** -0.5
 DIRS = {"+Y": (0, 1, 0), "-Y": (0, -1, 0), "+Z": (0, 0, 1), "+X": (1, 0, 0), "-X": (-1, 0, 0),
         "+X+Z": (r2, 0, r2), "-X+Z": (-r2, 0, r2), "+Y+Z": (0, r2, r2), "-Y+Z": (0, -r2, r2),
         # a saia das portas e da lateral vira para baixo, e a frente e a traseira embaixo dos para-choques também
-        "+X-Z": (r2, 0, -r2), "-X-Z": (-r2, 0, -r2), "+Y-Z": (0, r2, -r2), "-Y-Z": (0, -r2, -r2)}
+        "+X-Z": (r2, 0, -r2), "-X-Z": (-r2, 0, -r2), "+Y-Z": (0, r2, -r2), "-Y-Z": (0, -r2, -r2),
+        # as colunas A e C e os cantos olham na diagonal do plano do chão
+        "+X+Y": (r2, r2, 0), "-X+Y": (-r2, r2, 0), "+X-Y": (r2, -r2, 0), "-X-Y": (-r2, -r2, 0)}
 
 
 def rotulos(n, arestas):
@@ -238,13 +241,14 @@ def componentes(sel, wv):
 
 for (dname, dv), zona in [(kv, zn) for kv in DIRS.items() for zn in zonas]:
     dv = np.array(dv, float)
+    rob = ROBUST_CIMA if zona is zonas[1] else ROBUST
     wv = smoothstep(0.70, 0.90, vnorm @ dv) * (varea > 0) * zona
     sel_all = np.nonzero(wv > 0)[0]
     if len(sel_all) < 150:
         continue
     for sel in componentes(sel_all, wv):
         fits = [(sel, wv[sel])]
-        newP, nfit, used, d_, r, soft = fit_panel(Ppt[sel], wv[sel] * varea[sel] + 1e-12, dv)
+        newP, nfit, used, d_, r, soft = fit_panel(Ppt[sel], wv[sel] * varea[sel] + 1e-12, dv, rob)
         p50 = np.percentile(np.abs(r[wv[sel] > 0.5]) * 1000, 50) if (wv[sel] > 0.5).any() else 0
         if p50 > RUIM_MM and np.ptp(Ppt[sel, 0]) > 1.2:
             # pedaço comprido que não é uma chapa só (a diagonal do ombro junta capô, para-lama e coluna): refaz em faixas no comprimento,
@@ -255,7 +259,7 @@ for (dname, dv), zona in [(kv, zn) for kv in DIRS.items() for zn in zonas]:
         for sub, wsub in fits:
             P = Ppt[sub]
             if len(fits) > 1 or sub is not sel:
-                newP, nfit, used, d_, r, soft = fit_panel(P, wsub * varea[sub] + 1e-12, dv)
+                newP, nfit, used, d_, r, soft = fit_panel(P, wsub * varea[sub] + 1e-12, dv, rob)
             if np.dot(nfit.mean(axis=0), dv) < 0:
                 nfit = -nfit
             # normal ajustada que vira mais de 60 graus da normal real do ponto não vale (num canto a superfície
