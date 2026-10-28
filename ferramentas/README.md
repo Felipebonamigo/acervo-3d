@@ -334,3 +334,42 @@ Prévias em `meshy/previas/cuiabano-v2/`:
 
 O que ainda falta é forma da malha, não reflexo: a saia das portas, o canto do para-lama perto do farol, a base do para-brisa
 (palhetas e grade de ventilação) e as frestas, que não são retas.
+
+## carroceria_limpa/ (28/10/2026)
+
+Refaz a lataria de um carro do Meshy como **superfícies limpas**, usando o Meshy só como molde. Decisão do Felipe de 28/10/2026, depois
+de três rodadas de remendo na malha do Meshy (alisar, soldar rachas, borracha nos vidros) que melhoravam o reflexo mas não a forma:
+a malha do Meshy é uma escultura escaneada, com ondas de 30 a 50 cm, bordas em escada e frestas tortas, e remendo não chega a carro de
+estúdio. Tudo o que sai daqui é geometria feita por script, CC0 do estúdio; do Meshy ficam só retrovisores, placas e rodas.
+
+```
+python -I ferramentas/carroceria_limpa/gerar.py -- --corte veiculos/meshy-conta/quebravel/<id> --id <id> --out <pasta>
+```
+
+Sai um `<id>.glb` no formato do corte do `carro_quebravel.py` (mesmos nomes de peça e de material), que entra direto no
+`carro_completo.py` e na cadeia do Detonauto. ~3 min na CPU. Três passos, cada um um script da pasta:
+
+1. **`medir.py`:** mede a casca do Meshy por raios numa grade de 1 cm nas 4 vistas (lateral, topo, frente e traseira), guardando
+   a profundidade, o material e o objeto atingidos (`campos.npz`).
+2. **`corpo.py`:** ajusta um polinômio de poucos termos (mínimos quadrados robustos, o que foge mais de 2 cm pesa pouco) a cada região:
+   lateral baixa (x⁴ z³), caixa de vidros acima da cintura (x³ z²), capô, para-brisa, teto e vidro traseiro (x² y⁴, pares em y, com
+   mistura suave de ±8 cm nas fronteiras), frente e traseira (z² y⁴). As fronteiras saem das caixas do mapa (para-brisa, vidro
+   traseiro) e do próprio campo (bico do capô, vinco da traseira, linha de cintura pela base do vidro lateral). Cada seção transversal
+   nasce dessas superfícies com os vincos no lugar: fundo (saia, topo do para-choque ou arco da caixa de roda), cintura com o degrau
+   de 3 cm do vidro, borda do teto ou ombro do para-lama, cada um com o seu raio (1,2 cm, 2,5 cm, 4 cm). O loft ao longo de x tem
+   seção a cada 2 cm e 56 pontos por meia seção, com os vincos em índices fixos; cada fileira termina onde encontra a superfície da
+   frente ou de trás. Os vidros vêm das máscaras de material do Meshy (abertura de 10 cm na lateral, para a lasca do para-brisa vista de
+   lado não entrar; casco convexo e alisamento de 4 cm), um contorno por janela.
+3. **`malha.py`:** monta no Blender: loft espelhado; tampas da frente e de trás como grade (y, z) com linhas nas bordas dos bolsos dos
+   faróis, lanternas, grade e placa (profundidade do mapa), costurada ao loft; vidros pela máscara, com a borda encaixada no contorno,
+   rebaixo de 5 mm e borracha de 2,4 cm sobre a borda real; cortes dos painéis por planos limitados a uma região (`cortes.py`:
+   portas com o quadro paralelo à coluna A, capô com a lateral no para-lama e a traseira no cowl, para-lamas até a cintura e o cowl,
+   tampa traseira até o vinco do teto e as laterais a 60 cm do centro) com fresta de 4 mm e aba escura de 1,2 cm; pele de dentro de 1,5
+   cm (`MI_DNVao`, que o `kit_to_detonauto.py` tira nos vãos do kit); UV simples; e os detalhes paramétricos (`detalhes.py`):
+   para-choques de plástico varridos em planta, maçanetas, limpadores, faróis e lanternas com moldura cromada.
+
+O que o Meshy ainda dá: as medidas e as caixas do mapa, os contornos dos vidros, retrovisores, placas e rodas. O resto do carro não
+depende mais dele. Serve para os outros carros do lote: é só rodar sobre o corte de cada um (as caixas do mapa e as medidas vêm do
+`carro_quebravel.py`); van, picape e sedã vão precisar de ajuste nas fronteiras das regiões do topo.
+
+Prévias em `meshy/previas/cuiabano-v2/cuiabano-v2-carroceria-limpa-*.jpg`.
