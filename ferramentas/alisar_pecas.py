@@ -258,7 +258,9 @@ for (dname, dv), zona in [(kv, zn) for kv in DIRS.items() for zn in zonas]:
                 newP, nfit, used, d_, r, soft = fit_panel(P, wsub * varea[sub] + 1e-12, dv)
             if np.dot(nfit.mean(axis=0), dv) < 0:
                 nfit = -nfit
-            ww = wsub * soft
+            # normal ajustada que vira mais de 60 graus da normal real do ponto não vale (num canto a superfície
+            # ajustada dobra para o outro lado e o reflexo mostrava o chão numa mancha no teto)
+            ww = wsub * soft * smoothstep(0.3, 0.6, (nfit * vnorm[sub]).sum(axis=1))
             disp[sub] += (newP - P) * ww[:, None]
             nacc[sub] += nfit * ww[:, None]
             wacc[sub] += ww
