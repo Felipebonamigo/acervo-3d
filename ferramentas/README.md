@@ -517,15 +517,17 @@ textura quase branca de 512 px. Este passo roda depois do `detalhes_na_casca.py`
 
     python -I ferramentas/assar_desgaste.py -- <corte>/gol-quadrado.glb <corte>/gol-quadrado.glb [--tamanho 2048] [--amostras 32] [--sujeira 0.22]
 
-1. **Faces viradas:** a face cuja normal entra na folga da chapa dupla (o raio pela normal bate em algo a menos de 2,5 cm) está
-   virada e é invertida; a pele de dentro, que olha para a cabine, fica. (O `recalc_face_normals` do bmesh virava metade da chapa
+1. **Faces viradas:** a face cuja normal entra na folga da chapa dupla (o raio pela normal bate em algo a menos de 2,5 cm) e cujo
+   sentido contrário sai livre está virada e é invertida; a pele de dentro, que olha para a cabine, fica, e a chapa sob um friso ou
+   uma maçaneta (bate perto nos dois sentidos) também: era ela que, virada por engano, assava escura em manchas (apontado pelo
+   Felipe em 29/10). (O `recalc_face_normals` do bmesh virava metade da chapa
    e a oclusão saía em camuflagem.) Normais por ângulo de novo onde mexeu.
 2. **UV nova, um atlas só:** projeção em caixa (cada face vai para o plano da sua normal dominante), uma carta por peça, eixo e
    lado (de fora / de dentro, para a pele de dentro não se sobrepor à chapa do outro lado), cartas empacotadas em prateleiras na
    mesma densidade (~180 texels por metro em 2K). Os operadores de UV do Blender não rodam fora do editor com várias peças.
 3. **Oclusão assada no Cycles (CPU)**, peça por peça (com todas selecionadas o bake de uma apagava o da anterior), com um chão
    para a saia e os para-choques escurecerem perto do solo. A altura de cada texel sai da própria carta (v = z nas cartas de lado).
-4. **Composição:** 0,96 x oclusão (0,60 + 0,40 x ao^1,2) x sujeira (até 22% entre 50 cm e 20 cm do chão, com manchas suaves) x
+4. **Composição:** 0,96 x oclusão (0,70 + 0,30 x ao^1,2) x sujeira (até 16% entre 48 cm e 20 cm do chão, com manchas suaves) x
    grão fino; pele de dentro 30% mais escura. Sai `<id>_desgaste.png` (2048 px) e ela vira a cor de `pintura`, `luz`, `cromado`
    e das lentes; o `chassi` multiplica a mesma oclusão pelo preto.
 5. No jogo, `glb_texturas.py` tira essa textura do GLB (`T_Cuiabano_C`) e a tinta trocável multiplica por cima: a cor continua

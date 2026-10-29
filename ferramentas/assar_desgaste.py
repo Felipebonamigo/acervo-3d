@@ -30,7 +30,7 @@ def opt(name, default):
 
 TAM = opt("--tamanho", 2048)
 AMOSTRAS = opt("--amostras", 32)
-SUJEIRA = opt("--sujeira", 0.22)
+SUJEIRA = opt("--sujeira", 0.16)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
@@ -53,9 +53,13 @@ for o in casca:
     virar = []
     for f in bm.faces:
         c = f.calc_center_median()
+        # virada = a normal bate perto (entra na folga) E o sentido contrário sai livre; a chapa sob um friso ou uma maçaneta
+        # bate perto nos dois sentidos (o friso na frente, a pele de dentro atrás) e não é virada
         h = arv.ray_cast(c + f.normal * 0.0015, f.normal, 0.025)
         if h[0] is not None:
-            virar.append(f)
+            h2 = arv.ray_cast(c - f.normal * 0.0015, -f.normal, 0.025)
+            if h2[0] is None:
+                virar.append(f)
     if virar:
         bmesh.ops.reverse_faces(bm, faces=virar)
         bm.transform(o.matrix_world.inverted())
@@ -97,7 +101,8 @@ for o in casca:
     # a casca tem pele de dentro (o Gol é de chapa dupla): a face que olha para o meio do carro vai para uma carta à parte,
     # senão ela se sobrepõe à de fora do outro lado no atlas e a oclusão de dentro suja a chapa de fora
     meio = np.array([np.clip(cen[:, 0], -1.2, 1.2), np.zeros(len(cen)), np.full(len(cen), 0.6)], np.float32).T
-    dentro = np.einsum("ij,ij->i", nrm, cen - meio) < 0
+    rel = cen - meio
+    dentro = np.einsum("ij,ij->i", nrm, rel) < -0.35 * np.linalg.norm(rel, axis=1)   # só o que olha claramente para o meio
     for ax in range(3):
         for sg in (1, -1):
           for lado_dentro in (False, True):
@@ -239,8 +244,8 @@ def suave(a, b, t):
     return u * u * (3 - 2 * u)
 
 
-ocl = 0.60 + 0.40 * np.clip(ao, 0, 1) ** 1.2                              # frestas e cantos escuros
-sub = 1.0 - SUJEIRA * (1.0 - suave(0.20, 0.50, z)) * (0.8 + 0.2 * np.clip(ruido * 0.5 + 0.5, 0, 1))   # sujeira que sobe do chão
+ocl = 0.70 + 0.30 * np.clip(ao, 0, 1) ** 1.2                              # frestas e cantos escuros
+sub = 1.0 - SUJEIRA * (1.0 - suave(0.20, 0.48, z)) * (0.85 + 0.15 * np.clip(ruido * 0.5 + 0.5, 0, 1))   # sujeira que sobe do chão
 grao = 1.0 + 0.012 * ruido_fino + 0.015 * ruido                             # variação leve de chapa
 cor = 0.96 * ocl * sub * grao
 cor = np.where(dentro_tx, cor * 0.7, cor)                                   # pele de dentro mais escura
