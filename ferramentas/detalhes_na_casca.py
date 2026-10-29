@@ -45,12 +45,22 @@ def mat_names(o):
     return [s.material.name.split(".")[0] if s.material else "" for s in o.material_slots]
 
 
+CORES_NOVAS = {"luz_ambar": (0.85, 0.40, 0.03, 1.0), "luz_branca": (0.85, 0.85, 0.80, 1.0)}
+
+
 def slot(o, nome):
-    """Índice do material `nome` na peça (acrescenta o material do corte se a peça não o tem)."""
+    """Índice do material `nome` na peça (acrescenta o material do corte se a peça não o tem; cria os de lanterna com cor de prévia)."""
     nomes = mat_names(o)
     if nome in nomes:
         return nomes.index(nome)
-    m = next((m for m in bpy.data.materials if m.name.split(".")[0] == nome), None) or bpy.data.materials.new(nome)
+    m = next((m for m in bpy.data.materials if m.name.split(".")[0] == nome), None)
+    if m is None:
+        m = bpy.data.materials.new(nome)
+        m.use_nodes = True
+        b = m.node_tree.nodes.get("Principled BSDF")
+        if b and nome in CORES_NOVAS:
+            b.inputs["Base Color"].default_value = CORES_NOVAS[nome]
+            b.inputs["Roughness"].default_value = 0.15
     o.data.materials.append(m)
     return len(o.data.materials) - 1
 
@@ -212,8 +222,9 @@ def perfil_arredondado(prof, alt, r, n=3):
 
 
 # ------------------------------------------------------------------------------------------------------- faróis e lanternas
-def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008):
-    """Moldura preta de `e` na boca do bolso, lente 4 mm à frente (segmentos em y com divisórias) e paredes para trás."""
+def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008, frisos="vertical"):
+    """Moldura preta de `e` na boca do bolso, lente 4 mm à frente (segmentos em y com divisórias, cada um com o seu material),
+    frisos de 1,5 mm na lente (a lente do jogo é opaca e brilhante: o relevo é o que lê como farol) e paredes para trás."""
     x0, x1, y0, y1, z0, z1 = box
     xf = x1 if sinal > 0 else x0
     Y0, Y1, Z0, Z1 = y0, y1, z0, z1
@@ -224,16 +235,27 @@ def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008
         c, d = inn[(k + 1) % 4], inn[k]
         w.quad([a, b, c, d] if sinal > 0 else [d, c, b, a], m_preto)
     xl = xf + sinal * 0.004
-    seg = segmentos or [(0.0, 1.0)]
+    seg = segmentos or [(0.0, 1.0, m_lente)]
     ya0, ya1 = Y0 + e, Y1 - e
-    for i, (u0, u1) in enumerate(seg):
+    for i, (u0, u1, m_seg) in enumerate(seg):
         ya, yb = ya0 + (ya1 - ya0) * u0, ya0 + (ya1 - ya0) * u1
         if i > 0:
             ya += 0.004
         if i < len(seg) - 1:
             yb -= 0.004
         p = [(xl, ya, Z0 + e), (xl, yb, Z0 + e), (xl, yb, Z1 - e), (xl, ya, Z1 - e)]
-        w.quad(p if sinal > 0 else p[::-1], m_lente)
+        w.quad(p if sinal > 0 else p[::-1], m_seg)
+        # frisos da lente: barras de 1,5 mm, verticais no farol e horizontais na lanterna
+        if frisos == "vertical":
+            n_fr = max(2, int((yb - ya) / 0.022))
+            for k in range(n_fr):
+                yc = ya + (yb - ya) * (k + 0.5) / n_fr
+                w.caixa((xl + sinal * 0.00075, yc, 0.5 * (Z0 + Z1)), 0.0015, 0.006, (Z1 - Z0 - 2 * e) * 0.9, m_seg)
+        elif frisos == "horizontal":
+            n_fr = max(2, int((Z1 - Z0 - 2 * e) / 0.02))
+            for k in range(n_fr):
+                zc = Z0 + e + (Z1 - Z0 - 2 * e) * (k + 0.5) / n_fr
+                w.caixa((xl + sinal * 0.00075, 0.5 * (ya + yb), zc), 0.0015, (yb - ya) * 0.92, 0.005, m_seg)
         # lado da lente até a moldura (a lente é 4 mm à frente)
         for (a, b) in (((xl, ya, Z0 + e), (xl, yb, Z0 + e)), ((xl, yb, Z1 - e), (xl, ya, Z1 - e)),
                        ((xl, ya, Z1 - e), (xl, ya, Z0 + e)), ((xl, yb, Z0 + e), (xl, yb, Z1 - e))):
@@ -264,11 +286,13 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
     m_preto, m_lente = slot(o, "chassi"), slot(o, "luz")
     esq = "left" in nome
     if sinal < 0:
-        # lanterna: ré perto do centro, seta no meio, freio na ponta
-        seg = [(0.0, 0.3), (0.3, 0.55), (0.55, 1.0)] if not esq else [(0.0, 0.45), (0.45, 0.7), (0.7, 1.0)]
+        # lanterna: ré (branca) perto do centro, seta (âmbar) no meio, freio (vermelha) na ponta
+        m_amb, m_bra = slot(o, "luz_ambar"), slot(o, "luz_branca")
+        seg = [(0.0, 0.3, m_bra), (0.3, 0.55, m_amb), (0.55, 1.0, m_lente)] if not esq else \
+              [(0.0, 0.45, m_lente), (0.45, 0.7, m_amb), (0.7, 1.0, m_bra)]
     else:
         seg = None
-    lanterna(w, sinal, box, m_preto, m_lente, seg)
+    lanterna(w, sinal, box, m_preto, m_lente, seg, frisos="vertical" if sinal > 0 else "horizontal")
     w.fechar()
     relatorio.append("%s: lente %.0fx%.0f cm na face x=%.3f" % (nome, (box[3] - box[2]) * 100, (box[5] - box[4]) * 100, box[1] if sinal > 0 else box[0]))
 
@@ -473,6 +497,48 @@ if "body" in objs and "--sem-miudezas" not in args:
                 w.quad(a1, m)
             relatorio.append("antena em x=%.2f y=%.2f z=%.2f" % (base.x, base.y, base.z))
     w.fechar()
+
+# ------------------------------------------------------------------------------------------- para-choques pretos
+if "--para-choque-pintado" not in args:
+    for nome in ("bumper_front", "bumper_rear"):
+        o = objs.get(nome)
+        if not o:
+            continue
+        nomes = mat_names(o)
+        if "pintura" not in nomes:
+            continue
+        mi_p, mi_c = nomes.index("pintura"), slot(o, "chassi")
+        n = 0
+        for p in o.data.polygons:
+            if p.material_index == mi_p:
+                p.material_index = mi_c
+                n += 1
+        o.data.update()
+        relatorio.append("%s: plástico preto (%d faces; --para-choque-pintado mantém a cor do carro)" % (nome, n))
+        # retalhos de chapa pintada da carroceria dentro do volume do para-choque (tampas de farol de milha, vincos) ficam pretos
+        # também; a moldura da placa (no meio) continua pintada
+        body = objs.get("body")
+        bb, _ = faces_de(o, "chassi")
+        placa = objs.get("plate_front" if nome == "bumper_front" else "plate_rear")
+        pb = faces_de(placa, "pintura")[0] if placa else None
+        if body and bb:
+            nb = mat_names(body)
+            if "pintura" in nb:
+                mi_p, mi_c = nb.index("pintura"), slot(body, "chassi")
+                mw = body.matrix_world
+                vs = body.data.vertices
+                k = 0
+                for p in body.data.polygons:
+                    if p.material_index != mi_p:
+                        continue
+                    # só a face inteira dentro do volume (e 1,5 cm abaixo do topo do para-choque): a que atravessa a borda de
+                    # cima é a chapa que aparece acima dele e fica pintada, sem serrote
+                    if all((lambda q: bb[0] - 0.01 <= q.x <= bb[1] + 0.01 and bb[2] - 0.01 <= q.y <= bb[3] + 0.01 and bb[4] - 0.01 <= q.z <= bb[5] - 0.015)(mw @ vs[vi].co) for vi in p.vertices):
+                        p.material_index = mi_c
+                        k += 1
+                body.data.update()
+                if k:
+                    relatorio.append("  + %d faces da carroceria dentro do %s" % (k, nome))
 
 # ----------------------------------------------------------------------------------------------- faixa dos para-choques
 if "--sem-faixa" not in args:

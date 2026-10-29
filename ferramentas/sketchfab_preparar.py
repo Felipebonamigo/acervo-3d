@@ -6,6 +6,7 @@ a = sys.argv[sys.argv.index("--") + 1:]
 ent, out, keep = a[0], a[1], a[2].split(",")
 COMP, ALT, ARESTA = float(a[3]), float(a[4]), float(a[5])
 ANGULO = float(a[6]) if len(a) > 6 else 30.0   # aresta mais dobrada do que isso fica viva; o resto é liso
+SUAVIZAR = int(a[7]) if len(a) > 7 else 0        # passos de suavização (Taubin) dos vincos suaves: arredonda as facetas de baixo polígono
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
 for o in list(bpy.data.objects):
@@ -245,6 +246,28 @@ vivas = [False] * len(me.edges)
 for e in bm.edges:
     if len(e.link_faces) == 2 and e.calc_face_angle(0.0) > _m.radians(ANGULO):
         vivas[e.index] = True
+if SUAVIZAR > 0:
+    # facetas de baixo polígono (quarta traseira, teto): os vértices que não estão numa aresta viva nem numa fronteira de material
+    # andam para a média dos vizinhos (Taubin, lambda 0,5 / mu -0,53: arredonda sem encolher); os vincos vivos e os vidros ficam
+    fixo = set()
+    for e in bm.edges:
+        if vivas[e.index] or len(e.link_faces) != 2 or e.link_faces[0].material_index != e.link_faces[1].material_index:
+            fixo.update(v.index for v in e.verts)
+    bm.verts.ensure_lookup_table()
+    moveis = [v for v in bm.verts if v.index not in fixo and not v.is_boundary]
+    for passo in range(SUAVIZAR):
+        for lam in (0.5, -0.53):
+            novo = {}
+            for v in moveis:
+                viz = [e.other_vert(v).co for e in v.link_edges]
+                if viz:
+                    media = sum(viz, Vector()) / len(viz)
+                    novo[v] = v.co + (media - v.co) * lam
+            for v, co in novo.items():
+                v.co = co
+    bm.to_mesh(me)
+    me.update()
+    print(f"suavizado: {len(moveis)} vértices livres, {SUAVIZAR} passos")
 bm.free()
 at = me.attributes.get("sharp_edge") or me.attributes.new("sharp_edge", "BOOLEAN", "EDGE")
 at.data.foreach_set("value", vivas)

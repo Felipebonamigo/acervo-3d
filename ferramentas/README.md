@@ -490,3 +490,20 @@ desse para melhorar. O modelo baixo polígono trazia tudo isso como placa lisa. 
   refeitos e recebem normais por ângulo (30°). Tudo entra nas peças que já existem, com os materiais do corte: a cadeia do Detonauto
   (amassado, `kit_to_detonauto.py`, kit) roda igual, conferida aqui.
 - Prévias: `veiculos/sketchfab/previas/gol-quadrado/gol-quadrado-detalhes.jpg` e as 4 vistas refeitas.
+
+#### Rodada "até o carro perfeito" (29/10/2026, tarde)
+
+Pedido do Felipe: "faça o que ainda dá para melhorar". Entrou no `detalhes_na_casca.py`:
+
+- **Frisos nas lentes:** barras de 1,5 mm (verticais no farol, horizontais na lanterna). A lente do jogo é opaca e brilhante, e um
+  refletor por dentro não apareceria; o relevo é o que lê como farol.
+- **Seta âmbar e ré branca de verdade:** os segmentos da lanterna saem nos materiais `luz_ambar` e `luz_branca` (cor de prévia no
+  GLB). No Detonauto, `kit_names.py` mapeia para `MI_DNLanternaAmbar<Modelo>` e `MI_DNLanternaBranca<Modelo>`, que o
+  `import_kit_car.py` cria da lente do cupê com outro tom; o freio continua `MI_DNLanternaTraseira<Modelo>`.
+- **Para-choques de plástico preto** (o Gol quadrado de série), com os retalhos de chapa pintada da carroceria que ficam dentro do
+  volume do para-choque também pretos (só faces inteiras dentro, 1,5 cm abaixo do topo: a borda de cima fica reta). A placa continua
+  no material de placa. `--para-choque-pintado` mantém a cor do carro.
+- **Suavização das facetas (testada e descartada):** `sketchfab_preparar.py` ganhou um 8º argumento, passos de Taubin nos vincos
+  suaves (padrão 0). Com 3 e 12 passos, e com arestas vivas a 15° em vez de 30°, a quarta traseira e a coluna C ficaram iguais: a
+  ondulação é um quadrilátero torcido do modelo (duas faces não coplanares com normais interpoladas), e só remodelar a região
+  resolveria. Fica como está: no jogo, à distância da câmera, não aparece.
