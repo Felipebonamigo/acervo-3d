@@ -3724,16 +3724,11 @@ class Kit:
                         break
             self.saia["z_pc_f" if sinal > 0 else "z_pc_t"] = z_pc
             print(f"saia {'da frente' if sinal > 0 else 'de trás'}: plano x={xb:.3f}, para-choque até z={z_pc:.2f}")
-            larg = 2 * (W - 0.07)
+            # 20 cm para dentro de cada lado: rente à lateral, de lado ela aparecia como uma aba pendurada sob a ponta do para-choque
+            larg = 2 * (W - 0.20)
             p.caixa("chassi_graxa", T(xb, 0, zc) @ Ry(math.radians(-sinal * 12)), 0.012, larg, alt, 0.004)
-            # laterais da saia, até a caixa de roda
-            xr = (M["xd"] - R - 0.05) if sinal > 0 else (M["xt"] + R + 0.05)
-            comp = abs(xb - xr)
-            if comp > 0.04:
-                for s in (1, -1):
-                    yl = self.lado_em((xb + xr) / 2, zs + 0.02, s, folga=0.0)
-                    yl = min(yl, W - 0.005)
-                    p.caixa("chassi_graxa", T((xb + xr) / 2, s * (yl - 0.05), zc), comp, 0.012, alt, 0.004)
+            # sem laterais até a caixa de roda: de lado elas penduravam sob a ponta do para-choque como apara-barro (29/10); no carro
+            # de verdade ali se vê o pneu e o escuro da caixa
         # soleira fora dos vãos das portas (entre a porta e as caixas de roda)
         for s in (1, -1):
             pf = M["portas"].get("f" + ("l" if s > 0 else "r"))

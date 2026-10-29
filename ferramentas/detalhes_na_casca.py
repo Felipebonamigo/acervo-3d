@@ -233,6 +233,289 @@ def perfil_arredondado(prof, alt, r, n=3):
     return pts
 
 
+def suave(a, b, x):
+    t = min(1.0, max(0.0, (x - a) / (b - a)))
+    return t * t * (3 - 2 * t)
+
+
+def casca_pintada():
+    """BVH só das faces pintadas da casca (sem rodas nem vidros)."""
+    bm = bmesh.new()
+    for n, o in objs.items():
+        if n.startswith(("wheel_", "hubcap_", "glass_")):
+            continue
+        b = bmesh.new()
+        b.from_mesh(o.data)
+        b.transform(o.matrix_world)
+        nomes_o = mat_names(o)
+        bmesh.ops.delete(b, geom=[f for f in b.faces if nomes_o[f.material_index] != "pintura"], context="FACES")
+        me_t = bpy.data.meshes.new("_p")
+        b.to_mesh(me_t)
+        bm.from_mesh(me_t)
+        bpy.data.meshes.remove(me_t)
+        b.free()
+    t = BVHTree.FromBMesh(bm)
+    bm.free()
+    return t
+
+
+def normais_por_angulo(me, angulo=30):
+    """Normais de canto da malha como ficariam sem as do arquivo (lisas, com aresta viva acima de `angulo` graus), sem mexer nela."""
+    tmp = me.copy()
+    tmp.normals_split_custom_set([(0.0, 0.0, 0.0)] * len(tmp.loops))
+    tmp.shade_smooth()
+    b = bmesh.new()
+    b.from_mesh(tmp)
+    vivas = [False] * len(tmp.edges)
+    for e in b.edges:
+        if len(e.link_faces) == 2 and e.calc_face_angle(0.0) > math.radians(angulo):
+            vivas[e.index] = True
+    b.free()
+    at = tmp.attributes.get("sharp_edge") or tmp.attributes.new("sharp_edge", "BOOLEAN", "EDGE")
+    at.data.foreach_set("value", vivas)
+    tmp.update()
+    cn = np.empty(len(tmp.loops) * 3)
+    tmp.corner_normals.foreach_get("vector", cn)
+    bpy.data.meshes.remove(tmp)
+    return cn.reshape(-1, 3)
+
+
+def deformar(campo):
+    """Aplica `campo(p) -> Vector` (deslocamento no mundo) a todos os vértices da casca. Como o campo só depende da posição, a costura
+    entre peças (para-lama e porta, para-choque e carroceria) continua fechada. Nos cantos dos vértices que andaram, as normais do
+    arquivo (da forma antiga: o arco de 7 lados continuava aparecendo no reflexo) dão lugar às normais por ângulo da forma nova."""
+    n_mov = 0
+    for n, o in objs.items():
+        if n.startswith(("wheel_", "hubcap_", "glass_")):
+            continue
+        me = o.data
+        mw, inv = o.matrix_world, o.matrix_world.inverted()
+        cn = np.empty(len(me.loops) * 3)
+        me.corner_normals.foreach_get("vector", cn)
+        cn = cn.reshape(-1, 3)
+        andou = np.zeros(len(me.vertices), bool)
+        for v in me.vertices:
+            d = campo(mw @ v.co)
+            if d is not None and d.length > 1e-6:
+                v.co = inv @ ((mw @ v.co) + d)
+                andou[v.index] = True
+        me.update()
+        if andou.any():
+            n_mov += int(andou.sum())
+            nova = normais_por_angulo(me)
+            lv = np.empty(len(me.loops), np.int64)
+            me.loops.foreach_get("vertex_index", lv)
+            cn[andou[lv]] = nova[andou[lv]]
+            me.normals_split_custom_set(cn.tolist())
+            me.update()
+    return n_mov
+
+
+# ------------------------------------------------------------------------------------------- caixas de roda redondas
+# o Gol do Sketchfab traz a caixa de roda como um polígono de 6 ou 7 lados, mais apertada na frente de baixo (2 cm do pneu) e com a
+# borda saltada 2 cm para fora (cara de alargador). No Gol quadrado de verdade a caixa é um arco redondo, rente à lateral (o Felipe
+# achou os para-lamas estranhos, 29/10). Por ângulo, mede-se a borda do arco vista de lado e o quanto ela salta da lateral; o campo
+# leva a borda para um círculo de raio R_ARCO em volta do cubo e recolhe o salto inteiro, sumindo 12 cm para fora da borda
+if "--sem-arco-redondo" not in args:
+    import json
+    R_ARCO, FAIXA, RECOLHE = opt("--r-arco", 0.34), 0.12, 1.0
+    mapa_p = ent.rsplit("/", 1)[0] + "/" + ent.rsplit("/", 1)[1].replace(".glb", "_mapa.json")
+    cubos = []
+    try:
+        for p in json.load(open(opt("--mapa", mapa_p)))["parts"]:
+            if p.get("papel") == "wheel":
+                cubos.append((p["centro"][0], p["centro"][2], p["lado"]))
+    except (OSError, KeyError, ValueError):
+        cubos = []
+    if not cubos:
+        # sem o mapa: o cubo de cada roda pela caixa do pneu
+        for n, o in objs.items():
+            if n.startswith("wheel_") and n.endswith("_tire"):
+                P = np.array([list(o.matrix_world @ v.co) for v in o.data.vertices])
+                cubos.append((0.5 * (P[:, 0].min() + P[:, 0].max()), 0.5 * (P[:, 2].min() + P[:, 2].max()), 1 if P[:, 1].mean() > 0 else -1))
+    # as tiras pretas da caixa de roda original que descem abaixo da carroceria (até 15 cm do chão) e saem 3 cm para fora da lateral,
+    # na frente da roda da frente e atrás da de trás: de frente e de lado liam como apara-barros soltos. A caixa do kit completo fica
+    if "body" in objs:
+        bo = objs["body"]
+        nb = mat_names(bo)
+        bmb = bmesh.new()
+        bmb.from_mesh(bo.data)
+        bmb.transform(bo.matrix_world)
+        abas = [f for f in bmb.faces if nb[f.material_index] != "pintura" and all(v.co.z < 0.275 and abs(v.co.y) > 0.40 for v in f.verts)
+                and any(abs(f.calc_center_median().x - cx) < 0.40 for cx, _, _ in cubos)]
+        if abas:
+            bmesh.ops.delete(bmb, geom=abas, context="FACES")
+            bmb.transform(bo.matrix_world.inverted())
+            bmb.to_mesh(bo.data)
+            bo.data.update()
+            relatorio.append("abas da caixa de roda abaixo da carroceria: %d faces fora" % len(abas))
+        bmb.free()
+    arv_p = casca_pintada()
+    ANG = np.arange(-10, 191, 5)
+    arcos = []
+    for cx, cz, s in cubos:
+        re_, sal, ylado = [], [], []
+        for th in ANG:
+            a = math.radians(th)
+            borda, ys = None, []
+            for r in np.arange(0.24, 0.52, 0.004):
+                h = arv_p.ray_cast(Vector((cx + r * math.cos(a), s * 1.3, cz + r * math.sin(a))), Vector((0, -s, 0)), 0.85)
+                if h[0] is not None and h[0].y * s > 0.55:
+                    borda = r if borda is None else borda
+                    ys.append((r, h[0].y * s))
+            if borda is None:
+                re_.append(np.nan)
+                sal.append(0.0)
+                ylado.append(np.nan)
+                continue
+            lab = [y for r, y in ys if r < borda + 0.02]
+            lado = [y for r, y in ys if borda + 0.08 < r < borda + 0.12]
+            re_.append(borda)
+            sal.append(max(0.0, max(lab) - float(np.median(lado))) if lado else 0.0)
+            ylado.append(float(np.median(lado)) if lado else np.nan)
+        re_ = np.array(re_)
+        ok = ~np.isnan(re_)
+        if ok.sum() < 10:
+            continue
+        re_ = np.interp(ANG, ANG[ok], re_[ok])
+        re_ = np.array([np.median(re_[max(0, i - 1):i + 2]) for i in range(len(re_))])     # um raio solto não entorta o arco
+        sal = np.array(sal)
+        ylado = np.array(ylado)
+        okl = ~np.isnan(ylado)
+        ylado = np.interp(ANG, ANG[okl], ylado[okl]) if okl.sum() >= 3 else np.full(len(ANG), 9.0)
+        arcos.append((cx, cz, s, re_, sal, ylado))
+        relatorio.append("caixa de roda x=%+.2f lado %+d: borda de %.3f a %.3f m (vira %.3f), salto até %.1f cm" % (
+            cx, s, re_[ok].min() if ok.any() else 0, re_.max(), R_ARCO, 100 * sal.max()))
+
+    def campo_arco(p):
+        d = Vector()
+        for cx, cz, s, re_, sal, ylado in arcos:
+            if p.y * s < 0.30:
+                continue
+            dx, dz = p.x - cx, p.z - cz
+            r = math.hypot(dx, dz)
+            if r > R_ARCO + FAIXA + 0.08 or r < 1e-4:
+                continue
+            th = math.degrees(math.atan2(dz, dx))
+            if th < -90:
+                th += 360
+            w_th = min(1.0, max(0.0, (th + 10) / 20)) * min(1.0, max(0.0, (190 - th) / 20))
+            if w_th <= 0:
+                continue
+            w_y = suave(0.30, 0.42, p.y * s)
+            re = float(np.interp(th, ANG, re_))
+            d0 = (R_ARCO - re) * w_th * w_y
+            if r <= re:
+                dr = d0 * r / re
+            elif r < re + FAIXA:
+                dr = d0 * (1 - (r - re) / FAIXA)
+            else:
+                dr = 0.0
+            d += Vector((dx / r, 0, dz / r)) * dr
+            # o salto da borda: a pele que passa do plano da lateral (medido 8 a 12 cm para fora da borda) volta para ele até 7 cm da
+            # borda, sumindo até 11 cm (recolher o salto por igual deixava o vinco do alargador 5 cm acima do arco)
+            fora_ = p.y * s - float(np.interp(th, ANG, ylado))
+            if fora_ > 0 and float(np.interp(th, ANG, sal)) > 0.003:
+                g = 1.0 - suave(re + 0.07, re + 0.11, r)
+                d += Vector((0, -s * RECOLHE * fora_ * g * w_th, 0))
+        return d
+    if arcos:
+        relatorio.append("caixas de roda redondas: %d vértices movidos" % deformar(campo_arco))
+
+# ------------------------------------------------------------------------------------- face do para-choque da frente
+# a barra do para-choque do Gol do Sketchfab tem 8 cm de altura e, embaixo dela, a chapa foge 11 cm para trás em rampa: de lado lia como
+# um degrau. No Gol quadrado a face do para-choque é alta e reta, com a placa na metade de baixo (foto de referência: Gol GL 1991-94,
+# odg.com.br). O campo empurra a parte de baixo da face até 1,2 cm atrás da barra, arredondando para baixo nos últimos 5,5 cm
+if "--sem-face-para-choque" not in args and "bumper_front" in objs:
+    bf = objs["bumper_front"]
+    arv_b = arvore(["bumper_front"])
+    Pb = np.array([list(bf.matrix_world @ v.co) for v in bf.data.vertices])
+    z_fundo = float(Pb[:, 2].min())
+    YS = np.arange(-0.70, 0.7001, 0.02)
+    ZS = np.arange(z_fundo, 0.4451, 0.005)
+    xbar = {}
+    for y in YS:
+        h = arv_b.ray_cast(Vector((3.0, y, 0.48)), Vector((-1, 0, 0)), 3.0)
+        xbar[round(float(y), 2)] = h[0].x if h[0] is not None and h[1].x > 0.8 else None
+    # no meio, o rebaixo da placa antiga: a barra de fora vale ali também
+    fora_ = [x for y, x in xbar.items() if x is not None and 0.25 <= abs(y) <= 0.5]
+    x_barra = float(np.median(fora_)) if fora_ else None
+    PLACA_Y = 0.23
+    for y in xbar:
+        if abs(y) < PLACA_Y and x_barra is not None:
+            xbar[y] = x_barra
+    D = np.zeros((len(YS), len(ZS)))
+    XC = np.zeros((len(YS), len(ZS)))
+    XT = np.zeros((len(YS), len(ZS)))
+    for i, y in enumerate(YS):
+        xb = xbar[round(float(y), 2)]
+        if xb is None:
+            continue
+        zs_ok, xc_ok = [], []
+        for j, z in enumerate(ZS):
+            h = arv_b.ray_cast(Vector((3.0, y, z)), Vector((-1, 0, 0)), 3.0)
+            if h[0] is not None and h[1].x >= 0.25:
+                zs_ok.append(z)
+                xc_ok.append(h[0].x)
+        if abs(y) < PLACA_Y:
+            # atrás da placa antiga a face de baixo é a da fileira de fora (a do rebaixo é a parede do fundo)
+            continue
+        if len(zs_ok) < 3:
+            continue
+        XC[i] = np.interp(ZS, zs_ok, xc_ok)
+        XT[i] = [xb - 0.012 - (0.07 * ((0.33 - z) / 0.055) ** 2 if z < 0.33 else 0.0) for z in ZS]
+        D[i] = np.maximum(0.0, XT[i] - XC[i])
+    # as fileiras do rebaixo copiam a fileira logo fora dele
+    i_fora = [i for i, y in enumerate(YS) if abs(y) >= PLACA_Y and D[i].any()]
+    for i, y in enumerate(YS):
+        if abs(y) < PLACA_Y and i_fora:
+            k = min(i_fora, key=lambda q: abs(abs(YS[q]) - PLACA_Y))
+            D[i], XC[i], XT[i] = D[k], XC[k], XT[k]
+    # suave entre fileiras e sumindo no canto (de 0,58 a 0,72 de y), para o canto não amassar
+    w_y = np.array([1.0 - suave(0.58, 0.72, abs(y)) for y in YS])
+    D = D * w_y[:, None]
+    ker = np.array([1, 2, 3, 2, 1], float)
+    ker /= ker.sum()
+    Dp = np.pad(D, ((2, 2), (0, 0)), mode="edge")
+    D = sum(ker[k] * Dp[k:k + len(YS)] for k in range(5))
+
+    def campo_face(p):
+        if not (z_fundo - 0.005 <= p.z <= 0.445 and abs(p.y) <= 0.70 and p.x > 1.5):
+            return None
+        i = int(round((p.y - YS[0]) / 0.02))
+        j = int(round((min(p.z, ZS[-1]) - ZS[0]) / 0.005))
+        i, j = min(max(i, 0), len(YS) - 1), min(max(j, 0), len(ZS) - 1)
+        d = D[i, j]
+        if d <= 0:
+            return None
+        s_ = suave(XC[i, j] - 0.22, XC[i, j], p.x)
+        return Vector((min(d * s_, max(0.0, XT[i, j] - p.x)), 0, 0))
+    # só o para-choque (a carroceria atrás dele fica onde está)
+    mw_b, inv_b = bf.matrix_world, bf.matrix_world.inverted()
+    n_mov = 0
+    for v in bf.data.vertices:
+        d = campo_face(mw_b @ v.co)
+        if d is not None and d.length > 1e-6:
+            v.co = inv_b @ ((mw_b @ v.co) + d)
+            n_mov += 1
+    bf.data.update()
+    # as normais de canto do arquivo eram da rampa: o plástico preto passa a normais por ângulo
+    with bpy.context.temp_override(object=bf, active_object=bf, selected_objects=[bf], selected_editable_objects=[bf]):
+        bpy.ops.mesh.customdata_custom_splitnormals_clear()
+    bf.data.shade_smooth()
+    bmn = bmesh.new()
+    bmn.from_mesh(bf.data)
+    vivas = [False] * len(bf.data.edges)
+    for e in bmn.edges:
+        if len(e.link_faces) == 2 and e.calc_face_angle(0.0) > math.radians(30):
+            vivas[e.index] = True
+    bmn.free()
+    at = bf.data.attributes.get("sharp_edge") or bf.data.attributes.new("sharp_edge", "BOOLEAN", "EDGE")
+    at.data.foreach_set("value", vivas)
+    bf.data.update()
+    arvores.pop("bumper_front", None)
+    relatorio.append("face do para-choque da frente reta até z=%.2f: %d vértices (até %.0f cm para a frente)" % (z_fundo, n_mov, 100 * D.max()))
+
 # ---------------------------------------------------------------------------------- chapa pintada no plano dos vidros
 # o Gol traz, no plano da janela da porta, uma chapa pintada do corpo a 2 ou 3 mm do vidro (na esquerda na frente, na direita atrás):
 # a janela saía vermelha. Some toda face pintada que fica a menos de 1,5 cm de um vidro, em cima dele (a reta até o vidro segue a
@@ -628,7 +911,71 @@ if "body" in objs and "--sem-miudezas" not in args:
 # ------------------------------------------------------------------------------------------------------------ placas
 # a placa vinha como chapa pintada (saía na cor do carro): o retângulo da frente vira o material `placa` (no Detonauto,
 # MI_DNPlacaCoupe), com moldura preta de 1 cm e dois parafusos. Em branco, sem letras: placa real é proibida
+# a da frente é refeita: no modelo era uma chapa de 40 x 10 cm (achatada) presa a um suporte 10 cm fundo, mais uma folha solta da
+# carroceria logo abaixo (o "bloco escuro" embaixo da placa). No Gol quadrado a placa (40 x 13 cm, o tamanho brasileiro) fica no meio
+# da face do para-choque, na metade de baixo, sobre um suporte preto rente à face
+PLACA_L, PLACA_A, PLACA_Z0 = 0.40, 0.13, opt("--z-placa", 0.355)
+placa_frente = None
+if "plate_front" in objs and "--placa-original" not in args:
+    o = objs["plate_front"]
+    yc, z0p, z1p = 0.0, PLACA_Z0, PLACA_Z0 + PLACA_A
+    # a folha solta da carroceria na frente do para-choque, onde ficava a parte de baixo da placa antiga
+    if "body" in objs:
+        bo = objs["body"]
+        bmb = bmesh.new()
+        bmb.from_mesh(bo.data)
+        mwb = bo.matrix_world
+        soltas = [f for f in bmb.faces if all((lambda q: q.x > 1.94 and abs(q.y) < 0.21 and 0.36 < q.z < 0.445)(mwb @ v.co) for v in f.verts)]
+        if soltas:
+            bmesh.ops.delete(bmb, geom=soltas, context="FACES")
+            bmb.to_mesh(bo.data)
+            bo.data.update()
+            relatorio.append("folha solta embaixo da placa da frente: %d faces fora" % len(soltas))
+        bmb.free()
+    # o rebaixo da placa antiga no para-choque (a caixa da peça antiga), a face de baixo atrás da placa nova e a barra fora do rebaixo
+    Pp = np.array([list(o.matrix_world @ v.co) for v in o.data.vertices])
+    reb = (Pp[:, 1].min(), Pp[:, 1].max(), Pp[:, 2].min(), Pp[:, 2].max())
+    xs_face, xs_barra = [], []
+    for yy in (-0.15, 0.0, 0.15):
+        for zz in np.arange(z0p, z1p + 0.001, 0.01):
+            h = raio(["bumper_front"], (3.0, yy, zz), (-1, 0, 0), 4.0)
+            if h:
+                xs_face.append(h[0].x)
+    for yy in (-0.35, -0.3, 0.3, 0.35):
+        h = raio(["bumper_front"], (3.0, yy, 0.48), (-1, 0, 0), 4.0)
+        if h:
+            xs_barra.append(h[0].x)
+    if xs_face and xs_barra:
+        x_atras, x_frente = min(xs_face), max(xs_barra)
+        xp = x_frente + 0.008
+        w = Escritor(o, refazer=set(mat_names(o)))
+        m_preto, mi_placa = slot(o, "chassi"), slot(o, "placa")
+        zc = 0.5 * (z0p + z1p)
+        # suporte preto do fundo da face até 3 mm atrás da placa, 5 mm maior que ela em volta e tapando o rebaixo da placa antiga
+        sy0, sy1 = min(yc - PLACA_L / 2 - 0.005, reb[0]), max(yc + PLACA_L / 2 + 0.005, reb[1])
+        sz0, sz1 = min(z0p - 0.005, reb[2]), max(z1p + 0.005, reb[3] + 0.003)
+        w.caixa(((x_atras - 0.01 + xp - 0.003) / 2, 0.5 * (sy0 + sy1), 0.5 * (sz0 + sz1)), xp - 0.003 - (x_atras - 0.01), sy1 - sy0, sz1 - sz0, m_preto)
+        # a placa: chapa de 3 mm, em branco (placa real é proibida)
+        w.caixa((xp - 0.0015, yc, zc), 0.003, PLACA_L, PLACA_A, mi_placa)
+        # moldura de 1 cm e dois parafusos
+        w.ref = Vector((xp - 1.0, yc, zc))
+        e, xf = 0.010, xp + 0.001
+        y0p, y1p = yc - PLACA_L / 2, yc + PLACA_L / 2
+        ext = [(xf, y0p - 0.003, z0p - 0.003), (xf, y1p + 0.003, z0p - 0.003), (xf, y1p + 0.003, z1p + 0.003), (xf, y0p - 0.003, z1p + 0.003)]
+        inn = [(xf, y0p + e, z0p + e), (xf, y1p - e, z0p + e), (xf, y1p - e, z1p - e), (xf, y0p + e, z1p - e)]
+        for k in range(4):
+            w.quad([ext[k], ext[(k + 1) % 4], inn[(k + 1) % 4], inn[k]], m_preto)
+        w.ref = None
+        for yy in (y0p + 0.25 * PLACA_L, y0p + 0.75 * PLACA_L):
+            w.caixa((xf + 0.002, yy, z1p - 0.022), 0.004, 0.012, 0.012, m_preto)
+        w.fechar(normais_por_angulo=True)
+        placa_frente = (xp, y0p - 0.005, y1p + 0.005, z0p - 0.005, z1p + 0.005)
+        relatorio.append("plate_front refeita: placa %.0f x %.0f cm em z %.3f-%.3f, %.1f cm à frente da face (suporte preto)" % (
+            100 * PLACA_L, 100 * PLACA_A, z0p, z1p, 100 * (xp - x_atras)))
+
 for nome, sinal in (("plate_front", 1), ("plate_rear", -1)):
+    if nome == "plate_front" and placa_frente:
+        continue
     o = objs.get(nome)
     if not o:
         continue
@@ -718,6 +1065,8 @@ if "--sem-faixa" not in args:
             continue
         placa = objs.get("plate_front" if sinal > 0 else "plate_rear")
         pbox = faces_de(placa, "pintura")[0] if placa else None
+        if sinal > 0 and placa_frente:
+            pbox = [placa_frente[0], placa_frente[0], placa_frente[1], placa_frente[2], placa_frente[3], placa_frente[4]]
         if pbox and not (pbox[4] - 0.02 < Z_FAIXA < pbox[5] + 0.02):
             pbox = None
         pts = []

@@ -228,7 +228,8 @@ def assar(tipo, img):
 
 
 ao = assar("AO", img_ao)[:, :, 0]
-print("[assar_desgaste] oclusão assada; média nos texels usados %.3f" % float(ao[ao > 0.001].mean()))
+print("[assar_desgaste] oclusão assada; média nos texels usados %.3f, percentis 10/50/90: %s" % (
+    float(ao[ao > 0.001].mean()), np.percentile(ao[ao > 0.001], [10, 50, 90]).round(3).tolist()))
 # altura de cada texel pela carta (nas cartas de lado e de frente, v é z; nas de cima e de baixo, a média da carta)
 z = np.full((TAM, TAM), 1.0, np.float32)
 dentro_tx = np.zeros((TAM, TAM), bool)
@@ -270,11 +271,12 @@ def suave(a, b, t):
 
 
 # carro novo (29/10, "as cores estão meio opacas, não tem cara de carro novo"): a oclusão só escurece de verdade as frestas e
-# os cantos fechados; a chapa aberta fica com a cor cheia
+# os cantos fechados; a chapa aberta fica com a cor cheia. A lateral vê o chão (oclusão perto de 0,5): até 0,40 já é chapa aberta
+# (com 0,75 de limite a porta e o para-lama saíam 10 a 20% mais escuros que a cor, segunda volta do "opaca", 29/10)
 if ESTADO == "usado":
     ocl = 0.70 + 0.30 * np.clip(ao, 0, 1) ** 1.2                          # frestas e cantos escuros
 else:
-    ocl = 0.80 + 0.20 * suave(0.15, 0.75, np.clip(ao, 0, 1))
+    ocl = 0.78 + 0.22 * suave(0.04, 0.40, np.clip(ao, 0, 1))
 sub = 1.0 - SUJEIRA * (1.0 - suave(0.20, 0.48, z)) * (0.85 + 0.15 * np.clip(ruido * 0.5 + 0.5, 0, 1))   # sujeira que sobe do chão
 grao = 1.0 + (0.012 * ruido_fino + 0.015 * ruido if ESTADO == "usado" else 0.003 * ruido_fino)   # variação leve de chapa
 cor = (0.96 if ESTADO == "usado" else 1.0) * ocl * sub * grao

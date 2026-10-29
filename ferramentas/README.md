@@ -576,3 +576,31 @@ sinaleiras mais realistas" e "o vidro perto do retrovisor ainda está pintado".
   nova (preto fosco, não chapado). Testes do `test_rodas_kit.py` passando.
 - **Cores:** as seis cores de `Data/Paints.csv` testadas com a `Paint.png` que o jogo usa (`gol-quadrado-cores.jpg`): a lataria
   inteira pega a cor, plásticos ficam pretos, placa branca, lentes nas suas cores.
+
+#### Placa, para-lamas e pintura de carro novo (29/10/2026, noite)
+
+Pedidos do Felipe: "a placa dianteira ainda está estranha, os para-lamas também, pesquise como é o modelo real" e "a pintura ainda
+está opaca". Referência: fotos do Gol GL 1991-94 e do Gol 1985 (odg.com.br): placa de 40 x 13 cm no meio da face do para-choque, na
+metade de baixo; caixas de roda redondas e rentes à lateral, sem alargador.
+
+- **Caixas de roda redondas (`detalhes_na_casca.py`, `--r-arco 0.34`, `--sem-arco-redondo`):** o modelo trazia o arco como um
+  polígono de 6 ou 7 lados, apertado na frente de baixo (2 cm do pneu) e com a borda saltada 2 a 4 cm para fora. Por ângulo em volta
+  do cubo (do `_mapa.json`) mede-se a borda vista de lado e o plano da lateral 8 a 12 cm para fora dela; um campo de deslocamento
+  leva a borda a um círculo de 34 cm e a pele que passa do plano da lateral volta para ele. O campo só depende da posição, então a
+  costura entre peças fica fechada; nos vértices que andaram as normais passam a ser por ângulo (as do arquivo desenhavam o arco antigo).
+- **Abas soltas:** tiras pretas da caixa de roda original desciam a 15 cm do chão e saíam 3 cm da lateral, na frente da roda da
+  frente e atrás da de trás (de frente pareciam apara-barros pendurados): 72 faces fora.
+- **Face do para-choque da frente (`--sem-face-para-choque`):** a barra tinha 8 cm e, embaixo, a chapa fugia 11 cm para trás em
+  rampa. O campo empurra a parte de baixo até 1,2 cm atrás da barra, arredondando nos últimos 5,5 cm; o rebaixo da placa antiga usa
+  a fileira de fora, e a mudança some no canto (0,58 a 0,72 m do meio). Normais por ângulo no plástico.
+- **Placa da frente refeita (`--z-placa 0.355`, `--placa-original`):** era 40 x 10 cm (achatada) num suporte 10 cm fundo, e uma
+  folha solta da carroceria logo abaixo fazia o "bloco escuro". Agora: placa de 40 x 13 cm em branco, centrada, de z 0,355 a 0,485,
+  0,8 cm à frente da barra, sobre suporte preto que tapa o rebaixo antigo, com moldura e parafusos. A faixa do para-choque desvia dela.
+- **Saias (`carro_completo.py`):** sem as laterais até a caixa de roda e a da frente 20 cm para dentro de cada lado (de lado
+  penduravam como apara-barro).
+- **Pintura "opaca":** duas causas. (1) A textura de carro novo escurecia 10 a 20% a chapa aberta: a lateral vê o chão e a oclusão
+  dela fica perto de 0,5, abaixo do limite de 0,75; agora a chapa com oclusão de 0,40 para cima já sai com a cor cheia (portas,
+  para-lamas e capô em 253 de 255). (2) As prévias refletiam só um céu liso e um chão vazio: o verniz não tinha o que mostrar. As
+  prévias passaram a usar um HDRI de rua (Poly Haven, CC0) como numa foto.
+- **Acabamentos:** o Detonauto ganhou `Data/PaintFinishes.csv` (sólida, metálica, perolizada, fosca, acetinada); as prévias
+  `gol-quadrado-acabamentos.jpg` mostram cada um com os valores da tabela.
