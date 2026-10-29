@@ -790,12 +790,14 @@ def materiais(out):
             pass
         return m, b
     mats = {}
-    mats["aro_aco"], _ = principled("aro_aco", (0.20, 0.21, 0.22), 0.30, 0.55)
-    mats["aro_liga"], _ = principled("aro_liga", (0.55, 0.55, 0.54), 1.0, 0.32)
-    mats["calota"], _ = principled("calota", (0.80, 0.80, 0.80), 1.0, 0.22)
+    # 29/10 (o Felipe: "pneus e rodas têm que ter mais cara de realismo"): aro de aço com tinta prata de fábrica (não o cinza
+    # chumbo de antes), liga e calota mais espelhadas, pneu de borracha nova (preto fosco, não preto chapado)
+    mats["aro_aco"], _ = principled("aro_aco", (0.52, 0.53, 0.54), 0.75, 0.32)
+    mats["aro_liga"], _ = principled("aro_liga", (0.62, 0.62, 0.61), 1.0, 0.22)
+    mats["calota"], _ = principled("calota", (0.86, 0.86, 0.87), 1.0, 0.10)
     mats["calota"].use_backface_culling = False
-    mats["parafuso"], _ = principled("parafuso", (0.42, 0.42, 0.40), 1.0, 0.45)
-    m, b = principled("pneu", (0.022, 0.022, 0.024), 0.0, 0.86, spec=0.35)
+    mats["parafuso"], _ = principled("parafuso", (0.55, 0.55, 0.53), 1.0, 0.35)
+    m, b = principled("pneu", (0.034, 0.034, 0.036), 0.0, 0.72, spec=0.45)
     im = mapa_sulcos(os.path.join(out, NORMAL_PNG))
     nt = m.node_tree
     tx = nt.nodes.new("ShaderNodeTexImage")

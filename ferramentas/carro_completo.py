@@ -3697,7 +3697,7 @@ class Kit:
         z0 = M["z_piso"] + 0.005
         if zs - z0 < 0.03:
             return
-        p = self.nova("under_saias", "embaixo", nota="saias pintadas sob os para-choques e a soleira fora das portas")
+        p = self.nova("under_saias", "embaixo", nota="saias escuras sob os para-choques e a soleira fora das portas")
         alt = zs + 0.015 - z0
         zc = (zs + 0.015 + z0) / 2
         self.saia = {"zs": zs, "xf": None, "xt": None, "y_lat": {}}
@@ -3710,7 +3710,9 @@ class Kit:
                     xs.append(h[0].x)
             if not xs:
                 continue
-            xb = (min(xs) if sinal > 0 else max(xs)) - sinal * 0.02
+            # recuada 6 cm da borda do para-choque e escura (graxa do fundo): o Felipe achou a saia pintada aparente demais (29/10);
+            # escura ela lê como a sombra do fundo e ainda tapa o radiador e a travessa
+            xb = (min(xs) if sinal > 0 else max(xs)) - sinal * 0.06
             self.saia["xf" if sinal > 0 else "xt"] = xb
             # topo do para-choque: até lá, o que o kit põe à frente do plano da saia fica dentro do para-choque e some
             z_pc = zs
@@ -3723,7 +3725,7 @@ class Kit:
             self.saia["z_pc_f" if sinal > 0 else "z_pc_t"] = z_pc
             print(f"saia {'da frente' if sinal > 0 else 'de trás'}: plano x={xb:.3f}, para-choque até z={z_pc:.2f}")
             larg = 2 * (W - 0.07)
-            p.caixa("pintura_interna", T(xb, 0, zc) @ Ry(math.radians(-sinal * 12)), 0.012, larg, alt, 0.004)
+            p.caixa("chassi_graxa", T(xb, 0, zc) @ Ry(math.radians(-sinal * 12)), 0.012, larg, alt, 0.004)
             # laterais da saia, até a caixa de roda
             xr = (M["xd"] - R - 0.05) if sinal > 0 else (M["xt"] + R + 0.05)
             comp = abs(xb - xr)
@@ -3731,7 +3733,7 @@ class Kit:
                 for s in (1, -1):
                     yl = self.lado_em((xb + xr) / 2, zs + 0.02, s, folga=0.0)
                     yl = min(yl, W - 0.005)
-                    p.caixa("pintura_interna", T((xb + xr) / 2, s * (yl - 0.03), zc), comp, 0.012, alt, 0.004)
+                    p.caixa("chassi_graxa", T((xb + xr) / 2, s * (yl - 0.05), zc), comp, 0.012, alt, 0.004)
         # soleira fora dos vãos das portas (entre a porta e as caixas de roda)
         for s in (1, -1):
             pf = M["portas"].get("f" + ("l" if s > 0 else "r"))
@@ -3744,7 +3746,7 @@ class Kit:
                 if xb_ - xa < 0.04:
                     continue
                 yl = min(self.lado_em((xa + xb_) / 2, zs + 0.02, s, folga=0.0), W - 0.005)
-                p.caixa("pintura_interna", T((xa + xb_) / 2, s * (yl - 0.055), zs - 0.045), xb_ - xa, 0.10, 0.09, 0.008)
+                p.caixa("chassi_graxa", T((xa + xb_) / 2, s * (yl - 0.065), zs - 0.045), xb_ - xa, 0.10, 0.09, 0.008)
                 self.saia["y_lat"][(xa, xb_)] = yl
 
     # ================================================================================================================ FREIOS

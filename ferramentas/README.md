@@ -550,3 +550,29 @@ O Felipe apontou manchas que ainda sobravam e um vidro pintado com a cor do carr
 - **Faces dos detalhes:** o retrovisor direito e partes das maçanetas saíam com a normal invertida (o `recalc_face_normals` não
   orienta faces soltas). Toda face nova é orientada para longe de um ponto de dentro (o centro da caixa, o eixo do friso, o fundo
   do bolso do farol).
+
+#### Carro novo, vidro de verdade, luzes e rodas (29/10/2026, noite)
+
+Pedidos do Felipe: "falta a placa", "a saia vermelha embaixo era melhor sem", "teste com outra cor", "os vidros deveriam ser
+mais transparentes (película depois, no jogo)", "não tem cara de carro novo, as cores estão opacas", "pneus, rodas, lanternas e
+sinaleiras mais realistas" e "o vidro perto do retrovisor ainda está pintado".
+
+- **Placa:** a face da frente de `plate_front` e `plate_rear` vira o material `placa` (no jogo, `MI_DNPlacaCoupe`), em branco e
+  sem letras (placa real é proibida), com moldura preta de 1 cm e dois parafusos; o resto do suporte fica preto.
+- **Saias:** no `carro_completo.py` elas passaram a ser `chassi_graxa` (escuras) e recuadas 6 cm da borda do para-choque: leem
+  como a sombra do fundo e ainda tapam radiador e travessa.
+- **Vidro de duas faces:** a espessura de 6 mm do vidro saía com a face de trás em `chassi`, preto opaco, e a janela parecia
+  fumê fechado. A face `chassi` paralela a um vidro e até 1,2 cm atrás dele vira vidro (11 mil faces nos 6 vidros).
+- **Quebra-vento:** o triângulo entre a janela da porta e a coluna A era chapa pintada. É cortado por planos (frente da janela,
+  coluna A paralela à borda do para-brisa medida na chapa, cintura) e por outros 1,2 cm para dentro: o miolo vira vidro e o anel,
+  borracha.
+- **Faróis:** a lente passou a ser vidro com frisos, e atrás dela um refletor acetinado (`refletor`, pirâmide rasa) com a lâmpada.
+  **Lanternas:** cada segmento (freio `luz_vermelha`, seta `luz_ambar`, ré `luz_branca`) tem refletor atrás e cor mais viva.
+  **Sinaleiras:** piscas âmbar com moldura nas pontas da barra do para-choque da frente.
+- **Carro novo:** `assar_desgaste.py --estado novo` (padrão; `--estado usado` volta ao desgaste anterior): a oclusão só escurece
+  as frestas (0,80 a 1,0), sujeira 3%, sem grão; a pintura da prévia com verniz cheio (rugosidade 0,16, verniz 1,0) e as lentes
+  lisas. A textura multiplica a cor de cada material em vez de substituí-la (as lentes eram brancas).
+- **Rodas (`rodas_kit.py`):** aro de aço prata de fábrica (antes cinza chumbo), calota e liga mais espelhadas, pneu de borracha
+  nova (preto fosco, não chapado). Testes do `test_rodas_kit.py` passando.
+- **Cores:** as seis cores de `Data/Paints.csv` testadas com a `Paint.png` que o jogo usa (`gol-quadrado-cores.jpg`): a lataria
+  inteira pega a cor, plásticos ficam pretos, placa branca, lentes nas suas cores.

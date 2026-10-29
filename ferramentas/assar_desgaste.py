@@ -30,7 +30,8 @@ def opt(name, default):
 
 TAM = opt("--tamanho", 2048)
 AMOSTRAS = opt("--amostras", 32)
-SUJEIRA = opt("--sujeira", 0.16)
+ESTADO = opt("--estado", "novo")   # novo: carro de concessionária (só a sombra das frestas); usado: sujeira embaixo e grão
+SUJEIRA = opt("--sujeira", 0.16 if ESTADO == "usado" else 0.03)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
@@ -268,16 +269,21 @@ def suave(a, b, t):
     return u * u * (3 - 2 * u)
 
 
-ocl = 0.70 + 0.30 * np.clip(ao, 0, 1) ** 1.2                              # frestas e cantos escuros
+# carro novo (29/10, "as cores estão meio opacas, não tem cara de carro novo"): a oclusão só escurece de verdade as frestas e
+# os cantos fechados; a chapa aberta fica com a cor cheia
+if ESTADO == "usado":
+    ocl = 0.70 + 0.30 * np.clip(ao, 0, 1) ** 1.2                          # frestas e cantos escuros
+else:
+    ocl = 0.80 + 0.20 * suave(0.15, 0.75, np.clip(ao, 0, 1))
 sub = 1.0 - SUJEIRA * (1.0 - suave(0.20, 0.48, z)) * (0.85 + 0.15 * np.clip(ruido * 0.5 + 0.5, 0, 1))   # sujeira que sobe do chão
-grao = 1.0 + 0.012 * ruido_fino + 0.015 * ruido                             # variação leve de chapa
-cor = 0.96 * ocl * sub * grao
+grao = 1.0 + (0.012 * ruido_fino + 0.015 * ruido if ESTADO == "usado" else 0.003 * ruido_fino)   # variação leve de chapa
+cor = (0.96 if ESTADO == "usado" else 1.0) * ocl * sub * grao
 cor = np.where(dentro_tx, cor * 0.7, cor)                                   # pele de dentro mais escura
 cor = np.clip(cor, 0, 1)
 rgb = np.stack([cor, cor * 0.995, cor * 0.985], axis=2)                    # sujeira um pouco quente
 out = np.ones((TAM, TAM, 4), np.float32)
 out[:, :, :3] = rgb
-img_fim = bpy.data.images.new("Image_0", TAM, TAM, alpha=False)
+img_fim = bpy.data.images.new("T_desgaste", TAM, TAM, alpha=False)   # o glb_texturas.py do Detonauto reconhece "desgaste" no nome
 img_fim.pixels[:] = out.ravel().tolist()
 png = sai[:-4] + "_desgaste.png"
 img_fim.filepath_raw = png
@@ -300,19 +306,59 @@ for o in casca:
         if not b:
             continue
         base = m.name.split(".")[0]
-        if base not in ("pintura", "chassi", "luz", "cromado", "luz_ambar", "luz_branca"):
+        # pintura: a textura sozinha (a cor trocável multiplica por cima no jogo); os outros: a textura vezes a cor própria
+        # (antes as lentes recebiam a textura clara e o vermelho e o âmbar da lanterna sumiam)
+        COR_FIXA = {"chassi": (0.05, 0.05, 0.052), "luz": (0.85, 0.85, 0.83), "cromado": (0.70, 0.70, 0.72),
+                    "luz_ambar": (0.95, 0.42, 0.02), "luz_branca": (0.90, 0.90, 0.88), "luz_vermelha": (0.80, 0.02, 0.015)}
+        if base == "vidro":
+            # vidro claro (o Felipe: "os vidros deveriam ser mais transparentes"; película no jogo, depois)
+            for l in list(b.inputs["Base Color"].links):
+                nt.links.remove(l)
+            # transparência por alfa (15%), como o jogo (GlassOpacity 0,12): a luz atravessa reto e ilumina a cabine e o refletor
+            # do farol (com vidro refrativo o Cycles deixava tudo atrás dele na sombra e o farol lia preto)
+            b.inputs["Base Color"].default_value = (0.80, 0.86, 0.86, 1)
+            b.inputs["Roughness"].default_value = 0.02
+            b.inputs["Transmission Weight"].default_value = 0.0
+            b.inputs["Alpha"].default_value = 0.15
+            b.inputs["Coat Weight"].default_value = 1.0
+            b.inputs["Coat Roughness"].default_value = 0.0
+            try:
+                m.surface_render_method = "BLENDED"
+            except Exception:
+                pass
+            continue
+        if base == "refletor":
+            # acetinado: espelhado demais, ele só refletia o escuro do bolso e o farol lia como lente preta
+            b.inputs["Base Color"].default_value = (0.95, 0.95, 0.96, 1)
+            b.inputs["Metallic"].default_value = 1.0
+            b.inputs["Roughness"].default_value = 0.32
+            continue
+        if base != "pintura" and base not in COR_FIXA:
             continue
         for l in list(b.inputs["Base Color"].links):
             nt.links.remove(l)
         t = nt.nodes.new("ShaderNodeTexImage")
         t.image = img_fim
-        if base == "chassi":
-            # plástico preto: a mesma oclusão, escura (mistura a textura com a cor preta)
+        # brilho de carro novo na prévia (o jogo tem o seu verniz): tinta e lentes lisas, refletor espelhado
+        BRILHO = {"pintura": dict(r=0.16, coat=1.0), "luz": dict(r=0.06, coat=1.0), "luz_ambar": dict(r=0.06, coat=1.0, tr=0.35),
+                  "luz_branca": dict(r=0.06, coat=1.0, tr=0.35), "luz_vermelha": dict(r=0.06, coat=1.0, tr=0.35),
+                  "cromado": dict(r=0.10, metal=1.0), "chassi": dict(r=0.55)}
+        if base in BRILHO:
+            pr = BRILHO[base]
+            b.inputs["Roughness"].default_value = pr["r"]
+            if "coat" in pr:
+                b.inputs["Coat Weight"].default_value = pr["coat"]
+                b.inputs["Coat Roughness"].default_value = 0.03
+            if "metal" in pr:
+                b.inputs["Metallic"].default_value = pr["metal"]
+            if "tr" in pr:
+                b.inputs["Transmission Weight"].default_value = pr["tr"]
+        if base in COR_FIXA:
             mix = nt.nodes.new("ShaderNodeMix")
             mix.data_type = "RGBA"
             mix.blend_type = "MULTIPLY"
             mix.inputs[0].default_value = 1.0
-            mix.inputs[7].default_value = (0.05, 0.05, 0.052, 1)
+            mix.inputs[7].default_value = (*COR_FIXA[base], 1)
             nt.links.new(t.outputs[0], mix.inputs[6])
             nt.links.new(mix.outputs[2], b.inputs["Base Color"])
         else:

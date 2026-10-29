@@ -45,7 +45,8 @@ def mat_names(o):
     return [s.material.name.split(".")[0] if s.material else "" for s in o.material_slots]
 
 
-CORES_NOVAS = {"luz_ambar": (0.85, 0.40, 0.03, 1.0), "luz_branca": (0.85, 0.85, 0.80, 1.0)}
+CORES_NOVAS = {"luz_ambar": (0.95, 0.42, 0.02, 1.0), "luz_branca": (0.90, 0.90, 0.88, 1.0), "placa": (0.80, 0.80, 0.78, 1.0),
+               "luz_vermelha": (0.80, 0.02, 0.015, 1.0), "refletor": (0.95, 0.95, 0.96, 1.0)}
 
 
 def slot(o, nome):
@@ -282,8 +283,45 @@ if vidros:
         b.free()
     arvores.clear()
 
+# ---------------------------------------------------------------------------- vidro de duas faces (a de trás era chassi)
+# a espessura do vidro (6 mm, carro_quebravel) saía com a face de trás em `chassi`, preto opaco: a janela parecia fumê fechado
+# (o Felipe: "os vidros deveriam ser mais transparentes"). A face `chassi` paralela a uma face de vidro e logo atrás dela (até
+# 1,2 cm, a reta até o vidro na normal dele) vira vidro; a borracha, na borda, fica
+n_trocas = 0
+for nome, o in objs.items():
+    if not nome.startswith("glass_"):
+        continue
+    nomes_g = mat_names(o)
+    if "vidro" not in nomes_g or "chassi" not in nomes_g:
+        continue
+    mi_v, mi_c = nomes_g.index("vidro"), nomes_g.index("chassi")
+    b = bmesh.new()
+    b.from_mesh(o.data)
+    b.transform(o.matrix_world)
+    bv = b.copy()
+    bmesh.ops.delete(bv, geom=[f for f in bv.faces if f.material_index != mi_v], context="FACES")
+    arv_g = BVHTree.FromBMesh(bv)
+    bv.free()
+    trocar = []
+    for f in b.faces:
+        if f.material_index != mi_c:
+            continue
+        c = f.calc_center_median()
+        loc, nrm, _, dist = arv_g.find_nearest(c, 0.012)
+        if loc is None or abs(f.normal.dot(nrm)) < 0.9:
+            continue
+        if dist < 1e-5 or abs((c - loc).normalized().dot(nrm)) > 0.95:
+            trocar.append(f.index)
+    b.free()
+    if trocar:
+        for i in trocar:
+            o.data.polygons[i].material_index = mi_v
+        o.data.update()
+        n_trocas += len(trocar)
+        relatorio.append("%s: %d faces de trás do vidro passaram de chassi a vidro" % (nome, len(trocar)))
+
 # ------------------------------------------------------------------------------------------------------- faróis e lanternas
-def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008, frisos="vertical"):
+def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008, frisos="vertical", m_refletor=None, m_lampada=None):
     """Moldura preta de `e` na boca do bolso, lente 4 mm à frente (segmentos em y com divisórias, cada um com o seu material),
     frisos de 1,5 mm na lente (a lente do jogo é opaca e brilhante: o relevo é o que lê como farol) e paredes para trás."""
     x0, x1, y0, y1, z0, z1 = box
@@ -328,13 +366,27 @@ def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008
         yd = ya0 + (ya1 - ya0) * seg[i][0]
         p = [(xl, yd - 0.004, Z0 + e), (xl, yd + 0.004, Z0 + e), (xl, yd + 0.004, Z1 - e), (xl, yd - 0.004, Z1 - e)]
         w.quad(p if sinal > 0 else p[::-1], m_preto)
-    # paredes para trás, tapando o bolso
+    # paredes para trás, tapando o bolso; com refletor, as paredes e o fundo são cromados e o fundo é uma pirâmide rasa (a lente de
+    # vidro do farol deixa ver o refletor, como num farol de verdade) com a lâmpada no meio
     xb = xf - sinal * prof
+    m_par = m_refletor if m_refletor is not None else m_preto
     paredes = [((xf, Y0, Z0), (xf, Y1, Z0), (xb, Y1, Z0), (xb, Y0, Z0)), ((xf, Y1, Z1), (xf, Y0, Z1), (xb, Y0, Z1), (xb, Y1, Z1)),
-               ((xf, Y0, Z1), (xf, Y0, Z0), (xb, Y0, Z0), (xb, Y0, Z1)), ((xf, Y1, Z0), (xf, Y1, Z1), (xb, Y1, Z1), (xb, Y1, Z0)),
-               ((xb, Y0, Z0), (xb, Y1, Z0), (xb, Y1, Z1), (xb, Y0, Z1))]
+               ((xf, Y0, Z1), (xf, Y0, Z0), (xb, Y0, Z0), (xb, Y0, Z1)), ((xf, Y1, Z0), (xf, Y1, Z1), (xb, Y1, Z1), (xb, Y1, Z0))]
     for p in paredes:
+        w.quad(list(p) if sinal > 0 else list(p)[::-1], m_par)
+    if m_refletor is None:
+        p = ((xb, Y0, Z0), (xb, Y1, Z0), (xb, Y1, Z1), (xb, Y0, Z1))
         w.quad(list(p) if sinal > 0 else list(p)[::-1], m_preto)
+    else:
+        # um refletor por segmento (a lanterna tem três; o farol, um)
+        for (u0, u1, _m) in (segmentos or [(0.0, 1.0, None)]):
+            ya, yb = Y0 + (Y1 - Y0) * u0, Y0 + (Y1 - Y0) * u1
+            c = Vector((xb - sinal * min(0.035, 0.45 * min(yb - ya, Z1 - Z0)), 0.5 * (ya + yb), 0.5 * (Z0 + Z1)))
+            cantos = [Vector((xb, ya, Z0)), Vector((xb, yb, Z0)), Vector((xb, yb, Z1)), Vector((xb, ya, Z1))]
+            for k in range(4):
+                w.quad([cantos[k], cantos[(k + 1) % 4], c], m_refletor, ref=c + Vector((sinal * 1.0, 0, 0)) * -1.0)
+            if m_lampada is not None:
+                w.caixa(c + Vector((sinal * 0.018, 0, 0)), 0.024, 0.016, 0.016, m_lampada)
 
 
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
@@ -346,15 +398,24 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
         continue
     w = Escritor(o, refazer=("luz", "pintura", "cromado"))
     m_preto, m_lente = slot(o, "chassi"), slot(o, "luz")
+    m_ref = slot(o, "refletor")
     esq = "left" in nome
+    if sinal > 0:
+        # farol de vidro (29/10, "lanternas e sinaleiras mais realistas"): a lente é vidro transparente com frisos, e atrás dela o
+        # refletor cromado e a lâmpada
+        m_vidro = slot(o, "vidro")
+        lanterna(w, sinal, box, m_preto, m_vidro, None, prof=0.045, frisos="vertical", m_refletor=m_ref, m_lampada=m_lente)
+        w.fechar()
+        relatorio.append("%s: farol de vidro com refletor, lente %.0fx%.0f cm" % (nome, (box[3] - box[2]) * 100, (box[5] - box[4]) * 100))
+        continue
     if sinal < 0:
         # lanterna: ré (branca) perto do centro, seta (âmbar) no meio, freio (vermelha) na ponta
-        m_amb, m_bra = slot(o, "luz_ambar"), slot(o, "luz_branca")
-        seg = [(0.0, 0.3, m_bra), (0.3, 0.55, m_amb), (0.55, 1.0, m_lente)] if not esq else \
-              [(0.0, 0.45, m_lente), (0.45, 0.7, m_amb), (0.7, 1.0, m_bra)]
+        m_amb, m_bra, m_ver = slot(o, "luz_ambar"), slot(o, "luz_branca"), slot(o, "luz_vermelha")
+        seg = [(0.0, 0.3, m_bra), (0.3, 0.55, m_amb), (0.55, 1.0, m_ver)] if not esq else \
+              [(0.0, 0.45, m_ver), (0.45, 0.7, m_amb), (0.7, 1.0, m_bra)]
     else:
         seg = None
-    lanterna(w, sinal, box, m_preto, m_lente, seg, frisos="vertical" if sinal > 0 else "horizontal")
+    lanterna(w, sinal, box, m_preto, m_lente, seg, frisos="horizontal", m_refletor=m_ref)
     w.fechar()
     relatorio.append("%s: lente %.0fx%.0f cm na face x=%.3f" % (nome, (box[3] - box[2]) * 100, (box[5] - box[4]) * 100, box[1] if sinal > 0 else box[0]))
 
@@ -564,6 +625,48 @@ if "body" in objs and "--sem-miudezas" not in args:
             relatorio.append("antena em x=%.2f y=%.2f z=%.2f" % (base.x, base.y, base.z))
     w.fechar()
 
+# ------------------------------------------------------------------------------------------------------------ placas
+# a placa vinha como chapa pintada (saía na cor do carro): o retângulo da frente vira o material `placa` (no Detonauto,
+# MI_DNPlacaCoupe), com moldura preta de 1 cm e dois parafusos. Em branco, sem letras: placa real é proibida
+for nome, sinal in (("plate_front", 1), ("plate_rear", -1)):
+    o = objs.get(nome)
+    if not o:
+        continue
+    nomes = mat_names(o)
+    if "pintura" not in nomes:
+        continue
+    mi_p = nomes.index("pintura")
+    mw = o.matrix_world
+    # a face da placa: as faces pintadas que olham para fora (frente ou trás) mais à frente
+    caras = [p for p in o.data.polygons if p.material_index == mi_p and (mw.to_3x3() @ p.normal).x * sinal > 0.8]
+    if not caras:
+        continue
+    xs = [(mw @ p.center).x for p in caras]
+    x_face = max(xs) if sinal > 0 else min(xs)
+    caras = [p for p in caras if abs((mw @ p.center).x - x_face) < 0.008]
+    P = np.array([list(mw @ o.data.vertices[v].co) for p in caras for v in p.vertices])
+    y0, y1, z0, z1 = P[:, 1].min(), P[:, 1].max(), P[:, 2].min(), P[:, 2].max()
+    mi_placa = slot(o, "placa")
+    m_preto = slot(o, "chassi")
+    for p in o.data.polygons:
+        if p.material_index == mi_p:
+            p.material_index = m_preto        # o resto (bordas, fundo do suporte) fica preto
+    for p in caras:
+        p.material_index = mi_placa
+    o.data.update()
+    w = Escritor(o)
+    w.ref = Vector((x_face - sinal * 1.0, 0.5 * (y0 + y1), 0.5 * (z0 + z1)))
+    xf = x_face + sinal * 0.002
+    e = 0.010
+    ext = [(xf, y0 - 0.004, z0 - 0.004), (xf, y1 + 0.004, z0 - 0.004), (xf, y1 + 0.004, z1 + 0.004), (xf, y0 - 0.004, z1 + 0.004)]
+    inn = [(xf, y0 + e, z0 + e), (xf, y1 - e, z0 + e), (xf, y1 - e, z1 - e), (xf, y0 + e, z1 - e)]
+    for k in range(4):
+        w.quad([ext[k], ext[(k + 1) % 4], inn[(k + 1) % 4], inn[k]], m_preto)
+    for yy in (y0 + 0.25 * (y1 - y0), y0 + 0.75 * (y1 - y0)):
+        w.caixa((xf + sinal * 0.002, yy, z1 - 0.022), 0.004, 0.012, 0.012, m_preto)
+    w.fechar()
+    relatorio.append("%s: placa %.0fx%.0f cm em branco, com moldura" % (nome, (y1 - y0) * 100, (z1 - z0) * 100))
+
 # ------------------------------------------------------------------------------------------- para-choques pretos
 if "--para-choque-pintado" not in args:
     for nome in ("bumper_front", "bumper_rear"):
@@ -641,6 +744,79 @@ if "--sem-faixa" not in args:
                 w.varrer(pts, perfil, m_preto)
         w.fechar()
         relatorio.append("faixa no %s: %d trecho(s)" % (nome, len(trechos)))
+
+# ------------------------------------------------------------------------------------------------------ quebra-vento
+# no Gol o triângulo entre a janela da porta e a coluna A é o vidro do quebra-vento; o modelo trazia chapa pintada ali (o Felipe
+# viu "o vidro perto do retrovisor pintado", 29/10). A chapa é cortada por três planos (frente da janela da porta, a coluna A
+# paralela à borda do para-brisa e a cintura) e por outros três 1,2 cm para dentro: o miolo vira vidro, o anel vira borracha
+if "--sem-quebra-vento" not in args and "body" in objs:
+    o = objs["body"]
+    nomes = mat_names(o)
+    mi_p, mi_v, mi_c = nomes.index("pintura"), slot(o, "vidro"), slot(o, "chassi")
+    mw, inv = o.matrix_world, o.matrix_world.inverted()
+    # a borda da coluna A: o maior x da chapa pintada por faixa de altura, ajustado por uma reta x = a + b z
+    zs_, xs_ = [], []
+    for zc in np.arange(0.93, 1.27, 0.03):
+        xm = max(((mw @ p.center).x for p in o.data.polygons if p.material_index == mi_p and (mw @ p.center).y > 0.3
+                  and abs((mw @ p.center).z - zc) < 0.015 and 0.2 < (mw @ p.center).x < 0.9), default=None)
+        if xm is not None:
+            zs_.append(zc)
+            xs_.append(xm)
+    if len(zs_) >= 4:
+        b_, a_ = np.polyfit(zs_, xs_, 1)
+        LARG_COLUNA, X_JANELA, Z_BAIXO, E = 0.085, 0.245, 0.935, 0.012
+        a_col = a_ - LARG_COLUNA * np.sqrt(1 + b_ * b_)
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bm.transform(mw)
+
+        def regiao(f, s):
+            c = f.calc_center_median()
+            return (f.material_index == mi_p and c.y * s > 0.3 and 0.18 < c.x < 0.9 and 0.9 < c.z < 1.32 and f.normal.y * s > 0.4)
+        n_vidro = 0
+        for s in (1, -1):
+            planos = [((X_JANELA, 0, 0), (1, 0, 0)), ((a_col, 0, 0), (1, 0, -b_)), ((0, 0, Z_BAIXO), (0, 0, 1)),
+                      ((X_JANELA + E, 0, 0), (1, 0, 0)), ((a_col - E * np.sqrt(1 + b_ * b_), 0, 0), (1, 0, -b_)),
+                      ((0, 0, Z_BAIXO + E), (0, 0, 1))]
+            for co, no in planos:
+                faces = [f for f in bm.faces if regiao(f, s)]
+                geom = list({v for f in faces for v in f.verts}) + list({e for f in faces for e in f.edges}) + faces
+                bmesh.ops.bisect_plane(bm, geom=geom, plane_co=Vector(co), plane_no=Vector(no).normalized(), clear_inner=False, clear_outer=False)
+            for f in bm.faces:
+                if not regiao(f, s):
+                    continue
+                c = f.calc_center_median()
+                dentro = c.x > X_JANELA and c.z > Z_BAIXO and c.x < a_col + b_ * c.z
+                if not dentro:
+                    continue
+                miolo = c.x > X_JANELA + E and c.z > Z_BAIXO + E and c.x < a_col - E * np.sqrt(1 + b_ * b_) + b_ * c.z
+                f.material_index = mi_v if miolo else mi_c
+                n_vidro += int(miolo)
+        bm.transform(inv)
+        bm.to_mesh(o.data)
+        o.data.update()
+        relatorio.append("quebra-vento: %d faces de vidro nos dois lados (coluna A: x = %.3f %+.3f z)" % (n_vidro, a_col, b_))
+
+# --------------------------------------------------------------------------------------- sinaleiras no para-choque
+# pisca âmbar nas pontas da barra do para-choque da frente (Gol quadrado com pisca no para-choque)
+if "--sem-sinaleira" not in args and "bumper_front" in objs:
+    o = objs["bumper_front"]
+    w = Escritor(o)
+    m_preto, m_amb = slot(o, "chassi"), slot(o, "luz_ambar")
+    n = 0
+    for s in (1, -1):
+        y0, y1, z0, z1 = 0.53, 0.65, 0.462, 0.514
+        h = raio(["bumper_front"], (3.0, s * 0.5 * (y0 + y1), 0.5 * (z0 + z1)), (-1, 0, 0), 4.0)
+        if not h:
+            continue
+        xf = h[0].x
+        w.caixa((xf + 0.004, s * 0.5 * (y0 + y1), 0.5 * (z0 + z1)), 0.008, y1 - y0 + 0.008, z1 - z0 + 0.008, m_preto)
+        w.caixa((xf + 0.009, s * 0.5 * (y0 + y1), 0.5 * (z0 + z1)), 0.004, y1 - y0, z1 - z0, m_amb)
+        for k in range(5):
+            w.caixa((xf + 0.0115, s * (y0 + (y1 - y0) * (k + 0.5) / 5), 0.5 * (z0 + z1)), 0.0015, 0.004, (z1 - z0) * 0.9, m_amb)
+        n += 1
+    w.fechar()
+    relatorio.append("sinaleiras âmbar no para-choque: %d" % n)
 
 bpy.ops.export_scene.gltf(filepath=sai, export_format="GLB", export_image_format="AUTO")
 for linha in relatorio:
