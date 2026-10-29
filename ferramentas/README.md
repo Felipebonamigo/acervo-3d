@@ -421,3 +421,51 @@ depende mais dele. Serve para os outros carros do lote: é só rodar sobre o cor
 `carro_quebravel.py`); van, picape e sedã vão precisar de ajuste nas fronteiras das regiões do topo.
 
 Prévias em `meshy/previas/cuiabano-v2/cuiabano-v2-carroceria-limpa-*.jpg`.
+
+
+## Gol Quadrado do Sketchfab: a cadeia sem Meshy (29/10/2026)
+
+O Felipe quer o carro de teste **perfeito** e parecido com o modelo brasileiro de referência; a cirurgia no Meshy chegou ao limite
+(colunas e quadros dos vidros). O Cuiabano passou a ser um carro modelado por gente: **"Gol Quadrado" por coptrum (Sketchfab, CC BY
+4.0)**, `veiculos/sketchfab/gol-quadrado-coptrum__93858a6f970043978ba798ad430871e9.glb` (1,2 MB, 3 objetos: carroceria, vidros,
+rodas+assoalho; baixo polígono, chapa limpa, sem logo). O Meshy fica no acervo (`meshy-conta/quebravel/hatch-quadrado-v2/`).
+
+    python -I ferramentas/sketchfab_preparar.py -- <scene.gltf> <pasta>/gol-quadrado.glb "Object_3,Object_5,Object_7" 3.81 1.36 0.06
+    python -I ferramentas/carro_quebravel.py -- --entrada <pasta>/gol-quadrado.glb --out <corte> --id gol-quadrado --portas 2 \
+        --sem-rotulos --manter-normais --mapa veiculos/sketchfab/quebravel/gol-quadrado/gol-quadrado_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/gol-quadrado.glb <corte>/gol-quadrado.glb
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id gol-quadrado --out <kit> --epoca 80
+
+- **`sketchfab_preparar.py` (novo):** desparenta os objetos (matriz do mundo copiada), acha a frente e o eixo do carro por PCA, centra
+  entre os eixos e em y, põe o chão em z=0, **estica a carroceria acima do eixo** até a altura real (1,36 m) para as rodas ficarem
+  redondas, adensa (aresta máxima 6 cm) e junta num objeto só com os materiais `pintura`, `vidro`, `pneu` e `chassi` por ilha: as
+  janelas por regra (ilha estreita e alta, acima de 0,75 m antes do estiramento, em pares espelhados) e as rodas por raio. Grava
+  `<saida>_medidas.json` (vidros, rodas, retrovisores, peças soltas, eixos, caixa). Desde a noite de 29/10 recalcula as **normais por
+  ângulo** (7º argumento, padrão 30°): aresta mais dobrada fica viva, o resto liso. Sem isso, o vinco da tampa sob o vidro traseiro
+  e a saia refletiam o céu em manchas serrilhadas (o `bmesh` do adensamento perde as normais do arquivo); o corte precisa de
+  `--manter-normais` para levá-las adiante.
+- **`carro_quebravel.py` ganhou:** `--sem-rotulos` (a classificação pela textura não serve numa pintura clara: só o mapa manda);
+  `take: "material"` com `material: vidro|pneu|chassi|luz|cromado` (atributo `cq_mat` criado dos materiais do arquivo; os materiais
+  de entrada com nome igual aos nossos viram `entrada_<nome>`); `"rodas"` no mapa (centro, raio, y_dentro/y_fora, raio do aro) quando
+  o detector erra; e, na noite de 29/10, o **vidro por ilha**: cada ilha ligada do material vai inteira para a caixa que contém a
+  maior parte dela (a caixa do vidro traseiro roubava o canto do vidro de quarta e a borda saía em zigue-zague), e uma ilha pequena,
+  paralela e 8 mm ou mais atrás da maior (a aba do caixilho que o autor pintou como vidro) sai do modelo.
+- **`borracha_vidro.py` (novo):** borracha preta em volta de cada vidro a partir do **laço real da borda** da face de fora (não da
+  rasterização, que arredondava os cantos): 3 fileiras ao longo da bissetriz no plano, projetadas na chapa pelo raio na normal do
+  vidro, 1,5 mm acima e perfil de 4 mm; 1,6 cm nos vidros de porta, 2,4 cm nos fixos; dona é a porta, a tampa ou a carroceria;
+  espigões de rachas internas (ida e volta no laço) são tirados. A `vedacao_vidros.py --so-borracha` faz só a borracha, sem alisar
+  nem passar a ferro (no Gol o vidro já é limpo e o alisamento o estragava).
+- **`carro_completo.py` ganhou** (tudo medido na casca, vale para qualquer carro): `z_casca(x, y)`; o encosto do banco de trás baixa
+  até caber sob o vidro traseiro deitado, e os encostos de cabeça saem se não cabem (apareciam pelo vidro do hatch); a soleira fica
+  rente à chapa logo acima dela (abaixo da porta a casca do Gol não existe); o bocal do tanque fica 4 cm por dentro da lateral; o forro
+  da caixa de roda para 1,5 cm dentro do para-lama (o pneu do Gol passa 8 cm da lataria); `aparar_expostos` apaga, acima da cintura,
+  toda face do kit de onde dois raios escapam sem bater na casca (colunas do vão e acabamento da coluna A saíam por fora de uma coluna
+  mais estreita que a janela); **`saias()`**: chapa pintada sob cada para-choque (na borda de baixo dele, inclinada 12°), lateral até
+  a caixa de roda e a soleira continuada fora do vão da porta; e `aparar_sob_a_saia` apaga o que ficou além desses planos abaixo da
+  saia (radiador, travessa e assoalho do porta-malas apareciam por baixo).
+- **No Detonauto:** `kit_to_detonauto.hidden_paint_faces` só apaga faces de pintura que olham para o meio da caixa do kit (a coluna A
+  por fora olhava para o retrovisor e sumia); o `glb_texturas.py` trata tinta de pouca saturação (a do Gol é quase branca) como tinta
+  trocável; `wheels.json` leva `hub_y_cm` (62,5 cm no Gol) e o `montar-cuiabano-completo.ps1` aceita `-Id` e `-Fonte`.
+- **Saída (29/10):** `veiculos/sketchfab/quebravel/gol-quadrado/` (32 peças, ~253 mil triângulos, mapa feito à mão com as medidas
+  do preparo: entre-eixos 2,386 m, roda 27,15 cm, cintura 0,907 m) e `veiculos/sketchfab/completo/gol-quadrado/` (kit época 80, 79
+  peças). Prévias em `veiculos/sketchfab/previas/gol-quadrado/`.

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gol Quadrado
+* source:	https://sketchfab.com/3d-models/gol-quadrado-93858a6f970043978ba798ad430871e9
+* author:	coptrum (https://sketchfab.com/coptrum)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gol Quadrado" (https://sketchfab.com/3d-models/gol-quadrado-93858a6f970043978ba798ad430871e9) by coptrum (https://sketchfab.com/coptrum) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
