@@ -469,3 +469,24 @@ rodas+assoalho; baixo polígono, chapa limpa, sem logo). O Meshy fica no acervo 
 - **Saída (29/10):** `veiculos/sketchfab/quebravel/gol-quadrado/` (32 peças, ~253 mil triângulos, mapa feito à mão com as medidas
   do preparo: entre-eixos 2,386 m, roda 27,15 cm, cintura 0,907 m) e `veiculos/sketchfab/completo/gol-quadrado/` (kit época 80, 79
   peças). Prévias em `veiculos/sketchfab/previas/gol-quadrado/`.
+
+### detalhes_na_casca.py (29/10/2026, tarde)
+
+O Felipe aprovou o rumo ("está melhorando") e pediu os faróis, a grade e as lanternas da `carroceria_limpa/` nesta casca, e o que mais
+desse para melhorar. O modelo baixo polígono trazia tudo isso como placa lisa. O passo roda depois da `borracha_vidro.py` e antes do kit:
+
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/gol-quadrado.glb <corte>/gol-quadrado.glb [--sem-friso] [--sem-faixa]
+        [--sem-limpador] [--sem-macaneta] [--sem-miudezas] [--z-friso 0.58] [--z-faixa 0.42]
+
+- **Faróis e lanternas refeitos** na caixa medida das faces `luz` da peça: moldura preta de 8 mm na boca do bolso, lente 4 mm à
+  frente (convexa de leve), paredes para trás tapando o bolso; a lanterna traseira em três segmentos (ré, seta, freio) separados por
+  divisórias pretas. No jogo a lente inteira é o material da lanterna (`kit_names.py`), por isso só `luz` e `chassi`.
+- **Grade:** moldura preta, fundo recuado 5 cm, 4 palhetas horizontais e 2 travessas verticais.
+- **O que o modelo não tinha:** duas palhetas do limpador deitadas no para-brisa (paralelas, descansando para o lado do carona),
+  maçanetas nas portas, friso lateral preto a 58 cm cortado por peça (o trecho da porta vai com a porta), faixa de borracha na face
+  dos para-choques (desviando da placa da frente), retrovisores refeitos (caixa arredondada preta com o espelho atrás e a haste até a
+  porta), tampa do tanque na quarta traseira direita e antena no para-lama esquerdo.
+- **Normais:** as peças que só ganham geometria mantêm as normais de canto do corte; faróis, lanternas, grade e retrovisores são
+  refeitos e recebem normais por ângulo (30°). Tudo entra nas peças que já existem, com os materiais do corte: a cadeia do Detonauto
+  (amassado, `kit_to_detonauto.py`, kit) roda igual, conferida aqui.
+- Prévias: `veiculos/sketchfab/previas/gol-quadrado/gol-quadrado-detalhes.jpg` e as 4 vistas refeitas.
