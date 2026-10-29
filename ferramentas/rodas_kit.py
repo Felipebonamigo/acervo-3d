@@ -792,9 +792,11 @@ def materiais(out):
     mats = {}
     # 29/10 (o Felipe: "pneus e rodas têm que ter mais cara de realismo"): aro de aço com tinta prata de fábrica (não o cinza
     # chumbo de antes), liga e calota mais espelhadas, pneu de borracha nova (preto fosco, não preto chapado)
-    mats["aro_aco"], _ = principled("aro_aco", (0.52, 0.53, 0.54), 0.75, 0.32)
-    mats["aro_liga"], _ = principled("aro_liga", (0.62, 0.62, 0.61), 1.0, 0.22)
-    mats["calota"], _ = principled("calota", (0.86, 0.86, 0.87), 1.0, 0.10)
+    # 29/10 (noite, no jogo): espelhadas, calota e aro só refletiam o chão e o escuro da caixa de roda e a roda saía preta. A calota
+    # da época é plástico pintado de prata e o aro é aço pintado: acetinados, pouco metal, claros por conta própria
+    mats["aro_aco"], _ = principled("aro_aco", (0.60, 0.61, 0.62), 0.40, 0.35)
+    mats["aro_liga"], _ = principled("aro_liga", (0.66, 0.66, 0.65), 0.60, 0.25)
+    mats["calota"], _ = principled("calota", (0.78, 0.79, 0.80), 0.35, 0.22)
     mats["calota"].use_backface_culling = False
     mats["parafuso"], _ = principled("parafuso", (0.55, 0.55, 0.53), 1.0, 0.35)
     m, b = principled("pneu", (0.034, 0.034, 0.036), 0.0, 0.72, spec=0.45)
