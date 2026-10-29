@@ -193,6 +193,7 @@ def medidas(corte, cfg=None):
     M["x_teto_frente"] = ws[0] + 0.02
     M["x_teto_tras"] = rg[1] - 0.02
     M["inclinacao_para_brisa"] = (ws[1] - ws[0]) / max(0.05, ws[5] - ws[4])
+    M["x_pb_topo"], M["z_pb_topo"] = ws[0], ws[5]          # linha do para-brisa: x(z) = x_pb_topo + inclinação * (z_pb_topo - z)
 
     # bancos (assento a ~0,27 m do piso e encosto a ~0,62 m do assento: medidas típicas de carro pequeno, ver dados "medidas_reais")
     cb = med.get("coluna_b", xt + 0.4 * M["entre_eixos"])
@@ -1253,6 +1254,14 @@ class Kit:
         yy = abs(y) / max(0.2, M["meia_teto"] + 0.12)
         return M["z_teto_int"] + 0.02 - 0.16 * yy ** 2
 
+    def z_casca(self, x, y):
+        """z da casca (teto, vidros, tampa) logo acima de (x, y), ou None sem casca ou fora dela."""
+        if not self.casca:
+            return None
+        h = self.casca.raio(["body", "glass_windshield", "glass_rear", "trunk", "hood", "glass_door_fl", "glass_door_fr",
+                             "glass_door_rl", "glass_door_rr"], (x, y, 2.5), (0, 0, -1), 2.5)
+        return h[0].z if h else None
+
     def tem_teto(self, x, y):
         """Há chapa de teto (e não vidro) logo acima de (x, y)?"""
         M = self.M
@@ -1283,11 +1292,20 @@ class Kit:
     def y_janela(self, x, z, s, pos=None):
         """|y| do plano do vidro lateral em (x, z) (pelo vidro da porta ou da carroceria); sem casca, pela queda do teto."""
         M = self.M
-        nomes = ([f"glass_door_{pos}"] if pos else ["glass_door_fl" if s > 0 else "glass_door_fr"]) + ["body"]
+        # toda a casca de fora conta (no Gol do Sketchfab o raio na linha da coluna A passava pelo para-brisa, que não estava na
+        # lista, e as colunas do vão da porta saíam flutuando fora do vidro)
+        nomes = ([f"glass_door_{pos}"] if pos else ["glass_door_fl" if s > 0 else "glass_door_fr"]) + \
+                ["body", "glass_windshield", "glass_rear", "glass_door_fl", "glass_door_fr", "glass_door_rl", "glass_door_rr"]
         if self.casca:
             h = self.casca.raio(nomes, (x, s * 0.2, z), (0, s, 0), 1.2)
             if h and abs(h[0].y) > 0.30:
                 return abs(h[0].y)
+            # de fora para dentro (o ponto pode estar na frente do para-brisa, numa coluna A muito inclinada)
+            h = self.casca.raio(nomes, (x, s * 1.2, z), (0, -s, 0), 1.2)
+            if h and abs(h[0].y) > 0.30:
+                return abs(h[0].y)
+            if h is None:
+                return 0.40                  # fora do carro: bem para dentro, para a peça não flutuar fora do vidro
         t = _limitar((z - M["z_cintura"]) / max(0.1, M["z_teto"] - M["z_cintura"]), 0, 1)
         return M["W"] - 0.03 - 0.12 * t
 
@@ -1527,11 +1545,27 @@ class Kit:
         p.caixa("plastico", T(xb + 0.25, 0, (zb + zs - 0.08) / 2), comp - 0.04, larg - 0.04, zs - 0.08 - zb + 0.02, 0.02)
         self._estofado(p, T(xb + 0.26, 0, zs - 0.08) @ Ry(-math.radians(8)), larg, comp, 0.14)
         h = min(0.58, M["z_teto_int"] - zs - 0.18)
+        # o encosto inclina 24° para trás: num hatch de vidro traseiro deitado (Gol quadrado) o topo passava pelo vidro e pela tampa.
+        # Baixa até o topo (e o encosto de cabeça, se houver) caber sob a casca com 4 cm de folga.
+        cabe_cabeca = bool(e.get("encosto_cabeca_traseiro"))
+
+        def _cabe(h_, extra):
+            xt_ = xb - 0.41 * h_ - 0.09
+            zt_ = zs - 0.04 + 0.914 * h_ + extra
+            for yy_ in (0.0, larg * 0.3, -larg * 0.3):
+                zc_ = self.z_casca(xt_, yy_)
+                if zc_ is not None and zc_ - 0.04 < zt_:
+                    return False
+            return True
+        while h > 0.34 and not _cabe(h, 0.02):
+            h -= 0.01
+        if cabe_cabeca and not _cabe(h, 0.05 + 0.15 + 0.03):
+            cabe_cabeca = False
         Mb = T(xb, 0, zs - 0.04) @ Ry(math.radians(-24)) @ T(0, 0, h / 2) @ Ry(math.radians(90)) @ Rz(math.pi)
         self._estofado(p, Mb @ T(0, 0, -0.06), larg, h, 0.12)
         topo = T(xb, 0, zs - 0.04) @ Ry(math.radians(-24))
         p.caixa("plastico", topo @ T(-0.07, 0, h / 2), 0.03, larg - 0.04, h - 0.02, 0.012)
-        if e.get("encosto_cabeca_traseiro"):
+        if cabe_cabeca:
             for yy in (-larg * 0.3, larg * 0.3):
                 self._encosto_cabeca(p, topo, h, yy, 0.24, 0.15, 0.09)
         # trava do encosto rebatível (hatch) e as fivelas no vão do assento
@@ -2422,16 +2456,24 @@ class Kit:
         incl = M["inclinacao_para_brisa"] * 0.85
         if frente and M["carroceria"] != "cabine_avancada":
             xa_top = _limitar(x1 - incl * (zj - zc), d["x_vidro"][0] + 0.25, x1 - 0.04)
+            # nunca à frente do para-brisa (no Gol do Sketchfab a borda da porta fica à frente da base do para-brisa)
+            if "x_pb_topo" in M:
+                xa_top = min(xa_top, M["x_pb_topo"] + M["inclinacao_para_brisa"] * (M["z_pb_topo"] - zj) - 0.06)
             xb_top = x0
         else:
             xa_top = x1
             xb_top = x0 + (0.08 if not frente else 0.0)
+        # a parte da coluna A acima da cintura parte de trás da base do para-brisa (a borda da porta pode estar à frente dela)
+        x1c = x1
+        if frente and "x_pb_topo" in M:
+            x1c = min(x1, M["x_pb_topo"] + M["inclinacao_para_brisa"] * (M["z_pb_topo"] - zc) - 0.05)
         g = f"jamb_{pos}"
         W = M["W"]
         # soleira: caixa pintada, a borracha-friso de pisar e o friso de alumínio (anos 70)
         p = self.nova(f"{g}_soleira", "vao_porta")
         ys = self.lado_em((x0 + x1) / 2, zs - 0.05, s, folga=0.0)
-        ys = min(ys, W - 0.005)
+        # abaixo da porta a casca pode nem existir (o Gol do Sketchfab acaba na saia): a soleira fica rente à chapa logo acima
+        ys = min(ys, self.lado_em((x0 + x1) / 2, zs + 0.02, s, folga=0.0), W - 0.005)
         p.caixa("pintura_interna", T((x0 + x1) / 2, s * (ys - 0.05), zs - 0.045), x1 - x0 + 0.02, 0.10, 0.09, 0.012)
         p.caixa("plastico", T((x0 + x1) / 2 - 0.02, s * (ys - 0.112), zs - 0.035), x1 - x0 + 0.06, 0.03, 0.11, 0.01)
         p.caixa("plastico" if self.cfg["epoca"] != "70" else "aluminio", T((x0 + x1) / 2, s * (ys - 0.075), zs + 0.004),
@@ -2450,8 +2492,8 @@ class Kit:
             # furos de serviço na coluna (tampados com borracha)
             for zz in ((zs + zc) / 2 - 0.08, (zs + zc) / 2 + 0.10):
                 q.cilindro("borracha", T(xx - sinal * 0.007, s * (yy - prof / 2), zz) @ Ry(math.pi / 2), 0.011, 0.004, 12, 0.001)
-        ya = min(self.lado_em(x1, zc + 0.05, s), W - 0.02)
-        a, b = V(x1 + 0.006, s * (ya - 0.05), zc), V(xa_top + 0.006, s * (min(self.y_janela(xa_top, zj - 0.03, s, pos), W - 0.06) - 0.05), zj)
+        ya = min(self.lado_em(x1c, zc + 0.05, s), W - 0.02)
+        a, b = V(x1c + 0.006, s * (ya - 0.05), zc), V(xa_top + 0.006, s * (min(self.y_janela(xa_top, zj - 0.03, s, pos), W - 0.06) - 0.05), zj)
         q.fita("pintura_interna", [a, b], 0.10, 0.012, (1, 0, -incl * 0.5) if (frente and M["carroceria"] != "cabine_avancada") else (1, 0, 0))
         a2 = V(x0 - 0.006, s * (min(self.lado_em(x0, zc, s), W - 0.02) - 0.05), zc)
         b2 = V(xb_top - 0.006, s * (min(self.y_janela(xb_top, zj - 0.03, s, pos), W - 0.06) - 0.05), zj)
@@ -2467,7 +2509,7 @@ class Kit:
         q.cilindro("borracha", T(x0 - 0.018, s * yi, zi) @ Ry(math.pi / 2), 0.006, 0.012, 12, 0.002)
         # borracha de vedação em volta do vão
         r = self.nova(f"{g}_borracha", "vao_porta")
-        contorno = [V(x0 + 0.02, 0, zs + 0.02), V(x1 - 0.02, 0, zs + 0.02), V(x1 - 0.015, 0, zc),
+        contorno = [V(x0 + 0.02, 0, zs + 0.02), V(x1 - 0.02, 0, zs + 0.02), V(x1c - 0.015, 0, zc),
                     V(xa_top - 0.01, 0, zj - 0.01), V(xb_top + 0.02, 0, zj - 0.01), V(x0 + 0.015, 0, zc), V(x0 + 0.02, 0, zs + 0.02)]
         dens = []
         for i in range(len(contorno) - 1):
@@ -3505,6 +3547,11 @@ class Kit:
             Mt = T(xc, 0, M["z_mala"] - 0.14)
             p.almofada("metal_preto", Mt, 0.38, 0.85, 0.20, 0.12, 0.15)
             bocal = [Mt @ V(0.0, 0.38, 0.08), V(xc - 0.05, M["W"] - 0.10, M["z_mala"] + 0.10)]
+        # o bocal sobe pela lateral: fica 4 cm por dentro da chapa de lá (saía pela quarta traseira do Gol)
+        bocal = [V(*q) for q in bocal]
+        for q in bocal:
+            if abs(q.y) > 0.3:
+                q.y = math.copysign(min(abs(q.y), self.lado_em(q.x, q.z, 1 if q.y > 0 else -1, folga=0.04)), q.y)
         p.tubo("borracha", bocal, 0.022, seg=12)
         p.tubo("aluminio", [bocal[0] + V(0.03, -0.1, -0.02), V(M["x_corta_fogo"] - 0.1, 0.26, M["z_piso"] - 0.05)], 0.004, seg=6, sub=1)
 
@@ -3625,6 +3672,10 @@ class Kit:
         R = M["R"] + 0.035
         y0, y1 = r["y_dentro"] - 0.025, r["y_fora"] - 0.01
         cx, cz = r["x"], r["z"]
+        # a borda de fora fica dentro do para-lama (no Gol do Sketchfab o pneu passa 8 cm da lataria e o forro aparecia como aba)
+        lat = self.lado_em(cx, cz + R + 0.05, s, nomes=("body", "fender_front_left", "fender_front_right", "fender_rear_left",
+                                                       "fender_rear_right"))
+        y1 = min(y1, lat - 0.015)
 
         def ponto(u, v):
             a = math.radians(-20 + 220 * u)
@@ -3632,6 +3683,69 @@ class Kit:
             return V(cx + R * math.cos(a), s * y, cz + R * math.sin(a))
         p.grade("plastico", 32, 4, ponto, 0.006, normal_fn=lambda u, v: (-math.cos(math.radians(-20 + 220 * u)), 0,
                                                                          -math.sin(math.radians(-20 + 220 * u))))
+
+    # ================================================================================================================ SAIAS
+    def saias(self):
+        """
+        Chapa pintada fechando o carro por baixo onde a casca acaba acima do piso: saia sob cada para-choque e a continuação da
+        soleira fora do vão da porta (do vão até a caixa de roda). No Gol do Sketchfab a lataria termina na borda de baixo do
+        para-choque e das portas (~28 cm): de baixo via-se o radiador, a travessa e o tanque.
+        """
+        M = self.M
+        W, R = M["W"], M["R"]
+        zs = M["z_saia"]
+        z0 = M["z_piso"] + 0.005
+        if zs - z0 < 0.03:
+            return
+        p = self.nova("under_saias", "embaixo", nota="saias pintadas sob os para-choques e a soleira fora das portas")
+        alt = zs + 0.015 - z0
+        zc = (zs + 0.015 + z0) / 2
+        self.saia = {"zs": zs, "xf": None, "xt": None, "y_lat": {}}
+        # frente e trás: a borda de baixo do para-choque (raio horizontal a 1,5 cm acima da saia) diz onde a chapa fica
+        for sinal, nomes in ((1, ["bumper_front", "body", "grille", "plate_front"]), (-1, ["bumper_rear", "body", "plate_rear"])):
+            xs = []
+            for yy in (-0.45, -0.2, 0.0, 0.2, 0.45):
+                h = self.casca.raio(nomes, (sinal * 3.0, yy, zs + 0.015), (-sinal, 0, 0), 4.0) if self.casca else None
+                if h:
+                    xs.append(h[0].x)
+            if not xs:
+                continue
+            xb = (min(xs) if sinal > 0 else max(xs)) - sinal * 0.02
+            self.saia["xf" if sinal > 0 else "xt"] = xb
+            # topo do para-choque: até lá, o que o kit põe à frente do plano da saia fica dentro do para-choque e some
+            z_pc = zs
+            for k in range(1, 30):
+                for yy in (0.0, -0.3, 0.3):
+                    h = self.casca.raio(nomes[:1], (sinal * 3.0, yy, zs + 0.02 * k), (-sinal, 0, 0), 4.0) if self.casca else None
+                    if h:
+                        z_pc = zs + 0.02 * k
+                        break
+            self.saia["z_pc_f" if sinal > 0 else "z_pc_t"] = z_pc
+            print(f"saia {'da frente' if sinal > 0 else 'de trás'}: plano x={xb:.3f}, para-choque até z={z_pc:.2f}")
+            larg = 2 * (W - 0.07)
+            p.caixa("pintura_interna", T(xb, 0, zc) @ Ry(math.radians(-sinal * 12)), 0.012, larg, alt, 0.004)
+            # laterais da saia, até a caixa de roda
+            xr = (M["xd"] - R - 0.05) if sinal > 0 else (M["xt"] + R + 0.05)
+            comp = abs(xb - xr)
+            if comp > 0.04:
+                for s in (1, -1):
+                    yl = self.lado_em((xb + xr) / 2, zs + 0.02, s, folga=0.0)
+                    yl = min(yl, W - 0.005)
+                    p.caixa("pintura_interna", T((xb + xr) / 2, s * (yl - 0.03), zc), comp, 0.012, alt, 0.004)
+        # soleira fora dos vãos das portas (entre a porta e as caixas de roda)
+        for s in (1, -1):
+            pf = M["portas"].get("f" + ("l" if s > 0 else "r"))
+            pt = M["portas"].get("r" + ("l" if s > 0 else "r"))
+            if not pf:
+                continue
+            x_fim_tras = (pt["x0"] if pt else pf["x0"])
+            trechos = [(M["xt"] + R + 0.05, x_fim_tras - 0.01), (pf["x1"] + 0.01, M["xd"] - R - 0.05)]
+            for xa, xb_ in trechos:
+                if xb_ - xa < 0.04:
+                    continue
+                yl = min(self.lado_em((xa + xb_) / 2, zs + 0.02, s, folga=0.0), W - 0.005)
+                p.caixa("pintura_interna", T((xa + xb_) / 2, s * (yl - 0.055), zs - 0.045), xb_ - xa, 0.10, 0.09, 0.008)
+                self.saia["y_lat"][(xa, xb_)] = yl
 
     # ================================================================================================================ FREIOS
     def freios(self):
@@ -3795,6 +3909,113 @@ def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habi
             ob.data.update()
             andou[ob.name] = n
     return andou
+
+
+def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", "porta")):
+    """
+    Acima da cintura a cabine é fechada (teto, vidros, colunas, portas): uma face do kit de onde um raio escapa para fora sem
+    bater na casca está do lado de fora (o acabamento da coluna A e as colunas do vão apareciam pelo lado de fora do Gol do
+    Sketchfab, cuja coluna A é mais estreita do que a medida pela janela). Some com ela. Devolve quantas faces saíram, por peça.
+    """
+    import bpy
+    import bmesh
+    import math as _m
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    bm = bmesh.new()
+    for nome, ob in corte_objs.items():
+        if nome.startswith(("wheel", "hubcap")):
+            continue
+        b = bmesh.new()
+        b.from_mesh(ob.data)
+        b.transform(ob.matrix_world)
+        me = bpy.data.meshes.new("_casca_toda")
+        b.to_mesh(me)
+        bm.from_mesh(me)
+        bpy.data.meshes.remove(me)
+        b.free()
+    arv = BVHTree.FromBMesh(bm)
+    bm.free()
+    r2 = 1 / _m.sqrt(2)
+    dirs = [Vector(d) for d in ((0, 0, 1), (0, 1, 0), (0, -1, 0), (1, 0, 0), (-1, 0, 0), (0, r2, r2), (0, -r2, r2), (r2, 0, r2), (-r2, 0, r2))]
+    tirou = {}
+    for ob in objs:
+        if ob.get("grupo") not in grupos:
+            continue
+        M = ob.matrix_world
+        b = bmesh.new()
+        b.from_mesh(ob.data)
+        fora = []
+        for f in b.faces:
+            c = M @ f.calc_center_median()
+            if c.z < z_min:
+                continue
+            escapes = 0
+            for d in dirs:
+                if arv.ray_cast(c + d * 0.002, d, 3.0)[0] is None:
+                    escapes += 1
+                    if escapes >= 2:      # dois raios livres: não é uma fresta entre painéis
+                        fora.append(f)
+                        break
+        if fora:
+            bmesh.ops.delete(b, geom=fora, context="FACES")
+            b.to_mesh(ob.data)
+            ob.data.update()
+            tirou[ob.name] = len(fora)
+        b.free()
+    return tirou
+
+
+def aparar_sob_a_saia(objs, saia, rodas, R, grupos=("embaixo", "motor", "porta_malas", "habitaculo", "vao_porta")):
+    """
+    Abaixo da saia, o que passa do plano da saia da frente ou de trás (a travessa e o radiador à frente do para-choque, o
+    assoalho do porta-malas atrás dele) ou da soleira de lado (fora das caixas de roda) sai: de baixo do carro aparecia.
+    Devolve quantas faces saíram, por peça.
+    """
+    import bmesh
+    zs = saia["zs"]
+    tirou = {}
+    for ob in objs:
+        if ob.get("grupo") not in grupos or ob.name == "under_saias":
+            continue
+        M = ob.matrix_world
+        b = bmesh.new()
+        b.from_mesh(ob.data)
+        fora = []
+        grupo = ob.get("grupo")
+        for f in b.faces:
+            c = M @ f.calc_center_median()
+            # as faces grandes (a lateral do radiador é um quadrilátero só) contam por qualquer vértice, não pelo centro
+            vs = [M @ v.co for v in f.verts]
+            x_max, x_min, z_min = max(v.x for v in vs), min(v.x for v in vs), min(v.z for v in vs)
+            # dentro do para-choque (até o topo dele), o motor e o porta-malas não passam do plano da saia
+            if saia["xf"] is not None and grupo in ("motor", "embaixo") and x_max > saia["xf"] + 0.004 and z_min < saia.get("z_pc_f", zs):
+                fora.append(f)
+                continue
+            if saia["xt"] is not None and grupo in ("porta_malas", "embaixo") and x_min < saia["xt"] - 0.004 and z_min < saia.get("z_pc_t", zs):
+                fora.append(f)
+                continue
+            if z_min > zs + 0.005:
+                continue
+            if saia["xf"] is not None and x_max > saia["xf"] + 0.004:
+                fora.append(f)
+                continue
+            if saia["xt"] is not None and x_min < saia["xt"] - 0.004:
+                fora.append(f)
+                continue
+            if any(abs(c.x - r["x"]) < R + 0.10 for r in rodas.values()):
+                continue      # caixa de roda: o forro e a suspensão ficam
+            for (xa, xb_), yl in saia["y_lat"].items():
+                if xa - 0.02 <= c.x <= xb_ + 0.02 and abs(c.y) > yl - 0.045:
+                    fora.append(f)
+                    break
+        if fora:
+            bmesh.ops.delete(b, geom=fora, context="FACES")
+            b.to_mesh(ob.data)
+            ob.data.update()
+            tirou[ob.name] = len(fora)
+        b.free()
+    return tirou
 
 
 def fazer_lod1(ob, razao=LOD1_RAZAO):
@@ -4202,6 +4423,7 @@ def principal(argv):
     kit.porta_malas()
     kit.vao_motor()
     kit.embaixo()
+    kit.saias()
     kit.freios()
     objs = []
     col = bpy.data.collections.new("kit_completo")
@@ -4215,6 +4437,11 @@ def principal(argv):
     if corte_objs:
         andou = recolher_na_casca(objs, corte_objs)
         print("dentro da casca (vértices recolhidos):", andou)
+        tirou = aparar_expostos(objs, corte_objs, kit.M["z_cintura"] - 0.01)
+        print("fora da casca acima da cintura (faces tiradas):", tirou)
+    if getattr(kit, "saia", None):
+        tirou = aparar_sob_a_saia(objs, kit.saia, kit.M["rodas"], kit.M["R"])
+        print("fora das saias, embaixo (faces tiradas):", tirou)
     if a.sem_sujeira:
         sujeira_branca(objs)
     else:

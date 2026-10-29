@@ -151,6 +151,9 @@ def parse_args(argv):
                                                                                     "Detonauto")),
                    help="raiz do repositório do Detonauto (lê Tools/Blender/make_damage_morphs.py para a prévia amassada)")
     p.add_argument("--debug-classes", action="store_true", help="malha única: grava <id>_classes.png com as classes de textura")
+    # malha única com mapa à mão (carros do Sketchfab com pintura clara, 29/10/2026): não classifica nada pela cor da textura; os
+    # vidros vêm do material 'vidro' já marcado no arquivo (take: material) e o resto das caixas do mapa
+    p.add_argument("--sem-rotulos", action="store_true", help="malha única: ignora a classificação pela textura (rótulos só do mapa)")
     return p.parse_args(argv)
 
 
@@ -1918,13 +1921,63 @@ def _cortar_caixa(bm, b):
     bm.faces.ensure_lookup_table()
 
 
-def _escolher(bm, p, rodas, camada_peca, ids_peca):
+def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
     """As faces da peça p do mapa."""
     import math as _m
     from mathutils import Vector
     take = p.get("take", "faces")
     b = p.get("box")
     out = []
+    if take == "material":
+        # faces que vieram com esse material no arquivo (vidro marcado à mão). Cada ilha ligada desse material
+        # (um vidro inteiro) vai para a caixa que contém a maior parte dela: a caixa do vidro traseiro não rouba
+        # o canto do vidro de quarta, nem a de quarta o canto do traseiro.
+        cod = {"vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}[p.get("material", "vidro")]
+        if camada_mat is None:
+            return []
+        if b is None:
+            return [f for f in bm.faces if f[camada_mat] == cod]
+        minimo = p.get("fracao_na_caixa", 0.5)
+        visto = set()
+        for f0 in bm.faces:
+            if f0[camada_mat] != cod or f0 in visto:
+                continue
+            pilha, ilha = [f0], []
+            visto.add(f0)
+            while pilha:
+                g = pilha.pop()
+                ilha.append(g)
+                for e in g.edges:
+                    for h in e.link_faces:
+                        if h[camada_mat] == cod and h not in visto:
+                            visto.add(h)
+                            pilha.append(h)
+            dentro = sum(1 for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
+            if dentro >= minimo * len(ilha) and dentro > 0:
+                out.append(ilha)
+        if not out:
+            return []
+        # a maior ilha é o vidro; uma ilha pequena, paralela e afastada dela para dentro é a aba do caixilho que o autor
+        # marcou como vidro (no Gol do Sketchfab, 1,5 cm atrás do vidro traseiro, passando a borda da tampa): sai do modelo
+        maior = max(out, key=lambda il: sum(g.calc_area() for g in il))
+        nm = sum((g.normal * g.calc_area() for g in maior), Vector())
+        if nm.length > 1e-9:
+            nm.normalize()
+            cm = sum((g.calc_center_median() for g in maior), Vector()) / len(maior)
+            area_maior = sum(g.calc_area() for g in maior)
+            abas = []
+            for il in out:
+                if il is maior or sum(g.calc_area() for g in il) > 0.25 * area_maior:
+                    continue
+                ds = [(g.calc_center_median() - cm).dot(nm) for g in il]
+                if min(abs(d) for d in ds) > 0.008:
+                    abas.append(il)
+            if abas:
+                import bmesh
+                print(f"[carro_quebravel]   {p['name']}: {len(abas)} aba(s) de caixilho marcada(s) como vidro tiradas do modelo")
+                bmesh.ops.delete(bm, geom=[g for il in abas for g in il], context="FACES")
+                out = [il for il in out if il not in abas]
+        return [g for il in out for g in il]
     if take == "roda":
         cx, _, cz = p["centro"]
         s = p["lado"]
@@ -2094,11 +2147,12 @@ def _executar_mapa(obj, mapa, rodas, rel):
     bm = bmesh.new()
     bm.from_mesh(me)
     camada = bm.faces.layers.int.get("cq_peca")
+    camada_mat = bm.faces.layers.int.get("cq_mat")
     ids = {n: i for i, n in enumerate(mapa.get("_rotulos", []), start=1)}
     vaos = []
     pecas = {}
     for p in mapa["parts"]:
-        faces = _escolher(bm, p, rodas, camada, ids)
+        faces = _escolher(bm, p, rodas, camada, ids, camada_mat)
         if not faces:
             rel["avisos"].append("peça %s: nenhuma face (ficou no corpo)" % p["name"])
             continue
@@ -2348,6 +2402,19 @@ def principal_unica(args, meshes, cid, out, rel):
     retros = _retrovisores(cen, co)
     cl, janelas, pecas_tex, info = _classificar_textura(cen, nor, area, col, _mr_faces(me), viz, rodas, retros, args.portas, rel)
     info.pop("_lados", None)
+    if getattr(args, "sem_rotulos", False):
+        cl[:] = 0
+        janelas, pecas_tex = {}, {}
+        rel["avisos"].append("--sem-rotulos: nada classificado pela textura; vidros e peças só pelo mapa")
+    # o material de cada face como veio no arquivo (vidro, pneu, chassi...), para o take 'material' do mapa
+    nomes_mat = [(m.name.split(".")[0] if m else "") for m in me.materials]
+    cod = {"vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}
+    if "cq_mat" in me.attributes:
+        me.attributes.remove(me.attributes["cq_mat"])
+    me.attributes.new("cq_mat", "INT", "FACE").data.foreach_set("value", [cod.get(nomes_mat[pg.material_index], 0) if pg.material_index < len(nomes_mat) else 0 for pg in me.polygons])
+    for m_ in list(me.materials)[1:]:
+        if m_ is not None and m_.name.split(".")[0] in cod or (m_ is not None and m_.name.split(".")[0] in (MAT_ESCURO, MAT_VAO)):
+            m_.name = "entrada_" + m_.name          # os padrões (vidro, chassi...) são criados de novo em _materiais_unica
     if args.debug_classes:
         dbg = cl.copy()
         for k, idx in janelas.items():
@@ -2360,6 +2427,11 @@ def principal_unica(args, meshes, cid, out, rel):
         with open(args.mapa, encoding="utf-8") as fh:
             mapa = json.load(fh)
         rel["mapa"] = "lido de %s" % args.mapa
+        if mapa.get("rodas"):
+            # rodas escritas à mão no mapa (o detector pegava a caixa de roda como banda de rodagem no Gol do Sketchfab)
+            rodas = [dict(nome=r["nome"], lado=r["lado"], cx=r["cx"], cz=r["cz"], raio=r["raio"], y_dentro=r["y_dentro"], y_fora=r["y_fora"],
+                          y_alcance=r.get("y_alcance", r["y_fora"]), raio_aro=r.get("raio_aro"), raio_calota=r.get("raio_calota")) for r in mapa["rodas"]]
+            rel["avisos"].append("rodas lidas do mapa (%d)" % len(rodas))
     else:
         mapa = _gerar_mapa(cid, cen, nor, rodas, retros, janelas, pecas_tex, info, rel)
         rel["mapa"] = "gerado pelas proporções"
@@ -2375,8 +2447,9 @@ def principal_unica(args, meshes, cid, out, rel):
     _materiais_unica(obj)
     pecas = _executar_mapa(obj, mapa, rodas, rel)
     obj.name = obj.data.name = "body"
-    if "cq_peca" in me.attributes:
-        me.attributes.remove(me.attributes["cq_peca"])
+    for nome_attr in ("cq_peca", "cq_mat"):
+        if nome_attr in me.attributes:
+            me.attributes.remove(me.attributes[nome_attr])
     finais = {"body": (obj, "body", ["malha única: o que sobrou, com os vãos e as caixas de roda"])}
     for nome, (o, papel, origem) in pecas.items():
         finais[nome] = (o, papel, ["malha única, " + origem + " faces"])

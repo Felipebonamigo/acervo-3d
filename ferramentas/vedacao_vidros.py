@@ -30,6 +30,7 @@ SIGMA = opt("--sigma", 4.0) / 100       # suavização da curva da borda, em met
 MAX_HW = opt("--max-cm", 1.8) / 100     # meia largura máxima da borracha (vidros das portas e laterais)
 MAX_HW_FIXO = opt("--max-cm-fixo", 2.5) / 100   # para-brisa e vidro traseiro: a borracha de verdade é larga e a borda do Meshy é a pior
 MIN_HW = 0.008
+SO_BORRACHA = "--so-borracha" in args        # só o cordão de borracha: não alisa o vidro nem passa a ferro a chapa (modelos limpos)
 PASSO = 0.008                           # um ponto da borracha a cada 8 mm
 ALTURA = 0.003                          # o meio da borracha fica 3 mm acima das bordas (perfil arredondado)
 
@@ -173,68 +174,75 @@ for g in [o for o in meshes if o.name.startswith("glass_")]:
         bm.free()
         continue
     dm = sum((f.normal * f.calc_area() for f in fv), Vector())
+    if dm.length < 1e-6 * max(1, len(fv)):
+        # vidro de duas faces opostas (modelos do Sketchfab): a direção média se anula; o lado de fora é o que aponta para longe do carro
+        cen_ = sum((f.calc_center_median() for f in fv), Vector()) / len(fv)
+        dm = Vector((cen_.x if abs(cen_.x) > 1.0 else 0.0, cen_.y if abs(cen_.x) <= 1.0 else 0.0, 0.3))
     dm.normalize()
     fora = [f for f in fv if f.normal.dot(dm) > 0.3]
+    if not fora:
+        fora = [f for f in fv if abs(f.normal.dot(dm)) > 0.3]
     tris = []
     for f in fora:
         vs_ = [np.array(v.co) for v in f.verts]
         for k in range(1, len(vs_) - 1):
             tris.append((vs_[0], vs_[k], vs_[k + 1]))
-    # vidro liso (28/10): a face de fora ganha uma superfície quadrática ajustada (robusta) e todos os vértices do vidro vão para ela,
-    # a face de dentro na espessura mediana; o Meshy deixava um vinco vertical no vidro da porta
-    Pg = np.array([list(v.co) for v in bm.verts])
-    cg = Pg.mean(axis=0)
-    _, _, vt = np.linalg.svd(Pg - cg, full_matrices=False)
-    ea, eb, en = vt[0], vt[1], vt[2]
-    if en @ np.array(dm) < 0:
-        en = -en
-    fora_v = set(v.index for f in fora for v in f.verts)
-    U, Vv, Hh = (Pg - cg) @ ea, (Pg - cg) @ eb, (Pg - cg) @ en
-    A = np.stack([np.ones_like(U), U, Vv, U * U, U * Vv, Vv * Vv, U ** 3, U * U * Vv, U * Vv * Vv, Vv ** 3], 1)
-    idx = np.array(sorted(fora_v))
-    wq = np.ones(len(idx))
-    for _ in range(5):
-        coef = np.linalg.lstsq(A[idx] * wq[:, None], Hh[idx] * wq, rcond=None)[0]
-        rq = A[idx] @ coef - Hh[idx]
-        wq = (np.abs(rq) < 0.006).astype(float) + 1e-3
-    fit = A @ coef
-    rr = Hh - fit
-    # de fora ou de dentro: pela normal das faces de vidro de cada vértice (pelo desvio não dá: a face de fora amassada cai no
-    # nível da de dentro e o vidro vira cacos); vértice só de parede lateral vai para o nível mais perto
-    lado = np.zeros(len(Pg))
-    for f in bm.faces:                                   # vidro (face de fora) e chassi (face de dentro e paredes)
-        d_ = f.normal.dot(Vector(en))
-        if abs(d_) > 0.3:
-            for v in f.verts:
-                lado[v.index] += d_ * f.calc_area()
-    dentro = lado < 0
-    so_parede = lado == 0
-    esp = float(np.median(rr[dentro])) if dentro.sum() > 10 else -0.004
-    alvo = np.where(dentro, esp, 0.0)
-    alvo[so_parede] = np.where(rr[so_parede] < esp / 2, esp, 0.0)
-    bm.verts.ensure_lookup_table()
-    for k, v in enumerate(bm.verts):
-        v.co = Vector(Pg[k] + en * (alvo[k] - rr[k]))
-    me_g = g.data
-    inv_g = g.matrix_world.inverted()
-    # grava no objeto (o bm tem os vértices soldados; grava pelo mais perto)
-    kdg = kdtree.KDTree(len(bm.verts))
-    for k, v in enumerate(bm.verts):
-        kdg.insert(Vector(Pg[k]), k)
-    kdg.balance()
-    Mg = g.matrix_world
-    for v in me_g.vertices:
-        _, k, _ = kdg.find(Mg @ v.co)
-        v.co = inv_g @ bm.verts[k].co
-    me_g.update()
-    for f in fora:
-        f.normal_update()
-    tris = []
-    for f in fora:
-        vs_ = [np.array(v.co) for v in f.verts]
-        for k in range(1, len(vs_) - 1):
-            tris.append((vs_[0], vs_[k], vs_[k + 1]))
-    relatorio.append("    vidro liso %s: desvio p90 antes %.1f mm, espessura %.1f mm" % (g.name, np.percentile(np.abs(rr[idx]), 90) * 1000, -esp * 1000))
+    if not SO_BORRACHA:
+        # vidro liso (28/10): a face de fora ganha uma superfície quadrática ajustada (robusta) e todos os vértices do vidro vão para ela,
+        # a face de dentro na espessura mediana; o Meshy deixava um vinco vertical no vidro da porta
+        Pg = np.array([list(v.co) for v in bm.verts])
+        cg = Pg.mean(axis=0)
+        _, _, vt = np.linalg.svd(Pg - cg, full_matrices=False)
+        ea, eb, en = vt[0], vt[1], vt[2]
+        if en @ np.array(dm) < 0:
+            en = -en
+        fora_v = set(v.index for f in fora for v in f.verts)
+        U, Vv, Hh = (Pg - cg) @ ea, (Pg - cg) @ eb, (Pg - cg) @ en
+        A = np.stack([np.ones_like(U), U, Vv, U * U, U * Vv, Vv * Vv, U ** 3, U * U * Vv, U * Vv * Vv, Vv ** 3], 1)
+        idx = np.array(sorted(fora_v))
+        wq = np.ones(len(idx))
+        for _ in range(5):
+            coef = np.linalg.lstsq(A[idx] * wq[:, None], Hh[idx] * wq, rcond=None)[0]
+            rq = A[idx] @ coef - Hh[idx]
+            wq = (np.abs(rq) < 0.006).astype(float) + 1e-3
+        fit = A @ coef
+        rr = Hh - fit
+        # de fora ou de dentro: pela normal das faces de vidro de cada vértice (pelo desvio não dá: a face de fora amassada cai no
+        # nível da de dentro e o vidro vira cacos); vértice só de parede lateral vai para o nível mais perto
+        lado = np.zeros(len(Pg))
+        for f in bm.faces:                                   # vidro (face de fora) e chassi (face de dentro e paredes)
+            d_ = f.normal.dot(Vector(en))
+            if abs(d_) > 0.3:
+                for v in f.verts:
+                    lado[v.index] += d_ * f.calc_area()
+        dentro = lado < 0
+        so_parede = lado == 0
+        esp = float(np.median(rr[dentro])) if dentro.sum() > 10 else -0.004
+        alvo = np.where(dentro, esp, 0.0)
+        alvo[so_parede] = np.where(rr[so_parede] < esp / 2, esp, 0.0)
+        bm.verts.ensure_lookup_table()
+        for k, v in enumerate(bm.verts):
+            v.co = Vector(Pg[k] + en * (alvo[k] - rr[k]))
+        me_g = g.data
+        inv_g = g.matrix_world.inverted()
+        # grava no objeto (o bm tem os vértices soldados; grava pelo mais perto)
+        kdg = kdtree.KDTree(len(bm.verts))
+        for k, v in enumerate(bm.verts):
+            kdg.insert(Vector(Pg[k]), k)
+        kdg.balance()
+        Mg = g.matrix_world
+        for v in me_g.vertices:
+            _, k, _ = kdg.find(Mg @ v.co)
+            v.co = inv_g @ bm.verts[k].co
+        me_g.update()
+        for f in fora:
+            f.normal_update()
+        tris = []
+        for f in fora:
+            vs_ = [np.array(v.co) for v in f.verts]
+            for k in range(1, len(vs_) - 1):
+                tris.append((vs_[0], vs_[k], vs_[k + 1]))
+        relatorio.append("    vidro liso %s: desvio p90 antes %.1f mm, espessura %.1f mm" % (g.name, np.percentile(np.abs(rr[idx]), 90) * 1000, -esp * 1000))
     bm.free()
     tris = np.array(tris)
     raw, (c0, e1, e2, d0), uv = glass_outline(tris)
@@ -282,98 +290,101 @@ for g in [o for o in meshes if o.name.startswith("glass_")]:
     V = np.zeros_like(B)
     for j, s_ in enumerate(rows):
         V[:, j] = B[:, j] + Nn * (env + 0.002 + ALTURA * (1 - s_ * s_))[:, None]
-    # passar a ferro (28/10): o que fica serrilhado em volta do vidro vai para baixo da borracha. Chapa que invade o vidro volta para
-    # o lado de fora da curva e vidro que passa da curva volta para dentro, os dois a 0,3 da meia largura e 3 mm abaixo do topo da chapa
-    # ali; e chapa pintada bem dentro do vidro (o Meshy pintou retalhos por cima do vidro) é apagada.
     gc = tris.reshape(-1, 3).mean(axis=0)
     sgn = 1.0 if np.mean(((gc - C) * side).sum(axis=1)) > 0 else -1.0     # lado positivo = para dentro do vidro
-    kd = kdtree.KDTree(len(C))
-    for i, c in enumerate(C):
-        kd.insert(Vector(c), i)
-    kd.balance()
-    W = hw + 0.05
-    for o in meshes:
-        on = mat_names(o)
-        if not any(n.startswith(("pintura", "vidro")) for n in on):
-            continue
-        e_vidro = o.name.startswith("glass_")
-        if e_vidro and o is not g:
-            continue
-        M, Mi = o.matrix_world, o.matrix_world.inverted()
-        me_o = o.data
-        apagar = set()
-        mexeu = 0
-        # só vértices de tinta ou vidro (as borrachas já feitas e o plástico ficam quietos)
-        de_chapa = np.zeros(len(me_o.vertices), bool)
-        de_tinta = np.zeros(len(me_o.vertices), bool)
-        for pg in me_o.polygons:
-            if on[pg.material_index].startswith(("pintura", "vidro")):
-                de_chapa[list(pg.vertices)] = True
-            if on[pg.material_index].startswith("pintura"):
-                de_tinta[list(pg.vertices)] = True
-        for v in me_o.vertices:
-            if not de_chapa[v.index]:
+    if not SO_BORRACHA:
+        # passar a ferro (28/10): o que fica serrilhado em volta do vidro vai para baixo da borracha. Chapa que invade o vidro volta para
+        # o lado de fora da curva e vidro que passa da curva volta para dentro, os dois a 0,3 da meia largura e 3 mm abaixo do topo da chapa
+        # ali; e chapa pintada bem dentro do vidro (o Meshy pintou retalhos por cima do vidro) é apagada.
+        gc = tris.reshape(-1, 3).mean(axis=0)
+        sgn = 1.0 if np.mean(((gc - C) * side).sum(axis=1)) > 0 else -1.0     # lado positivo = para dentro do vidro
+        kd = kdtree.KDTree(len(C))
+        for i, c in enumerate(C):
+            kd.insert(Vector(c), i)
+        kd.balance()
+        W = hw + 0.05
+        for o in meshes:
+            on = mat_names(o)
+            if not any(n.startswith(("pintura", "vidro")) for n in on):
                 continue
-            w = M @ v.co
-            _, i, dist = kd.find(w)
-            rel = np.array(w) - C[i]
-            h = float(rel @ Nn[i])
-            s_ = float(rel @ side[i]) * sgn
-            if dist > 0.15:
-                # longe da borda mas dentro do vidro (divisor serrilhado que o Meshy pintou no meio do vidro): a face sai
-                if not e_vidro and abs(float((np.array(w) - c0) @ d0)) < 0.05 and ponto_dentro(float((np.array(w) - c0) @ e1), float((np.array(w) - c0) @ e2), C2):
-                    apagar.add(v.index)
+            e_vidro = o.name.startswith("glass_")
+            if e_vidro and o is not g:
                 continue
-            if abs(h) > 0.05:
-                continue
-            if e_vidro and not de_tinta[v.index]:
-                # vidro que passa da curva volta para dentro, debaixo da borracha
-                if s_ < -0.3 * hw:
-                    v.co = Mi @ Vector(C[i] + side[i] * sgn * (-0.3 * hw) + Nn[i] * min(h, env[i] - 0.003))
-                    mexeu += 1
-            elif e_vidro:
-                # tinta dentro do vidro (o Meshy pintou retalhos por cima do vidro): sai
-                if s_ > 0.5 * hw:
-                    apagar.add(v.index)
-            else:
-                # chapa que invade o vidro vai para a faixa debaixo da borracha (um retalho inteiro dentro do vidro vira uma lasca
-                # degenerada ali, invisível); o resto da faixa só desce para baixo da borracha
-                if s_ > hw + 0.01:
-                    apagar.add(v.index)
-                elif s_ > 0.3 * hw:
-                    v.co = Mi @ Vector(C[i] + side[i] * sgn * (0.3 * hw) + Nn[i] * min(h, env[i] - 0.003))
-                    mexeu += 1
-                elif dist <= W and h > env[i] - 0.003:
-                    # o que passa da borracha desce para baixo dela (nivelar a faixa inteira achatava o friso da cintura e o
-                    # reflexo mostrava manchas: não fazer)
-                    v.co = Mi @ Vector(np.array(w) - Nn[i] * (h - (env[i] - 0.003)))
-                    mexeu += 1
-        n_ap = 0
-        if apagar:
-            # só faces pintadas com todos os vértices dentro do vidro e perto do plano dele
-            b = bmesh.new()
-            b.from_mesh(me_o)
-            b.verts.ensure_lookup_table()
-            fs = [f for f in b.faces if on[f.material_index].startswith("pintura") and all(x.index in apagar for x in f.verts)]
-            n_ap = len(fs)
-            if fs:
-                n_old_ = len(me_o.loops)
-                cn_ = np.empty(n_old_ * 3)
-                me_o.corner_normals.foreach_get("vector", cn_)
-                cn_ = cn_.reshape(-1, 3)
-                keep_loops = np.ones(n_old_, bool)
-                for f in fs:
-                    for l in f.loops:
-                        keep_loops[l.index] = False
-                bmesh.ops.delete(b, geom=fs, context="FACES")
-                b.to_mesh(me_o)
+            M, Mi = o.matrix_world, o.matrix_world.inverted()
+            me_o = o.data
+            apagar = set()
+            mexeu = 0
+            # só vértices de tinta ou vidro (as borrachas já feitas e o plástico ficam quietos)
+            de_chapa = np.zeros(len(me_o.vertices), bool)
+            de_tinta = np.zeros(len(me_o.vertices), bool)
+            for pg in me_o.polygons:
+                if on[pg.material_index].startswith(("pintura", "vidro")):
+                    de_chapa[list(pg.vertices)] = True
+                if on[pg.material_index].startswith("pintura"):
+                    de_tinta[list(pg.vertices)] = True
+            for v in me_o.vertices:
+                if not de_chapa[v.index]:
+                    continue
+                w = M @ v.co
+                _, i, dist = kd.find(w)
+                rel = np.array(w) - C[i]
+                h = float(rel @ Nn[i])
+                s_ = float(rel @ side[i]) * sgn
+                if dist > 0.15:
+                    # longe da borda mas dentro do vidro (divisor serrilhado que o Meshy pintou no meio do vidro): a face sai
+                    if not e_vidro and abs(float((np.array(w) - c0) @ d0)) < 0.05 and ponto_dentro(float((np.array(w) - c0) @ e1), float((np.array(w) - c0) @ e2), C2):
+                        apagar.add(v.index)
+                    continue
+                if abs(h) > 0.05:
+                    continue
+                if e_vidro and not de_tinta[v.index]:
+                    # vidro que passa da curva volta para dentro, debaixo da borracha
+                    if s_ < -0.3 * hw:
+                        v.co = Mi @ Vector(C[i] + side[i] * sgn * (-0.3 * hw) + Nn[i] * min(h, env[i] - 0.003))
+                        mexeu += 1
+                elif e_vidro:
+                    # tinta dentro do vidro (o Meshy pintou retalhos por cima do vidro): sai
+                    if s_ > 0.5 * hw:
+                        apagar.add(v.index)
+                else:
+                    # chapa que invade o vidro vai para a faixa debaixo da borracha (um retalho inteiro dentro do vidro vira uma lasca
+                    # degenerada ali, invisível); o resto da faixa só desce para baixo da borracha
+                    if s_ > hw + 0.01:
+                        apagar.add(v.index)
+                    elif s_ > 0.3 * hw:
+                        v.co = Mi @ Vector(C[i] + side[i] * sgn * (0.3 * hw) + Nn[i] * min(h, env[i] - 0.003))
+                        mexeu += 1
+                    elif dist <= W and h > env[i] - 0.003:
+                        # o que passa da borracha desce para baixo dela (nivelar a faixa inteira achatava o friso da cintura e o
+                        # reflexo mostrava manchas: não fazer)
+                        v.co = Mi @ Vector(np.array(w) - Nn[i] * (h - (env[i] - 0.003)))
+                        mexeu += 1
+            n_ap = 0
+            if apagar:
+                # só faces pintadas com todos os vértices dentro do vidro e perto do plano dele
+                b = bmesh.new()
+                b.from_mesh(me_o)
+                b.verts.ensure_lookup_table()
+                fs = [f for f in b.faces if on[f.material_index].startswith("pintura") and all(x.index in apagar for x in f.verts)]
+                n_ap = len(fs)
+                if fs:
+                    n_old_ = len(me_o.loops)
+                    cn_ = np.empty(n_old_ * 3)
+                    me_o.corner_normals.foreach_get("vector", cn_)
+                    cn_ = cn_.reshape(-1, 3)
+                    keep_loops = np.ones(n_old_, bool)
+                    for f in fs:
+                        for l in f.loops:
+                            keep_loops[l.index] = False
+                    bmesh.ops.delete(b, geom=fs, context="FACES")
+                    b.to_mesh(me_o)
+                    me_o.update()
+                    if len(me_o.loops) == int(keep_loops.sum()):
+                        me_o.normals_split_custom_set(cn_[keep_loops].tolist())
+                b.free()
+            if mexeu or n_ap:
                 me_o.update()
-                if len(me_o.loops) == int(keep_loops.sum()):
-                    me_o.normals_split_custom_set(cn_[keep_loops].tolist())
-            b.free()
-        if mexeu or n_ap:
-            me_o.update()
-            relatorio.append("    ferro %s em %s: %d vértices, %d faces pintadas dentro do vidro apagadas" % (g.name, o.name, mexeu, n_ap))
+                relatorio.append("    ferro %s em %s: %d vértices, %d faces pintadas dentro do vidro apagadas" % (g.name, o.name, mexeu, n_ap))
     # dona: a peça que leva o vidro no jogo (CarGlass.csv, AttachTo); o resto fica na carroceria
     best = DONA.get(g.name, "body")
     dona = bpy.data.objects[best]
