@@ -106,28 +106,52 @@ for o in casca:
     for ax in range(3):
         for sg in (1, -1):
           for lado_dentro in (False, True):
-            idx = [i for i in range(len(me.polygons)) if eixo[i] == ax and sinal[i] == sg and dentro[i] == lado_dentro]
-            if not idx:
+            idx_todos = [i for i in range(len(me.polygons)) if eixo[i] == ax and sinal[i] == sg and dentro[i] == lado_dentro]
+            if not idx_todos:
                 continue
-            u_ax, v_ax = EIXOS[ax][0]
-            pts = []
-            for i in idx:
-                p = me.polygons[i]
-                for li in p.loop_indices:
-                    c = co[me.loops[li].vertex_index]
-                    u = c[u_ax] * (sg if ax != 1 else -sg)      # espelha para a carta não ficar invertida
-                    pts.append((li, u, c[v_ax]))
-            arr = np.array([(u, v) for _, u, v in pts], np.float32)
-            mn, mx = arr.min(0), arr.max(0)
-            zs = co[[me.loops[li].vertex_index for li, _, _ in pts], 2]
-            cartas.append({"obj": o, "loops": [li for li, _, _ in pts], "uv": arr - mn, "tam": mx - mn, "eixo": ax,
-                           "z0": float(mn[1]) if ax != 2 else float(zs.mean()), "dentro": lado_dentro})
+            # ilhas ligadas por aresta: faces em profundidades diferentes (o friso sobre a porta, a chapa atrás de outra) não se
+            # projetam umas sobre as outras na mesma carta (era isso que fazia os retângulos escuros)
+            conj = set(idx_todos)
+            por_aresta = {}
+            for i in idx_todos:
+                for ek in me.polygons[i].edge_keys:
+                    por_aresta.setdefault(ek, []).append(i)
+            visto = set()
+            ilhas = []
+            for i0 in idx_todos:
+                if i0 in visto:
+                    continue
+                pilha, ilha = [i0], []
+                visto.add(i0)
+                while pilha:
+                    i = pilha.pop()
+                    ilha.append(i)
+                    for ek in me.polygons[i].edge_keys:
+                        for j in por_aresta[ek]:
+                            if j not in visto:
+                                visto.add(j)
+                                pilha.append(j)
+                ilhas.append(ilha)
+            for idx in ilhas:
+                u_ax, v_ax = EIXOS[ax][0]
+                pts = []
+                for i in idx:
+                    p = me.polygons[i]
+                    for li in p.loop_indices:
+                        c = co[me.loops[li].vertex_index]
+                        u = c[u_ax] * (sg if ax != 1 else -sg)      # espelha para a carta não ficar invertida
+                        pts.append((li, u, c[v_ax]))
+                arr = np.array([(u, v) for _, u, v in pts], np.float32)
+                mn, mx = arr.min(0), arr.max(0)
+                zs = co[[me.loops[li].vertex_index for li, _, _ in pts], 2]
+                cartas.append({"obj": o, "loops": [li for li, _, _ in pts], "uv": arr - mn, "tam": mx - mn, "eixo": ax,
+                               "z0": float(mn[1]) if ax != 2 else float(zs.mean()), "dentro": lado_dentro})
 # prateleiras: cartas por altura decrescente; escala única para caber no quadrado
 area = sum(float(c["tam"][0] * c["tam"][1]) for c in cartas)
 escala = 0.80 / np.sqrt(area)                     # 80% de ocupação, o resto é margem
-for tent in range(20):
+for tent in range(80):
     cartas.sort(key=lambda c: -c["tam"][1])
-    marg = 0.004
+    marg = 4.0 / TAM
     x = y = 0.0
     alt_pr = 0.0
     ok = True
@@ -145,7 +169,7 @@ for tent in range(20):
         alt_pr = max(alt_pr, h_)
     if ok:
         break
-    escala *= 0.95
+    escala *= 0.97
 print("[assar_desgaste] atlas: %d cartas, escala %.3f (%.0f texels por metro)" % (len(cartas), escala, escala * TAM))
 for c in cartas:
     uv = c["obj"].data.uv_layers[0].data

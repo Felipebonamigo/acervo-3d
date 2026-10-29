@@ -132,6 +132,7 @@ class Escritor:
         self.cn = np.empty(self.n_old * 3)
         o.data.corner_normals.foreach_get("vector", self.cn)
         self.refez = False
+        self.ref = None            # ponto de dentro: toda face nova olha para longe dele (sem recalc, que inverte ilhas soltas)
         if refazer:
             nomes = mat_names(o)
             fora = [f for f in self.bm.faces if nomes[f.material_index] in refazer]
@@ -140,7 +141,16 @@ class Escritor:
                 self.refez = True
         self.novas = []
 
-    def quad(self, pts, mi, suave=False):
+    def quad(self, pts, mi, suave=False, ref=None):
+        ref = ref if ref is not None else self.ref
+        if ref is not None and len(pts) >= 3:
+            P = [Vector(p) for p in pts]
+            n = (P[1] - P[0]).cross(P[2] - P[0])
+            if n.length < 1e-12 and len(P) > 3:
+                n = (P[2] - P[0]).cross(P[3] - P[0])
+            c = sum(P, Vector()) / len(P)
+            if n.dot(c - Vector(ref)) < 0:
+                pts = list(pts)[::-1]
         vs = [self.bm.verts.new(self.inv @ Vector(p)) for p in pts]
         try:
             f = self.bm.faces.new(vs)
@@ -164,7 +174,7 @@ class Escritor:
                  ((-1, 1, -1), (-1, 1, 1), (1, 1, 1), (1, 1, -1)), ((-1, -1, 1), (-1, -1, -1), (1, -1, -1), (1, -1, 1)),
                  ((-1, -1, 1), (1, -1, 1), (1, 1, 1), (-1, 1, 1)), ((-1, 1, -1), (1, 1, -1), (1, -1, -1), (-1, -1, -1))]
         for cara in caras:
-            self.quad([P[k] for k in cara], mi)
+            self.quad([P[k] for k in cara], mi, ref=c)
 
     def varrer(self, pontos, perfil, mi, fechar=True):
         """Varre um perfil (s, t) ao longo de uma linha 3D; s = normal horizontal para fora (dada por ponto), t = para cima."""
@@ -172,19 +182,20 @@ class Escritor:
         for p, nrm in pontos:
             n = Vector((nrm[0], nrm[1], 0.0)).normalized()
             aneis.append([Vector(p) + n * s + Vector((0, 0, t)) for s, t in perfil])
+        P = [Vector(p) for p, _ in pontos]
         for i in range(len(aneis) - 1):
             a, b = aneis[i], aneis[i + 1]
+            meio = (P[i] + P[i + 1]) / 2
             for j in range(len(perfil)):
-                self.quad([a[j], b[j], b[(j + 1) % len(perfil)], a[(j + 1) % len(perfil)]], mi, suave=True)
+                self.quad([a[j], b[j], b[(j + 1) % len(perfil)], a[(j + 1) % len(perfil)]], mi, suave=True, ref=meio)
         if fechar and len(aneis) > 1:
-            self.quad(aneis[0][::-1], mi)
-            self.quad(aneis[-1], mi)
+            self.quad(aneis[0][::-1], mi, ref=P[1])
+            self.quad(aneis[-1], mi, ref=P[-2])
 
     def fechar(self, normais_por_angulo=False):
         me = self.o.data
         for f in self.novas:
             f.normal_update()
-        bmesh.ops.recalc_face_normals(self.bm, faces=self.novas)
         self.bm.to_mesh(me)
         me.update()
         if self.refez or normais_por_angulo:
@@ -221,6 +232,56 @@ def perfil_arredondado(prof, alt, r, n=3):
     return pts
 
 
+# ---------------------------------------------------------------------------------- chapa pintada no plano dos vidros
+# o Gol traz, no plano da janela da porta, uma chapa pintada do corpo a 2 ou 3 mm do vidro (na esquerda na frente, na direita atrás):
+# a janela saía vermelha. Some toda face pintada que fica a menos de 1,5 cm de um vidro, em cima dele (a reta até o vidro segue a
+# normal do vidro: a chapa em volta da borda, que é a moldura, fica)
+vidros = [o for n, o in objs.items() if n.startswith("glass_")]
+if vidros:
+    bmv = bmesh.new()
+    for g in vidros:
+        b = bmesh.new()
+        b.from_mesh(g.data)
+        b.transform(g.matrix_world)
+        nomes_g = mat_names(g)
+        fora = [f for f in b.faces if nomes_g[f.material_index] != "vidro"]
+        bmesh.ops.delete(b, geom=fora, context="FACES")
+        me_t = bpy.data.meshes.new("_v")
+        b.to_mesh(me_t)
+        bmv.from_mesh(me_t)
+        bpy.data.meshes.remove(me_t)
+        b.free()
+    arv_v = BVHTree.FromBMesh(bmv)
+    bmv.free()
+    for nome, o in objs.items():
+        if nome.startswith(("glass_", "wheel_", "hubcap_")):
+            continue
+        nomes_o = mat_names(o)
+        if "pintura" not in nomes_o:
+            continue
+        mi_p = nomes_o.index("pintura")
+        mw = o.matrix_world
+        b = bmesh.new()
+        b.from_mesh(o.data)
+        tirar = []
+        for f in b.faces:
+            if f.material_index != mi_p:
+                continue
+            c = mw @ f.calc_center_median()
+            loc, nrm, _, dist = arv_v.find_nearest(c, 0.015)
+            if loc is None:
+                continue
+            d = c - loc
+            if dist < 1e-5 or abs(d.normalized().dot(nrm)) > 0.94:
+                tirar.append(f)
+        if tirar:
+            bmesh.ops.delete(b, geom=tirar, context="FACES")
+            b.to_mesh(o.data)
+            o.data.update()
+            relatorio.append("%s: %d faces pintadas no plano dos vidros tiradas" % (nome, len(tirar)))
+        b.free()
+    arvores.clear()
+
 # ------------------------------------------------------------------------------------------------------- faróis e lanternas
 def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008, frisos="vertical"):
     """Moldura preta de `e` na boca do bolso, lente 4 mm à frente (segmentos em y com divisórias, cada um com o seu material),
@@ -228,6 +289,7 @@ def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008
     x0, x1, y0, y1, z0, z1 = box
     xf = x1 if sinal > 0 else x0
     Y0, Y1, Z0, Z1 = y0, y1, z0, z1
+    w.ref = Vector((xf - sinal * 1.0, 0.5 * (y0 + y1), 0.5 * (z0 + z1)))
     ext = [(xf, Y0, Z0), (xf, Y1, Z0), (xf, Y1, Z1), (xf, Y0, Z1)]
     inn = [(xf, Y0 + e, Z0 + e), (xf, Y1 - e, Z0 + e), (xf, Y1 - e, Z1 - e), (xf, Y0 + e, Z1 - e)]
     for k in range(4):
@@ -308,6 +370,7 @@ if o:
         x0, x1, y0, y1, z0, z1 = box
         xf = x1
         e = 0.012
+        w.ref = Vector((xf - 1.0, 0.5 * (y0 + y1), 0.5 * (z0 + z1)))
         ext = [(xf, y0, z0), (xf, y1, z0), (xf, y1, z1), (xf, y0, z1)]
         inn = [(xf, y0 + e, z0 + e), (xf, y1 - e, z0 + e), (xf, y1 - e, z1 - e), (xf, y0 + e, z1 - e)]
         for k in range(4):
@@ -428,6 +491,7 @@ def espelho(w, box, s, m_preto, m_vidro):
     perfil = perfil_arredondado(prof, alt, min(0.02, prof * 0.3), 3)
     cx, cz = 0.5 * (x0 + x1), 0.5 * (z0 + z1)
     ya, yb = (y0 + 0.02, y1) if s > 0 else (y0, y1 - 0.02)         # a haste ocupa os 2 cm junto da porta
+    w.ref = Vector((cx, 0.5 * (ya + yb), cz))
     aneis = []
     for y in (ya, yb):
         aneis.append([Vector((cx + px, y, cz + pz)) for px, pz in perfil])
@@ -470,6 +534,7 @@ if "body" in objs and "--sem-miudezas" not in args:
     h = raio(["body"], (-1.40, -1.5, 0.78), (0, 1, 0), 2.0)
     if h and abs(h[1].y) > 0.6:
         c = Vector(h[0])
+        w.ref = c + Vector((0, 0.5, 0))
         ang = [i * 2 * math.pi / 16 for i in range(16)]
         pts = [c + Vector((0.035 * math.cos(a), -0.004, 0.035 * math.sin(a))) for a in ang]
         w.quad(pts, m_preto)
@@ -490,6 +555,7 @@ if "body" in objs and "--sem-miudezas" not in args:
         if base.z > 0.6:
             ang = [i * 2 * math.pi / 8 for i in range(8)]
             for (r, z0_, z1_, m) in ((0.012, 0.0, 0.03, m_preto), (0.004, 0.03, 0.62, m_crom)):
+                w.ref = base + Vector((0, 0, 0.5 * (z0_ + z1_)))
                 a0 = [base + Vector((r * math.cos(a), r * math.sin(a), z0_)) for a in ang]
                 a1 = [base + Vector((r * math.cos(a), r * math.sin(a), z1_)) for a in ang]
                 for i in range(8):

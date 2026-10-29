@@ -536,3 +536,17 @@ textura quase branca de 512 px. Este passo roda depois do `detalhes_na_casca.py`
 O que ainda separa do print: lá os modelos têm textura pintada por gente (ou foto), com riscos, decalques e cada detalhe da
 frente desenhado; aqui a textura é só oclusão + sujeira procedural. O próximo degrau seria uma textura pintada (Meshy retexture
 custa créditos; a economia vai até 23/11) ou riscos e decalques procedurais.
+
+#### Correções de 29/10 (noite): manchas e vidro vermelho
+
+O Felipe apontou manchas que ainda sobravam e um vidro pintado com a cor do carro.
+
+- **Vidro vermelho:** o Gol traz, no plano da janela da porta, uma chapa pintada do corpo a 2 ou 3 mm do vidro (na esquerda na
+  frente dele, na direita atrás). O `detalhes_na_casca.py` agora apaga toda face pintada a menos de 1,5 cm de um vidro e em cima
+  dele (a reta até o vidro segue a normal do vidro; a moldura em volta fica): 1 510 faces no corpo e 227 na tampa.
+- **Manchas (retângulos escuros na porta e na quarta):** as cartas da UV juntavam todas as faces de uma peça com a mesma normal
+  dominante; faces em profundidades diferentes (o friso sobre a porta, a chapa atrás de outra) caíam umas sobre as outras no atlas
+  e o bake de uma escurecia a outra. Agora cada carta é uma ilha ligada por aresta (46 mil cartas, 107 texels por metro em 2K).
+- **Faces dos detalhes:** o retrovisor direito e partes das maçanetas saíam com a normal invertida (o `recalc_face_normals` não
+  orienta faces soltas). Toda face nova é orientada para longe de um ponto de dentro (o centro da caixa, o eixo do friso, o fundo
+  do bolso do farol).
