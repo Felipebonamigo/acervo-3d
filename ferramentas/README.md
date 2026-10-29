@@ -507,3 +507,30 @@ Pedido do Felipe: "faça o que ainda dá para melhorar". Entrou no `detalhes_na_
   suaves (padrão 0). Com 3 e 12 passos, e com arestas vivas a 15° em vez de 30°, a quarta traseira e a coluna C ficaram iguais: a
   ondulação é um quadrilátero torcido do modelo (duas faces não coplanares com normais interpoladas), e só remodelar a região
   resolveria. Fica como está: no jogo, à distância da câmera, não aparece.
+
+### assar_desgaste.py (29/10/2026, tarde): a textura que faltava
+
+O Felipe mostrou um print com Gol, Fusca, Kombi e Palio "de verdade" e perguntou por que o nosso não chega lá. A resposta é a
+textura: o que faz um carro de jogo parecer real à distância é a cor assada (oclusão nas frestas e nos cantos, sujeira que sobe
+do chão, variação leve de chapa), não a geometria. O Gol do Sketchfab vinha com a UV colapsada (116 mil faces num texel) e uma
+textura quase branca de 512 px. Este passo roda depois do `detalhes_na_casca.py`:
+
+    python -I ferramentas/assar_desgaste.py -- <corte>/gol-quadrado.glb <corte>/gol-quadrado.glb [--tamanho 2048] [--amostras 32] [--sujeira 0.22]
+
+1. **Faces viradas:** a face cuja normal entra na folga da chapa dupla (o raio pela normal bate em algo a menos de 2,5 cm) está
+   virada e é invertida; a pele de dentro, que olha para a cabine, fica. (O `recalc_face_normals` do bmesh virava metade da chapa
+   e a oclusão saía em camuflagem.) Normais por ângulo de novo onde mexeu.
+2. **UV nova, um atlas só:** projeção em caixa (cada face vai para o plano da sua normal dominante), uma carta por peça, eixo e
+   lado (de fora / de dentro, para a pele de dentro não se sobrepor à chapa do outro lado), cartas empacotadas em prateleiras na
+   mesma densidade (~180 texels por metro em 2K). Os operadores de UV do Blender não rodam fora do editor com várias peças.
+3. **Oclusão assada no Cycles (CPU)**, peça por peça (com todas selecionadas o bake de uma apagava o da anterior), com um chão
+   para a saia e os para-choques escurecerem perto do solo. A altura de cada texel sai da própria carta (v = z nas cartas de lado).
+4. **Composição:** 0,96 x oclusão (0,60 + 0,40 x ao^1,2) x sujeira (até 22% entre 50 cm e 20 cm do chão, com manchas suaves) x
+   grão fino; pele de dentro 30% mais escura. Sai `<id>_desgaste.png` (2048 px) e ela vira a cor de `pintura`, `luz`, `cromado`
+   e das lentes; o `chassi` multiplica a mesma oclusão pelo preto.
+5. No jogo, `glb_texturas.py` tira essa textura do GLB (`T_Cuiabano_C`) e a tinta trocável multiplica por cima: a cor continua
+   livre, com o desgaste. O `Image_0.jpg` passou a ser reencodado (antes gravava os bytes PNG do GLB com nome .jpg).
+
+O que ainda separa do print: lá os modelos têm textura pintada por gente (ou foto), com riscos, decalques e cada detalhe da
+frente desenhado; aqui a textura é só oclusão + sujeira procedural. O próximo degrau seria uma textura pintada (Meshy retexture
+custa créditos; a economia vai até 23/11) ou riscos e decalques procedurais.
