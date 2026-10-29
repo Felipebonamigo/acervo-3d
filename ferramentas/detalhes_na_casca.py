@@ -45,7 +45,7 @@ def mat_names(o):
     return [s.material.name.split(".")[0] if s.material else "" for s in o.material_slots]
 
 
-CORES_NOVAS = {"luz_ambar": (0.95, 0.42, 0.02, 1.0), "luz_branca": (0.90, 0.90, 0.88, 1.0), "placa": (0.80, 0.80, 0.78, 1.0),
+CORES_NOVAS = {"lente_farol": (0.66, 0.68, 0.70, 1.0), "luz_ambar": (0.95, 0.42, 0.02, 1.0), "luz_branca": (0.90, 0.90, 0.88, 1.0), "placa": (0.80, 0.80, 0.78, 1.0),
                "luz_vermelha": (0.80, 0.02, 0.015, 1.0), "refletor": (0.95, 0.95, 0.96, 1.0)}
 
 
@@ -684,12 +684,13 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
     m_ref = slot(o, "refletor")
     esq = "left" in nome
     if sinal > 0:
-        # farol de vidro (29/10, "lanternas e sinaleiras mais realistas"): a lente é vidro transparente com frisos, e atrás dela o
-        # refletor cromado e a lâmpada
-        m_vidro = slot(o, "vidro")
+        # farol (29/10, "lanternas e sinaleiras mais realistas"): lente prismática com frisos, e atrás dela o refletor e a lâmpada. A
+        # lente é `lente_farol`, clara, prateada e envernizada, e não vidro transparente: no jogo o bolso atrás do vidro ficava no
+        # escuro e o farol saía preto (o Felipe viu no jogo, 29/10). De dia o farol de verdade lê assim, prata claro
+        m_vidro = slot(o, "lente_farol")
         lanterna(w, sinal, box, m_preto, m_vidro, None, prof=0.045, frisos="vertical", m_refletor=m_ref, m_lampada=m_lente)
         w.fechar()
-        relatorio.append("%s: farol de vidro com refletor, lente %.0fx%.0f cm" % (nome, (box[3] - box[2]) * 100, (box[5] - box[4]) * 100))
+        relatorio.append("%s: farol com lente prismática clara e refletor, lente %.0fx%.0f cm" % (nome, (box[3] - box[2]) * 100, (box[5] - box[4]) * 100))
         continue
     if sinal < 0:
         # lanterna: ré (branca) perto do centro, seta (âmbar) no meio, freio (vermelha) na ponta

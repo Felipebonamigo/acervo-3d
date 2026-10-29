@@ -334,7 +334,7 @@
    "caixa_m": [
     0.48,
     0.67,
-    0.092,
+    0.115,
     0.555,
     0.266,
     0.73
@@ -409,10 +409,10 @@
    "nome": "interior_cintos",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 3015,
-   "triangulos_lod1": 903,
+   "triangulos": 3017,
+   "triangulos_lod1": 904,
    "caixa_m": [
-    -1.087,
+    -1.107,
     -0.385,
     -0.657,
     0.644,
@@ -454,7 +454,7 @@
    "triangulos_lod1": 743,
    "caixa_m": [
     0.05,
-    0.234,
+    0.233,
     -0.491,
     0.476,
     1.275,
@@ -489,8 +489,8 @@
    "nome": "interior_acabamento_colunas",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 488,
-   "triangulos_lod1": 145,
+   "triangulos": 486,
+   "triangulos_lod1": 144,
    "caixa_m": [
     -0.48,
     0.683,
@@ -544,7 +544,7 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 1414,
-   "triangulos_lod1": 422,
+   "triangulos_lod1": 423,
    "caixa_m": [
     -1.251,
     -0.468,
@@ -728,8 +728,8 @@
    "nome": "door_card_fr_chapa",
    "grupo": "porta",
    "segue": "door_fr",
-   "triangulos": 2468,
-   "triangulos_lod1": 740,
+   "triangulos": 2490,
+   "triangulos_lod1": 746,
    "caixa_m": [
     -0.45,
     0.825,
@@ -1768,12 +1768,12 @@
   }
  ],
  "triangulos": {
-  "lod0": 241919,
-  "lod1": 72492
+  "lod0": 241941,
+  "lod1": 72499
  },
  "triangulos_por_grupo": {
   "habitaculo": 93901,
-  "porta": 21540,
+  "porta": 21562,
   "vao_porta": 11178,
   "porta_malas": 10402,
   "motor": 68798,

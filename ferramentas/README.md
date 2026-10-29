@@ -604,3 +604,45 @@ metade de baixo; caixas de roda redondas e rentes à lateral, sem alargador.
   prévias passaram a usar um HDRI de rua (Poly Haven, CC0) como numa foto.
 - **Acabamentos:** o Detonauto ganhou `Data/PaintFinishes.csv` (sólida, metálica, perolizada, fosca, acetinada); as prévias
   `gol-quadrado-acabamentos.jpg` mostram cada um com os valores da tabela.
+
+#### No jogo: placa gigante e farol preto (29/10/2026, noite)
+
+O Felipe montou o Cuiabano no PC e viu a placa cobrindo a frente e a traseira e os faróis pretos, diferente das prévias.
+
+- **Placa:** o `kit_to_detonauto.py` do Detonauto ainda fazia a "placa lisa" do Meshy: procurava o branco da placa na textura da lataria
+  e crescia a placa até ele. Na textura de carro novo (tinta em branco, a cor vem do material) toda a lataria é branca: a placa saía
+  com 91 x 32 cm na frente e 60 x 39 cm atrás. Placa modelada no acervo (material `placa`) agora passa como veio.
+- **Farol:** a lente era vidro transparente na frente de um bolso escuro; no Unreal o bolso fica sem luz e o farol saía preto. A
+  prévia escondia isso porque clareava a lente só nela. Agora a lente do farol é `lente_farol` (prata claro, um pouco metálica,
+  envernizada, opaca, com os frisos; no jogo `MI_DNLenteFarol<Modelo>`) e o refletor é prata acetinado de pouco metal (no jogo
+  também). **Regra:** a prévia usa os mesmos valores do jogo, sem truque só nela.
+- **`previa_carro.py` (novo, era o rascunho das prévias):** o corte + o kit + as rodas de kit, a pintura como o jogo faz e, com
+  `HDRI=`, uma rua em volta. Uso no cabeçalho do script.
+
+## Receita: um carro do Sketchfab até o Detonauto (o caminho do Gol Quadrado, 29/10/2026)
+
+Para cada carro nacional, uma sessão. Os passos, na ordem:
+
+1. **Referência:** o carro real de cada nome do jogo está na ficha privada do Speed Tchê (`Felipebonamigo/SpeedTche`,
+   `docs/CARROS-NACIONAIS.md`). O nome real nunca vai para tela, loja nem para o texto deste acervo, que é público (só o título que o
+   autor deu ao modelo, no crédito que a licença pede). Fotos reais para comparar: frente, lado, traseira, detalhes (placa, arcos,
+   faróis, lanternas, para-choques).
+2. **Modelo:** buscar na API do Sketchfab (`api.sketchfab.com/v3/search?type=models&downloadable=true&q=...`, a sessão da nuvem já
+   tem a credencial pelo proxy) modelos **feitos por gente**, com licença **CC BY ou CC0** (nunca NC, ND nem "Standard"/pago), chapa
+   limpa, vidros separados, sem logo, emblema, nome nem placa real. Mostrar 3 a 5 candidatos ao Felipe com miniatura, licença,
+   autor e triângulos; **o Felipe escolhe**. Baixar por `/v3/models/<uid>/download`, guardar o `.glb`/zip original e o `license.txt`.
+   Comprar, logar ou aceitar termos: só o Felipe. Meshy só em último caso, perguntando antes com o custo (economia até 23/11).
+3. **Preparar e cortar:** `sketchfab_preparar.py` (objetos, comprimento e altura reais, frente +X, chão em z=0, normais por ângulo),
+   um `_mapa.json` feito à mão (rodas, portas, capô, tampa, para-choques, vidros, luzes, placas) e `carro_quebravel.py --sem-rotulos
+   --manter-normais --mapa ...`, depois `borracha_vidro.py`.
+4. **Detalhes:** `detalhes_na_casca.py`. Várias medidas ali são do Gol (quebra-vento, sinaleiras no para-choque, antena, altura do
+   friso e da faixa): use as opções que existem e ponha opção nova para o que mudar, **sem mudar o resultado do Gol** (rodar o Gol de
+   novo e comparar). Arcos redondos, placa 40 x 13 cm, lente de farol clara e para-choques pretos servem para todos.
+5. **Textura e kit:** `assar_desgaste.py --tamanho 2048 --amostras 32` e `carro_completo.py --corte ... --epoca <80|90|2000>`.
+6. **Prévia e conferência:** `previa_carro.py` com o HDRI da rua, nas 4 vistas, closes de frente, lado e traseira, e as cores e
+   acabamentos; comparar com as fotos reais e **olhar cada imagem antes de dizer que ficou bom**. No Detonauto, a cadeia de
+   conferência (`make_crush_channels.py`, `kit_to_detonauto.py`, `glb_texturas.py`, `kit_completo_to_detonauto.py`).
+7. **Registro:** `catalogo.csv`, `CREDITOS.md`, aba "Modelos 3D" do doc do estúdio e `docs/licencas.csv` do Detonauto, no mesmo dia.
+   Arquivo nenhum acima de 50 MB.
+8. **No jogo:** o que só o PC faz (importar, compilar, jogar) vai num texto pronto para o Felipe passar à sessão local, com as
+   capturas pedidas; o veredito visual é a captura do jogo, não a prévia.

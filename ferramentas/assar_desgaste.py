@@ -311,7 +311,8 @@ for o in casca:
         # pintura: a textura sozinha (a cor trocável multiplica por cima no jogo); os outros: a textura vezes a cor própria
         # (antes as lentes recebiam a textura clara e o vermelho e o âmbar da lanterna sumiam)
         COR_FIXA = {"chassi": (0.05, 0.05, 0.052), "luz": (0.85, 0.85, 0.83), "cromado": (0.70, 0.70, 0.72),
-                    "luz_ambar": (0.95, 0.42, 0.02), "luz_branca": (0.90, 0.90, 0.88), "luz_vermelha": (0.80, 0.02, 0.015)}
+                    "luz_ambar": (0.95, 0.42, 0.02), "luz_branca": (0.90, 0.90, 0.88), "luz_vermelha": (0.80, 0.02, 0.015),
+                    "lente_farol": (0.66, 0.68, 0.70)}
         if base == "vidro":
             # vidro claro (o Felipe: "os vidros deveriam ser mais transparentes"; película no jogo, depois)
             for l in list(b.inputs["Base Color"].links):
@@ -330,10 +331,11 @@ for o in casca:
                 pass
             continue
         if base == "refletor":
-            # acetinado: espelhado demais, ele só refletia o escuro do bolso e o farol lia como lente preta
-            b.inputs["Base Color"].default_value = (0.95, 0.95, 0.96, 1)
-            b.inputs["Metallic"].default_value = 1.0
-            b.inputs["Roughness"].default_value = 0.32
+            # prata acetinado de pouco metal, como o MI_DNRefletor do jogo: cromado, ele só refletia o escuro do bolso e o farol lia
+            # como lente preta (no jogo também, 29/10)
+            b.inputs["Base Color"].default_value = (0.62, 0.63, 0.64, 1)
+            b.inputs["Metallic"].default_value = 0.35
+            b.inputs["Roughness"].default_value = 0.35
             continue
         if base != "pintura" and base not in COR_FIXA:
             continue
@@ -344,7 +346,7 @@ for o in casca:
         # brilho de carro novo na prévia (o jogo tem o seu verniz): tinta e lentes lisas, refletor espelhado
         BRILHO = {"pintura": dict(r=0.16, coat=1.0), "luz": dict(r=0.06, coat=1.0), "luz_ambar": dict(r=0.06, coat=1.0, tr=0.35),
                   "luz_branca": dict(r=0.06, coat=1.0, tr=0.35), "luz_vermelha": dict(r=0.06, coat=1.0, tr=0.35),
-                  "cromado": dict(r=0.10, metal=1.0), "chassi": dict(r=0.55)}
+                  "cromado": dict(r=0.10, metal=1.0), "chassi": dict(r=0.55), "lente_farol": dict(r=0.08, coat=1.0, metal=0.25)}
         if base in BRILHO:
             pr = BRILHO[base]
             b.inputs["Roughness"].default_value = pr["r"]
