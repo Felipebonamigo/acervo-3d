@@ -646,3 +646,6 @@ Para cada carro nacional, uma sessão. Os passos, na ordem:
    Arquivo nenhum acima de 50 MB.
 8. **No jogo:** o que só o PC faz (importar, compilar, jogar) vai num texto pronto para o Felipe passar à sessão local, com as
    capturas pedidas; o veredito visual é a captura do jogo, não a prévia.
+- **Placa de trás e luzes iguais (29/10, noite):** a placa de trás também passou a ser a brasileira de 40 x 13 cm no meio da tampa
+  (era 30 x 12), pela mesma função da da frente (`--placa-tras-original` mantém a antiga). Faróis e lanternas de cada par usam a
+  união das duas caixas, espelhada: no modelo a lanterna esquerda tinha 24 cm e a direita 28 (`--luzes-como-vieram` desliga).

@@ -672,11 +672,26 @@ def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008
                 w.caixa(c + Vector((sinal * 0.018, 0, 0)), 0.024, 0.016, 0.016, m_lampada)
 
 
+# pares iguais (29/10): no modelo a lanterna esquerda tinha 24 cm e a direita 28 (o farol 21 e 22). No carro de verdade os dois lados
+# são o espelho um do outro: cada par usa a união das duas caixas, espelhada em y
+caixas_luz = {n: faces_de(objs[n], "luz")[0] for n in ("headlight_left", "headlight_right", "taillight_left", "taillight_right") if n in objs}
+if "--luzes-como-vieram" not in args:
+    for a, b in (("headlight_left", "headlight_right"), ("taillight_left", "taillight_right")):
+        ba, bb = caixas_luz.get(a), caixas_luz.get(b)
+        if ba is None or bb is None:
+            continue
+        ay0, ay1 = min(abs(ba[2]), abs(ba[3]), abs(bb[2]), abs(bb[3])), max(abs(ba[2]), abs(ba[3]), abs(bb[2]), abs(bb[3]))
+        z0_, z1_ = min(ba[4], bb[4]), max(ba[5], bb[5])
+        for n, bx in ((a, ba), (b, bb)):
+            s_ = 1 if (bx[2] + bx[3]) > 0 else -1
+            ys_ = sorted((s_ * ay0, s_ * ay1))
+            caixas_luz[n] = [bx[0], bx[1], ys_[0], ys_[1], z0_, z1_]
+        relatorio.append("%s e %s iguais: |y| %.3f a %.3f, z %.3f a %.3f" % (a, b, ay0, ay1, z0_, z1_))
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
     o = objs.get(nome)
     if not o:
         continue
-    box, nrm = faces_de(o, "luz")
+    box = caixas_luz.get(nome)
     if box is None:
         continue
     w = Escritor(o, refazer=("luz", "pintura", "cromado"))
@@ -916,10 +931,59 @@ if "body" in objs and "--sem-miudezas" not in args:
 # carroceria logo abaixo (o "bloco escuro" embaixo da placa). No Gol quadrado a placa (40 x 13 cm, o tamanho brasileiro) fica no meio
 # da face do para-choque, na metade de baixo, sobre um suporte preto rente à face
 PLACA_L, PLACA_A, PLACA_Z0 = 0.40, 0.13, opt("--z-placa", 0.355)
-placa_frente = None
+placas_novas = {}
+
+
+def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra):
+    """Placa brasileira de PLACA_L x PLACA_A em branco, centrada em y, de z0p para cima, 0,8 cm para fora da face `alvos` medida em
+    (ys_barra, z_barra); suporte preto da face até ela, tapando o rebaixo da placa antiga (a caixa da peça antiga); moldura e parafusos."""
+    o = objs[nome]
+    yc, z1p = 0.0, z0p + PLACA_A
+    Pp = np.array([list(o.matrix_world @ v.co) for v in o.data.vertices])
+    reb = (Pp[:, 1].min(), Pp[:, 1].max(), Pp[:, 2].min(), Pp[:, 2].max())
+    xs_face, xs_barra = [], []
+    for yy in (-0.15, 0.0, 0.15):
+        for zz in np.arange(z0p, z1p + 0.001, 0.01):
+            h = raio(alvos, (sinal * 3.0, yy, zz), (-sinal, 0, 0), 4.0)
+            if h:
+                xs_face.append(h[0].x)
+    for yy in ys_barra:
+        h = raio(alvos, (sinal * 3.0, yy, z_barra), (-sinal, 0, 0), 4.0)
+        if h:
+            xs_barra.append(h[0].x)
+    if not (xs_face and xs_barra):
+        return None
+    # o mais fundo da face atrás da placa e o mais para fora da face em volta dela
+    x_atras = min(xs_face) if sinal > 0 else max(xs_face)
+    x_fora = max(xs_barra) if sinal > 0 else min(xs_barra)
+    xp = x_fora + sinal * 0.008
+    w = Escritor(o, refazer=set(mat_names(o)))
+    m_preto, mi_placa = slot(o, "chassi"), slot(o, "placa")
+    zc = 0.5 * (z0p + z1p)
+    xa, xb = x_atras - sinal * 0.01, xp - sinal * 0.003
+    sy0, sy1 = min(yc - PLACA_L / 2 - 0.005, reb[0]), max(yc + PLACA_L / 2 + 0.005, reb[1])
+    sz0, sz1 = min(z0p - 0.005, reb[2]), max(z1p + 0.005, reb[3] + 0.003)
+    w.caixa(((xa + xb) / 2, 0.5 * (sy0 + sy1), 0.5 * (sz0 + sz1)), abs(xb - xa), sy1 - sy0, sz1 - sz0, m_preto)
+    # a placa: chapa de 3 mm, em branco (placa real é proibida)
+    w.caixa((xp - sinal * 0.0015, yc, zc), 0.003, PLACA_L, PLACA_A, mi_placa)
+    # moldura de 1 cm e dois parafusos
+    w.ref = Vector((xp - sinal * 1.0, yc, zc))
+    e, xf = 0.010, xp + sinal * 0.001
+    y0p, y1p = yc - PLACA_L / 2, yc + PLACA_L / 2
+    ext = [(xf, y0p - 0.003, z0p - 0.003), (xf, y1p + 0.003, z0p - 0.003), (xf, y1p + 0.003, z1p + 0.003), (xf, y0p - 0.003, z1p + 0.003)]
+    inn = [(xf, y0p + e, z0p + e), (xf, y1p - e, z0p + e), (xf, y1p - e, z1p - e), (xf, y0p + e, z1p - e)]
+    for k in range(4):
+        w.quad([ext[k], ext[(k + 1) % 4], inn[(k + 1) % 4], inn[k]], m_preto)
+    w.ref = None
+    for yy in (y0p + 0.25 * PLACA_L, y0p + 0.75 * PLACA_L):
+        w.caixa((xf + sinal * 0.002, yy, z1p - 0.022), 0.004, 0.012, 0.012, m_preto)
+    w.fechar(normais_por_angulo=True)
+    relatorio.append("%s refeita: placa %.0f x %.0f cm em z %.3f-%.3f, %.1f cm para fora do fundo (suporte preto)" % (
+        nome, 100 * PLACA_L, 100 * PLACA_A, z0p, z1p, 100 * abs(xp - x_atras)))
+    return (xp, y0p - 0.005, y1p + 0.005, z0p - 0.005, z1p + 0.005)
+
+
 if "plate_front" in objs and "--placa-original" not in args:
-    o = objs["plate_front"]
-    yc, z0p, z1p = 0.0, PLACA_Z0, PLACA_Z0 + PLACA_A
     # a folha solta da carroceria na frente do para-choque, onde ficava a parte de baixo da placa antiga
     if "body" in objs:
         bo = objs["body"]
@@ -933,49 +997,21 @@ if "plate_front" in objs and "--placa-original" not in args:
             bo.data.update()
             relatorio.append("folha solta embaixo da placa da frente: %d faces fora" % len(soltas))
         bmb.free()
-    # o rebaixo da placa antiga no para-choque (a caixa da peça antiga), a face de baixo atrás da placa nova e a barra fora do rebaixo
-    Pp = np.array([list(o.matrix_world @ v.co) for v in o.data.vertices])
-    reb = (Pp[:, 1].min(), Pp[:, 1].max(), Pp[:, 2].min(), Pp[:, 2].max())
-    xs_face, xs_barra = [], []
-    for yy in (-0.15, 0.0, 0.15):
-        for zz in np.arange(z0p, z1p + 0.001, 0.01):
-            h = raio(["bumper_front"], (3.0, yy, zz), (-1, 0, 0), 4.0)
-            if h:
-                xs_face.append(h[0].x)
-    for yy in (-0.35, -0.3, 0.3, 0.35):
-        h = raio(["bumper_front"], (3.0, yy, 0.48), (-1, 0, 0), 4.0)
-        if h:
-            xs_barra.append(h[0].x)
-    if xs_face and xs_barra:
-        x_atras, x_frente = min(xs_face), max(xs_barra)
-        xp = x_frente + 0.008
-        w = Escritor(o, refazer=set(mat_names(o)))
-        m_preto, mi_placa = slot(o, "chassi"), slot(o, "placa")
-        zc = 0.5 * (z0p + z1p)
-        # suporte preto do fundo da face até 3 mm atrás da placa, 5 mm maior que ela em volta e tapando o rebaixo da placa antiga
-        sy0, sy1 = min(yc - PLACA_L / 2 - 0.005, reb[0]), max(yc + PLACA_L / 2 + 0.005, reb[1])
-        sz0, sz1 = min(z0p - 0.005, reb[2]), max(z1p + 0.005, reb[3] + 0.003)
-        w.caixa(((x_atras - 0.01 + xp - 0.003) / 2, 0.5 * (sy0 + sy1), 0.5 * (sz0 + sz1)), xp - 0.003 - (x_atras - 0.01), sy1 - sy0, sz1 - sz0, m_preto)
-        # a placa: chapa de 3 mm, em branco (placa real é proibida)
-        w.caixa((xp - 0.0015, yc, zc), 0.003, PLACA_L, PLACA_A, mi_placa)
-        # moldura de 1 cm e dois parafusos
-        w.ref = Vector((xp - 1.0, yc, zc))
-        e, xf = 0.010, xp + 0.001
-        y0p, y1p = yc - PLACA_L / 2, yc + PLACA_L / 2
-        ext = [(xf, y0p - 0.003, z0p - 0.003), (xf, y1p + 0.003, z0p - 0.003), (xf, y1p + 0.003, z1p + 0.003), (xf, y0p - 0.003, z1p + 0.003)]
-        inn = [(xf, y0p + e, z0p + e), (xf, y1p - e, z0p + e), (xf, y1p - e, z1p - e), (xf, y0p + e, z1p - e)]
-        for k in range(4):
-            w.quad([ext[k], ext[(k + 1) % 4], inn[(k + 1) % 4], inn[k]], m_preto)
-        w.ref = None
-        for yy in (y0p + 0.25 * PLACA_L, y0p + 0.75 * PLACA_L):
-            w.caixa((xf + 0.002, yy, z1p - 0.022), 0.004, 0.012, 0.012, m_preto)
-        w.fechar(normais_por_angulo=True)
-        placa_frente = (xp, y0p - 0.005, y1p + 0.005, z0p - 0.005, z1p + 0.005)
-        relatorio.append("plate_front refeita: placa %.0f x %.0f cm em z %.3f-%.3f, %.1f cm à frente da face (suporte preto)" % (
-            100 * PLACA_L, 100 * PLACA_A, z0p, z1p, 100 * (xp - x_atras)))
+    r = refazer_placa("plate_front", 1, ["bumper_front"], PLACA_Z0, (-0.35, -0.3, 0.3, 0.35), 0.48)
+    if r:
+        placas_novas["plate_front"] = r
+# a de trás (29/10): era 30 x 12 cm no rebaixo da tampa; a placa brasileira é a mesma da frente, 40 x 13 cm, no meio da tampa
+# entre as lanternas (o centro do rebaixo antigo)
+if "plate_rear" in objs and "--placa-original" not in args and "--placa-tras-original" not in args:
+    Pt = np.array([list(objs["plate_rear"].matrix_world @ v.co) for v in objs["plate_rear"].data.vertices])
+    zc_t = 0.5 * (Pt[:, 2].min() + Pt[:, 2].max())
+    r = refazer_placa("plate_rear", -1, [n for n in ("trunk", "body") if n in objs], zc_t - PLACA_A / 2, (-0.3, -0.26, 0.26, 0.3), zc_t)
+    if r:
+        placas_novas["plate_rear"] = r
+placa_frente = placas_novas.get("plate_front")
 
 for nome, sinal in (("plate_front", 1), ("plate_rear", -1)):
-    if nome == "plate_front" and placa_frente:
+    if nome in placas_novas:
         continue
     o = objs.get(nome)
     if not o:
