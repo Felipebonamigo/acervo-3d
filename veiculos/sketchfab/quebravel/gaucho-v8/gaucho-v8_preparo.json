@@ -1,0 +1,158 @@
+{
+ "notas": "Preparo do Gaúcho V8 (30/10/2026) sobre o 'Opala' de Chamicall fire / ClrModels (Sketchfab, CC BY 4.0), GLB do Sketchfab. Fora: interior do autor (bancos, forros, painel, volante, alavanca, botões e maçanetas de dentro, Object_4/6/8/10/12/112-118/138-179/189/191) e um retalho de 2 triângulos no teto (Object_14); o kit de carro completo refaz o interior. Teto de vinil preto em `chassi` (o cupê da referência tem o teto escuro); cromo de verdade (para-choques, frisos, molduras das janelas, retrovisores, maçanetas) em `cromo`; aro dos pneus em `cromado` (o jogo usa as rodas de kit); faróis redondos em `lente_farol` com o aro em `cromo`; piscas em `luz_ambar`, lanternas em `luz_vermelha`.",
+ "corpo": "Object_185",
+ "rodas": [
+  "Object_16",
+  "Object_34",
+  "Object_44",
+  "Object_64",
+  "Object_18",
+  "Object_20",
+  "Object_22",
+  "Object_24",
+  "Object_26",
+  "Object_28",
+  "Object_30",
+  "Object_32",
+  "Object_36",
+  "Object_38",
+  "Object_40",
+  "Object_42",
+  "Object_82",
+  "Object_84",
+  "Object_86",
+  "Object_88"
+ ],
+ "materiais": {
+  "lataria": "pintura",
+  "portas": "pintura",
+  "porta_malas": "pintura",
+  "decalcs_capo": "pintura",
+  "teto": "chassi",
+  "vidros": "vidro",
+  "Material.001": "vidro",
+  "cromado": "cromo",
+  "Material": "chassi",
+  "Pneu": "pneu",
+  "Material.002": "lente_farol",
+  "Material.003": "luz_ambar",
+  "Material.004": "luz_vermelha",
+  "material_0": "chassi"
+ },
+ "objetos": {
+  "Object_185": {},
+  "Object_183": {},
+  "Object_181": {},
+  "Object_187": {},
+  "Object_126": {},
+  "Object_102": {},
+  "Object_104": {},
+  "Object_106": {},
+  "Object_108": {},
+  "Object_110": {},
+  "Object_100": {},
+  "Object_92": {},
+  "Object_94": {},
+  "Object_96": {},
+  "Object_98": {},
+  "Object_90": {},
+  "Object_62": {},
+  "Object_124": {},
+  "Object_56": {},
+  "Object_134": {},
+  "Object_128": {},
+  "Object_132": {},
+  "Object_74": {},
+  "Object_193": {},
+  "Object_195": {},
+  "Object_76": {},
+  "Object_78": {},
+  "Object_197": {},
+  "Object_80": {},
+  "Object_130": {},
+  "Object_122": {},
+  "Object_120": {},
+  "Object_136": {},
+  "Object_46": {},
+  "Object_48": {},
+  "Object_58": {},
+  "Object_50": {},
+  "Object_52": {},
+  "Object_60": {},
+  "Object_54": {
+   "material_0": "chassi"
+  },
+  "Object_66": {
+   "material_0": "chassi"
+  },
+  "Object_68": {
+   "material_0": "chassi"
+  },
+  "Object_70": {
+   "material_0": "chassi"
+  },
+  "Object_72": {
+   "material_0": "chassi"
+  },
+  "Object_16": {
+   "cromado": "cromado"
+  },
+  "Object_34": {
+   "cromado": "cromado"
+  },
+  "Object_44": {
+   "cromado": "cromado"
+  },
+  "Object_64": {
+   "cromado": "cromado"
+  },
+  "Object_18": {
+   "cromado": "cromado"
+  },
+  "Object_20": {
+   "cromado": "cromado"
+  },
+  "Object_22": {
+   "cromado": "cromado"
+  },
+  "Object_24": {
+   "cromado": "cromado"
+  },
+  "Object_26": {
+   "cromado": "cromado"
+  },
+  "Object_28": {
+   "cromado": "cromado"
+  },
+  "Object_30": {
+   "cromado": "cromado"
+  },
+  "Object_32": {
+   "cromado": "cromado"
+  },
+  "Object_36": {
+   "cromado": "cromado"
+  },
+  "Object_38": {
+   "cromado": "cromado"
+  },
+  "Object_40": {
+   "cromado": "cromado"
+  },
+  "Object_42": {
+   "cromado": "cromado"
+  },
+  "Object_82": {
+   "cromado": "cromado"
+  },
+  "Object_84": {
+   "cromado": "cromado"
+  },
+  "Object_86": {
+   "cromado": "cromado"
+  },
+  "Object_88": {
+   "cromado": "cromado"
+  }
+ }
+}

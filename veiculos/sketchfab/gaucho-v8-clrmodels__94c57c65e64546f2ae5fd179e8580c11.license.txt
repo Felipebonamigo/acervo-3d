@@ -1,0 +1,11 @@
+Model Information:
+* title:	Opala
+* source:	https://sketchfab.com/3d-models/opala-94c57c65e64546f2ae5fd179e8580c11
+* author:	Chamicall fire (https://sketchfab.com/ClrModels)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Opala" (https://sketchfab.com/3d-models/opala-94c57c65e64546f2ae5fd179e8580c11) by Chamicall fire (https://sketchfab.com/ClrModels) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
