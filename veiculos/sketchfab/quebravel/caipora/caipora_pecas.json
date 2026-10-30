@@ -208,7 +208,7 @@
   "avisos": [
     "--sem-rotulos: nada classificado pela textura; vidros e peças só pelo mapa",
     "rodas lidas do mapa (4)",
-    "--materiais-do-arquivo: 56178 faces com o material do arquivo"
+    "--materiais-do-arquivo: 28784 faces com o material do arquivo"
   ],
   "rodas_cm": {
     "front_axle_cm": 120.67,
@@ -1054,6 +1054,7 @@
       ],
       "triangulos": 1100,
       "materiais": [
+        "pintura",
         "chassi"
       ],
       "origem": [

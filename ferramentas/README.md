@@ -672,13 +672,13 @@ mesmo número de triângulos; placas de mod de jogo).
     S=<pasta do download>/scene.gltf; P=<pasta>
     python -I ferramentas/sketchfab_preparar.py -- $S $P/caipora.glb "Car_Main Color_0,Car_Glass_0,Car Tires_Ruber Tires_0,Car Tires_Chrome_0,Car_Plastic Parts_0,Car_Lights Front_0,Car_Lights Back_0,Car_Lights Indicators Back_0" \
         3.669 1.39 0.06 45 0 --soldar 0.0005 --rodas-no-chao --remapear-z "-1.85,-1.64,-0.09,0.09,0.75,0.95=0.835,0.925" \
-        --normais-da-original --mat "Glass=vidro,Plastic_Parts=chassi,Lights_Front=luz,Lights_Back=luz,material_0=luz,Chrome=pneu"
+        --normais-da-original --ilha-maior "Plastic_Parts=pintura" --mat "Glass=vidro,Plastic_Parts=chassi,Lights_Front=luz,Lights_Back=luz,material_0=luz,Chrome=pneu"
     python -I ferramentas/carro_quebravel.py -- --entrada $P/caipora.glb --out $C --id caipora --portas 2 --sem-rotulos --manter-normais \
         --materiais-do-arquivo --mapa veiculos/sketchfab/quebravel/caipora/caipora_mapa.json --sem-fbx
     python -I ferramentas/borracha_vidro.py -- $C/caipora.glb $C/caipora.glb
     python -I ferramentas/detalhes_na_casca.py -- $C/caipora.glb $C/caipora.glb --sem-arco-redondo --sem-face-para-choque --sem-friso \
         --sem-faixa --sem-quebra-vento --antena -1.0,0.12 --z-placa-tras 0.695 --y-placa-tras -0.10 --farol-do-modelo \
-        --lanterna-do-modelo "ambar=0.645,0.76,0.67,0.735;branca=0.585,0.633,0.736,0.784" --retrovisor-do-modelo --grade-do-modelo --placa-pela-face
+        --lanterna-do-modelo "ambar=0.645,0.76,0.67,0.735;branca=0.585,0.633,0.736,0.784" --retrovisor-do-modelo --grade-do-modelo --placa-pela-face --para-choque-pintado
     python -I ferramentas/assar_desgaste.py -- $C/caipora.glb $C/caipora.glb --tamanho 2048 --amostras 32 --manter-normais
     python -I ferramentas/carro_completo.py -- --corte $C --id caipora --out veiculos/sketchfab/completo/caipora --epoca 90 --puxar-para-dentro
 
@@ -689,7 +689,8 @@ novas sobre a mesma entrada e deu a mesma malha, as mesmas normais e a mesma tex
   separado: plástico preto, lentes, rodas); `--soldar` junta os vértices (o sombreado chapado vinha com cada face solta e toda ilha
   era uma face), recalcula as normais para fora (a frente vinha virada para dentro: o filtro de normal do corte não achava grade nem
   placa) e tira a barbatana que o autor deixou no plano de simetria do para-brisa e do vidro traseiro; `--rodas-no-chao` desce a roda
-  que flutua (a da frente, 2,5 cm: o corte não achava o contato e o carro ficava de nariz empinado); `--remapear-z` muda a altura de
+  que flutua (a da frente, 2,5 cm: o corte não achava o contato e o carro ficava de nariz empinado); `--ilha-maior` leva a maior ilha de um material do arquivo para outro dos nossos (para-choques, arcos e saias do
+  Caipora são uma peça só de plástico preto; no carro da referência do Felipe eles são da cor do carro); `--remapear-z` muda a altura de
   uma ilha (a fechadura da tampa descia até onde vai a placa brasileira de 13 cm; no carro real ela fica acima da placa);
   `--normais-da-original` dá a cada canto da malha adensada a normal lisa do triângulo de antes, por interpolação: os triângulos finos
   do adensamento faziam a lataria arredondada refletir enrugada (a transferência pela face mais perto errava nas dobras).
