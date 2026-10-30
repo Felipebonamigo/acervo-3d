@@ -93,6 +93,14 @@ for g in [o for o in meshes if o.name.startswith("glass_")]:
     sfora = set(fora)
     # borda da face de fora: arestas com uma face só na ilha, em laço ordenado
     borda = [e for e in bm.edges if sum(1 for f in e.link_faces if f in sfora) == 1]
+    if not borda:
+        # vidro modelado como placa fechada (frente e verso ligados pela borda, o 206 de 30/10): a face de fora é a que olha para fora
+        sfora = {f for f in fora if f.normal.dot(fora_dir) > 0.2}
+        borda = [e for e in bm.edges if sum(1 for f in e.link_faces if f in sfora) == 1]
+    if not borda:
+        print(f"[borracha_vidro] {g.name}: sem borda na face de fora, sem borracha")
+        bm.free()
+        continue
     viz = {}
     for e in borda:
         a, b = e.verts

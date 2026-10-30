@@ -194,11 +194,13 @@ if MANTER:
 NOSSOS = ("pintura", "vidro", "pneu", "chassi", "luz", "cromado")
 if CFG is not None:
     keep = _juntar_por_material(CFG)
+# cada item de keep pode juntar vários objetos com "+" (o 206 de 30/10 vem em 11: Body+FB+RB+Hood+LF+RF,Windows,FL+FR+RL+RR)
+grupos = [k.split("+") for k in keep]
+todos = [n for g in grupos for n in g]
 for o in list(bpy.data.objects):
-    if o.type == "MESH" and o.name not in keep:
+    if o.type == "MESH" and o.name not in todos:
         bpy.data.objects.remove(o)
-objs = [bpy.data.objects[k] for k in keep]
-for o in objs:
+for o in [bpy.data.objects[n] for n in todos]:
     M = o.matrix_world.copy()
     o.parent = None
     o.matrix_parent_inverse = Matrix.Identity(4)
@@ -211,6 +213,58 @@ for o in objs:
         bm.to_mesh(o.data)
         bm.free()
 bpy.context.view_layer.update()
+for g in grupos:
+    if len(g) > 1:
+        bpy.ops.object.select_all(action="DESELECT")
+        for n in g:
+            bpy.data.objects[n].select_set(True)
+        bpy.context.view_layer.objects.active = bpy.data.objects[g[0]]
+        bpy.ops.object.join()
+objs = [bpy.data.objects[g[0]] for g in grupos]
+# SOLDAR=<distância>: junta vértices repetidos (o 206 vem com cada triângulo solto; sem isso cada vidro vira 30 ilhas)
+import os as _os
+if _os.environ.get("SOLDAR"):
+    for o in objs:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        n0 = len(bm.verts)
+        bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=float(_os.environ["SOLDAR"]))
+        # face repetida (o vidro de duas faces vira a mesma face duas vezes depois da solda): fica uma
+        vistas, dup = set(), []
+        for f in bm.faces:
+            k = tuple(sorted(v.index for v in f.verts))
+            if k in vistas:
+                dup.append(f)
+            vistas.add(k)
+        bmesh.ops.delete(bm, geom=dup, context="FACES_ONLY")
+        print(f"soldar {o.name}: {n0} -> {len(bm.verts)} vértices, {len(dup)} faces repetidas tiradas")
+        bm.to_mesh(o.data)
+        bm.free()
+# TIRAR_VERSO=1: o 206 é todo em casca dupla (a chapa de dentro a menos de 2 mm da de fora, normais opostas). Os dois lados brigavam
+# no sombreamento e na oclusão assada (manchas e serrilhado); o corte já dá espessura às peças. De cada par colado fica a face que
+# olha para fora do carro
+if _os.environ.get("TIRAR_VERSO"):
+    from mathutils.bvhtree import BVHTree
+    todos_p = np.concatenate([np.array([v.co for v in o.data.vertices]) for o in objs])
+    ctr = Vector(0.5 * (todos_p.min(0) + todos_p.max(0)))
+    for o in objs:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bm.faces.ensure_lookup_table()
+        arv = BVHTree.FromBMesh(bm)
+        tirar = []
+        for f in bm.faces:
+            c, n = f.calc_center_median(), f.normal
+            loc, nrm, idx, d = arv.ray_cast(c - n * 0.0002, -n, 0.003)
+            if loc is None or idx is None or nrm.dot(n) > -0.8:
+                continue
+            g = bm.faces[idx]
+            if n.dot(c - ctr) < g.normal.dot(g.calc_center_median() - ctr):
+                tirar.append(f)
+        bmesh.ops.delete(bm, geom=tirar, context="FACES")
+        print(f"verso {o.name}: {len(tirar)} faces de dentro tiradas, ficam {len(bm.faces)}")
+        bm.to_mesh(o.data)
+        bm.free()
 # com --juntar: cópia das malhas com as normais do arquivo e a soma das transformações, para devolver as normais no fim
 REF = [o.data.copy() for o in objs] if CFG is not None else None
 TOT = Matrix.Identity(4)
@@ -326,7 +380,7 @@ for o in objs:
             if TODO_VIDRO:
                 janela_idx.setdefault(o.name, []).append(g)
                 medidas["vidros"][len(medidas["vidros"])] = dict(box=box, n=int(len(g)))
-            elif eh_janela(mn, mx, len(g)):
+            elif _os.environ.get("VIDRO_TODO") or eh_janela(mn, mx, len(g)):   # VIDRO_TODO=1: o objeto dos vidros só tem vidro
                 candidatas.append((o.name, g, box))
             else:
                 medidas["pecas_soltas"][len(medidas["pecas_soltas"])] = dict(box=box, n=int(len(g)))
@@ -338,7 +392,7 @@ for nome_o, g, box in candidatas:
     larga = (box[3] - box[2]) > 0.9
     par = any(abs(b2[0] - box[0]) < 0.04 and abs(b2[4] - box[4]) < 0.04 and abs(b2[1] - box[1]) < 0.04 and
               abs(b2[2] + box[3]) < 0.12 and abs(b2[3] + box[2]) < 0.12 and (b2[3] - b2[2]) < 0.25 for _, _, b2 in candidatas)
-    if larga or par:
+    if larga or par or _os.environ.get("VIDRO_TODO"):
         janela_idx.setdefault(nome_o, []).append(g)
         medidas["vidros"][len(medidas["vidros"])] = dict(box=box, n=int(len(g)))
     else:

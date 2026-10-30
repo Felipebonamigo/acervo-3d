@@ -759,12 +759,44 @@ if "--luzes-como-vieram" not in args:
         relatorio.append("%s e %s iguais: |y| %.3f a %.3f, z %.3f a %.3f" % (a, b, ay0, ay1, z0_, z1_))
 # --sem-luzes (30/10/2026, Sagui): faróis em gota e lanternas modelados, com lente, refletor e seta pelo material do arquivo
 # (sketchfab_montar.py + corte com --cores-do-arquivo); a caixa reta daqui os estragaria
+def luz_na_casca(o, nome, sinal):
+    """--luz-na-casca (206 de 30/10, frente curva): em vez da caixa plana do Gol, a lente segue a própria chapa da peça (o farol se
+    estende pelo para-lama com o corte da caixa do mapa) e o anel de faces na borda da peça vira moldura preta. A lanterna vai em três
+    faixas de |y|, de dentro para fora: ré (branca), seta (âmbar), freio (vermelha); a parte que dobra para a lateral é freio."""
+    m_preto = slot(o, "chassi")
+    if sinal > 0:
+        mats = [(1.0, slot(o, "lente_farol"))]
+    else:
+        mats = [(0.3, slot(o, "luz_branca")), (0.55, slot(o, "luz_ambar")), (1.01, slot(o, "luz_vermelha"))]
+    mi_l = mat_names(o).index("luz")
+    bm = bmesh.new()
+    bm.from_mesh(o.data)
+    mw = o.matrix_world
+    L = {f for f in bm.faces if f.material_index == mi_l}
+    anel = {f for f in L if any(len(e.link_faces) < 2 or any(g not in L for g in e.link_faces) for e in f.edges)}
+    ys = [abs((mw @ f.calc_center_median()).y) for f in L]
+    y_in, y_out = min(ys), max(ys)
+    for f in L:
+        if f in anel:
+            f.material_index = m_preto
+            continue
+        u = (abs((mw @ f.calc_center_median()).y) - y_in) / max(y_out - y_in, 1e-6)
+        f.material_index = next(m for lim, m in mats if u < lim)
+    bm.to_mesh(o.data)
+    bm.free()
+    o.data.update()
+    relatorio.append("%s: lente na própria chapa (%d faces, moldura de %d)" % (nome, len(L) - len(anel), len(anel)))
+
+
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
     o = objs.get(nome)
     if not o or "--sem-luzes" in args:
         continue
     box = caixas_luz.get(nome)
     if box is None:
+        continue
+    if "--luz-na-casca" in args:
+        luz_na_casca(o, nome, sinal)
         continue
     xm_luz = x_da_face(o, "luz")
     w = Escritor(o, refazer=("luz", "pintura", "cromado"))
@@ -842,13 +874,13 @@ if o:
                    ((xb, y0 + e, z0 + e), (xb, y1 - e, z0 + e), (xb, y1 - e, z1 - e), (xb, y0 + e, z1 - e))]
         for p in paredes:
             w.quad(list(p), m_preto)
-        n_pal = 4
+        n_pal = opt("--palhetas-grade", 4)    # o Pampeiro (30/10): grade de uma barra só
         h = (z1 - z0 - 2 * e) / n_pal
         for k in range(n_pal):
             zc = z0 + e + (k + 0.5) * h
             w.caixa((xf - 0.012, 0.5 * (y0 + y1), zc), 0.02, (y1 - y0 - 2 * e), h * 0.5, m_preto)
-        # duas travessas verticais
-        for yc in (-(y1 - y0) / 6, (y1 - y0) / 6):
+        # duas travessas verticais (--sem-travessas: só as palhetas)
+        for yc in (() if "--sem-travessas" in args else (-(y1 - y0) / 6, (y1 - y0) / 6)):
             w.caixa((xf - 0.014, 0.5 * (y0 + y1) + yc, 0.5 * (z0 + z1)), 0.016, 0.012, (z1 - z0 - 2 * e), m_preto)
         w.fechar()
         relatorio.append("grade: %.0fx%.0f cm, %d palhetas" % ((y1 - y0) * 100, (z1 - z0) * 100, n_pal))
@@ -884,7 +916,7 @@ if "--sem-limpador" not in args and "glass_windshield" in objs and "body" in obj
 
 # ------------------------------------------------------------------------------------------------------- maçanetas
 if "--sem-macaneta" not in args:
-    for nome, s in (("door_fl", 1), ("door_fr", -1)):
+    for nome, s in (("door_fl", 1), ("door_fr", -1), ("door_rl", 1), ("door_rr", -1)):   # as de trás só no carro de 4 portas
         o = objs.get(nome)
         if not o:
             continue
