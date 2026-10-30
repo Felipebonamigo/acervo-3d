@@ -3054,6 +3054,16 @@ class Kit:
             tops = [cx_f[n][5] for n in ("headlight_left", "headlight_right") if cx_f.get(n)]
             if tops:
                 zcap_f = min(zcap_f, min(tops) - 0.03)
+            # e as colunas e a viga de cima ficam atrás da lente: no alto ela inclina para trás e passava da frente da coluna
+            # (x do radiador + 5,5 cm), que aparecia por dentro da lente como um corte na cor do carro
+            if self.casca:
+                x_col = xr + 0.06
+                while zcap_f > zfundo + 0.15:
+                    hs = [self.casca.raio(("headlight_left", "headlight_right"), (3.0, s * (yb - 0.05 + dy), zcap_f), (-1, 0, 0), 4.0)
+                          for s in (1, -1) for dy in (-0.05, 0.0, 0.05)]
+                    if all(h is None or h[0].x > x_col for h in hs):
+                        break
+                    zcap_f -= 0.005
         t.caixa("pintura_interna", T(xr + 0.03, 0, zcap_f - 0.06), 0.06, 2 * yb, 0.05, 0.01)
         t.caixa("pintura_interna", T(xr + 0.03, 0, zchapa + 0.06), 0.06, 2 * yb, 0.05, 0.01)
         self._soldas(t, V(xr + 0.03, -yb + 0.05, zcap_f - 0.034), V(xr + 0.03, yb - 0.05, zcap_f - 0.034), (0, 0, 1), passo=0.05)

@@ -1158,7 +1158,7 @@ os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão d
   achado nas laterais da caçamba, que o `z_casca` não olhava); o estepe pendurado sob a caçamba atrás do eixo; na picape a saia de
   trás sobe o raio até o para-choque (passava por baixo dele e ia parar 60 cm para dentro, cortando o estepe). Nos dados do Tropeiro: `aparar_desde_a_saia`, `aparar_motor` e a chave nova `fundo_farol_rente` (o fundo dos faróis e a travessa
   de cima do painel dianteiro param abaixo do topo dos faróis: o capô da picape fica alguns cm acima deles e a ponta da travessa
-  aparecia na fresta, sobre o canto de dentro de cada farol) e `fundo_cofre_visivel: 0.28` (o para-lama interno e a travessa
+  aparecia na fresta, sobre o canto de dentro de cada farol; as colunas e a viga de cima descem até ficar atrás da lente, medida por raios, porque no alto ela inclina para trás e a coluna aparecia por dentro dela como um corte na cor do carro) e `fundo_cofre_visivel: 0.28` (o para-lama interno e a travessa
   começam no fundo do para-choque: na picape erguida o para-choque fica 6 cm acima do fundo do cofre, e as colunas pintadas da
   travessa apareciam por baixo dele na cor do carro; motor e longarinas ficam onde estavam). Na picape o assoalho sobe atrás da
   roda de trás até debaixo do piso da caçamba (reto, passava 20 cm abaixo do para-choque de trás e aparecia por baixo dele como
@@ -1176,7 +1176,7 @@ os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão d
   de 2010 deformaria as rodas e as portas; se o Felipe quiser a frente de 2010, só o Meshy (com custo) ou outro modelo.
 - **Defeitos conhecidos:** reflexo ondulado na tampa da caçamba (malha do autor); borda serrilhada no quadro da janela atrás da
   porta; com o kit, uma haste clara na fresta da frente da porta. Visto de perto: fresta escura entre o para-choque da frente e a
-  chapa, pontas retas do alargador encostando na chapa e dois cortes laranja no alto de cada farol (a chapa por um vão da lente).
+  chapa, pontas retas do alargador encostando na chapa.
 - **No Detonauto (30/10):** classe `picape` em `FDNGarageClass::All()`, linhas do Tropeiro nos dados, grupo `cacamba` no
   `kit_completo_to_detonauto.py` e a cadeia do Blender conferida na nuvem. Falta o PC: `docs/pedido-pc-tropeiro-completo.md` do
   Detonauto (montar, compilar, testar, capturar e jogar). O veredito visual é a captura do jogo.

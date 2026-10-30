@@ -1071,8 +1071,8 @@
    "nome": "engine_travessa",
    "grupo": "motor",
    "segue": null,
-   "triangulos": 4212,
-   "triangulos_lod1": 1263,
+   "triangulos": 4184,
+   "triangulos_lod1": 1254,
    "caixa_m": [
     1.219,
     1.965,
@@ -1797,8 +1797,8 @@
   }
  ],
  "triangulos": {
-  "lod0": 222938,
-  "lod1": 66808
+  "lod0": 222910,
+  "lod1": 66799
  },
  "triangulos_por_grupo": {
   "habitaculo": 77396,
@@ -1806,7 +1806,7 @@
   "embaixo": 28414,
   "porta": 22650,
   "vao_porta": 9506,
-  "motor": 64200,
+  "motor": 64172,
   "freios": 16352
  },
  "materiais": [
