@@ -1988,7 +1988,9 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
         # marcou como vidro (no Gol do Sketchfab, 1,5 cm atrás do vidro traseiro, passando a borda da tampa): sai do modelo
         maior = max(out, key=lambda il: sum(g.calc_area() for g in il))
         nm = sum((g.normal * g.calc_area() for g in maior), Vector())
-        if nm.length > 1e-9 and cods == {CQ_COD["vidro"]}:      # só no vidro: num farol de várias ilhas, as "abas" são o refletor
+        # "manter_abas" (Barão, 30/10/2026): o vidro fixo de quarta vai com a porta de trás e é ilha menor, paralela e afastada do vidro
+        # principal; e no vidro fechado do casca_impressao.py (placa com as duas faces) a soma das normais quase se anula
+        if nm.length > 1e-9 and cods == {CQ_COD["vidro"]} and not p.get("manter_abas"):      # só no vidro: num farol de várias ilhas, as "abas" são o refletor
             nm.normalize()
             cm = sum((g.calc_center_median() for g in maior), Vector()) / len(maior)
             area_maior = sum(g.calc_area() for g in maior)

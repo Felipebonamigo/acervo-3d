@@ -31,6 +31,8 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
         [--manter-chapa-dos-vidros]
         Tropeiro (picape aventureira, 30/10/2026): [--protecoes] [--largura-alargador 0.07] [--z-protecao 0.36] [--z-saia 0.29]
         alargador preto em volta de cada caixa de roda e protetor na soleira, como geometria (tira de 4 mm sobre a chapa)
+        Barão (sedã de 4 portas, 30/10/2026): [--luz-reta 0.02] (com --luz-na-casca: lente reta, a borda serrilhada da peça volta a
+        ser pintura) [--faixas-lanterna-y 0.16,0.34] [--friso-tampa 0.9,0.3] (friso cromado na tampa do porta-malas, material `cromo`)
         Jabuti (hatch de 2 portas, 30/10/2026): [--lanternas-como-vieram] (lanternas do modelo em segmentos; a chapa pintada da
         caixa vira moldura) [--z-placa 0.215 --z-barra-frente 0.42 --suporte-max 0.04] (placa pendurada embaixo do para-choque, sem
         chapa atrás) [--placa-na-propria-peca] (a placa de trás mede o fundo na chapa que a peça da placa levou)
@@ -87,6 +89,10 @@ def slot(o, nome):
         if b and nome in CORES_NOVAS:
             b.inputs["Base Color"].default_value = CORES_NOVAS[nome]
             b.inputs["Roughness"].default_value = 0.15
+        if b and nome == "cromo":       # o friso da tampa do Barão: na prévia, o cromo do jogo (MI_DNCromoCoupe)
+            b.inputs["Base Color"].default_value = (0.9, 0.9, 0.9, 1.0)
+            b.inputs["Metallic"].default_value = 1.0
+            b.inputs["Roughness"].default_value = 0.08
     o.data.materials.append(m)
     return len(o.data.materials) - 1
 
@@ -839,6 +845,85 @@ if "--luzes-modeladas" in args:
         o.data.update()
 # --sem-luzes (30/10/2026, Sagui): faróis em gota e lanternas modelados, com lente, refletor e seta pelo material do arquivo
 # (sketchfab_montar.py + corte com --cores-do-arquivo); a caixa reta daqui os estragaria
+# --luz-reta 0.025 (Barão, 30/10/2026): com --luz-na-casca, a borda da peça de luz é a do corte (faces inteiras, em serrote numa malha
+# fina e arredondada). A malha é cortada por planos: a lente fica no retângulo (|y|, z) da caixa encolhido dessa margem, com moldura
+# preta de 8 mm, e o que sobra até a borda serrilhada volta a ser pintura (a mesma cor da chapa ao lado); as faixas da lanterna
+# também saem por planos. Aumente a caixa do mapa na mesma margem.
+LUZ_RETA = opt("--luz-reta", 0.0) if "--luz-reta" in args else None
+
+
+def luz_reta(o, bm, L, box, sinal, mats, m_preto):
+    mwi = o.matrix_world.inverted()
+    s_ = 1 if (box[2] + box[3]) > 0 else -1
+    ay0, ay1 = sorted((abs(box[2]), abs(box[3])))
+    z0, z1 = box[4], box[5]
+    m, mol = LUZ_RETA, 0.008
+    cortes_y = [ay0 + m, ay0 + m + mol, ay1 - m - mol, ay1 - m]
+    cortes_z = [z0 + m, z0 + m + mol, z1 - m - mol, z1 - m]
+    if sinal < 0:
+        a0, a1 = ay0 + m + mol, ay1 - m - mol
+        cortes_y += [a0 + lim * (a1 - a0) for lim, _ in mats[:-1]]
+    n3 = mwi.to_3x3()
+    for yv in cortes_y:
+        geom = list({v for f in L for v in f.verts}) + list({e for f in L for e in f.edges}) + list(L)
+        r = bmesh.ops.bisect_plane(bm, geom=geom, dist=1e-6, plane_co=mwi @ Vector((0, s_ * yv, 0)), plane_no=(n3 @ Vector((0, 1, 0))).normalized())
+        L = {f for f in L | {g for g in r["geom"] if isinstance(g, bmesh.types.BMFace)} if f.is_valid}
+    for zv in cortes_z:
+        geom = list({v for f in L for v in f.verts}) + list({e for f in L for e in f.edges}) + list(L)
+        r = bmesh.ops.bisect_plane(bm, geom=geom, dist=1e-6, plane_co=mwi @ Vector((0, 0, zv)), plane_no=(n3 @ Vector((0, 0, 1))).normalized())
+        L = {f for f in L | {g for g in r["geom"] if isinstance(g, bmesh.types.BMFace)} if f.is_valid}
+    m_pint = slot(o, "pintura")
+    a0, a1 = ay0 + m + mol, ay1 - m - mol
+    for f in L:
+        c = o.matrix_world @ f.calc_center_median()
+        ay, z = abs(c.y), c.z
+        if not (ay0 + m <= ay <= ay1 - m and z0 + m <= z <= z1 - m):
+            f.material_index = m_pint
+        elif not (a0 <= ay <= a1 and z0 + m + mol <= z <= z1 - m - mol):
+            f.material_index = m_preto
+        else:
+            u = (ay - a0) / max(a1 - a0, 1e-6)
+            f.material_index = next(mm for lim, mm in mats if u < lim)
+
+
+def luz_na_casca(o, nome, sinal):
+    """--luz-na-casca (206 de 30/10, frente curva): em vez da caixa plana do Gol, a lente segue a própria chapa da peça (o farol se
+    estende pelo para-lama com o corte da caixa do mapa) e o anel de faces na borda da peça vira moldura preta. A lanterna vai em três
+    faixas de |y|, de dentro para fora: ré (branca), seta (âmbar), freio (vermelha); a parte que dobra para a lateral é freio."""
+    m_preto = slot(o, "chassi")
+    if sinal > 0:
+        mats = [(1.0, slot(o, "lente_farol"))]
+    else:
+        # --faixas-lanterna-y 0.18,0.36 (Barão): onde acabam a ré e a seta, em fração de |y| de dentro para fora (padrão 0.3,0.55)
+        f_re, f_seta = [float(v) for v in opt("--faixas-lanterna-y", "0.3,0.55").split(",")]
+        mats = [(f_re, slot(o, "luz_branca")), (f_seta, slot(o, "luz_ambar")), (1.01, slot(o, "luz_vermelha"))]
+    mi_l = mat_names(o).index("luz")
+    bm = bmesh.new()
+    bm.from_mesh(o.data)
+    mw = o.matrix_world
+    L = {f for f in bm.faces if f.material_index == mi_l}
+    if LUZ_RETA is not None and caixas_luz.get(nome) is not None:
+        luz_reta(o, bm, L, caixas_luz[nome], sinal, mats, m_preto)
+        bm.to_mesh(o.data)
+        bm.free()
+        o.data.update()
+        relatorio.append("%s: lente reta na própria chapa (margem %.1f cm)" % (nome, LUZ_RETA * 100))
+        return
+    anel = {f for f in L if any(len(e.link_faces) < 2 or any(g not in L for g in e.link_faces) for e in f.edges)}
+    ys = [abs((mw @ f.calc_center_median()).y) for f in L]
+    y_in, y_out = min(ys), max(ys)
+    for f in L:
+        if f in anel:
+            f.material_index = m_preto
+            continue
+        u = (abs((mw @ f.calc_center_median()).y) - y_in) / max(y_out - y_in, 1e-6)
+        f.material_index = next(m for lim, m in mats if u < lim)
+    bm.to_mesh(o.data)
+    bm.free()
+    o.data.update()
+    relatorio.append("%s: lente na própria chapa (%d faces, moldura de %d)" % (nome, len(L) - len(anel), len(anel)))
+
+
 MANTER_LUZES = "--manter-luzes" in args
 FAIXA_BRANCA = opt("--faixa-branca", 0.35)
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
@@ -891,6 +976,9 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
         continue
     box = caixas_luz.get(nome)
     if box is None:
+        continue
+    if "--luz-na-casca" in args:
+        luz_na_casca(o, nome, sinal)
         continue
     xm_luz = x_da_face(o, "luz")
     if "--luzes-do-modelo" in args:
@@ -1094,7 +1182,7 @@ if "--sem-macaneta" not in args:
 
 # ------------------------------------------------------------------------------------------------- friso lateral
 if "--sem-friso" not in args:
-    pecas_lado = ["body", "door_fl", "door_fr", "fender_front_left", "fender_front_right", "fender_rear_left", "fender_rear_right"]
+    pecas_lado = ["body", "door_fl", "door_fr", "door_rl", "door_rr", "fender_front_left", "fender_front_right", "fender_rear_left", "fender_rear_right"]
     perfil = perfil_arredondado(0.008, 0.025, 0.003)
     for s in (1, -1):
         trechos = {}
@@ -1605,6 +1693,24 @@ if "--sem-faixa" not in args:
                 w.varrer(pts, perfil, m_preto)
         w.fechar()
         relatorio.append("faixa no %s: %d trecho(s)" % (nome, len(trechos)))
+
+# ------------------------------------------------------------------------------------------------ friso cromado da tampa
+# --friso-tampa z,y (Barão, 30/10/2026): friso cromado de lado a lado na tampa do porta-malas, entre as lanternas, na altura z e até
+# |y| = y (o sedã da referência tem a lanterna "de ponta a ponta com friso cromado"); vai com a tampa
+if "--friso-tampa" in args and "trunk" in objs:
+    z_ft, y_ft = [float(v) for v in opt("--friso-tampa", "0.9,0.3").split(",")]
+    o = objs["trunk"]
+    perfil = perfil_arredondado(0.005, 0.014, 0.002)
+    pts = []
+    for y in np.arange(-y_ft, y_ft + 1e-6, 0.02):
+        h = raio(["trunk"], (-3.0, y, z_ft), (1, 0, 0), 4.0)
+        if h and h[1].x < -0.3:
+            pts.append((Vector(h[0]) + Vector((-0.001, 0, 0)), (-1, 0, 0)))
+    if len(pts) >= 3:
+        w = Escritor(o)
+        w.varrer(pts, perfil, slot(o, "cromo"))     # `cromo` = MI_DNCromoCoupe no jogo (`cromado` lê a textura, MI_DNPeca)
+        w.fechar()
+    relatorio.append("friso cromado na tampa: %d pontos em z=%.2f" % (len(pts), z_ft))
 
 # ------------------------------------------------------------------------------------------------------ quebra-vento
 # no Gol o triângulo entre a janela da porta e a coluna A é o vidro do quebra-vento; o modelo trazia chapa pintada ali (o Felipe
