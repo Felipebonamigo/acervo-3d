@@ -1,0 +1,9 @@
+{
+ "notas": "Regras do sketchfab_separar.py para o jipe de capota rígida do funassets (unidades do arquivo, ~1,4 cm; frente +Y, cima +Z). A cabine (bancos, painel, volante, forros, console e o santantônio) sai: o kit do carro_completo.py põe o interior. O estepe com capa vai para o plástico preto. Ilha escura (cor média <= 0,25) = plástico preto (para-choques, alargadores, estribos, molduras, grade, eixos); o resto (capota, luzes) = carroceria.",
+ "objetos": {"body": "carroceria", "transparent": "vidros", "tire": "rodas", "exterior": "por_ilha"},
+ "escuro_max": 0.25, "escuro": "rodas", "claro": "carroceria",
+ "caixas": [
+  {"nome": "cabine", "box": [-110, 110, -228, 68, -45, 112.5], "classe": "apagar"},
+  {"nome": "estepe", "box": [-56, 56, -276, -238, -37, 76], "classe": "rodas"}
+ ]
+}

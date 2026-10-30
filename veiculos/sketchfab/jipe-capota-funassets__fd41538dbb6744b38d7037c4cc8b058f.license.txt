@@ -1,0 +1,11 @@
+Model Information:
+* title:	Wrangler Jeep 2012
+* source:	https://sketchfab.com/3d-models/wrangler-jeep-2012-fd41538dbb6744b38d7037c4cc8b058f
+* author:	funassets (https://sketchfab.com/funassets)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Wrangler Jeep 2012" (https://sketchfab.com/3d-models/wrangler-jeep-2012-fd41538dbb6744b38d7037c4cc8b058f) by funassets (https://sketchfab.com/funassets) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
