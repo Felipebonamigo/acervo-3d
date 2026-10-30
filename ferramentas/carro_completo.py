@@ -2928,6 +2928,10 @@ class Kit:
         xf, xr = M["x_corta_fogo"], M["x_radiador"]
         yb = M["y_caixa_d"]
         zfundo = max(0.16, M["R"] * 0.70)
+        # (Tropeiro) "fundo_cofre_visivel": a chapa pintada da frente do cofre (para-lama interno e travessa) começa nessa altura, a
+        # do fundo do para-choque: na picape erguida o para-choque fica 6 cm acima do fundo do cofre e as colunas da travessa
+        # apareciam por baixo dele, na cor do carro. O resto do cofre (motor, longarinas) fica onde estava
+        zchapa = max(zfundo, float(self.cfg.get("fundo_cofre_visivel", 0)))
         zcap_t = self.capo_em(xf + 0.06, 0)
         zcap_f = self.capo_em(xr - 0.05, 0)
         if getattr(self, "capo_pelas_pontas", False) or self.cfg.get("capo_pelas_pontas"):
@@ -2947,7 +2951,7 @@ class Kit:
 
             def pw(u, v, s=s):
                 x = xf + (xr - xf) * u
-                z = zfundo + (zcap(x) - 0.05 - zfundo) * v
+                z = zchapa + (zcap(x) - 0.05 - zchapa) * v
                 dx = abs(x - M["xd"])
                 y = yb
                 if dx < M["R"] + 0.10 and z < M["R"] * 2 + 0.05:
@@ -3043,10 +3047,10 @@ class Kit:
             if tops:
                 zcap_f = min(zcap_f, min(tops) - 0.03)
         t.caixa("pintura_interna", T(xr + 0.03, 0, zcap_f - 0.06), 0.06, 2 * yb, 0.05, 0.01)
-        t.caixa("pintura_interna", T(xr + 0.03, 0, zfundo + 0.06), 0.06, 2 * yb, 0.05, 0.01)
+        t.caixa("pintura_interna", T(xr + 0.03, 0, zchapa + 0.06), 0.06, 2 * yb, 0.05, 0.01)
         self._soldas(t, V(xr + 0.03, -yb + 0.05, zcap_f - 0.034), V(xr + 0.03, yb - 0.05, zcap_f - 0.034), (0, 0, 1), passo=0.05)
         for s in (1, -1):
-            t.caixa("pintura_interna", T(xr + 0.03, s * (yb - 0.05), (zcap_f + zfundo) / 2), 0.05, 0.08, zcap_f - zfundo, 0.01)
+            t.caixa("pintura_interna", T(xr + 0.03, s * (yb - 0.05), (zcap_f + zchapa) / 2), 0.05, 0.08, zcap_f - zchapa, 0.01)
         t.caixa("metal_preto", T(xr + 0.01, 0, zcap_f - 0.05), 0.04, 0.08, 0.05, 0.006)
         t.helice("metal_preto", T(xr + 0.0, 0.03, zcap_f - 0.10), 0.008, 0.0015, 0.05, 6, 6)
         t.tubo("metal_preto", [(xr + 0.0, 0.05, zcap_f - 0.06), (xr - 0.05, 0.20, zcap_f - 0.07), (xf + 0.1, yb - 0.08, zcap_t - 0.10)],

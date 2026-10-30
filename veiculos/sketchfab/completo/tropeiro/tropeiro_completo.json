@@ -655,7 +655,7 @@
    "nome": "door_card_fl_chapa",
    "grupo": "porta",
    "segue": "door_fl",
-   "triangulos": 2710,
+   "triangulos": 2714,
    "triangulos_lod1": 812,
    "caixa_m": [
     -0.469,
@@ -721,15 +721,15 @@
    "nome": "jamb_fl_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1024,
-   "triangulos_lod1": 306,
+   "triangulos": 1016,
+   "triangulos_lod1": 303,
    "caixa_m": [
     -0.474,
-    0.917,
-    0.265,
+    0.892,
+    0.541,
     0.8,
     0.29,
-    1.404
+    0.885
    ],
    "materiais": [
     "pintura_interna",
@@ -741,15 +741,15 @@
    "nome": "jamb_fl_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1670,
-   "triangulos_lod1": 501,
+   "triangulos": 1228,
+   "triangulos_lod1": 368,
    "caixa_m": [
-    -0.446,
+    -0.445,
     0.875,
     0.206,
-    0.778,
-    0.3,
-    1.391
+    0.779,
+    0.299,
+    0.917
    ],
    "materiais": [
     "borracha"
@@ -799,8 +799,8 @@
    "nome": "door_card_fr_chapa",
    "grupo": "porta",
    "segue": "door_fr",
-   "triangulos": 2708,
-   "triangulos_lod1": 811,
+   "triangulos": 2712,
+   "triangulos_lod1": 812,
    "caixa_m": [
     -0.469,
     0.901,
@@ -865,15 +865,15 @@
    "nome": "jamb_fr_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1088,
-   "triangulos_lod1": 326,
+   "triangulos": 1078,
+   "triangulos_lod1": 322,
    "caixa_m": [
     -0.474,
-    0.917,
+    0.892,
     -0.8,
-    -0.266,
+    -0.541,
     0.29,
-    1.404
+    0.885
    ],
    "materiais": [
     "pintura_interna",
@@ -885,15 +885,15 @@
    "nome": "jamb_fr_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1666,
-   "triangulos_lod1": 499,
+   "triangulos": 1228,
+   "triangulos_lod1": 368,
    "caixa_m": [
-    -0.446,
+    -0.445,
     0.875,
     -0.779,
     -0.199,
-    0.3,
-    1.391
+    0.299,
+    0.917
    ],
    "materiais": [
     "borracha"
@@ -943,14 +943,14 @@
    "nome": "engine_paralama_interno_esq",
    "grupo": "motor",
    "segue": null,
-   "triangulos": 4828,
-   "triangulos_lod1": 1448,
+   "triangulos": 4818,
+   "triangulos_lod1": 1444,
    "caixa_m": [
     1.115,
     1.905,
     0.347,
     0.545,
-    0.215,
+    0.28,
     0.94
    ],
    "materiais": [
@@ -985,14 +985,14 @@
    "nome": "engine_paralama_interno_dir",
    "grupo": "motor",
    "segue": null,
-   "triangulos": 4828,
-   "triangulos_lod1": 1448,
+   "triangulos": 4818,
+   "triangulos_lod1": 1444,
    "caixa_m": [
     1.115,
     1.905,
     -0.545,
     -0.37,
-    0.215,
+    0.28,
     0.94
    ],
    "materiais": [
@@ -1078,7 +1078,7 @@
     1.965,
     -0.52,
     0.52,
-    0.215,
+    0.28,
     0.882
    ],
    "materiais": [
@@ -1797,16 +1797,16 @@
   }
  ],
  "triangulos": {
-  "lod0": 224064,
-  "lod1": 67150
+  "lod0": 223154,
+  "lod1": 66872
  },
  "triangulos_por_grupo": {
   "habitaculo": 77396,
   "cacamba": 4420,
   "embaixo": 28630,
-  "porta": 22642,
-  "vao_porta": 10404,
-  "motor": 64220,
+  "porta": 22650,
+  "vao_porta": 9506,
+  "motor": 64200,
   "freios": 16352
  },
  "materiais": [
