@@ -268,6 +268,25 @@
       "fundo_farol_rente": true,
       "fundo_cofre_visivel": 0.28,
       "nota": "picape de cabine simples dos anos 2000, versão aventureira: 2 lugares, caçamba aberta com protetor, ganchos e santo-antônio, estepe pendurado sob a caçamba e tanque à frente do eixo de trás; casca do Sketchfab (picape do Ramon.Dos.Santos, CC BY), medidas do mapa veiculos/sketchfab/quebravel/tropeiro/"
+    },
+    "hatch-redondo-5p": {
+      "nome": "Pampeiro",
+      "epoca": "2000",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "aparar_por_vertice": true,
+      "aparar_desde_a_saia": true,
+      "capo_pelas_pontas": true,
+      "aparar_motor": true,
+      "fundo_farol_rente": true,
+      "corrigir": {
+        "topo_da_saia": 0.27,
+        "nota": "a lateral embaixo da porta acaba em 0,21 a 0,25 m: com 0,22 a soleira aparecia clara sob as portas (30/10/2026)"
+      },
+      "nota": "hatch de 5 portas dos anos 2000, de formas redondas; casca do Sketchfab ('Hatchback' do MaG80, CC BY), medidas do mapa veiculos/sketchfab/quebravel/hatch-redondo-5p/. As cinco opções de aparar (30/10/2026): a lateral cai para dentro acima da cintura e o capô é baixo na frente; sem elas a travessa e os para-lamas internos passavam o capô e as colunas do vão passavam o teto"
     }
   },
   "padrao": {

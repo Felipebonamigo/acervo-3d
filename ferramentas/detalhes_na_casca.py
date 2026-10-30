@@ -839,35 +839,6 @@ if "--luzes-modeladas" in args:
         o.data.update()
 # --sem-luzes (30/10/2026, Sagui): faróis em gota e lanternas modelados, com lente, refletor e seta pelo material do arquivo
 # (sketchfab_montar.py + corte com --cores-do-arquivo); a caixa reta daqui os estragaria
-def luz_na_casca(o, nome, sinal):
-    """--luz-na-casca (206 de 30/10, frente curva): em vez da caixa plana do Gol, a lente segue a própria chapa da peça (o farol se
-    estende pelo para-lama com o corte da caixa do mapa) e o anel de faces na borda da peça vira moldura preta. A lanterna vai em três
-    faixas de |y|, de dentro para fora: ré (branca), seta (âmbar), freio (vermelha); a parte que dobra para a lateral é freio."""
-    m_preto = slot(o, "chassi")
-    if sinal > 0:
-        mats = [(1.0, slot(o, "lente_farol"))]
-    else:
-        mats = [(0.3, slot(o, "luz_branca")), (0.55, slot(o, "luz_ambar")), (1.01, slot(o, "luz_vermelha"))]
-    mi_l = mat_names(o).index("luz")
-    bm = bmesh.new()
-    bm.from_mesh(o.data)
-    mw = o.matrix_world
-    L = {f for f in bm.faces if f.material_index == mi_l}
-    anel = {f for f in L if any(len(e.link_faces) < 2 or any(g not in L for g in e.link_faces) for e in f.edges)}
-    ys = [abs((mw @ f.calc_center_median()).y) for f in L]
-    y_in, y_out = min(ys), max(ys)
-    for f in L:
-        if f in anel:
-            f.material_index = m_preto
-            continue
-        u = (abs((mw @ f.calc_center_median()).y) - y_in) / max(y_out - y_in, 1e-6)
-        f.material_index = next(m for lim, m in mats if u < lim)
-    bm.to_mesh(o.data)
-    bm.free()
-    o.data.update()
-    relatorio.append("%s: lente na própria chapa (%d faces, moldura de %d)" % (nome, len(L) - len(anel), len(anel)))
-
-
 MANTER_LUZES = "--manter-luzes" in args
 FAIXA_BRANCA = opt("--faixa-branca", 0.35)
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
@@ -920,9 +891,6 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
         continue
     box = caixas_luz.get(nome)
     if box is None:
-        continue
-    if "--luz-na-casca" in args:
-        luz_na_casca(o, nome, sinal)
         continue
     xm_luz = x_da_face(o, "luz")
     if "--luzes-do-modelo" in args:

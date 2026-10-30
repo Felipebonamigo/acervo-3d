@@ -133,7 +133,9 @@ def _juntar_por_material(cfg):
     """Os objetos do arquivo -> carro_corpo, carro_vidro, carro_rodas, com os materiais nossos por face (ver --juntar)."""
     mapa = cfg["materiais"]
     rodas_pat = cfg.get("rodas", [])
-    caixas = [np.array(c, float) for c in cfg.get("fora_caixas", [])]
+    # caixa [x0, x1, y0, y1, z0, z1] ou com um 7º elemento, o material do arquivo: só ilhas dele saem (Pampeiro do MaG80, 30/10: o
+    # painel de plástico está na mesma caixa que o para-brisa)
+    caixas = [(np.array(c[:6], float), c[6] if len(c) > 6 else None) for c in cfg.get("fora_caixas", [])]
     novos = _vidros_por_raio(cfg.get("vidros_raio", []))
     mats = {}
     for nome in NOSSOS:
@@ -175,7 +177,8 @@ def _juntar_por_material(cfg):
                                 pilha.append(g)
                 P = np.array([v.co[:] for f in ilha for v in f.verts])
                 mn, mx = P.min(0), P.max(0)
-                if any((mn >= c[0::2]).all() and (mx <= c[1::2]).all() for c in caixas):
+                mat_ilha = orig[ilha[0].material_index] if ilha[0].material_index < len(orig) else ""
+                if any((mn >= c[0::2]).all() and (mx <= c[1::2]).all() and (m_c is None or m_c == mat_ilha) for c, m_c in caixas):
                     fora.extend(ilha)
         bmesh.ops.delete(bm, geom=list(set(fora)), context="FACES")
         bm.to_mesh(me)
