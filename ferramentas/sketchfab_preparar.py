@@ -10,17 +10,190 @@ MANTER = "--manter-materiais" in a
 SEM_PCA = "--sem-pca" in a
 a = [x for x in a if x not in ("--manter-materiais", "--sem-pca")]
 PAPEIS_EXTRA = ("luz", "cromado", "luz_vermelha", "luz_ambar", "luz_branca", "lente_farol", "refletor")
+# --juntar <config.json> (Pão de Forma, 30/10/2026): modelo de muitos objetos, cada um com seus materiais. O JSON diz o material
+# nosso de cada material do arquivo ("materiais": pintura|vidro|pneu|chassi|luz|cromado|fora), quais objetos são rodas ("rodas":
+# trechos do nome), caixas do arquivo cujas ilhas saem inteiras ("fora_caixas": emblema) e onde fica a frente no arquivo ("frente":
+# "+x"|"-x"|"+y"|"-y"); "fora_objetos" (trechos do nome) saem; "vidros_raio" cria o vidro de uma janela que o autor deixou
+# aberta (raios de fora acham o vão e a moldura; ver _vidros_por_raio). Tudo vira 3 objetos (carroceria, vidros, rodas) e cada face
+# guarda o material mapeado (luz e cromado seguem para o take "material" do corte). Sem a opção, nada muda (o Gol sai igual).
+CFG = None
+if "--juntar" in a:
+    i_ = a.index("--juntar")
+    CFG = json.load(open(a[i_ + 1]))
+    a = a[:i_] + a[i_ + 2:]
 ent, out, keep = a[0], a[1], a[2].split(",")
 COMP, ALT, ARESTA = float(a[3]), float(a[4]), float(a[5])
 ANGULO = float(a[6]) if len(a) > 6 else 30.0   # aresta mais dobrada do que isso fica viva; o resto é liso
 SUAVIZAR = int(a[7]) if len(a) > 7 else 0        # passos de suavização (Taubin) dos vincos suaves: arredonda as facetas de baixo polígono
 SOLDA = float(a[8]) if len(a) > 8 else 0.0       # junta vértices a menos disso (unidades do arquivo): pneu em triângulos soltos vira ilha de roda
 TODO_VIDRO = len(a) > 9 and a[9] == "1"           # toda ilha do 2º objeto é vidro (as regras de janela são do Gol: o para-brisa do jipe é em pé)
+
+
+def _vidros_por_raio(espec):
+    """Janela sem vidro (a traseira do Pão de Forma): raios paralelos ao eixo "de" (ex. "+y": vêm de +y), numa grade de "passo"
+    na "caixa" [t0, t1, z0, z1] (t = o eixo transversal, x ou y; z = altura), coordenadas do arquivo. Célula do vão = raio que não
+    bate ou bate além de "fundo" (dentro do carro). Por fileira de z, o trecho contínuo do vão que passa mais perto do meio dá a
+    borda esquerda e a direita; a profundidade de cada ponto é a da moldura logo ao lado, "recuo" para dentro. Devolve polígonos."""
+    dg = bpy.context.evaluated_depsgraph_get()
+    sc = bpy.context.scene
+    polis = []
+    for e in espec:
+        ax = "xy".index(e["de"][1])
+        sinal = 1.0 if e["de"][0] == "+" else -1.0
+        tr = 1 - ax
+        t0, t1, z0, z1 = e["caixa"]
+        passo, fundo, recuo = e.get("passo", 1.0), e["fundo"], e.get("recuo", 0.8)
+        ts = np.arange(t0, t1 + 1e-6, passo)
+        esq, dir_ = [], []
+        for z in np.arange(z0, z1 + 1e-6, passo):
+            prof = []
+            for t in ts:
+                o_ = [0.0, 0.0, float(z)]
+                o_[ax] = sinal * 1e4
+                o_[tr] = float(t)
+                d_ = [0.0, 0.0, 0.0]
+                d_[ax] = -sinal
+                hit, loc, *_ = sc.ray_cast(dg, Vector(o_), Vector(d_))
+                prof.append(loc[ax] if hit else None)
+            vao = [p_ is None or sinal * (p_ - fundo) < 0 for p_ in prof]
+            meio = int(np.argmin(np.abs(ts - 0.5 * (t0 + t1))))
+            if not vao[meio]:
+                continue
+            i0 = i1 = meio
+            while i0 > 0 and vao[i0 - 1]:
+                i0 -= 1
+            while i1 < len(ts) - 1 and vao[i1 + 1]:
+                i1 += 1
+            if i0 == 0 or i1 == len(ts) - 1:
+                continue                                   # o vão vazou da caixa: não é a janela
+            for lista, i_b, t_b in ((esq, i0 - 1, ts[i0] - 0.5 * passo), (dir_, i1 + 1, ts[i1] + 0.5 * passo)):
+                co = [0.0, 0.0, float(z)]
+                co[tr] = float(t_b)
+                co[ax] = prof[i_b] - sinal * recuo
+                lista.append(Vector(co))
+        if len(esq) >= 2:
+            polis.append(esq + dir_[::-1])
+            print("vidro novo (%s): %d pontos, z %.1f a %.1f" % (e["de"], 2 * len(esq), esq[0].z, esq[-1].z))
+    return polis
+
+
+def _juntar_por_material(cfg):
+    """Os objetos do arquivo -> carro_corpo, carro_vidro, carro_rodas, com os materiais nossos por face (ver --juntar)."""
+    mapa = cfg["materiais"]
+    rodas_pat = cfg.get("rodas", [])
+    caixas = [np.array(c, float) for c in cfg.get("fora_caixas", [])]
+    novos = _vidros_por_raio(cfg.get("vidros_raio", []))
+    mats = {}
+    for nome in NOSSOS:
+        m = bpy.data.materials.new(nome)
+        m.use_nodes = True
+        mats[nome] = m
+    corpo, rodas = [], []
+    for o in [o for o in bpy.data.objects if o.type == "MESH"]:
+        if any(t in o.name for t in cfg.get("fora_objetos", [])):     # volante, bancos: o kit põe o interior dele
+            bpy.data.objects.remove(o)
+            continue
+        M = o.matrix_world.copy()
+        o.parent = None
+        o.matrix_parent_inverse = Matrix.Identity(4)
+        o.matrix_world = Matrix.Identity(4)
+        o.data.transform(M)
+        me = o.data
+        orig = [(m.name.split(".")[0] if m else "") for m in me.materials]
+        nossos = [mapa.get(n, "pintura") for n in orig]
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        bm.faces.ensure_lookup_table()
+        fora = [f for f in bm.faces if f.material_index < len(nossos) and nossos[f.material_index] == "fora"]
+        if caixas:
+            # ilha inteira dentro de uma caixa sai (as letras do emblema são ilhas soltas)
+            visto = set()
+            for f0 in bm.faces:
+                if f0.index in visto:
+                    continue
+                pilha, ilha = [f0], []
+                visto.add(f0.index)
+                while pilha:
+                    f = pilha.pop()
+                    ilha.append(f)
+                    for e in f.edges:
+                        for g in e.link_faces:
+                            if g.index not in visto:
+                                visto.add(g.index)
+                                pilha.append(g)
+                P = np.array([v.co[:] for f in ilha for v in f.verts])
+                mn, mx = P.min(0), P.max(0)
+                if any((mn >= c[0::2]).all() and (mx <= c[1::2]).all() for c in caixas):
+                    fora.extend(ilha)
+        bmesh.ops.delete(bm, geom=list(set(fora)), context="FACES")
+        bm.to_mesh(me)
+        bm.free()
+        idx = [p.material_index for p in me.polygons]
+        me.materials.clear()
+        for nome in NOSSOS:
+            me.materials.append(mats[nome])
+            bsdf = mats[nome].node_tree.nodes["Principled BSDF"]
+            bsdf.inputs["Roughness"].default_value = {"vidro": 0.05, "cromado": 0.15, "luz": 0.1}.get(nome, 0.6 if nome != "pintura" else 0.35)
+            if nome in ("chassi", "pneu"):
+                bsdf.inputs["Base Color"].default_value = (0.03, 0.03, 0.03, 1)
+        for p, i in zip(me.polygons, idx):
+            p.material_index = NOSSOS.index(nossos[i]) if i < len(nossos) and nossos[i] in NOSSOS else 0
+        me.update()
+        if not me.polygons:
+            bpy.data.objects.remove(o)
+            continue
+        (rodas if any(t in o.name for t in rodas_pat) else corpo).append(o)
+    for o in list(bpy.data.objects):
+        if o.type != "MESH":
+            bpy.data.objects.remove(o)
+
+    def juntar(lista, nome):
+        bpy.ops.object.select_all(action="DESELECT")
+        for o in lista:
+            o.select_set(True)
+        bpy.context.view_layer.objects.active = lista[0]
+        bpy.ops.object.join()
+        ob = bpy.context.view_layer.objects.active
+        ob.name = nome
+        return ob
+
+    ob_c = juntar(corpo, "carro_corpo")
+    juntar(rodas, "carro_rodas")
+    if novos:
+        bm = bmesh.new()
+        bm.from_mesh(ob_c.data)
+        for e, poli in zip(cfg["vidros_raio"], novos):
+            f = bm.faces.new([bm.verts.new(v) for v in poli])
+            f.material_index = NOSSOS.index("vidro")
+            f.normal_update()
+            if f.normal["xy".index(e["de"][1])] * (1 if e["de"][0] == "+" else -1) < 0:
+                f.normal_flip()
+            bmesh.ops.triangulate(bm, faces=[f])
+        bm.to_mesh(ob_c.data)
+        bm.free()
+    # o vidro vira objeto à parte (a detecção de janelas da preparação olha o 2º objeto)
+    ob_v = ob_c.copy()
+    ob_v.data = ob_c.data.copy()
+    ob_v.name = "carro_vidro"
+    bpy.context.scene.collection.objects.link(ob_v)
+    iv = NOSSOS.index("vidro")
+    for ob, manter_vidro in ((ob_c, False), (ob_v, True)):
+        bm = bmesh.new()
+        bm.from_mesh(ob.data)
+        bmesh.ops.delete(bm, geom=[f for f in bm.faces if (f.material_index == iv) != manter_vidro], context="FACES")
+        bm.to_mesh(ob.data)
+        bm.free()
+    return ["carro_corpo", "carro_vidro", "carro_rodas"]
+
+
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
 if MANTER:
     for m in list(bpy.data.materials):          # lista: renomear muda a ordem da coleção (cromado saía "entrada_entrada_")
         m.name = "entrada_" + m.name.split(".")[0]
+NOSSOS = ("pintura", "vidro", "pneu", "chassi", "luz", "cromado")
+if CFG is not None:
+    keep = _juntar_por_material(CFG)
 for o in list(bpy.data.objects):
     if o.type == "MESH" and o.name not in keep:
         bpy.data.objects.remove(o)
@@ -38,6 +211,9 @@ for o in objs:
         bm.to_mesh(o.data)
         bm.free()
 bpy.context.view_layer.update()
+# com --juntar: cópia das malhas com as normais do arquivo e a soma das transformações, para devolver as normais no fim
+REF = [o.data.copy() for o in objs] if CFG is not None else None
+TOT = Matrix.Identity(4)
 for o in list(bpy.data.objects):
     if o.type == "EMPTY":
         bpy.data.objects.remove(o)
@@ -58,21 +234,40 @@ R = Matrix.Rotation(-np.arctan2(ax[1], ax[0]), 4, "Z")
 for o in objs:
     o.data.transform(Matrix.Translation(-Vector(c)))
     o.data.transform(R)
+TOT = R @ Matrix.Translation(-Vector(c)) @ TOT
 P = pts(body)
 s = COMP / (P[:, 0].max() - P[:, 0].min())
 for o in objs:
     o.data.transform(Matrix.Scale(s, 4))
+TOT = Matrix.Scale(s, 4) @ TOT
+if CFG is not None:
+    # os arquivos de muitos objetos vêm com os vértices soltos nas costuras de UV: sem soldar, as normais recalculadas ficam em
+    # retalhos e o teto aparece manchado
+    for o in objs:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=float(CFG.get("soldar_m", 0.0005)))
+        bm.to_mesh(o.data)
+        bm.free()
 allP = np.concatenate([pts(o) for o in objs])
 zmin, xmid = allP[:, 2].min(), 0.5 * (allP[:, 0].min() + allP[:, 0].max())
 for o in objs:
     o.data.transform(Matrix.Translation(Vector((-xmid, 0, -zmin))))
+TOT = Matrix.Translation(Vector((-xmid, 0, -zmin))) @ TOT
 P = pts(body)
 q = 0.22 * (P[:, 0].max() - P[:, 0].min())
 zf = np.percentile(P[P[:, 0] > P[:, 0].max() - q, 2], 95)
 zr = np.percentile(P[P[:, 0] < P[:, 0].min() + q, 2], 95)
-if zf > zr:
+frente_cfg = (CFG or {}).get("frente")
+if frente_cfg:
+    eixo_f = Vector({"+x": (1, 0, 0), "-x": (-1, 0, 0), "+y": (0, 1, 0), "-y": (0, -1, 0)}[frente_cfg])
+    virar = (R.to_3x3() @ eixo_f).x < 0          # num furgão a altura da frente e de trás é a mesma: o JSON manda
+else:
+    virar = zf > zr
+if virar:
     for o in objs:
         o.data.transform(Matrix.Rotation(np.pi, 4, "Z"))
+    TOT = Matrix.Rotation(np.pi, 4, "Z") @ TOT
 
 # 2. ilhas por objeto, com caixa; rodas = ilhas baixas nos cantos
 def ilhas(o):
@@ -155,6 +350,7 @@ if medidas["rodas"]:
     xm = 0.5 * (xf + xr)
     for o in objs:
         o.data.transform(Matrix.Translation(Vector((-xm, 0, 0))))
+    TOT = Matrix.Translation(Vector((-xm, 0, 0))) @ TOT
     for grupo in (medidas["vidros"], medidas["pecas_soltas"]):
         for d in grupo.values():
             d["box"][0] -= xm
@@ -174,6 +370,7 @@ if lat:
     yc = float(np.mean([0.5 * (b[2] + b[3]) for b in lat]))
     for o in objs:
         o.data.transform(Matrix.Translation(Vector((0, -yc, 0))))
+    TOT = Matrix.Translation(Vector((0, -yc, 0))) @ TOT
     for grupo in (medidas["vidros"], medidas["pecas_soltas"]):
         for d in grupo.values():
             d["box"][2] -= yc
@@ -209,7 +406,8 @@ if MANTER:
         nomes = [(m.name[len("entrada_"):] if m and m.name.startswith("entrada_") else "") for m in o.data.materials]
         papel_entrada[o.name] = [nomes[p.material_index] if p.material_index < len(nomes) else "" for p in o.data.polygons]
 mats = {}
-for nome in ("pintura", "vidro", "pneu", "chassi") + (PAPEIS_EXTRA if MANTER else ()):
+# (com --juntar cada face já tem o material mapeado: nada a fazer aqui)
+for nome in ((("pintura", "vidro", "pneu", "chassi") + (PAPEIS_EXTRA if MANTER else ())) if CFG is None else ()):
     m = bpy.data.materials.new(nome)
     m.use_nodes = True
     mats[nome] = m
@@ -218,7 +416,7 @@ for m in body.data.materials:
     for n in m.node_tree.nodes:
         if n.type == "TEX_IMAGE" and n.image:
             tex_img = n.image
-for nome, m in mats.items():
+for nome, m in (mats.items() if CFG is None else ()):
     bsdf = m.node_tree.nodes["Principled BSDF"]
     if tex_img is not None and nome in ("pintura", "pneu", "vidro"):
         t = m.node_tree.nodes.new("ShaderNodeTexImage")
@@ -231,7 +429,7 @@ for nome, m in mats.items():
         ent_m = bpy.data.materials.get("entrada_" + nome)
         if ent_m is not None and ent_m.use_nodes and ent_m.node_tree.nodes.get("Principled BSDF"):
             bsdf.inputs["Base Color"].default_value = ent_m.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value[:]
-for i, o in enumerate(objs):
+for i, o in enumerate(objs if CFG is None else ()):
     me = o.data
     me.materials.clear()
     ordem = list(mats)
@@ -309,6 +507,34 @@ at = me.attributes.get("sharp_edge") or me.attributes.new("sharp_edge", "BOOLEAN
 at.data.foreach_set("value", vivas)
 me.update()
 print(f"arestas vivas (> {ANGULO:.0f} graus): {sum(vivas)} de {len(vivas)}")
+if REF is not None:
+    # as normais do arquivo voltam (face achada pela normal, interpolada): o teto do furgão é um leque de triângulos finos e as
+    # normais recalculadas viravam listras; o corte leva estas adiante com --manter-normais
+    refs = []
+    for i, m_ in enumerate(REF):
+        m_.transform(TOT)
+        if i != 2:                                   # as rodas não foram esticadas
+            for v in m_.vertices:
+                if v.co.z > z_eixo:
+                    v.co.z = z_eixo + (v.co.z - z_eixo) * k
+        r_ = bpy.data.objects.new("ref_%d" % i, m_)
+        bpy.context.scene.collection.objects.link(r_)
+        refs.append(r_)
+    at.data.foreach_set("value", [False] * len(vivas))     # quem manda agora são as normais do arquivo
+    mod = ob.modifiers.new("normais", "DATA_TRANSFER")
+    mod.use_loop_data = True
+    mod.data_types_loops = {"CUSTOM_NORMAL"}
+    mod.loop_mapping = "POLYINTERP_LNORPROJ"         # projetado pela normal: o teto tem forro por dentro, a 1 cm
+    bpy.ops.object.select_all(action="DESELECT")
+    for r_ in refs:
+        r_.select_set(True)
+    bpy.context.view_layer.objects.active = refs[0]
+    bpy.ops.object.join()
+    mod.object = bpy.context.view_layer.objects.active
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.modifier_apply(modifier="normais")
+    bpy.data.objects.remove(refs[0])
+    print("normais do arquivo transferidas")
 allP = pts(ob)
 medidas["caixa"] = [round(float(v), 4) for v in np.concatenate([[allP[:, 0].min(), allP[:, 0].max()], [allP[:, 1].min(), allP[:, 1].max()], [allP[:, 2].min(), allP[:, 2].max()]])]
 medidas["triangulos"] = len(me.polygons)
