@@ -1129,3 +1129,61 @@ os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão d
   `FDNGarageClass::All()` e a linha do `Data/Garage.csv`: o repositório do Detonauto não pôde ser anexado nesta sessão. As prévias de
   `previas/tropeiro/` usam materiais aproximados e cores e acabamentos aproximados (os valores de `Data/Paints.csv` e
   `Data/PaintFinishes.csv` estão no Detonauto); o veredito visual é a captura do jogo.
+## Besouro do Sketchfab: clássico de motor atrás, separado pela textura (30/10/2026)
+
+O Besouro do Detonauto deixou o Meshy pelo caminho do Cuiabano. Modelo escolhido pelo Felipe entre 5 candidatos: o de Matej Ondra
+(Sketchfab, CC BY 4.0; crédito em `CREDITOS.md`), feito em Maya e Substance, 172 mil triângulos, cada peça numa ilha (portas, os quatro
+para-lamas aparafusados, tampas, estribos, para-choques). Ele vem em 4 conjuntos de textura, sem objeto de vidro nem de roda: o vidro
+só existe no mapa de transmissão. O original não entra no acervo (emblema no capô, logotipo nas calotas, placas com letras); a licença
+fica em `veiculos/sketchfab/besouro-matej-ondra__3d166ec739cb440984cbcd17608675e0.license.txt` e o glTF se baixa de novo pela API.
+
+    python -I ferramentas/sketchfab_reagrupar.py -- <scene.gltf> <pasta>/reagrupado.glb --config veiculos/sketchfab/quebravel/besouro/besouro_reagrupar.json
+    python -I ferramentas/sketchfab_preparar.py -- <pasta>/reagrupado.glb <pasta>/besouro.glb "carroceria,vidros,rodas" 4.08 1.50 0.06 30 0 0 1 --manter-materiais
+    python -I ferramentas/carro_quebravel.py -- --entrada <pasta>/besouro.glb --out <corte> --id besouro --portas 2 --sem-rotulos \
+        --manter-normais --sem-solda --materiais-entrada --mapa veiculos/sketchfab/quebravel/besouro/besouro_mapa.json --sem-fbx
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/besouro.glb <corte>/besouro.glb --mapa veiculos/sketchfab/quebravel/besouro/besouro_mapa.json \
+        --sem-arco-redondo --sem-face-para-choque --sem-limpador --sem-macaneta --sem-friso --sem-miudezas --para-choque-pintado \
+        --sem-faixa --sem-quebra-vento --sem-sinaleira --luzes-modeladas --retrovisores-como-vieram \
+        --piscas 1.15,1.28,0.54,0.62,0.835,0.89 --z-placa 0.32 --z-barra-frente 0.41 --placa-tras-colada
+    python -I ferramentas/assar_desgaste.py -- <corte>/besouro.glb <corte>/besouro.glb --tamanho 2048 --amostras 32 --virar-so-para-dentro
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id besouro --out <kit>
+    python -I ferramentas/rodas_kit.py -- --so p165_80          (só o pneu novo; os outros GLBs ficam)
+
+- **`sketchfab_reagrupar.py` (novo):** modelo em várias malhas por conjunto de textura vira os 3 objetos do preparo (`carroceria`,
+  `vidros`, `rodas`), por um JSON: ilha cuja transmissão na UV passa do limiar é vidro (as lentes dos faróis, em caixas `vidro_fora`,
+  ficam na carroceria como `luz`); ilha dentro de um cilindro de roda ou abaixo de `assoalho_z` vai para as rodas; `tirar_objetos`
+  (o interior de fábrica: o kit faz o nosso) e `apagar` (caixas: o emblema do capô e o logotipo das 4 calotas). Com `classes`, cada
+  ilha da carroceria sai `cromado` (canal metálico da textura original), `chassi` (escura) ou `pintura`; vidro e roda saem `base`,
+  que o preparo com `--manter-materiais` não sobrescreve. Assim frisos, para-choques, molduras, maçanetas e aros dos faróis chegam
+  cromados ao jogo.
+- **`carro_quebravel.py`:** `take: "ilhas"` (ilha inteira com 90% das faces na caixa, `n_min` e caixas `fora` de exclusão; o `ilha`
+  das outras sessões, com 50%, continua igual), `--sem-solda` (a solda de 0,1 mm grudava o para-lama traseiro na lateral, vértice
+  com vértice), `--materiais-entrada` (cromado, chassi e luz do arquivo voltam depois do `_materiais_unica`, e faróis e lanternas
+  ficam com os materiais das faces: lente, aro cromado, caixa pintada) e `so_ilhas` no `take: "roda"` (o cilindro do pneu pegava em
+  zigue-zague os triângulos da borda do para-lama; no jogo, com as rodas de kit, a borda ficava com dentes). Papel `remover` com
+  `ilhas`: as garras e os tubos dos para-choques saem (o carro de referência, nacional dos anos 70-80, tem lâmina simples).
+- **`detalhes_na_casca.py`:** `--luzes-modeladas` (nada refeito em caixa: farol em `lente_farol`; a lente pintada da lanterna vira seta
+  em cima, freio no meio e ré embaixo), `--retrovisores-como-vieram` (o redondo cromado do modelo), `--piscas` (caixa espelhada em y:
+  o pisca em cima do para-lama da frente vira âmbar), o `--z-barra-frente` do Jabuti (0,41: a lâmina é baixa) e
+  `--placa-tras-colada` (a placa de trás no ponto mais saliente da tampa abaulada, com suporte de 3 cm; sem ela a placa sumia dentro
+  do bojo).
+- **`assar_desgaste.py --virar-so-para-dentro`:** a chapa simples sob o friso bate perto pela normal e sai livre para dentro; era
+  "desvirada" e depois o `hidden_paint_faces` do Detonauto a apagava (dentes pretos sob o friso cromado). Só vira o que olha para o
+  meio do carro.
+- **`carro_completo.py`:** a sonda da saia só aceita o que fica além da roda (a lâmina alta deixava o raio bater no tubo do eixo
+  traseiro, e a saia de trás caía no entre-eixos apagando o motor e o escapamento); por carro nos dados: `estepe_recuo` e
+  `estepe_inclinacao` (o estepe da frente furava o bico da tampa), `saias: false` (a saia preta sob a lâmina aparecia como bloco) e o
+  `aparar_desde_a_saia` das outras sessões (o painel lateral do banco de trás aparecia na fresta do para-lama); as paredes do vão do
+  motor boxer param onde a casca fica mais estreita que elas (saíam nos cantos da tampa do motor). `besouro` nos dados vale também para
+  o Besouro do Meshy, que fica no acervo como estava.
+- **`rodas_kit.py`:** pneu 165/80 R15 (raio 32,2 cm, perto do 5.60-15 do carro real), no aro de aço 15 e na calota 15 do Pão de
+  Forma, e `--so` para gerar só alguns itens juntando ao `rodas_kit.json` (os outros GLBs ficaram idênticos byte a byte;
+  `test_rodas_kit.py` passa). Na prévia, `RODAS=aro_aco15,pneu_p165_80,calota15`.
+- **Gol inalterado (conferido em 30/10, depois de juntar com o `main`):** preparo, detalhes, assado (textura byte a byte) e kit do Gol
+  saem idênticos com as ferramentas de antes e as de agora; no corte, faces, materiais e área de cada peça iguais, com a variação de
+  vértices das bordas que duas rodadas do código antigo já têm.
+- **Saída:** `veiculos/sketchfab/quebravel/besouro/` (35 peças, ~261 mil triângulos; 4,14 x 1,54 x 1,50 m, entre-eixos 2,414 m) e
+  `completo/besouro/` (kit época 70, motor boxer atrás, porta-malas com estepe inclinado e tanque na frente, 67 peças). Prévias em
+  `veiculos/sketchfab/previas/besouro/` (4 vistas, detalhes, as 14 cores de `Data/Paints.csv` e os 5 acabamentos). A cadeia de
+  conferência do Detonauto (`make_crush_channels.py`, `kit_to_detonauto.py`, `glb_texturas.py`, `kit_completo_to_detonauto.py`,
+  `rodas_to_detonauto.py`) passa: 21 malhas com esqueleto e 8 do kit.
