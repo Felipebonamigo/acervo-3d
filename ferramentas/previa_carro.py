@@ -4,7 +4,7 @@ como o jogo faz (a textura de desgaste x a cor de Data/Paints.csv, com o acabame
 verdade em volta para o verniz e o cromo terem o que refletir. Foi o script das prévias do Gol Quadrado (Cuiabano).
 
     ID=<id> CORTE=<pasta do corte>/ KIT=<pasta do kit>/ [HDRI=<rua.hdr> HDRI_ROT=270] [ACAB=solida|metalica|perolizada|fosca|acetinada]
-    [CAM="x,y,z,alvo_x,alvo_y,alvo_z,lente"] [SEMKIT=1] [GLB=<outro glb no lugar do corte>] [DETONAUTO=<repo do Detonauto>]
+    [CAM="x,y,z,alvo_x,alvo_y,alvo_z,lente"] [SEMKIT=1] [RODAS=aro_aco14,pneu_p185_60,calota14] [GLB=<outro glb no lugar do corte>] [DETONAUTO=<repo do Detonauto>]
     python -I ferramentas/previa_carro.py -- <saida.png> <textura da pintura (o _desgaste.png)> Ok <cor linear r,g,b> "" foto|tras|perto
 
 A cor vai em linear (sRGB 172,22,20 -> 0.4125,0.0080,0.0070). HDRI usado nas prévias do Gol: "Wide Street 01" (Poly Haven, CC0),
@@ -64,11 +64,18 @@ def rodaglb(nome, obj):
         if o not in keep and o.type == 'MESH': bpy.data.objects.remove(o)
     return keep[0]
 pneus = {}
-for p in mapa['parts']:
-    if p.get('take') == 'roda' and p.get('papel') == 'wheel':
-        pos = p['name'].split('_')[1]; cx, _, cz = p['centro']; s = p['lado']; y = s * (p['y'][0] + p['y'][1]) / 2
+cantos = [(p['name'].split('_')[1], p['centro'][0], p['centro'][2], p['lado'], p['y']) for p in mapa['parts']
+          if p.get('take') == 'roda' and p.get('papel') == 'wheel']
+if not cantos:
+    # rodas cortadas por material (Sagui, 30/10/2026): os cantos vêm da lista "rodas" do mapa
+    cantos = [(r['nome'], r['cx'], r['cz'], r['lado'], (r['y_dentro'], r['y_fora'])) for r in mapa.get('rodas', [])]
+for pos, cx, cz, s, ys in cantos:
+    if True:
+        y = s * (ys[0] + ys[1]) / 2
         estado = sys.argv[sys.argv.index('--') + 3] if pos == 'fl' else 'Ok'
-        for nome, obj in (('aro_aco13', 'aro_aco13'), ('pneu_p175_70', 'pneu_p175_70_' + estado), ('calota13', 'calota13')):
+        # RODAS="aro,pneu,calota" (os de Data/CarWheels.csv do carro; Sagui: aro_aco14,pneu_p185_60,calota14); padrão o do Cuiabano
+        aro_, pneu_, calota_ = os.environ.get('RODAS', 'aro_aco13,pneu_p175_70,calota13').split(',')
+        for nome, obj in ((aro_, aro_), (pneu_, pneu_ + '_' + estado), (calota_, calota_)):
             o = rodaglb(nome, obj)
             o.location = (cx, y, cz)
             o.rotation_mode = 'XYZ'; o.rotation_euler = (0, 0, 0 if s > 0 else math.pi)

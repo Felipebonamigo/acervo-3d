@@ -4044,7 +4044,7 @@ def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habi
     return andou
 
 
-def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", "porta"), por_vertice=False):
+def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", "porta"), por_vertice=False, cima_basta=False):
     """
     Acima da cintura a cabine é fechada (teto, vidros, colunas, portas): uma face do kit de onde um raio escapa para fora sem
     bater na casca está do lado de fora (o acabamento da coluna A e as colunas do vão apareciam pelo lado de fora do Gol do
@@ -4073,6 +4073,7 @@ def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", 
     bm.free()
     r2 = 1 / _m.sqrt(2)
     dirs = [Vector(d) for d in ((0, 0, 1), (0, 1, 0), (0, -1, 0), (1, 0, 0), (-1, 0, 0), (0, r2, r2), (0, -r2, r2), (r2, 0, r2), (-r2, 0, r2))]
+    dirs_env = [Vector(d) for d in ((0, 0, 1), (1, 0, 0), (-1, 0, 0))]
     tirou = {}
     for ob in objs:
         if ob.get("grupo") not in grupos:
@@ -4083,8 +4084,25 @@ def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", 
         fora = []
         for f in b.faces:
             c = M @ f.calc_center_median()
-            if c.z < z_min:
+            # com cima_basta conta o vértice mais alto: a coluna da travessa (de 0,21 a 0,79 m) tinha o centro abaixo de z_min
+            if (max((M @ v.co).z for v in f.verts) if cima_basta else c.z) < z_min:
                 continue
+            if cima_basta:
+                # envelope (Sagui): um raio que vem de longe, de cima, da frente ou de trás, até cada vértice; se ele só bate na casca
+                # depois de passar pelo vértice, ou a menos de 1,5 cm dele, a face sai (a travessa do motor ficava a 2 mm sob a chapa do
+                # capô, dentro da espessura dele, e aparecia como uma barra na frente do capô; os espinhos do teto tinham o centro dentro)
+                saiu = False
+                for q in [c] + [M @ v.co for v in f.verts]:
+                    for d in dirs_env:
+                        h = arv.ray_cast(q + d * 4.0, -d, 4.0)[0]
+                        if h is None or (q - h).dot(d) > -0.015:
+                            saiu = True
+                            break
+                    if saiu:
+                        break
+                if saiu:
+                    fora.append(f)
+                    continue
             pontos = [c]
             if por_vertice:
                 pontos += [p + (c - p).normalized() * min(0.01, (c - p).length) for p in (M @ v.co for v in f.verts)]
@@ -4632,6 +4650,8 @@ def parse_args(argv):
                    help="recolhe na casca também o vão da porta e o motor, só pela face de fora (o teto redondo, o para-brisa e a fresta do capô do Caipora)")
     p.add_argument("--sem-sujeira", action="store_true", help="não assa a oclusão nos vértices (mais rápido; cor sem encardido)")
     p.add_argument("--so-medidas", action="store_true")
+    p.add_argument("--aparar-alto", type=float, default=None, help="apaga também no motor e no porta-malas, de z para cima, a face do kit "
+                   "com algum vértice fora do envelope da casca (raio de cima, da frente ou de trás) ou a menos de 1,5 cm dela")
     p.add_argument("--sufixo", default="", help="sufixo nos arquivos de saída (ex.: _2000 para testar outra época)")
     return p.parse_args(argv)
 
@@ -4728,6 +4748,12 @@ def principal(argv):
                 tirou[k] = tirou.get(k, 0) + v
             print("fora da casca no motor e no porta-malas (faces tiradas):", tirou)
             print("colunas do vão vistas pela janela (faces tiradas):", aparar_na_janela(objs, corte_objs, kit.M["z_cintura"] - 0.01))
+        if a.aparar_alto is not None:
+            # --aparar-alto Z (30/10/2026, Sagui): o capô curto e inclinado deixava a travessa e o para-lama interno do motor para fora
+            # da frente do capô e furando a lente do farol, e as colunas faziam espinhos no teto
+            tirou = aparar_expostos(objs, corte_objs, a.aparar_alto, grupos=("motor", "porta_malas", "habitaculo", "vao_porta", "porta"),
+                                    cima_basta=True)
+            print("fora da casca acima de z=%.2f (faces tiradas):" % a.aparar_alto, tirou)
     if getattr(kit, "saia", None):
         tirou = aparar_sob_a_saia(objs, kit.saia, kit.M["rodas"], kit.M["R"])
         print("fora das saias, embaixo (faces tiradas):", tirou)
