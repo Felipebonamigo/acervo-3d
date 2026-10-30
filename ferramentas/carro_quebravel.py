@@ -141,6 +141,9 @@ def parse_args(argv):
     # malha única: mantém as normais que vieram no arquivo (a casca alisada pelo alisar_lataria.py); sem a opção, a solda recalcula as
     # normais pelos triângulos, como sempre foi
     p.add_argument("--manter-normais", action="store_true")
+    # malha única: as faces que vieram em `chassi` (plástico preto: alargador, estribo, moldura, estepe do jipe) continuam `chassi`
+    # nas peças; sem a opção tudo o que o mapa não pega por material vira `pintura`, como sempre foi
+    p.add_argument("--manter-chassi", action="store_true")
     # malha única (Meshy): automático quando o arquivo tem um objeto só
     p.add_argument("--malha-unica", action="store_true", help="força o modo malha única")
     p.add_argument("--em-pecas", action="store_true", help="força o modo em peças mesmo com um objeto só")
@@ -2503,6 +2506,16 @@ def principal_unica(args, meshes, cid, out, rel):
     if getattr(args, "cores_do_arquivo", False):
         _cores_do_arquivo(obj, rel)
         mapa["_cores_do_arquivo"] = True
+    if getattr(args, "manter_chassi", False) and "cq_mat" in me.attributes:
+        i_ch = [m.name for m in me.materials].index(MAT_ESCURO)
+        cqm = np.zeros(len(me.polygons), np.int32)
+        me.attributes["cq_mat"].data.foreach_get("value", cqm)
+        mi = np.zeros(len(me.polygons), np.int32)
+        me.polygons.foreach_get("material_index", mi)
+        mi[cqm == 3] = i_ch
+        me.polygons.foreach_set("material_index", mi)
+        me.update()
+        rel["avisos"].append("--manter-chassi: %d faces continuam chassi" % int((cqm == 3).sum()))
     pecas = _executar_mapa(obj, mapa, rodas, rel)
     obj.name = obj.data.name = "body"
     for nome_attr in ("cq_peca", "cq_mat"):
