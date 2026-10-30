@@ -10,6 +10,7 @@ sujeira embaixo, variação leve), não a geometria. Este passo:
    pintados, do plástico preto e das lentes.
 
     python -I ferramentas/assar_desgaste.py -- <corte>.glb <saida>.glb [--tamanho 2048] [--amostras 32] [--sujeira 0.35] [--uv-smart]
+        [--virar-so-para-dentro]   (chapa simples, como o Besouro do Sketchfab: a chapa sob os frisos não é desvirada)
 
 No jogo (glb_texturas.py -> T_<Modelo>_C) a tinta multiplica essa textura: a cor trocável continua, com o desgaste por cima.
 A prévia com a textura: montagem2 sem LISO, passando o PNG como a tinta.
@@ -36,6 +37,7 @@ SUJEIRA = opt("--sujeira", 0.16 if ESTADO == "usado" else 0.03)
 # 88 mil cartas minúsculas (74 texels por metro). As ilhas saem do Smart UV do Blender (60°), em metros, no mesmo empacotador; a
 # altura de cada texel (sujeira) vem de um bake da posição, porque a carta não tem mais eixo
 UV_SMART = "--uv-smart" in args
+SO_PARA_DENTRO = "--virar-so-para-dentro" in args   # chapa simples: só desvira face que olha para o meio do carro
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 # com --uv-smart os vértices do glb (separados em cada normal de canto) são soldados logo depois: senão cada triângulo é uma ilha
@@ -70,6 +72,13 @@ for o in casca:
         c = f.calc_center_median()
         # virada = a normal bate perto (entra na folga) E o sentido contrário sai livre; a chapa sob um friso ou uma maçaneta
         # bate perto nos dois sentidos (o friso na frente, a pele de dentro atrás) e não é virada
+        if SO_PARA_DENTRO:
+            # chapa simples (Besouro do Sketchfab): a chapa sob o friso cromado bate perto pela normal e sai livre para dentro, e
+            # era virada; depois o hidden_paint_faces do Detonauto a apagava (dentes pretos sob o friso). Só vira o que olha
+            # para o meio do carro
+            meio = Vector((max(-1.2, min(1.2, c.x)), 0.0, 0.6))
+            if f.normal.dot(c - meio) > 0.0:
+                continue
         h = arv.ray_cast(c + f.normal * 0.0015, f.normal, 0.025)
         if h[0] is not None:
             h2 = arv.ray_cast(c - f.normal * 0.0015, -f.normal, 0.025)
