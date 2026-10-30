@@ -21,7 +21,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
                            (--faixa-branca 0.35 = fração da altura); nada é refeito em caixa
     --manter-grade         a grade do modelo fica como veio
     --grade-recuo 0.03     a grade refeita recua isso (m) atrás da frente da caixa dela
-    --friso-lente          com --manter-luzes: moldura preta varrida rente à borda da lente do farol e da lanterna
+    --friso-lente          com --manter-luzes: moldura preta varrida rente à borda da lente do farol
     --grade-chassi         a grade veio preta (chassi): é refeita com palhetas na caixa dela
     --manter-retrovisores  a forma fica; a capa pintada vira plástico preto
     (as portas de trás ganham maçaneta quando existem, na altura de --z-macaneta)
@@ -1040,7 +1040,7 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
                 pg.material_index = mb if pg.center.z < z0 + FAIXA_BRANCA * (z1 - z0) else mv
         o.data.update()
         relatorio.append("%s: lente do modelo mantida (%d faces)" % (nome, len(fl)))
-        if "--friso-lente" in args:
+        if "--friso-lente" in args and sinal > 0:      # só no farol: na lanterna que dobra para a lateral o contorno descia pelo para-lama
             relatorio.append("%s: %s" % (nome, friso_na_borda(o, fl)))
         continue
     if sinal < 0 and "--sem-lanternas" in args:
