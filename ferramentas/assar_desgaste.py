@@ -337,6 +337,14 @@ for o in casca:
             b.inputs["Metallic"].default_value = 0.35
             b.inputs["Roughness"].default_value = 0.35
             continue
+        if base == "cromo":
+            # cromo de verdade (Lambari, 30/10): os valores do MI_DNCromoCoupe do jogo (prata, metal 1, aspereza 0,15), sem textura
+            for l in list(b.inputs["Base Color"].links):
+                nt.links.remove(l)
+            b.inputs["Base Color"].default_value = (0.8, 0.8, 0.82, 1)
+            b.inputs["Metallic"].default_value = 1.0
+            b.inputs["Roughness"].default_value = 0.15
+            continue
         if base != "pintura" and base not in COR_FIXA:
             continue
         for l in list(b.inputs["Base Color"].links):
