@@ -5,6 +5,7 @@ verdade em volta para o verniz e o cromo terem o que refletir. Foi o script das 
 
     ID=<id> CORTE=<pasta do corte>/ KIT=<pasta do kit>/ [HDRI=<rua.hdr> HDRI_ROT=270] [ACAB=solida|metalica|perolizada|fosca|acetinada]
     [CAM="x,y,z,alvo_x,alvo_y,alvo_z,lente"] [SEMKIT=1] [RODAS=aro_aco14,pneu_p185_60,calota14] [GLB=<outro glb no lugar do corte>] [DETONAUTO=<repo do Detonauto>]
+    [ESCADA=veiculos/proprios/escada-aluminio.glb ESCADA_AVANCO=0.25]
     python -I ferramentas/previa_carro.py -- <saida.png> <textura da pintura (o _desgaste.png)> Ok <cor linear r,g,b> "" foto|tras|perto
 
 A cor vai em linear (sRGB 172,22,20 -> 0.4125,0.0080,0.0070). HDRI usado nas prévias do Gol: "Wide Street 01" (Poly Haven, CC0),
@@ -142,6 +143,21 @@ for m in bpy.data.materials:
             for l in list(bb[0].inputs['Base Color'].links): m.node_tree.links.remove(l)
             bb[0].inputs['Base Color'].default_value = (0.62, 0.63, 0.64, 1)
             bb[0].inputs['Metallic'].default_value = 0.35; bb[0].inputs['Roughness'].default_value = 0.35
+if os.environ.get('ESCADA'):
+    # a escada de alumínio do jogo (veiculos/proprios/escada-aluminio.glb) no bagageiro, pela regra do montar_escada_no_teto.py do
+    # Detonauto: piso do bagageiro = a faixa de 1 cm com mais vértices nos 20 cm de cima do carro, centrada nas barras, 25 cm à frente
+    from collections import Counter
+    pts_ = [o.matrix_world @ vv.co for o in bpy.data.objects if o.type == 'MESH' and o.name.split('.')[0] in ('roof_rack', 'body') for vv in o.data.vertices]
+    teto_ = max(q.z for q in pts_)
+    piso_ = Counter(round(q.z * 100) for q in pts_ if q.z > teto_ - 0.20).most_common(1)[0][0]
+    barras_ = [q for q in pts_ if round(q.z * 100) == piso_]
+    antes_ = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=os.environ['ESCADA'])
+    esc_ = [o for o in bpy.data.objects if o not in antes_]
+    for o in esc_:
+        if o.parent is None or o.parent not in esc_:
+            o.location += Vector(((min(q.x for q in barras_) + max(q.x for q in barras_)) / 2 + float(os.environ.get('ESCADA_AVANCO', '0.25')),
+                                  (min(q.y for q in barras_) + max(q.y for q in barras_)) / 2, piso_ / 100 + 0.015))
 tirar = sys.argv[sys.argv.index('--') + 5].split(',') if len(sys.argv) > sys.argv.index('--') + 5 else []
 for o in list(bpy.data.objects):
     base = o.name.split('.')[0]

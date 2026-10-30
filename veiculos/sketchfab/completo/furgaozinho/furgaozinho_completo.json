@@ -588,15 +588,15 @@
    "nome": "door_card_fl_chapa",
    "grupo": "porta",
    "segue": "door_fl",
-   "triangulos": 2482,
-   "triangulos_lod1": 744,
+   "triangulos": 2466,
+   "triangulos_lod1": 739,
    "caixa_m": [
     -0.337,
     0.751,
     0.596,
-    0.758,
+    0.754,
     0.235,
-    0.919
+    0.955
    ],
    "materiais": [
     "pintura_interna",
@@ -656,15 +656,15 @@
    "nome": "jamb_fl_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1116,
-   "triangulos_lod1": 333,
+   "triangulos": 1078,
+   "triangulos_lod1": 322,
    "caixa_m": [
     -0.364,
-    0.766,
-    0.315,
+    0.742,
+    0.59,
     0.72,
     0.235,
-    1.361
+    0.87
    ],
    "materiais": [
     "pintura_interna",
@@ -676,15 +676,15 @@
    "nome": "jamb_fl_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1878,
-   "triangulos_lod1": 562,
+   "triangulos": 1140,
+   "triangulos_lod1": 342,
    "caixa_m": [
-    -0.336,
+    -0.335,
     0.726,
-    0.359,
+    0.642,
     0.735,
-    0.245,
-    1.321
+    0.244,
+    0.9
    ],
    "materiais": [
     "borracha"
@@ -733,15 +733,15 @@
    "nome": "door_card_fr_chapa",
    "grupo": "porta",
    "segue": "door_fr",
-   "triangulos": 2482,
-   "triangulos_lod1": 744,
+   "triangulos": 2466,
+   "triangulos_lod1": 739,
    "caixa_m": [
     -0.337,
     0.751,
-    -0.758,
+    -0.754,
     -0.596,
     0.235,
-    0.919
+    0.955
    ],
    "materiais": [
     "pintura_interna",
@@ -801,15 +801,15 @@
    "nome": "jamb_fr_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1116,
-   "triangulos_lod1": 334,
+   "triangulos": 1078,
+   "triangulos_lod1": 322,
    "caixa_m": [
     -0.364,
-    0.766,
+    0.742,
     -0.72,
-    -0.315,
+    -0.59,
     0.235,
-    1.361
+    0.87
    ],
    "materiais": [
     "pintura_interna",
@@ -821,15 +821,15 @@
    "nome": "jamb_fr_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1878,
-   "triangulos_lod1": 562,
+   "triangulos": 1140,
+   "triangulos_lod1": 342,
    "caixa_m": [
-    -0.336,
+    -0.335,
     0.726,
     -0.735,
-    -0.359,
-    0.245,
-    1.321
+    -0.642,
+    0.244,
+    0.9
    ],
    "materiais": [
     "borracha"
@@ -878,12 +878,12 @@
    "nome": "door_card_rl_chapa",
    "grupo": "porta",
    "segue": "door_rl",
-   "triangulos": 2496,
-   "triangulos_lod1": 748,
+   "triangulos": 2486,
+   "triangulos_lod1": 745,
    "caixa_m": [
     -1.077,
     -0.179,
-    0.606,
+    0.604,
     0.749,
     0.235,
     0.918
@@ -946,15 +946,15 @@
    "nome": "jamb_rl_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1152,
-   "triangulos_lod1": 344,
+   "triangulos": 1104,
+   "triangulos_lod1": 330,
    "caixa_m": [
     -1.104,
-    -0.167,
-    0.31,
+    -0.188,
+    0.384,
     0.72,
     0.235,
-    1.36
+    0.87
    ],
    "materiais": [
     "pintura_interna",
@@ -966,15 +966,15 @@
    "nome": "jamb_rl_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1816,
-   "triangulos_lod1": 544,
+   "triangulos": 1040,
+   "triangulos_lod1": 312,
    "caixa_m": [
-    -1.076,
-    -0.2,
-    0.359,
+    -1.075,
+    -0.204,
+    0.468,
     0.72,
     0.245,
-    1.331
+    0.904
    ],
    "materiais": [
     "borracha"
@@ -1023,13 +1023,13 @@
    "nome": "door_card_rr_chapa",
    "grupo": "porta",
    "segue": "door_rr",
-   "triangulos": 2480,
-   "triangulos_lod1": 743,
+   "triangulos": 2486,
+   "triangulos_lod1": 745,
    "caixa_m": [
     -1.077,
     -0.179,
     -0.749,
-    -0.606,
+    -0.604,
     0.235,
     0.918
    ],
@@ -1091,15 +1091,15 @@
    "nome": "jamb_rr_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1152,
-   "triangulos_lod1": 344,
+   "triangulos": 1104,
+   "triangulos_lod1": 330,
    "caixa_m": [
     -1.104,
-    -0.167,
+    -0.188,
     -0.72,
-    -0.31,
+    -0.384,
     0.235,
-    1.36
+    0.87
    ],
    "materiais": [
     "pintura_interna",
@@ -1111,15 +1111,15 @@
    "nome": "jamb_rr_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1816,
-   "triangulos_lod1": 544,
+   "triangulos": 1040,
+   "triangulos_lod1": 312,
    "caixa_m": [
-    -1.076,
-    -0.2,
+    -1.075,
+    -0.204,
     -0.72,
-    -0.359,
+    -0.468,
     0.245,
-    1.331
+    0.904
    ],
    "materiais": [
     "borracha"
@@ -2021,13 +2021,13 @@
   }
  ],
  "triangulos": {
-  "lod0": 255102,
-  "lod1": 76462
+  "lod0": 251866,
+  "lod1": 75496
  },
  "triangulos_por_grupo": {
   "habitaculo": 82378,
-  "porta": 42064,
-  "vao_porta": 22276,
+  "porta": 42028,
+  "vao_porta": 19076,
   "porta_malas": 5716,
   "motor": 66130,
   "embaixo": 23402,
