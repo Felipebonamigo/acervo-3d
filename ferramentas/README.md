@@ -1003,3 +1003,60 @@ original traz o emblema da marca modelado: ele não entra no acervo; o que fica 
   `completo/furgao-classico/` (68 peças, época 70, boxer traseiro, passageiros) e as prévias em `previas/furgao-classico/`. A cadeia de
   conferência do Detonauto (make_crush_channels, kit_to_detonauto, glb_texturas, kit_completo_to_detonauto) passou com
   `--modelo PaoDeForma`: 5 peças, 8 vidros (os 10 fixos da lateral ficam na carroceria), 8 malhas de kit, amassado em 512x512.
+
+## Jabuti do Sketchfab: modelo em peças com material por objeto (30/10/2026)
+
+O Jabuti (nº 12 da ficha, micro) passou do Meshy a um modelo feito por gente, escolhido pelo Felipe em 30/10: **"Fiat_147" por
+lael.eugenio (Sketchfab, CC BY 4.0)**, `veiculos/sketchfab/jabuti-lael__6c643d284d144dcb8db46ab11285ec0b.glb` (5,3 MB, 52 objetos,
+13 materiais lisos, interior do autor). Como o Furgãozinho, vem em peças (portas com a moldura da janela, capô, tampa, faróis,
+lanternas, para-choques de lâmina), mas o mesmo material muda de papel conforme a peça (o branco é lente no farol e ré na lanterna; o
+prata é cromo no para-choque e plástico na capa do retrovisor), então o preparo ganhou um arquivo com o material por objeto.
+
+    python -I ferramentas/sketchfab_preparar.py -- <zip glTF>/scene.gltf <tmp>/jabuti.glb veiculos/sketchfab/quebravel/jabuti/jabuti_preparo.json \
+        3.4925 1.35 0.10 30 0 0.00001
+    python -I ferramentas/carro_quebravel.py -- --entrada <tmp>/jabuti.glb --out <corte> --id jabuti --portas 2 --sem-rotulos \
+        --manter-normais --manter-materiais --mapa veiculos/sketchfab/quebravel/jabuti/jabuti_mapa.json --sem-fbx
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/jabuti.glb <corte>/jabuti.glb --sem-arco-redondo --sem-face-para-choque \
+        --sem-limpador --sem-macaneta --sem-friso --sem-faixa --para-choque-pintado --sem-quebra-vento --sem-sinaleira \
+        --lanternas-como-vieram --manter-retrovisores --z-placa 0.215 --z-barra-frente 0.42 --placa-na-propria-peca --suporte-max 0.04 \
+        --mapa veiculos/sketchfab/quebravel/jabuti/jabuti_mapa.json
+    python -I ferramentas/assar_desgaste.py -- <corte>/jabuti.glb <corte>/jabuti.glb --tamanho 2048 --amostras 32 --uv-smart
+    python -I ferramentas/carro_completo.py -- --corte veiculos/sketchfab/quebravel/jabuti --id jabuti \
+        --out veiculos/sketchfab/completo/jabuti --aparar-abaixo
+
+O comprimento passado (3,4925) é o da carroceria do autor: os para-choques passam dela e o carro inteiro fica com os 3,62 m reais.
+
+- **`sketchfab_preparar.py`, modo por preparo:** o 3º argumento pode ser um `<id>_preparo.json` (`corpo`, `rodas`, `materiais` gerais e
+  `objetos` com a exceção de cada um; só os objetos listados ficam, o interior do autor sai). As rodas vêm dos objetos de roda (o pneu do
+  autor é feito de fatias finas, que a regra de ilha do Gol não reconhecia) e os vidros das ilhas `vidro`. Convive com o `--juntar` do
+  Pão de Forma, que só tem o mapa geral e seis materiais. A solda (9º argumento) é obrigatória neste modelo: o glTF chega com os vértices
+  separados.
+- **`carro_quebravel.py`:** usa o `--manter-materiais` do Lambari (cada face fica com o material do arquivo: `luz_ambar`,
+  `luz_vermelha`, `luz_branca`, `cromo`); ganhou `extra` no mapa (caixas a mais sem filtro de normal: a
+  grelha do capô, com as fendas olhando para os lados, vai com o capô) e `exceto_materiais` (o pisca âmbar que desce 1 cm na caixa do
+  para-choque fica na carroceria). Caixas de placa precisam de 4 cm ou mais: a erosão da seleção apaga uma faixa de 1 cm.
+- **`detalhes_na_casca.py`:** `--lanternas-como-vieram` (a lanterna do autor fica; a chapa pintada da caixa vira moldura),
+  `--z-barra-frente` (a altura em que o raio mede a frente do para-choque; o 0,48 do Gol passava por cima), `--placa-na-propria-peca`
+  (a placa de trás mede o fundo na chapa que a peça da placa levou; sem isso o raio atravessava o buraco e a placa saía a 2,7 m),
+  `--suporte-max` (fundo máximo do suporte) e placa pendurada embaixo do para-choque sem chapa atrás (suporte de 3 cm).
+- **`assar_desgaste.py --uv-smart`:** chapa lisa e densa partia a projeção em caixa em 88 mil cartas (74 texels por metro). Com a
+  opção, os vértices são soldados, as ilhas saem do Smart UV do Blender (60°) e entram no mesmo empacotador (8,8 mil cartas, 153 texels
+  por metro); a altura da sujeira vem de um bake da posição.
+- **`carro_completo.py`:** porta com moldura (a caixa da porta passa 15 cm da cintura) não ganha as colunas do vão acima da cintura,
+  e a coluna e a borda da chapa da porta param antes de onde a lateral dobra para dentro (apareciam pelo para-brisa e na base da
+  coluna A; deve valer para o Furgãozinho, cuja falta é essa, mas não testei nele); `--aparar-abaixo` tira do porta-malas, do vão e da porta, da saia para cima, o que fica fora
+  da casca (a caixa das lanternas furava a quina redonda de trás).
+- **No Detonauto:** o cromo de verdade (para-choques de lâmina, frisos da grade, molduras das janelas) usa o material `cromo` do
+  Lambari, que o `kit_names.py` já leva ao `MI_DNCromoCoupe`.
+- **Gol inalterado (conferido em 30/10):** a cadeia do Gol com as ferramentas do `origin/main` e com as de agora: preparo, corte,
+  borracha e detalhes a 0,0000 mm (vértice mais distante); na mesma entrada, o `assar_desgaste.py` dá a textura idêntica byte a byte
+  e o `carro_completo.py` o kit a 0,0000 mm. O que muda de uma rodada para outra é só a ordem dos vértices (duas rodadas do código
+  antigo também diferem nela).
+- **Saída (30/10):** `veiculos/sketchfab/quebravel/jabuti/` (31 peças, ~364 mil triângulos; 3,62 x 1,58 x 1,35 m, entre-eixos 2,21 m,
+  roda 28 cm) e `veiculos/sketchfab/completo/jabuti/` (kit época 70, 79 peças, LOD0 ~230 mil). Prévias com o HDRI da rua em
+  `veiculos/sketchfab/previas/jabuti/`.
+- **Falta / conhecido:** uma dobra leve nas costuras do para-lama com a frente e da tampa com a lateral, de perto. O assado refaz as
+  normais por peça; com as normais do corte (`--manter-normais` do assado, ou `--normais-da-original` no preparo) a dobra some, mas a
+  lataria inteira reflete enrugada com o verniz, que é pior. O teste de face virada do assado também erra neste modelo (19 mil faces
+  "viradas" na porta, a chapa dupla do autor a menos de 2,5 cm do casco do corte); como as faces de dentro não aparecem, ficou assim.
+  O vidro de quarta mostra a lateral de trás do kit (faixa marrom) logo abaixo da janela.
