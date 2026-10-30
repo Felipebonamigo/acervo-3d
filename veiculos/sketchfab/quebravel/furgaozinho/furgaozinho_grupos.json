@@ -1,0 +1,11 @@
+{
+ "notes": "Grupos do Furgãozinho (\"Fiat Uno Com Escada\" por ClrModels, Sketchfab, CC BY 4.0) para ferramentas/sketchfab_juntar.py. Sai o símbolo da marca da frente e a escada do autor (a do jogo é a nossa, por script); o bagageiro fica, preto.",
+ "tirar": ["^sibolo", "^escadas"],
+ "vidros": {"^vidro|^viros|^parabrisa": "vidro"},
+ "rodas": {"^pneu\\.002": "cromado", "^pneu": "pneu", "^calota": "cromado"},
+ "carroceria": {
+  "^lataria|^capo|^portas|^porta malas|^entrada de ar _35|^Circle": "pintura",
+  "^farol|^lanterna|^luz lateral": "luz",
+  "^para choque|^paralama|^borracha|^retrocisor|^ma.*aneta|^entrada de ar_33|^escapamento|^suporte escadas": "chassi"
+ }
+}

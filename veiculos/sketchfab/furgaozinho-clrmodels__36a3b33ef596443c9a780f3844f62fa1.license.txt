@@ -1,0 +1,11 @@
+Model Information:
+* title:	Fiat Uno Com Escada
+* source:	https://sketchfab.com/3d-models/fiat-uno-com-escada-36a3b33ef596443c9a780f3844f62fa1
+* author:	ClrModels (https://sketchfab.com/ClrModels)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Fiat Uno Com Escada" (https://sketchfab.com/3d-models/fiat-uno-com-escada-36a3b33ef596443c9a780f3844f62fa1) by ClrModels (https://sketchfab.com/ClrModels) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
