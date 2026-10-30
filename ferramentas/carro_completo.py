@@ -112,6 +112,12 @@ def caixas_do_mapa(mapa):
             y0, y1 = p["y"]
             rodas[pos] = {"x": p["centro"][0], "z": p["centro"][2], "lado": p["lado"], "y_dentro": y0, "y_fora": y1,
                           "y_meio": (y0 + y1) / 2.0}
+    if not rodas:
+        # rodas cortadas por material (Sagui, 30/10/2026): os cantos vêm da lista "rodas" do mapa (sem eles saíam sem freios e
+        # sem forro de caixa de roda)
+        for r in mapa.get("rodas", []):
+            y0, y1 = r["y_dentro"], r["y_fora"]
+            rodas[r["nome"]] = {"x": r["cx"], "z": r["cz"], "lado": r["lado"], "y_dentro": y0, "y_fora": y1, "y_meio": (y0 + y1) / 2.0}
     return caixas, rodas
 
 
