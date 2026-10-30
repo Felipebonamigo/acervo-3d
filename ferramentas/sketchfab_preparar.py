@@ -14,6 +14,8 @@ ent, out, keep = a[0], a[1], a[2].split(",")
 COMP, ALT, ARESTA = float(a[3]), float(a[4]), float(a[5])
 ANGULO = float(a[6]) if len(a) > 6 else 30.0   # aresta mais dobrada do que isso fica viva; o resto é liso
 SUAVIZAR = int(a[7]) if len(a) > 7 else 0        # passos de suavização (Taubin) dos vincos suaves: arredonda as facetas de baixo polígono
+SOLDA = float(a[8]) if len(a) > 8 else 0.0       # junta vértices a menos disso (unidades do arquivo): pneu em triângulos soltos vira ilha de roda
+TODO_VIDRO = len(a) > 9 and a[9] == "1"           # toda ilha do 2º objeto é vidro (as regras de janela são do Gol: o para-brisa do jipe é em pé)
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
 if MANTER:
@@ -29,6 +31,12 @@ for o in objs:
     o.matrix_parent_inverse = Matrix.Identity(4)
     o.matrix_world = Matrix.Identity(4)
     o.data.transform(M)
+    if SOLDA > 0:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=SOLDA)
+        bm.to_mesh(o.data)
+        bm.free()
 bpy.context.view_layer.update()
 for o in list(bpy.data.objects):
     if o.type == "EMPTY":
@@ -120,7 +128,10 @@ for o in objs:
                                          raio=round(float(tam[2] / 2), 4), y=[round(float(min(abs(mn[1]), abs(mx[1]))), 4), round(float(max(abs(mn[1]), abs(mx[1]))), 4)]))
         elif o is objs[1]:
             box = [round(float(v), 4) for v in np.concatenate([[mn[0], mx[0]], [mn[1], mx[1]], [mn[2], mx[2]]])]
-            if eh_janela(mn, mx, len(g)):
+            if TODO_VIDRO:
+                janela_idx.setdefault(o.name, []).append(g)
+                medidas["vidros"][len(medidas["vidros"])] = dict(box=box, n=int(len(g)))
+            elif eh_janela(mn, mx, len(g)):
                 candidatas.append((o.name, g, box))
             else:
                 medidas["pecas_soltas"][len(medidas["pecas_soltas"])] = dict(box=box, n=int(len(g)))
