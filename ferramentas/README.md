@@ -861,3 +861,48 @@ metades, a carroceria em 15 objetos e 29 materiais de molde, com cores trocadas 
 - **Falta melhorar:** as vistas internas do kit (porta solta, cabine) têm lascas, como as do Gol; a saia do kit sob as portas
   sai um tom mais clara que a lataria; o modelo é a versão europeia, de
   rosto parecido mas não igual ao carro de referência; a calota do kit lê branca de longe.
+
+## Lambari do Sketchfab: modelo com vários materiais texturizados (30/10/2026)
+
+O Lambari (cupê de 2 portas dos anos 70, nº 11 da ficha) passou a ser **"Chevrolet Chevette sl 76" por Laerte.Hubaleque (Sketchfab,
+CC BY 4.0)**, `veiculos/sketchfab/cupe-sl76-laerte__2322139894c545b6838000f08d853662.glb` (o GLB do autor sem os 2 emblemas da
+marca), escolhido pelo Felipe entre 4 candidatos. Diferente do Gol (3 objetos e textura quase branca), o modelo vem com 36 objetos e
+texturas PBR: lataria azul com o vão da porta e a borracha pintados na mesma textura, peças externas (cromo, lanternas, faróis,
+grade) numa textura só, interior, painel e freios. A cadeia:
+
+    python -I ferramentas/sketchfab_preparar_materiais.py -- <scene.gltf> <pasta>/lambari.glb veiculos/sketchfab/quebravel/lambari/lambari_regras.json
+    python -I ferramentas/carro_quebravel.py -- --entrada <pasta>/lambari.glb --out <corte> --id lambari --portas 2 --frente +x \
+        --sem-rotulos --manter-normais --manter-materiais --mapa veiculos/sketchfab/quebravel/lambari/lambari_mapa.json --sem-fbx
+    python -I ferramentas/placa_na_casca.py -- <corte>/lambari.glb <corte>/lambari.glb
+    python -I ferramentas/assar_desgaste.py -- <corte>/lambari.glb <corte>/lambari.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id lambari --out <kit> --epoca 70
+
+- **`sketchfab_preparar_materiais.py` (novo):** o `sketchfab_preparar.py` do Gol fica como está. Este lê um `_regras.json` por carro:
+  objetos que saem (interior, emblemas, freios, escapamento: o kit põe os dele), o material nosso de cada objeto, direto ou **pela
+  cor e pelo metal da textura na face** (mediana de amostras nos cantos e no centro da UV), com regras de matiz, saturação, valor e
+  metal; ilhas pequenas de um material no meio de outro voltam para o de fora (as venezianas da coluna C desenhadas na textura viravam
+  cacos pretos); frente, escala pelo comprimento, chão em z = 0, origem entre os eixos e **centro em y pelas rodas**. Grava o número
+  da ilha original em cada vértice (`_ilha`, no GLB `_ILHA`) para o corte.
+- **`carro_quebravel.py` ganhou** `--manter-materiais` (cada face fica com o material que veio, inclusive `cromo`, `lente_farol` e
+  `luz_*`; o papel da peça não troca), no mapa `"ilhas": true` (cada chapa do autor vai inteira para a caixa que contém a maior parte
+  dela, sem cortar pelo plano; a solda juntava o para-lama à frente e ele ficava na carroceria, por isso a ilha original manda),
+  `"materiais": [...]` (só as faces desses materiais: o capô sem o friso cromado, o farol sem a beira do capô) e `"material"` na
+  roda (o friso cromado do arco passa perto do pneu).
+- **`placa_na_casca.py` (novo):** o modelo não tem placa. Cria `plate_front` e `plate_rear` (40 x 13 cm em branco, moldura,
+  parafusos, suporte preto de 3 cm) na altura pedida (`--z-frente 0.335 --z-tras 0.345`, embaixo dos para-choques, como no carro
+  real), 0,8 cm à frente do ponto mais saliente da carroceria atrás dela (o para-choque logo acima puxava a placa 15 cm para fora).
+- **Cromo de verdade:** material `cromo` (para-choques, frisos dos arcos e da soleira, molduras dos vidros, aro dos faróis). No
+  Detonauto `kit_names.py` o leva ao `MI_DNCromoCoupe` (prata, metal 1, aspereza 0,15, família do amassado) e o `assar_desgaste.py`
+  põe esses valores na prévia, sem textura. O `cromado` de sempre (cromo pintado na textura do Meshy) continua `MI_DNPeca<Modelo>`.
+- **Kit (opções da linha `lambari` de `carro_completo_dados.json`, o Gol não usa):** `aparar_por_vertice` (a fita da coluna A do vão
+  tinha o centro dentro da casca e as pontas para fora da coluna A estreita: abas cor do carro em volta do para-brisa),
+  `aparar_desde_a_saia` (testa de 3 cm acima da saia para cima), `aparar_motor`, `capo_pelas_pontas` (a travessa da frente passava o
+  capô que cai nos cantos) e `corrigir.topo_da_saia` 0,31 (com 0,28 o raio da soleira passava por baixo da lateral e ela saía 4 cm
+  para fora). As caixas dos vidros no mapa são as medidas dos vidros do modelo (+1 cm): o kit desenha as colunas por elas.
+- **Gol inalterado:** com o código antes e depois, o corte e o kit do Gol saem com distância máxima 0,000000 m (32 e 158 objetos).
+- **Rodas:** no jogo, aço 13 **sem calota** e pneu 175/70 (`Data/CarWheels.csv` do Detonauto); a calota cheia branca destoava da
+  roda de aço com calotinha do carro real (`previas/lambari/lambari-rodas-calota.jpg`, com e sem).
+- **Saída:** `quebravel/lambari/` (29 peças, 77,5 mil triângulos, fresta zero nos amassados), `completo/lambari/` (79 peças) e
+  `previas/lambari/` (vistas, closes, as 14 cores e os 5 acabamentos com o HDRI de rua, a textura e o preparo dos materiais).
+- **Fica para decidir:** a grade é a de barras do modelo real (a ficha pede "sem a grade de barras do modelo real"); trocar por
+  uma grade própria é um passo à parte se o Felipe quiser. As venezianas da coluna C, que eram só desenho na textura, saíram.
