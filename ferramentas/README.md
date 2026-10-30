@@ -809,6 +809,7 @@ preparo e o corte passou a usar as juntas que o autor modelou.
   `veiculos/sketchfab/completo/furgaozinho/` (kit época 90 de furgão, 90 peças). O vidro de quarta fica na carroceria.
 - **Falta:** prévias com `previa_carro.py` e a cadeia de conferência, que precisam do repositório do Detonauto ao lado (esta sessão
   não conseguiu acesso a ele); o interior do kit ainda tem colunas do vão aparecendo pelo para-brisa.
+
 ## Sagui do Sketchfab: carro "de jogo" montado por receita (30/10/2026)
 
 O Sagui (micro do Detonauto) saiu do modelo **"Ford Ka MK2 2008-2016" por DEMON_SCARY1235** (Sketchfab, CC BY 4.0, escolhido pelo
