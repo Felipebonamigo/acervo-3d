@@ -649,3 +649,22 @@ Para cada carro nacional, uma sessão. Os passos, na ordem:
 - **Placa de trás e luzes iguais (29/10, noite):** a placa de trás também passou a ser a brasileira de 40 x 13 cm no meio da tampa
   (era 30 x 12), pela mesma função da da frente (`--placa-tras-original` mantém a antiga). Faróis e lanternas de cada par usam a
   união das duas caixas, espelhada: no modelo a lanterna esquerda tinha 24 cm e a direita 28 (`--luzes-como-vieram` desliga).
+
+## casca_impressao.py (30/10/2026)
+
+Para modelo do Sketchfab que é só uma **casca maciça de impressão 3D** (STL com a lataria de ~3 cm de parede, janelas e caixas de roda
+furadas, sem vidro, sem roda, sem assoalho e sem material). Entrega os 3 objetos que a `sketchfab_preparar.py` espera (`carroceria`,
+`vidros`, `rodas`), sem mexer na cadeia do Gol:
+
+    python -I ferramentas/casca_impressao.py -- --entrada <scene.gltf> --out <pasta>/<id>_casca.glb --comp <m> [--razao 0.3]
+        [--aro aro_liga14] [--pneu pneu_p185_60] [--frente -y] [--so-casca]
+
+- Junta, solda, tira ilhas soltas, põe a frente em +X e reduz (colapso).
+- Vidros por raios numa grade de 5 mm: janela lateral é o que o raio atravessa de lado a lado acima de 0,55 m; para-brisa e vidro
+  traseiro, o que o raio de cima atravessa sem se ligar à borda da grade. A superfície de cada vidro é um polinômio ajustado ao anel
+  de chapa em volta (robusto), 4 mm para dentro, 5 mm de espessura.
+- Rodas do `rodas_kit` no centro do círculo ajustado a cada caixa de roda, 2,5 cm por dentro da lataria; a casca sobe até o pneu
+  tocar o chão. Assoalho plano entre as soleiras (material de chassi na preparação).
+- Primeiro uso: candidato do Barão (sedã), 30/10/2026. Entre-eixos e altura medidos batem com a referência, e os 8 vidros saem
+  certos. A chapa desse modelo vem ondulada no próprio arquivo, e o `alisar_lataria.py` piorou nos dois testes (com a camada de
+  3 cm ele mistura as duas peles; com 1,2 cm continua enrugando). Uma casca assim pede superfície refeita, como na `carroceria_limpa/`.
