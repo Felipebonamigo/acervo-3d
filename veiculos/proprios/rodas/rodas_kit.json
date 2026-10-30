@@ -336,6 +336,42 @@
     "pneu_p205_60_Torn_LOD1"
    ],
    "arquivo": "pneu_p205_60.glb"
+  },
+  {
+   "id": "pneu_p165_80",
+   "tipo": "pneu",
+   "material": "pneu",
+   "medida": "165/80 R15",
+   "polegadas": 15,
+   "largura_mm": 165,
+   "perfil_pct": 80,
+   "raio_externo_cm": 32.24,
+   "raio_nominal_cm": 32.25,
+   "largura_cm": 16.5,
+   "raio_contato_cm": {
+    "Ok": 32.24,
+    "Flat": 26.24,
+    "Torn": 22.61
+   },
+   "triangulos_lod0": 14168,
+   "triangulos_lod1": 5666,
+   "triangulos_por_objeto": {
+    "pneu_p165_80_Ok": 2816,
+    "pneu_p165_80_Flat": 2816,
+    "pneu_p165_80_Torn": 8536,
+    "pneu_p165_80_Ok_LOD1": 1126,
+    "pneu_p165_80_Flat_LOD1": 1126,
+    "pneu_p165_80_Torn_LOD1": 3414
+   },
+   "objetos": [
+    "pneu_p165_80_Ok",
+    "pneu_p165_80_Flat",
+    "pneu_p165_80_Torn",
+    "pneu_p165_80_Ok_LOD1",
+    "pneu_p165_80_Flat_LOD1",
+    "pneu_p165_80_Torn_LOD1"
+   ],
+   "arquivo": "pneu_p165_80.glb"
   }
  ],
  "rodas_completas": [
@@ -375,6 +411,13 @@
    "dentro_do_orcamento": true
   },
   {
+   "aro": "aro_aco15",
+   "pneu": "pneu_p165_80_Ok",
+   "calota": "calota15",
+   "triangulos_lod0": 8648,
+   "dentro_do_orcamento": true
+  },
+  {
    "aro": "aro_liga13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
@@ -405,6 +448,13 @@
   {
    "aro": "aro_liga15",
    "pneu": "pneu_p205_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 8032,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p165_80_Ok",
    "calota": null,
    "triangulos_lod0": 8032,
    "dentro_do_orcamento": true

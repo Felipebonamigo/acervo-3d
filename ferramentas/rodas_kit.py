@@ -6,7 +6,7 @@ IA, sem marca, sem logo, sem letra. Os desenhos são genéricos de época: aro d
 
 Uso (o módulo bpy num venv, ou o Blender):
 
-    python -I ferramentas/rodas_kit.py -- [--out veiculos/proprios/rodas] [--amostras 32] [--sem-previa]
+    python -I ferramentas/rodas_kit.py -- [--out veiculos/proprios/rodas] [--amostras 32] [--sem-previa] [--so p165_80]
     blender -b --python-exit-code 1 -P ferramentas/rodas_kit.py -- [opções]
     python -I ferramentas/test_rodas_kit.py      # confere o que saiu (redondeza, murcho, pivô, orçamento, JSON x GLB)
 
@@ -55,7 +55,8 @@ AROS = {
     "liga15": {"tipo": "liga", "pol": 15, "desenho": "ovais", "furos": 8, "nome": "Liga leve 15\" (8 furos ovais)"},
 }
 PNEUS = {"p165_70": (165, 70, 13), "p175_70": (175, 70, 13), "p185_60": (185, 60, 14),
-         "p165_95": (165, 95, 15), "p205_60": (205, 60, 15)}   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
+         "p165_95": (165, 95, 15), "p205_60": (205, 60, 15),   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
+         "p165_80": (165, 80, 15)}   # o 5.60-15 do clássico de motor atrás (Besouro, 30/10/2026): 32,2 cm de raio
 CALOTAS = {"calota13": 13, "calota14": 14, "calota15": 15}
 ESTADOS = ("Ok", "Flat", "Torn")
 
@@ -1068,6 +1069,9 @@ def parse_args(argv):
     p.add_argument("--out", default=SAIDA)
     p.add_argument("--amostras", type=int, default=32)
     p.add_argument("--sem-previa", action="store_true")
+    # só estes itens (ex.: p165_80): os outros GLBs ficam como estão e o rodas_kit.json recebe os novos, sem perder
+    # os que já tinha; sem prévia
+    p.add_argument("--so", default="")
     return p.parse_args(argv)
 
 
@@ -1094,7 +1098,10 @@ def principal(argv):
                         "fora em +Y (roda esquerda; a direita gira 180° em Z); as 3 malhas de um pneu têm o mesmo pivô",
            "segmentos": {"aro_pneu_calota": SEG, "pneu_torn": SEG_TORN}, "lod1_razao": LOD1_RAZAO,
            "normal_map": NORMAL_PNG, "orcamento_roda_lod0": ORCAMENTO_RODA, "itens": []}
+    so = {x.strip() for x in a.so.split(",") if x.strip()}
     for rid, cfg in AROS.items():
+        if so and rid not in so:
+            continue
         ob = obj(aro(rid))
         l1 = fazer_lod1(ob, col1)
         iid = "aro_" + rid
@@ -1106,6 +1113,8 @@ def principal(argv):
                              "largura_cm": round((bb[3] - bb[2]) * 100, 2), "triangulos_lod0": tri(ob), "triangulos_lod1": tri(l1),
                              "objetos": [ob.name, l1.name], "arquivo": iid + ".glb"})
     for cid in CALOTAS:
+        if so and cid not in so:
+            continue
         ob = obj(calota(cid))
         l1 = finalizar(calota_lod1(cid), mats)
         col1.objects.link(l1)
@@ -1117,6 +1126,8 @@ def principal(argv):
                              "triangulos_lod0": tri(ob), "triangulos_lod1": tri(l1), "objetos": [ob.name, l1.name],
                              "arquivo": cid + ".glb"})
     for pid in PNEUS:
+        if so and pid not in so:
+            continue
         ok_m, M = pneu_ok(pid)
         objs = {"Ok": obj(ok_m), "Flat": obj(pneu_flat(pid, ok_m, M)), "Torn": obj(pneu_torn(pid, M))}
         lods = {e: fazer_lod1(o, col1) for e, o in objs.items()}
@@ -1137,12 +1148,25 @@ def principal(argv):
                                                        **{lods[e].name: tri(lods[e]) for e in ESTADOS}},
                              "objetos": [objs[e].name for e in ESTADOS] + [lods[e].name for e in ESTADOS],
                              "arquivo": iid + ".glb"})
+    if so:
+        # junta ao JSON que já existe: os itens novos substituem os de mesmo id
+        antigo = os.path.join(a.out, JSON_KIT)
+        if os.path.exists(antigo):
+            with open(antigo, encoding="utf-8") as f:
+                velho = json.load(f)
+            novos = {it["id"] for it in rel["itens"]}
+            rel["itens"] = [it for it in velho.get("itens", []) if it["id"] not in novos] + rel["itens"]
+            if velho.get("previa"):
+                rel["previa"] = velho["previa"]
+        a.sem_previa = True
     # orçamento: cada aro com cada pneu da mesma polegada (e a calota, nos de aço)
     tri_de = {it["id"]: it for it in rel["itens"]}
     rodas = []
     for rid, cfg in AROS.items():
         for pid, (_, _, pol) in PNEUS.items():
             if pol != cfg["pol"]:
+                continue
+            if "aro_" + rid not in tri_de or "pneu_" + pid not in tri_de:
                 continue
             t_aro = tri_de["aro_" + rid]["triangulos_lod0"]
             t_ok = tri_de["pneu_" + pid]["triangulos_por_objeto"][f"pneu_{pid}_Ok"]
