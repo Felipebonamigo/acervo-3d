@@ -2842,7 +2842,10 @@ class Kit:
         p.caixa("pintura_interna", T(x0, 0, (zf + M["z_capo_tras"]) / 2), 0.015, 2 * yb, M["z_capo_tras"] - zf, 0.006)
         e = self.nova("interior_portamalas_estepe", "porta_malas")
         Rs = M["R"] * 0.96
-        Me = T(x1 - 0.12, 0, zf + Rs * 0.85) @ Ry(math.radians(-62))
+        # recuo e inclinação por carro (dados: estepe_recuo, estepe_inclinacao): no Besouro do Sketchfab o bico da tampa desce
+        # rápido e o estepe na posição de sempre furava a chapa
+        recuo, incl = self.cfg.get("estepe_recuo", 0.0), self.cfg.get("estepe_inclinacao", 62)
+        Me = T(x1 - 0.12 - recuo, 0, zf + Rs * 0.85) @ Ry(math.radians(-incl))
         self._roda_estepe(e, Me, Rs)
         t = self.nova("under_tanque", "embaixo", nota="tanque na frente (motor traseiro)")
         t.almofada("metal_preto", T(x0 + 0.20, 0, zf + 0.18), 0.32, 2 * yb - 0.15, 0.30, 0.15, 0.2)
@@ -3568,8 +3571,17 @@ class Kit:
         ztop = M["z_cintura"] if not cab else M["z_piso"] + 0.30
         c.caixa("pintura_interna", T(xa, 0, (zf + ztop) / 2), 0.015, 2 * yb, ztop - zf, 0.006)
         for s in (1, -1):
-            c.caixa("pintura_interna", T((xa + xb) / 2, s * yb, zf + 0.30), xa - xb, 0.015, 0.40, 0.006)
-            self._soldas(c, V(xb + 0.05, s * (yb - 0.008), zf + 0.495), V(xa - 0.05, s * (yb - 0.008), zf + 0.495), (0, -s, 0))
+            # a parede lateral para onde a casca fica mais estreita que ela (no Besouro a traseira se fecha antes de x_tras e a
+            # parede aparecia por fora, nos cantos da tampa do motor)
+            xw = xb
+            for k in range(int((xa - xb) / 0.01)):
+                xx = xa - 0.01 * k
+                if min(self.lado_em(xx, zf + zz, s, nomes=("body", "trunk", "fender_rear_left", "fender_rear_right"))
+                       for zz in (0.12, 0.30, 0.48)) < yb + 0.02:
+                    xw = min(xa - 0.05, xx + 0.02)
+                    break
+            c.caixa("pintura_interna", T((xa + xw) / 2, s * yb, zf + 0.30), xa - xw, 0.015, 0.40, 0.006)
+            self._soldas(c, V(xw + 0.05, s * (yb - 0.008), zf + 0.495), V(xa - 0.05, s * (yb - 0.008), zf + 0.495), (0, -s, 0))
         if cab:
             self.bateria(T(xa - 0.14, yb - 0.17, zf + 0.12), alvo_pos=Mm @ V(0.15, -0.20, -0.05), alvo_massa=V(xa - 0.04, yb - 0.04, zf + 0.1))
         m = self.nova("engine_mangueiras", "motor", nota="mangueira de combustível, cabo do acelerador, dutos do aquecimento")
@@ -3860,6 +3872,10 @@ class Kit:
         z0 = M["z_piso"] + 0.005
         if zs - z0 < 0.03:
             return
+        if self.cfg.get("saias") is False:
+            # dados "saias": false (Besouro): a frente tem avental pintado e o eixo à vista; a saia escura sob a lâmina do
+            # para-choque aparecia como um bloco preto
+            return
         p = self.nova("under_saias", "embaixo", nota="saias escuras sob os para-choques e a soleira fora das portas")
         alt = zs + 0.015 - z0
         zc = (zs + 0.015 + z0) / 2
@@ -3879,7 +3895,9 @@ class Kit:
                     z_raio += 0.02
             for yy in (-0.45, -0.2, 0.0, 0.2, 0.45):
                 h = self.casca.raio(nomes, (sinal * 3.0, yy, z_raio), (-sinal, 0, 0), 4.0) if self.casca else None
-                if h:
+                # só conta o que fica além da roda: no Besouro a lâmina do para-choque é alta, o raio passava por baixo dela e
+                # batia no tubo do eixo traseiro (a saia de trás caía no entre-eixos e apagava o motor e o escapamento)
+                if h and sinal * h[0].x > sinal * (M["xd"] if sinal > 0 else M["xt"]) + R:
                     xs.append(h[0].x)
             if not xs:
                 continue
