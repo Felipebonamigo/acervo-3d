@@ -1121,7 +1121,7 @@ os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão d
         --sem-quebra-vento --sem-sinaleira --sem-faixa --z-placa 0.435 --z-friso 0.605 --protecoes --z-saia 0.36 --z-protecao 0.46 \
         --luzes-do-modelo --manter-grade --grade-preta --placa-tras-no-para-choque --mapa veiculos/sketchfab/quebravel/tropeiro/tropeiro_mapa.json
     python -I ferramentas/assar_desgaste.py -- <corte>/tropeiro.glb <corte>/tropeiro.glb --tamanho 2048 --amostras 32
-    python -I ferramentas/carro_completo.py -- --corte <corte> --id tropeiro --out <kit> --aparar-mais 0.6 0.65
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id tropeiro --out <kit> --aparar-mais 0.6 0.65 --sem-saia-para-choque
 
 - **`sketchfab_juntar.py`:** chaves opcionais no `_grupos.json`: `"erguer"` (sobe tudo menos pneus e aros; o modelo vinha rebaixado
   e a aventureira é alta: 5 cm reais), `"endireitar"` (as rodas da frente vinham esterçadas 18,9°: o eixo do pneu, pela menor
@@ -1149,7 +1149,9 @@ os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão d
   de cima do painel dianteiro param abaixo do topo dos faróis: o capô da picape fica alguns cm acima deles e a ponta da travessa
   aparecia na fresta, sobre o canto de dentro de cada farol) e `fundo_cofre_visivel: 0.28` (o para-lama interno e a travessa
   começam no fundo do para-choque: na picape erguida o para-choque fica 6 cm acima do fundo do cofre, e as colunas pintadas da
-  travessa apareciam por baixo dele na cor do carro; motor e longarinas ficam onde estavam).
+  travessa apareciam por baixo dele na cor do carro; motor e longarinas ficam onde estavam). Na picape o assoalho sobe atrás da
+  roda de trás até debaixo do piso da caçamba (reto, passava 20 cm abaixo do para-choque de trás e aparecia por baixo dele como
+  aba escura), e o kit sai com `--sem-saia-para-choque` (a chapa da saia da frente pendurava sob o para-choque).
 - **O Gol não muda (conferido em 30/10):** com as mesmas entradas, o `detalhes_na_casca.py` e o `carro_completo.py` de `main` e os
   daqui dão as mesmas 32 peças do corte e os mesmos 158 objetos do kit, a 0 mm (comparação por ponto mais perto, que não depende da
   ordem dos vértices; o corte do próprio código antigo muda a ordem e a solda de uma rodada para outra).
@@ -1162,7 +1164,8 @@ os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão d
   comprimento e a altura ficam 11 e 8 cm menores, e a frente (faróis, grade) é a da geração de 2000. Esticar a casca para as medidas
   de 2010 deformaria as rodas e as portas; se o Felipe quiser a frente de 2010, só o Meshy (com custo) ou outro modelo.
 - **Defeitos conhecidos:** reflexo ondulado na tampa da caçamba (malha do autor); borda serrilhada no quadro da janela atrás da
-  porta; com o kit, uma haste clara na fresta da frente da porta e a saia escura aparecendo sob o para-choque de trás.
+  porta; com o kit, uma haste clara na fresta da frente da porta. Visto de perto: fresta escura entre o para-choque da frente e a
+  chapa, pontas retas do alargador encostando na chapa e dois cortes laranja no alto de cada farol (a chapa por um vão da lente).
 - **No Detonauto (30/10):** classe `picape` em `FDNGarageClass::All()`, linhas do Tropeiro nos dados, grupo `cacamba` no
   `kit_completo_to_detonauto.py` e a cadeia do Blender conferida na nuvem. Falta o PC: `docs/pedido-pc-tropeiro-completo.md` do
   Detonauto (montar, compilar, testar, capturar e jogar). O veredito visual é a captura do jogo.

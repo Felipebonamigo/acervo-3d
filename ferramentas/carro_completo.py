@@ -3609,6 +3609,10 @@ class Kit:
         zb = M["z_piso"] - 0.035
         tun_h = self.tun_h
         x_sobe = M["x_encosto_t"] + 0.5 if M["carroceria"] in ("hatch", "sedan", "jipe") else -99.0
+        if M["carroceria"] == "picape":
+            # (Tropeiro) atrás da roda o assoalho sobe para debaixo do piso da caçamba: reto, ele passava 20 cm abaixo do para-choque
+            # de trás e aparecia por baixo dele como uma aba escura
+            x_sobe = M["xt"] - M["R"] - 0.02
         if M["carroceria"] == "cabine_avancada":
             x1 = M["x_frente"] - 0.15
 

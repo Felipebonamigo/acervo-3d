@@ -1252,7 +1252,7 @@
     -0.73,
     0.73,
     0.116,
-    0.286
+    0.665
    ],
    "materiais": [
     "chassi_graxa"
@@ -1477,15 +1477,15 @@
    "nome": "under_saias",
    "grupo": "embaixo",
    "segue": null,
-   "triangulos": 432,
-   "triangulos_lod1": 128,
+   "triangulos": 216,
+   "triangulos_lod1": 64,
    "caixa_m": [
-    -2.154,
-    1.99,
+    -0.909,
+    -0.46,
     -0.785,
-    0.54,
-    0.196,
-    0.304
+    0.43,
+    0.2,
+    0.29
    ],
    "materiais": [
     "chassi_graxa"
@@ -1797,13 +1797,13 @@
   }
  ],
  "triangulos": {
-  "lod0": 223154,
-  "lod1": 66872
+  "lod0": 222938,
+  "lod1": 66808
  },
  "triangulos_por_grupo": {
   "habitaculo": 77396,
   "cacamba": 4420,
-  "embaixo": 28630,
+  "embaixo": 28414,
   "porta": 22650,
   "vao_porta": 9506,
   "motor": 64200,
