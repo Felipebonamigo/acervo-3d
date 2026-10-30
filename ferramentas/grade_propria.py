@@ -109,11 +109,28 @@ def caixa(c, dx, dy, dz, mi):
 e, prof_mold = 0.012, 0.015
 yc, zc = 0.5 * (Y0 + Y1), 0.5 * (Z0 + Z1)
 atras = Vector((XF - 1.0, yc, zc))
-# moldura: anel na face e o lado de fora dele para trás
-ext = [(XF, Y0, Z0), (XF, Y1, Z0), (XF, Y1, Z1), (XF, Y0, Z1)]
-inn = [(XF, Y0 + e, Z0 + e), (XF, Y1 - e, Z0 + e), (XF, Y1 - e, Z1 - e), (XF, Y0 + e, Z1 - e)]
+# moldura: perfil abaulado (borda de fora, crista e borda de dentro, sombreado liso) e o lado de fora dele para trás. Chata, ela
+# refletia o céu por igual e lia cinza acetinado ao lado do para-choque (30/10); a curva pega o reflexo como cromo de verdade
+PERFIL = [(-0.004, 0.0), (0.0, 0.3 * e), (0.0, 0.55 * e), (-0.003, 0.85 * e), (-0.006, e)]   # (recuo em x, entrada na boca)
+aneis = []
+for dx, off in PERFIL:
+    pts = [(XF + dx, Y0 + off, Z0 + off), (XF + dx, Y1 - off, Z0 + off), (XF + dx, Y1 - off, Z1 - off), (XF + dx, Y0 + off, Z1 - off)]
+    aneis.append([bm.verts.new(inv @ Vector(p)) for p in pts])
+curvas = []
+for r in range(len(aneis) - 1):
+    for k in range(4):
+        vs = [aneis[r][k], aneis[r][(k + 1) % 4], aneis[r + 1][(k + 1) % 4], aneis[r + 1][k]]
+        f = bm.faces.new(vs)
+        f.material_index = mi_c
+        f.normal_update()
+        c = g.matrix_world @ f.calc_center_median()
+        if (g.matrix_world.to_3x3() @ f.normal).dot(c - atras) < 0:
+            f.normal_flip()
+        f.smooth = True
+        curvas.append(f)
+x_ext = XF + PERFIL[0][0]
+ext = [(x_ext, Y0, Z0), (x_ext, Y1, Z0), (x_ext, Y1, Z1), (x_ext, Y0, Z1)]
 for k in range(4):
-    quad([ext[k], ext[(k + 1) % 4], inn[(k + 1) % 4], inn[k]], mi_c, atras)
     a, b = ext[k], ext[(k + 1) % 4]
     quad([a, b, (b[0] - prof_mold, b[1], b[2]), (a[0] - prof_mold, a[1], a[2])], mi_c, Vector((XF - prof_mold / 2, yc, zc)))
 # fundo recuado e paredes (pretos)
@@ -132,15 +149,40 @@ for k in range(1, LINS):
     caixa((xp, yc, iz0 + (iz1 - iz0) * k / LINS), pf, iy1 - iy0, pe, mi_p)
 # barra cromada do meio, um pouco à frente da colmeia
 if "--sem-barra" not in args:
-    caixa((XF - 0.004, yc, zc), 0.012, iy1 - iy0, 0.014, mi_c)
+    # perfil abaulado como o da moldura (chata, lia cinza fosco), com as pontas fechadas
+    hb = 0.014
+    perfil = [(-0.012, -hb / 2), (-0.004, -hb / 2), (0.0, -hb / 4), (0.0, hb / 4), (-0.004, hb / 2), (-0.012, hb / 2)]
+    fila = {}
+    for lado, yy in (("a", iy0), ("b", iy1)):
+        fila[lado] = [bm.verts.new(inv @ Vector((XF + dx, yy, zc + dz))) for dx, dz in perfil]
+    for i in range(len(perfil) - 1):
+        f = bm.faces.new([fila["a"][i], fila["b"][i], fila["b"][i + 1], fila["a"][i + 1]])
+        f.material_index = mi_c
+        f.normal_update()
+        c = g.matrix_world @ f.calc_center_median()
+        if (g.matrix_world.to_3x3() @ f.normal).dot(c - Vector((XF - 0.02, yc, zc))) < 0:
+            f.normal_flip()
+        f.smooth = 0 < i < len(perfil) - 2
+        curvas.append(f)
+    for lado, sinal in (("a", -1), ("b", 1)):
+        f = bm.faces.new(fila[lado])
+        f.material_index = mi_c
+        f.normal_update()
+        if (g.matrix_world.to_3x3() @ f.normal).y * sinal < 0:
+            f.normal_flip()
+        curvas.append(f)
 bm.to_mesh(g.data)
 bm.free()
 me = g.data
 # normais: a peça inteira por ângulo (a grade nova é de caixas; as normais guardadas do corte eram da grade antiga)
 if "custom_normal" in me.attributes:
     me.attributes.remove(me.attributes["custom_normal"])
+lisas = set()
 for p in me.polygons:
-    p.use_smooth = False
+    if p.use_smooth and p.material_index == mi_c and p.index >= len(me.polygons) - len(novas) - len(curvas):
+        lisas.add(p.index)
+for p in me.polygons:
+    p.use_smooth = p.index in lisas
 me.update()
 bpy.ops.export_scene.gltf(filepath=sai, export_format="GLB", export_image_format="AUTO")
 print("[grade_propria] faces da grade do modelo tiradas: %s; grade nova %.0f x %.0f cm, %d x %d células%s, face em x = %.3f" % (
