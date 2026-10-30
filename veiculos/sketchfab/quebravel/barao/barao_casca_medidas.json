@@ -1,0 +1,147 @@
+{
+ "janelas": [
+  {
+   "nome": "vidro_lat_e_0",
+   "area": 0.229,
+   "x": [
+    -0.2,
+    0.62
+   ],
+   "z": [
+    0.755,
+    1.14
+   ],
+   "rms_cm": 0.35
+  },
+  {
+   "nome": "vidro_lat_d_1",
+   "area": 0.229,
+   "x": [
+    -0.2,
+    0.62
+   ],
+   "z": [
+    0.755,
+    1.14
+   ],
+   "rms_cm": 0.35
+  },
+  {
+   "nome": "vidro_lat_e_2",
+   "area": 0.212,
+   "x": [
+    -0.92,
+    -0.295
+   ],
+   "z": [
+    0.77,
+    1.14
+   ],
+   "rms_cm": 0.38
+  },
+  {
+   "nome": "vidro_lat_d_3",
+   "area": 0.212,
+   "x": [
+    -0.92,
+    -0.295
+   ],
+   "z": [
+    0.77,
+    1.14
+   ],
+   "rms_cm": 0.37
+  },
+  {
+   "nome": "vidro_lat_e_4",
+   "area": 0.025,
+   "x": [
+    -1.165,
+    -0.965
+   ],
+   "z": [
+    0.78,
+    0.995
+   ],
+   "rms_cm": 0.33
+  },
+  {
+   "nome": "vidro_lat_d_5",
+   "area": 0.025,
+   "x": [
+    -1.165,
+    -0.965
+   ],
+   "z": [
+    0.78,
+    0.995
+   ],
+   "rms_cm": 0.33
+  },
+  {
+   "nome": "vidro_frente",
+   "area": 0.878,
+   "x": [
+    0.27,
+    1.035
+   ],
+   "y": [
+    -0.67,
+    0.67
+   ],
+   "rms_cm": 0.22
+  },
+  {
+   "nome": "vidro_tras",
+   "area": 0.575,
+   "x": [
+    -1.71,
+    -1.16
+   ],
+   "y": [
+    -0.595,
+    0.595
+   ],
+   "rms_cm": 0.17
+  }
+ ],
+ "rodas": [
+  {
+   "x": -1.2294,
+   "z_arco": 0.2721,
+   "raio_arco": 0.3228,
+   "y_fora": 0.7951,
+   "y_cubo": 0.7026,
+   "folga_arco_cm": 3.4
+  },
+  {
+   "x": 1.31,
+   "z_arco": 0.3053,
+   "raio_arco": 0.311,
+   "y_fora": 0.8106,
+   "y_cubo": 0.7181,
+   "folga_arco_cm": 2.2
+  }
+ ],
+ "assoalho": {
+  "x": [
+   -0.887,
+   0.979
+  ],
+  "meia_largura": 0.797,
+  "z": 0.192
+ },
+ "pele_de_fora": {
+  "faces_antes": 187588,
+  "faces_depois": 94895,
+  "ilhas_pequenas_tiradas": 3608
+ },
+ "faces_caixa_de_roda_chassi": 1294,
+ "desloc_z": 0.1618,
+ "altura": 1.4064,
+ "entre_eixos": 2.5394,
+ "raio_pneu": 0.2887,
+ "aro": "aro_liga14",
+ "pneu": "pneu_p185_60",
+ "triangulos": 94895
+}

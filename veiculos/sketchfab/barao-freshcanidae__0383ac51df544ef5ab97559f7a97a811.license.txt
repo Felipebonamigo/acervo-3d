@@ -1,0 +1,11 @@
+Model Information:
+* title:	Marea 1
+* source:	https://sketchfab.com/3d-models/marea-1-0383ac51df544ef5ab97559f7a97a811
+* author:	FreshCanidae1571 (https://sketchfab.com/FreshCanidae1571)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Marea 1" (https://sketchfab.com/3d-models/marea-1-0383ac51df544ef5ab97559f7a97a811) by FreshCanidae1571 (https://sketchfab.com/FreshCanidae1571) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
