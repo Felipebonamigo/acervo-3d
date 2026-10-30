@@ -249,7 +249,7 @@ if MANTER:
 NOSSOS = ("pintura", "vidro", "pneu", "chassi", "luz", "cromado")
 if CFG is not None:
     keep = _juntar_por_material(CFG)
-# cada item de keep pode juntar vários objetos com "+" (o 206 de 30/10 vem em 11: Body+FB+RB+Hood+LF+RF,Windows,FL+FR+RL+RR)
+# cada item de keep pode juntar vários objetos com "+" (o primeiro candidato do Pampeiro, 30/10, vem em 11: Body+FB+RB+Hood+LF+RF,Windows,FL+FR+RL+RR)
 grupos = [k.split("+") for k in keep]
 todos = [n for g in grupos for n in g]
 for o in list(bpy.data.objects):
@@ -288,7 +288,7 @@ for g in grupos:
         bpy.context.view_layer.objects.active = bpy.data.objects[g[0]]
         bpy.ops.object.join()
 objs = [bpy.data.objects[g[0]] for g in grupos]
-# SOLDAR=<distância>: junta vértices repetidos (o 206 vem com cada triângulo solto; sem isso cada vidro vira 30 ilhas)
+# SOLDAR=<distância>: junta vértices repetidos (o primeiro candidato do Pampeiro vem com cada triângulo solto; sem isso cada vidro vira 30 ilhas)
 import os as _os
 if _os.environ.get("SOLDAR"):
     for o in objs:
@@ -307,7 +307,7 @@ if _os.environ.get("SOLDAR"):
         print(f"soldar {o.name}: {n0} -> {len(bm.verts)} vértices, {len(dup)} faces repetidas tiradas")
         bm.to_mesh(o.data)
         bm.free()
-# TIRAR_VERSO=1: o 206 é todo em casca dupla (a chapa de dentro a menos de 2 mm da de fora, normais opostas). Os dois lados brigavam
+# TIRAR_VERSO=1: o primeiro candidato do Pampeiro é todo em casca dupla (a chapa de dentro a menos de 2 mm da de fora, normais opostas). Os dois lados brigavam
 # no sombreamento e na oclusão assada (manchas e serrilhado); o corte já dá espessura às peças. De cada par colado fica a face que
 # olha para fora do carro
 if _os.environ.get("TIRAR_VERSO"):
