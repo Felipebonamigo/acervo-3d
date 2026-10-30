@@ -3029,6 +3029,15 @@ class Kit:
                         (0, 0, 1))
         # travessa da frente (com a fechadura do capô), radiador e ventoinha
         t = self.nova("engine_travessa", "motor", nota="painel dianteiro (travessas, fechadura do capô, buzina, fundo dos faróis)")
+        zcap_f_capo = zcap_f
+        if self.cfg.get("fundo_farol_rente"):
+            # (Tropeiro) a travessa de cima (e as colunas dela) param 3 cm abaixo do topo da caixa dos faróis no mapa: o capô da
+            # picape fica alguns cm acima deles na frente, e a ponta da travessa aparecia na fresta, sobre o canto de dentro de
+            # cada farol; o resto do cofre segue a altura do capô
+            cx_f, _ = caixas_do_mapa({"parts": self._mapa_parts})
+            tops = [cx_f[n][5] for n in ("headlight_left", "headlight_right") if cx_f.get(n)]
+            if tops:
+                zcap_f = min(zcap_f, min(tops) - 0.03)
         t.caixa("pintura_interna", T(xr + 0.03, 0, zcap_f - 0.06), 0.06, 2 * yb, 0.05, 0.01)
         t.caixa("pintura_interna", T(xr + 0.03, 0, zfundo + 0.06), 0.06, 2 * yb, 0.05, 0.01)
         self._soldas(t, V(xr + 0.03, -yb + 0.05, zcap_f - 0.034), V(xr + 0.03, yb - 0.05, zcap_f - 0.034), (0, 0, 1), passo=0.05)
@@ -3046,9 +3055,17 @@ class Kit:
                 yc = (b[2] + b[3]) / 2
                 yc = math.copysign(min(abs(yc), yb - 0.12), yc)
                 zc_ = min((b[4] + b[5]) / 2, zcap_f - 0.08)
-                t.caixa("plastico", T(b[0] - 0.04, yc, zc_), 0.08, min(0.28, b[3] - b[2]), min(0.14, b[5] - b[4] + 0.02), 0.012)
+                hf = min(0.14, b[5] - b[4] + 0.02)
+                if self.cfg.get("fundo_farol_rente"):
+                    # (Tropeiro) o capô fica alguns cm acima do farol na frente: o topo do fundo do farol passava do farol e
+                    # aparecia na fresta; ele para 5 mm abaixo do topo do farol
+                    topo = min(zc_ + hf / 2, b[5] - 0.005)
+                    hf = topo - (zc_ - hf / 2)
+                    zc_ = topo - hf / 2
+                t.caixa("plastico", T(b[0] - 0.04, yc, zc_), 0.08, min(0.28, b[3] - b[2]), hf, 0.012)
                 t.revolucao("borracha", T(b[0] - 0.08, yc, zc_) @ Ry(-math.pi / 2), [(0.0, 0.0), (0.045, 0.0), (0.04, 0.03), (0.0, 0.035)], 20)
                 t.tubo("chicote", [(b[0] - 0.11, yc, zc_), (b[0] - 0.15, yc * 0.9, zc_ - 0.05)], 0.005, seg=6, sub=1)
+        zcap_f = zcap_f_capo
         # radiador: colmeia, caixas laterais, bocais e a ventoinha com a carenagem
         rad = self.nova("engine_radiador", "motor", nota="radiador (colmeia, caixas, bocais, tampa)")
         hr = zcap_f - zfundo - 0.17
