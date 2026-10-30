@@ -1060,3 +1060,69 @@ O comprimento passado (3,4925) é o da carroceria do autor: os para-choques pass
   lataria inteira reflete enrugada com o verniz, que é pior. O teste de face virada do assado também erra neste modelo (19 mil faces
   "viradas" na porta, a chapa dupla do autor a menos de 2,5 cm do casco do corte); como as faces de dentro não aparecem, ficou assim.
   O vidro de quarta mostra a lateral de trás do kit (faixa marrom) logo abaixo da janela.
+
+## Tropeiro: picape aventureira do Sketchfab (30/10/2026)
+
+A picape nova do Detonauto (cabine simples, versão aventureira: para-choques e proteções pretas, caçamba aberta com santo-antônio)
+passou a ser um modelo feito por gente: a **picape do Ramon.Dos.Santos (Sketchfab, CC BY 4.0; o título do autor está no crédito)**,
+`veiculos/sketchfab/picape-cabine-simples-ramon__2b5c1ffec3b545168ab5280296cd5ffa.glb`. Dos 4 candidatos mostrados ao Felipe ("siga
+você"), os dois da geração certa eram extração de jogo: um mod convertido pelo SketchUp (materiais com nome de textura de mod, faces
+duplicadas) e outro com os nomes internos de um jogo de corrida (`Ext_Plate_Mesh_Trigger`, `Glow_DRL`). Este é o único de origem limpa
+(feito no Blender, objetos `Cube.005`, materiais em português), mas a frente é a da geração de 2000 a 2005, não a de 2010 da
+referência. O original veio rebaixado, com rodas de tuning, interior, lona na caçamba e símbolos de marca: no acervo fica a versão sem
+os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão da cena, com os nomes do autor (o `_grupos.json` vale).
+
+    python -I ferramentas/sketchfab_juntar.py -- veiculos/sketchfab/picape-cabine-simples-ramon__2b5c1ffec3b545168ab5280296cd5ffa.glb \
+        <tmp>/juntado.glb veiculos/sketchfab/quebravel/tropeiro/tropeiro_grupos.json
+    python -I ferramentas/sketchfab_preparar.py -- <tmp>/juntado.glb <tmp>/tropeiro.glb "carroceria,vidros,rodas" 4.38 1.42 0.12 30 0 \
+        --manter-materiais --sem-pca --meio-pela-caixa
+    python -I ferramentas/decimar.py -- <tmp>/tropeiro.glb <tmp>/tropeiro_red.glb 125000
+    python -I ferramentas/carro_quebravel.py -- --entrada <tmp>/tropeiro_red.glb --out <corte> --id tropeiro --portas 2 --sem-rotulos \
+        --manter-normais --materiais-do-arquivo --mapa veiculos/sketchfab/quebravel/tropeiro/tropeiro_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/tropeiro.glb <corte>/tropeiro.glb --dona glass_rear=body
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/tropeiro.glb <corte>/tropeiro.glb --sem-arco-redondo --sem-face-para-choque \
+        --sem-quebra-vento --sem-sinaleira --sem-faixa --z-placa 0.435 --z-friso 0.605 --protecoes --z-saia 0.36 --z-protecao 0.46 \
+        --luzes-do-modelo --manter-grade --grade-preta --placa-tras-no-para-choque --mapa veiculos/sketchfab/quebravel/tropeiro/tropeiro_mapa.json
+    python -I ferramentas/assar_desgaste.py -- <corte>/tropeiro.glb <corte>/tropeiro.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id tropeiro --out <kit> --aparar-mais 0.6 0.65
+
+- **`sketchfab_juntar.py`:** chaves opcionais no `_grupos.json`: `"erguer"` (sobe tudo menos pneus e aros; o modelo vinha rebaixado
+  e a aventureira é alta: 5 cm reais), `"endireitar"` (as rodas da frente vinham esterçadas 18,9°: o eixo do pneu, pela menor
+  dispersão no plano do chão, volta a ficar de lado, girando aro e cubo junto) e `"nao_virar"` (a virada de normais do Furgãozinho
+  virava para fora as paredes da caçamba, que olham para dentro de propósito: elas iam para a lateral no corte e saíam pretas; aqui
+  nada é virado, as normais do autor já estão certas). Material do arquivo com nome de papel nosso vira `entrada_<nome>` (o painel
+  tinha um `vidro`, e o nosso saía `vidro.001`). Imprime as ilhas viradas por peça. Furgãozinho conferido: juntado igual (0 mm).
+- **`decimar.py` antes do corte:** o modelo já é denso (225 mil triângulos); o corte dobra a malha (espessura e vão de cada peça) e
+  passava de 600 mil. Reduzido a 125 mil (desvio p99 0,07 mm), o corte fica com ~281 mil, perto do Gol.
+- **Mapa:** portas e tampa da caçamba por `take: "ilha"` (a porta é malha solta do autor, com o quadro da janela; pelo corte por
+  planos sobravam o friso em relevo e as bordas cruzando o vão da porta aberta); `fender_rear_*` são as laterais da caçamba; o vidro
+  fixo de trás da porta vai com a porta; `piso_cacamba` nas medidas. A fita preta lateral do autor sai no juntar (inteira, cruzava o
+  vão da porta) e o friso do `detalhes_na_casca.py` entra por cima do friso em relevo dele.
+- **`detalhes_na_casca.py`:** `--protecoes` (alargador preto em volta de cada caixa de roda e protetor da soleira, como geometria:
+  uma tira de 4 mm sobre a chapa, por raios de lado, com 4 a 6 fileiras para acompanhar a curva da porta; a borda do arco é medida
+  na chapa; cada trecho vai para a peça onde está; trocar o material das faces saía em serrote numa malha grossa) e `--grade-preta`
+  (com `--manter-grade`: a grade do autor fica, em plástico preto, com as palhetas que o corte deixou na carroceria). Os faróis de
+  milha vêm como `cromado` do juntar: como `luz`, no para-choque, viravam lente de lanterna.
+- **`carro_completo.py`, carroceria `picape` (com teste):** cabine curta (`x_cabine_tras` na parede do vidro traseiro, encosto 14 cm à
+  frente, sem banco de trás), acabamento de plástico na parede de trás da cabine, sem porta-malas e sem vão da traseira (a caçamba é
+  chapa a céu aberto); o grupo novo `cacamba` (fora do `recolher_na_casca` e do `aparar_expostos`, que tomariam a caçamba aberta por
+  "fora da casca") com o protetor estriado no assoalho, 4 ganchos de amarração e o santo-antônio sobre as bordas (o topo da borda é
+  achado nas laterais da caçamba, que o `z_casca` não olhava); o estepe pendurado sob a caçamba atrás do eixo; na picape a saia de
+  trás sobe o raio até o para-choque (passava por baixo dele e ia parar 60 cm para dentro, cortando o estepe). Nos dados do Tropeiro: `aparar_desde_a_saia`, `aparar_motor` e a chave nova `fundo_farol_rente` (o fundo dos faróis e a travessa
+  de cima do painel dianteiro param abaixo do topo dos faróis: o capô da picape fica alguns cm acima deles e a ponta da travessa
+  aparecia na fresta, sobre o canto de dentro de cada farol).
+- **O Gol não muda (conferido em 30/10):** com as mesmas entradas, o `detalhes_na_casca.py` e o `carro_completo.py` de `main` e os
+  daqui dão as mesmas 32 peças do corte e os mesmos 158 objetos do kit, a 0 mm (comparação por ponto mais perto, que não depende da
+  ordem dos vértices; o corte do próprio código antigo muda a ordem e a solda de uma rodada para outra).
+- **Saída (30/10):** `veiculos/sketchfab/quebravel/tropeiro/` (34 peças, ~281 mil triângulos, 4,38 x 1,70 x 1,42 m sem retrovisores,
+  entre-eixos 2,534 m, roda 30,8 cm) e `veiculos/sketchfab/completo/tropeiro/` (kit época 2000 de picape, 81 peças, ~224 mil
+  triângulos). Prévias em `veiculos/sketchfab/previas/tropeiro/`, com as rodas do kit (liga 14 e pneu 185/60) no lugar das de tuning.
+- **Diferenças para a referência:** a referência (4,49 x 1,71 x 1,50 m, entre-eixos 2,75 m) é da geração seguinte; a largura bate, o
+  comprimento e a altura ficam 11 e 8 cm menores, e a frente (faróis, grade) é a da geração de 2000. Esticar a casca para as medidas
+  de 2010 deformaria as rodas e as portas; se o Felipe quiser a frente de 2010, só o Meshy (com custo) ou outro modelo.
+- **Defeitos conhecidos:** reflexo ondulado na tampa da caçamba (malha do autor); borda serrilhada no quadro da janela atrás da
+  porta; com o kit, uma haste clara na fresta da frente da porta e a saia escura aparecendo sob o para-choque de trás.
+- **Pendente:** as prévias com os materiais do jogo (`previa_carro.py`), a cadeia de conferência do Detonauto, a classe `picape` em
+  `FDNGarageClass::All()` e a linha do `Data/Garage.csv`: o repositório do Detonauto não pôde ser anexado nesta sessão. As prévias de
+  `previas/tropeiro/` usam materiais aproximados e cores e acabamentos aproximados (os valores de `Data/Paints.csv` e
+  `Data/PaintFinishes.csv` estão no Detonauto); o veredito visual é a captura do jogo.
