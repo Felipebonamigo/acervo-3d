@@ -1,0 +1,1536 @@
+{
+  "id": "jipe-capota",
+  "entrada": "trilheiro.glb",
+  "gerado_por": "acervo-3d/ferramentas/carro_quebravel.py (malha única)",
+  "convencao": "metros; eixos do Blender: frente +X, ESQUERDA +Y, cima +Z; pivô do carro no chão, no centro entre os eixos; caixa_m = [xmin, xmax, ymin, ymax, zmin, zmax] no espaço do carro; rodas, aros e calotas com pivô no centro do cubo",
+  "dimensoes_m": {
+    "comprimento": 3.955,
+    "largura": 2.082,
+    "altura": 1.87,
+    "entre_eixos": 2.288,
+    "raio_roda": 0.353
+  },
+  "escala": {
+    "fator": 1.0,
+    "comprimento_original": 3.9549,
+    "motivo": "malha única: pelo comprimento"
+  },
+  "orientacao": [
+    "frente já em +X (retrovisores em x = 0.25 m)"
+  ],
+  "solda": {
+    "vertices_antes": 102474,
+    "vertices_depois": 80772,
+    "arestas_de_borda": 2760
+  },
+  "mapa": "jipe-capota_mapa.json (lido de veiculos/sketchfab/quebravel/jipe-capota/jipe-capota_mapa.json)",
+  "textura": {
+    "pintura_rgb": [
+      0.502,
+      0.498,
+      1.0
+    ],
+    "pintura_sat": 0.502,
+    "pintura_val": 1.0,
+    "cercado_pela_borracha": 470,
+    "portas": 2,
+    "janelas_por_lado": {
+      "l": [],
+      "r": []
+    }
+  },
+  "faces_por_classe": {
+    "vidro": 0,
+    "farol": 0,
+    "lanterna": 0,
+    "placa": 0,
+    "grade": 0
+  },
+  "materiais": {
+    "Material_0 (Meshy)": "pintura; cópias com a mesma textura: vidro, luz, pneu, cromado; sem textura: chassi, MI_DNVao"
+  },
+  "papel_material": {
+    "body": [
+      "MI_DNVao",
+      "chassi",
+      "pintura"
+    ],
+    "bumper_front": [
+      "chassi"
+    ],
+    "bumper_rear": [
+      "chassi"
+    ],
+    "door": [
+      "chassi",
+      "pintura"
+    ],
+    "fender": [
+      "chassi",
+      "pintura"
+    ],
+    "glass_door": [
+      "chassi",
+      "vidro"
+    ],
+    "glass_rear": [
+      "chassi",
+      "vidro"
+    ],
+    "glass_windshield": [
+      "chassi",
+      "vidro"
+    ],
+    "grille": [
+      "chassi",
+      "pintura"
+    ],
+    "headlight": [
+      "chassi",
+      "luz"
+    ],
+    "hood": [
+      "chassi",
+      "pintura"
+    ],
+    "mirror": [
+      "chassi",
+      "pintura"
+    ],
+    "plate": [
+      "chassi"
+    ],
+    "rim": [
+      "cromado"
+    ],
+    "taillight": [
+      "chassi",
+      "luz"
+    ],
+    "trunk": [
+      "chassi",
+      "pintura"
+    ],
+    "wheel": [
+      "pneu"
+    ]
+  },
+  "pecas_por_papel": {
+    "body": [
+      "body"
+    ],
+    "bumper_front": [
+      "bumper_front"
+    ],
+    "bumper_rear": [
+      "bumper_rear"
+    ],
+    "door": [
+      "door_fl",
+      "door_fr"
+    ],
+    "fender": [
+      "fender_front_left",
+      "fender_front_right"
+    ],
+    "glass_door": [
+      "glass_door_fl",
+      "glass_door_fr",
+      "glass_door_rl",
+      "glass_door_rr"
+    ],
+    "glass_rear": [
+      "glass_rear"
+    ],
+    "glass_windshield": [
+      "glass_windshield"
+    ],
+    "grille": [
+      "grille"
+    ],
+    "headlight": [
+      "headlight_left",
+      "headlight_right"
+    ],
+    "hood": [
+      "hood"
+    ],
+    "mirror": [
+      "mirror_left",
+      "mirror_right"
+    ],
+    "plate": [
+      "plate_front",
+      "plate_rear"
+    ],
+    "rim": [
+      "wheel_fl_rim",
+      "wheel_fr_rim",
+      "wheel_rl_rim",
+      "wheel_rr_rim"
+    ],
+    "taillight": [
+      "taillight_left",
+      "taillight_right"
+    ],
+    "trunk": [
+      "trunk"
+    ],
+    "wheel": [
+      "wheel_fl_tire",
+      "wheel_fr_tire",
+      "wheel_rl_tire",
+      "wheel_rr_tire"
+    ]
+  },
+  "fora_do_vocabulario_do_detonauto": [
+    "grille",
+    "mirror_left",
+    "mirror_right",
+    "plate_front",
+    "plate_rear",
+    "wheel_fl_rim",
+    "wheel_fl_tire",
+    "wheel_fr_rim",
+    "wheel_fr_tire",
+    "wheel_rl_rim",
+    "wheel_rl_tire",
+    "wheel_rr_rim",
+    "wheel_rr_tire"
+  ],
+  "removidos": [],
+  "outros": [],
+  "faces_removidas": {},
+  "avisos": [
+    "--sem-rotulos: nada classificado pela textura; vidros e peças só pelo mapa",
+    "rodas lidas do mapa (4)",
+    "--manter-chassi: 92073 faces continuam chassi"
+  ],
+  "rodas_cm": {
+    "front_axle_cm": 114.4,
+    "rear_axle_cm": -114.4,
+    "wheel_radius_cm": 35.33,
+    "nota": "espaço do carro do carro_quebravel (frente +X, pivô entre os eixos); formato de Tools/Unreal/damage_body.py"
+  },
+  "rodas_achadas": [
+    {
+      "nome": "fl",
+      "lado": 1,
+      "cx": 1.144,
+      "cz": 0.3533,
+      "raio": 0.3533,
+      "y_dentro": 0.7,
+      "y_fora": 1.03,
+      "y_alcance": 1.03,
+      "raio_aro": 0.22,
+      "raio_calota": null
+    },
+    {
+      "nome": "fr",
+      "lado": -1,
+      "cx": 1.144,
+      "cz": 0.3533,
+      "raio": 0.3533,
+      "y_dentro": 0.7,
+      "y_fora": 1.03,
+      "y_alcance": 1.03,
+      "raio_aro": 0.22,
+      "raio_calota": null
+    },
+    {
+      "nome": "rl",
+      "lado": 1,
+      "cx": -1.144,
+      "cz": 0.3533,
+      "raio": 0.3533,
+      "y_dentro": 0.7,
+      "y_fora": 1.03,
+      "y_alcance": 1.03,
+      "raio_aro": 0.22,
+      "raio_calota": null
+    },
+    {
+      "nome": "rr",
+      "lado": -1,
+      "cx": -1.144,
+      "cz": 0.3533,
+      "raio": 0.3533,
+      "y_dentro": 0.7,
+      "y_fora": 1.03,
+      "y_alcance": 1.03,
+      "raio_aro": 0.22,
+      "raio_calota": null
+    }
+  ],
+  "pecas": [
+    {
+      "nome": "body",
+      "papel": "body",
+      "detonauto": "Body (carroceria; portas e para-lamas ainda fundidos: cortar com split_car_parts.py)",
+      "caixa_m": [
+        -1.9897,
+        1.931,
+        -1.025,
+        1.025,
+        0.1955,
+        1.87
+      ],
+      "centro": [
+        -0.0293,
+        0.0,
+        1.0328
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 159751,
+      "materiais": [
+        "pintura",
+        "chassi",
+        "MI_DNVao"
+      ],
+      "origem": [
+        "malha única: o que sobrou, com os vãos e as caixas de roda"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 7,
+        "vertices_soltos_tirados": 22722,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.007,
+        "area_para_fora": 0.584,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/body.fbx"
+    },
+    {
+      "nome": "bumper_front",
+      "papel": "bumper_front",
+      "detonauto": "BumperFront",
+      "caixa_m": [
+        1.4916,
+        1.9357,
+        -0.9861,
+        0.9704,
+        0.3025,
+        0.634
+      ],
+      "centro": [
+        1.7137,
+        -0.0079,
+        0.4683
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 11388,
+      "materiais": [
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 4859 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.012,
+        "area_para_fora": 0.501,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/bumper_front.fbx"
+    },
+    {
+      "nome": "bumper_rear",
+      "papel": "bumper_rear",
+      "detonauto": "BumperRear",
+      "caixa_m": [
+        -1.9258,
+        -1.4921,
+        -0.9537,
+        0.9693,
+        0.334,
+        0.566
+      ],
+      "centro": [
+        -1.709,
+        0.0078,
+        0.45
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 12663,
+      "materiais": [
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 5185 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 9,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.005,
+        "area_para_fora": 0.5,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/bumper_rear.fbx"
+    },
+    {
+      "nome": "door_fl",
+      "papel": "door",
+      "detonauto": "DoorLeft",
+      "caixa_m": [
+        -0.57,
+        0.43,
+        0.6297,
+        0.823,
+        0.48,
+        1.845
+      ],
+      "centro": [
+        -0.07,
+        0.7263,
+        1.1625
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 11728,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 4858 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.497,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/door_fl.fbx"
+    },
+    {
+      "nome": "door_fr",
+      "papel": "door",
+      "detonauto": "DoorRight",
+      "caixa_m": [
+        -0.57,
+        0.43,
+        -0.8214,
+        -0.6314,
+        0.48,
+        1.845
+      ],
+      "centro": [
+        -0.07,
+        -0.7264,
+        1.1625
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 11648,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 4829 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.498,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/door_fr.fbx"
+    },
+    {
+      "nome": "fender_front_left",
+      "papel": "fender",
+      "detonauto": "FenderFrontLeft",
+      "caixa_m": [
+        0.43,
+        1.7194,
+        0.4882,
+        0.9716,
+        0.3636,
+        1.153
+      ],
+      "centro": [
+        1.0747,
+        0.7299,
+        0.7583
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 12538,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 5104 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.002,
+        "area_para_fora": 0.506,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/fender_front_left.fbx"
+    },
+    {
+      "nome": "fender_front_right",
+      "papel": "fender",
+      "detonauto": "FenderFrontRight",
+      "caixa_m": [
+        0.43,
+        1.7205,
+        -0.9825,
+        -0.4882,
+        0.3635,
+        1.1378
+      ],
+      "centro": [
+        1.0753,
+        -0.7354,
+        0.7506
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 12650,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 5125 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.001,
+        "area_para_fora": 0.506,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/fender_front_right.fbx"
+    },
+    {
+      "nome": "glass_door_fl",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideLeft",
+      "caixa_m": [
+        -0.4427,
+        0.2493,
+        0.6985,
+        0.7737,
+        1.2664,
+        1.6995
+      ],
+      "centro": [
+        -0.0967,
+        0.7361,
+        1.483
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 864,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, material: 384 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/glass_door_fl.fbx"
+    },
+    {
+      "nome": "glass_door_fr",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideRight",
+      "caixa_m": [
+        -0.4499,
+        0.2414,
+        -0.7735,
+        -0.6987,
+        1.2664,
+        1.6995
+      ],
+      "centro": [
+        -0.1043,
+        -0.7361,
+        1.483
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 864,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, material: 384 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/glass_door_fr.fbx"
+    },
+    {
+      "nome": "glass_door_rl",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideLeft",
+      "caixa_m": [
+        -1.4471,
+        -0.6525,
+        0.7245,
+        0.7977,
+        1.2687,
+        1.716
+      ],
+      "centro": [
+        -1.0498,
+        0.7611,
+        1.4924
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1488,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, material: 684 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.505,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/glass_door_rl.fbx"
+    },
+    {
+      "nome": "glass_door_rr",
+      "papel": "glass_door",
+      "detonauto": "Glass_SideRight",
+      "caixa_m": [
+        -1.4551,
+        -0.6599,
+        -0.7862,
+        -0.7142,
+        1.2687,
+        1.716
+      ],
+      "centro": [
+        -1.0575,
+        -0.7502,
+        1.4923
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1488,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, material: 684 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.505,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/glass_door_rr.fbx"
+    },
+    {
+      "nome": "glass_rear",
+      "papel": "glass_rear",
+      "detonauto": "Glass_Rear",
+      "caixa_m": [
+        -1.6992,
+        -1.6326,
+        -0.665,
+        0.6824,
+        1.172,
+        1.6948
+      ],
+      "centro": [
+        -1.6659,
+        0.0087,
+        1.4334
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 3724,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, material: 1760 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.501,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/glass_rear.fbx"
+    },
+    {
+      "nome": "glass_windshield",
+      "papel": "glass_windshield",
+      "detonauto": "Glass_Windshield",
+      "caixa_m": [
+        0.1716,
+        0.4492,
+        -0.6612,
+        0.6566,
+        1.2899,
+        1.7903
+      ],
+      "centro": [
+        0.3104,
+        -0.0023,
+        1.5401
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 2720,
+      "materiais": [
+        "vidro",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, material: 1274 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.504,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/glass_windshield.fbx"
+    },
+    {
+      "nome": "grille",
+      "papel": "grille",
+      "detonauto": null,
+      "caixa_m": [
+        1.5298,
+        1.7312,
+        -0.4,
+        0.4,
+        0.62,
+        1.05
+      ],
+      "centro": [
+        1.6305,
+        0.0,
+        0.835
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 3932,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 1333 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.501,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/grille.fbx"
+    },
+    {
+      "nome": "headlight_left",
+      "papel": "headlight",
+      "detonauto": "Glass_HeadlightLeft",
+      "caixa_m": [
+        1.4693,
+        1.7176,
+        0.3977,
+        0.64,
+        0.66,
+        1.02
+      ],
+      "centro": [
+        1.5934,
+        0.5189,
+        0.84
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1332,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 452 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.004,
+        "area_para_fora": 0.503,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/headlight_left.fbx"
+    },
+    {
+      "nome": "headlight_right",
+      "papel": "headlight",
+      "detonauto": "Glass_HeadlightRight",
+      "caixa_m": [
+        1.4631,
+        1.7136,
+        -0.64,
+        -0.3977,
+        0.66,
+        1.02
+      ],
+      "centro": [
+        1.5883,
+        -0.5188,
+        0.84
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 1162,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 410 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.002,
+        "area_para_fora": 0.503,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/headlight_right.fbx"
+    },
+    {
+      "nome": "hood",
+      "papel": "hood",
+      "detonauto": "Hood",
+      "caixa_m": [
+        0.42,
+        1.5654,
+        -0.8,
+        0.7944,
+        0.969,
+        1.348
+      ],
+      "centro": [
+        0.9927,
+        -0.0028,
+        1.1585
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 11740,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 5208 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.509,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/hood.fbx"
+    },
+    {
+      "nome": "mirror_left",
+      "papel": "mirror",
+      "detonauto": null,
+      "caixa_m": [
+        0.216,
+        0.3156,
+        0.8363,
+        0.9799,
+        1.1785,
+        1.4424
+      ],
+      "centro": [
+        0.2658,
+        0.9081,
+        1.3105
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 644,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 228 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.505,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/mirror_left.fbx"
+    },
+    {
+      "nome": "mirror_right",
+      "papel": "mirror",
+      "detonauto": null,
+      "caixa_m": [
+        0.2061,
+        0.3078,
+        -0.9825,
+        -0.8363,
+        1.1785,
+        1.4425
+      ],
+      "centro": [
+        0.2569,
+        -0.9094,
+        1.3105
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 644,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 237 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/mirror_right.fbx"
+    },
+    {
+      "nome": "plate_front",
+      "papel": "plate",
+      "detonauto": null,
+      "caixa_m": [
+        1.8705,
+        1.931,
+        -0.2,
+        0.2,
+        0.39,
+        0.5413
+      ],
+      "centro": [
+        1.9007,
+        0.0,
+        0.4656
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 680,
+      "materiais": [
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 200 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.497,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/plate_front.fbx"
+    },
+    {
+      "nome": "plate_rear",
+      "papel": "plate",
+      "detonauto": null,
+      "caixa_m": [
+        -1.9253,
+        -1.9061,
+        -0.2,
+        0.2,
+        0.35,
+        0.479
+      ],
+      "centro": [
+        -1.9157,
+        0.0,
+        0.4145
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 668,
+      "materiais": [
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 230 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.498,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/plate_rear.fbx"
+    },
+    {
+      "nome": "taillight_left",
+      "papel": "taillight",
+      "detonauto": "Glass_TaillightLeft",
+      "caixa_m": [
+        -1.7688,
+        -1.6701,
+        0.5773,
+        0.8324,
+        0.7,
+        1.02
+      ],
+      "centro": [
+        -1.7194,
+        0.7048,
+        0.86
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 628,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 216 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/taillight_left.fbx"
+    },
+    {
+      "nome": "taillight_right",
+      "papel": "taillight",
+      "detonauto": "Glass_TaillightRight",
+      "caixa_m": [
+        -1.7757,
+        -1.6783,
+        -0.8149,
+        -0.5773,
+        0.7,
+        1.02
+      ],
+      "centro": [
+        -1.727,
+        -0.6961,
+        0.86
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 588,
+      "materiais": [
+        "luz",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 201 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/taillight_right.fbx"
+    },
+    {
+      "nome": "trunk",
+      "papel": "trunk",
+      "detonauto": "Trunk",
+      "caixa_m": [
+        -2.0192,
+        -1.6637,
+        -0.8131,
+        0.8307,
+        0.56,
+        1.36
+      ],
+      "centro": [
+        -1.8415,
+        0.0088,
+        0.96
+      ],
+      "pivo_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "triangulos": 11392,
+      "materiais": [
+        "pintura",
+        "chassi"
+      ],
+      "origem": [
+        "malha única, faces: 4937 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 0,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.0,
+        "area_para_fora": 0.502,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/trunk.fbx"
+    },
+    {
+      "nome": "wheel_fl_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        0.9028,
+        1.3928,
+        0.6625,
+        1.0291,
+        0.1094,
+        0.5972
+      ],
+      "centro": [
+        1.1478,
+        0.8458,
+        0.3533
+      ],
+      "pivo_m": [
+        1.144,
+        0.865,
+        0.3533
+      ],
+      "triangulos": 4862,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 4862 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 2716,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.006,
+        "area_para_fora": 0.697,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_fl_rim.fbx"
+    },
+    {
+      "nome": "wheel_fl_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        0.7924,
+        1.5073,
+        0.6567,
+        1.0114,
+        0.0,
+        0.7435
+      ],
+      "centro": [
+        1.1499,
+        0.8341,
+        0.3717
+      ],
+      "pivo_m": [
+        1.144,
+        0.865,
+        0.3533
+      ],
+      "triangulos": 3243,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 3243 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1858,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.002,
+        "area_para_fora": 0.872,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_fl_tire.fbx"
+    },
+    {
+      "nome": "wheel_fr_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        0.895,
+        1.385,
+        -1.0409,
+        -0.6318,
+        0.1094,
+        0.5972
+      ],
+      "centro": [
+        1.14,
+        -0.8363,
+        0.3533
+      ],
+      "pivo_m": [
+        1.144,
+        -0.865,
+        0.3533
+      ],
+      "triangulos": 4909,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 4909 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 2738,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.006,
+        "area_para_fora": 0.701,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_fr_rim.fbx"
+    },
+    {
+      "nome": "wheel_fr_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        0.7806,
+        1.4954,
+        -1.0232,
+        -0.656,
+        0.0,
+        0.7435
+      ],
+      "centro": [
+        1.138,
+        -0.8396,
+        0.3717
+      ],
+      "pivo_m": [
+        1.144,
+        -0.865,
+        0.3533
+      ],
+      "triangulos": 3330,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 3330 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1906,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.002,
+        "area_para_fora": 0.872,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_fr_tire.fbx"
+    },
+    {
+      "nome": "wheel_rl_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        -1.385,
+        -0.895,
+        0.6638,
+        1.0409,
+        0.1094,
+        0.5972
+      ],
+      "centro": [
+        -1.14,
+        0.8523,
+        0.3533
+      ],
+      "pivo_m": [
+        -1.144,
+        0.865,
+        0.3533
+      ],
+      "triangulos": 2980,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 2980 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1709,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.013,
+        "area_para_fora": 0.612,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_rl_rim.fbx"
+    },
+    {
+      "nome": "wheel_rl_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        -1.5244,
+        -0.7607,
+        0.6371,
+        1.0232,
+        0.0,
+        0.758
+      ],
+      "centro": [
+        -1.1425,
+        0.8301,
+        0.379
+      ],
+      "pivo_m": [
+        -1.144,
+        0.865,
+        0.3533
+      ],
+      "triangulos": 3076,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 3077 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 1,
+        "vertices_soltos_tirados": 1753,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.006,
+        "area_para_fora": 0.773,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_rl_tire.fbx"
+    },
+    {
+      "nome": "wheel_rr_rim",
+      "papel": "rim",
+      "detonauto": null,
+      "caixa_m": [
+        -1.3928,
+        -0.9028,
+        -1.0291,
+        -0.6525,
+        0.1094,
+        0.5972
+      ],
+      "centro": [
+        -1.1478,
+        -0.8408,
+        0.3533
+      ],
+      "pivo_m": [
+        -1.144,
+        -0.865,
+        0.3533
+      ],
+      "triangulos": 2978,
+      "materiais": [
+        "cromado"
+      ],
+      "origem": [
+        "malha única, roda: 2978 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1708,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.026,
+        "area_para_fora": 0.612,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_rr_rim.fbx"
+    },
+    {
+      "nome": "wheel_rr_tire",
+      "papel": "wheel",
+      "detonauto": null,
+      "caixa_m": [
+        -1.5317,
+        -0.7477,
+        -1.0114,
+        -0.6419,
+        0.0,
+        0.758
+      ],
+      "centro": [
+        -1.1397,
+        -0.8266,
+        0.379
+      ],
+      "pivo_m": [
+        -1.144,
+        -0.865,
+        0.3533
+      ],
+      "triangulos": 3071,
+      "materiais": [
+        "pneu"
+      ],
+      "origem": [
+        "malha única, roda: 3071 faces"
+      ],
+      "malha": {
+        "faces_degeneradas_tiradas": 0,
+        "vertices_soltos_tirados": 1750,
+        "vertices_nan": 0,
+        "cantos_contra_face": 0.013,
+        "area_para_fora": 0.773,
+        "virada": null
+      },
+      "fbx": "jipe-capota_pecas/wheel_rr_tire.fbx"
+    }
+  ]
+}

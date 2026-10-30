@@ -619,6 +619,49 @@ O Felipe montou o Cuiabano no PC e viu a placa cobrindo a frente e a traseira e 
 - **`previa_carro.py` (novo, era o rascunho das prévias):** o corte + o kit + as rodas de kit, a pintura como o jogo faz e, com
   `HDRI=`, uma rua em volta. Uso no cabeçalho do script.
 
+## Trilheiro: jipe de capota rígida do Sketchfab (30/10/2026)
+
+O Trilheiro (jipe 4x4 de 2 portas, capota rígida, estepe atrás) passa a ser um modelo feito por gente: o jipe de capota rígida do
+**funassets (Sketchfab, CC BY 4.0)**, `veiculos/sketchfab/jipe-capota-funassets__fd41538dbb6744b38d7037c4cc8b058f.glb` (2,3 MB,
+12.852 triângulos). Escolhido entre 5 candidatos por ter o estepe na tampa, 2 portas e polígono na faixa do Gol. O modelo vem em 7
+objetos (carroceria, "exterior" com capota, plástico, luzes e o interior num atlas só, vidros e 4 pneus em triângulos soltos), e a
+grade dele tem as 7 fendas verticais de uma marca: ela sai e entra uma grade de barras horizontais própria.
+
+    python -I ferramentas/sketchfab_separar.py -- <scene.gltf> <pasta>/separado.glb veiculos/sketchfab/quebravel/jipe-capota/jipe-capota_separar.json
+    python -I ferramentas/sketchfab_preparar.py -- <pasta>/separado.glb <pasta>/jipe.glb "carroceria,vidros,rodas" 3.61 1.87 0.06 30 0 0.05 1
+    python -I ferramentas/carro_quebravel.py -- --entrada <pasta>/jipe.glb --out <corte> --id jipe-capota --portas 2 --sem-rotulos \
+        --manter-normais --manter-chassi --mapa veiculos/sketchfab/quebravel/jipe-capota/jipe-capota_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb --sem-arco-redondo \
+        --sem-face-para-choque --sem-quebra-vento --sem-friso --sem-faixa --sem-sinaleira --sem-macaneta --z-placa 0.40 \
+        --farol-redondo --grade-limpa
+    python -I ferramentas/assar_desgaste.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id jipe-capota --out <kit> --epoca 2000
+
+- **`sketchfab_separar.py` (novo):** pré-passo para modelos que não vêm nos 3 objetos do Gol. Cada objeto vai para carroceria,
+  vidros, rodas ou apagar por um pedaço do nome; o "exterior" é decidido ilha por ilha, por caixas (a cabine sai: bancos, painel,
+  volante, forros, santo-antônio; o estepe vai com o plástico) e pela cor média da textura (ilha escura = plástico preto, que vai
+  junto das rodas e vira `chassi` no preparo).
+- **`sketchfab_preparar.py`:** 9º argumento, solda (unidades do arquivo): o pneu vinha em triângulos soltos e não virava ilha de roda
+  (a solda tem que ser aqui, porque o glTF separa de novo os vértices na exportação); 10º argumento `1`: toda ilha do 2º objeto é
+  vidro (as regras de janela são do Gol e o para-brisa do jipe é em pé). O comprimento de 3,61 m é o da carroceria sem para-choques
+  e estepe: o carro fica com 3,95 m, como o Trilheiro do Meshy, e a altura vai a 1,87 m.
+- **`carro_quebravel.py --manter-chassi`:** na malha única tudo o que o mapa não pegava por material virava `pintura`; com a opção,
+  as faces que vieram `chassi` continuam pretas (alargador, estribo, moldura, estepe). Sem ela o alargador saía na cor do carro.
+- **`detalhes_na_casca.py`:** `--farol-redondo` (círculo do tamanho da largura da caixa, moldura preta, lente clara convexa com
+  frisos, refletor em cone e lâmpada; embaixo uma seta âmbar redonda; o resto da caixa volta a ser chapa pintada; plano = mediana das
+  faces da frente + 1 cm, porque o x máximo pegava uma ponta 15 cm à frente); `--grade-limpa` (apaga as palhetas antigas e, na
+  carroceria, as fendas até 15 cm atrás da grade, antes da grade de 4 palhetas horizontais e 2 travessas, no plano da face);
+  `--z-macaneta`; retrovisor de plástico preto mede a caixa pelo `chassi`. No jipe a maçaneta do modelo fica (`--sem-macaneta`).
+- **O Gol não muda:** a cadeia dele rodada com as ferramentas antigas e as novas dá o mesmo preparo byte a byte; no corte e nos
+  detalhes mudam as mesmas peças que mudam entre duas rodadas das ferramentas antigas (o corte não é determinístico byte a byte),
+  com os mesmos triângulos, as mesmas caixas e centróides a menos de 1 mm.
+- **Saída (30/10):** `veiculos/sketchfab/quebravel/jipe-capota/` (32 peças, ~305 mil triângulos, 3,96 x 2,08 x 1,87 m, entre-eixos
+  2,288 m, roda 35,3 cm) e `veiculos/sketchfab/completo/jipe-capota/` (kit época 2000, 83 peças, carroceria jipe, 4x4, estepe externo;
+  entrada `jipe-capota` no `carro_completo_dados.json`, sem as correções do modelo do Meshy).
+- **Pendente:** a prévia fiel ao jogo (`previa_carro.py` precisa do Detonauto ao lado) e a cadeia de conferência do Detonauto: o
+  repositório do Detonauto não pôde ser anexado na sessão de 30/10.
+
 ## Receita: um carro do Sketchfab até o Detonauto (o caminho do Gol Quadrado, 29/10/2026)
 
 Para cada carro nacional, uma sessão. Os passos, na ordem:

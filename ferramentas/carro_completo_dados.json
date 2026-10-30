@@ -206,6 +206,16 @@
         "altura": 1.54,
         "nota": "a antena levava a altura a 1,80 m (vista lateral de 27/10/2026)"
       }
+    },
+    "jipe-capota": {
+      "nome": "Trilheiro",
+      "epoca": "2000",
+      "motor": "l4_longitudinal",
+      "tracao": "4x4",
+      "estepe": "externo",
+      "tanque": "sob_porta_malas",
+      "carroceria": "jipe",
+      "nota": "jipe 4x4 de capota rígida: chassi de longarinas, eixos rígidos, caixa de transferência, santo-antônio e o estepe na tampa de trás; casca do Sketchfab (jipe de capota rígida do funassets, CC BY), medidas do mapa veiculos/sketchfab/quebravel/jipe-capota/"
     }
   },
   "padrao": {
