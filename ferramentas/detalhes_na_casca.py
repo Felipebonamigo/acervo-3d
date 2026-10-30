@@ -12,6 +12,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
 
     python -I ferramentas/detalhes_na_casca.py -- <corte>.glb <saida>.glb [--sem-friso] [--sem-faixa] [--sem-limpador]
         [--sem-macaneta] [--z-friso 0.58] [--z-faixa 0.42]
+        Sagui (30/10/2026), carro já detalhado no modelo: [--sem-luzes] [--sem-retrovisor] [--placa-tras-no-para-choque]
 
 Materiais só os do corte (`chassi` = plástico preto, `luz` = lente): o kit_names.py do Detonauto já sabe o que fazer com eles.
 As normais de canto das peças que só ganham geometria ficam; faróis, lanternas e grade são refeitos e recebem normais por ângulo.
@@ -687,9 +688,11 @@ if "--luzes-como-vieram" not in args:
             ys_ = sorted((s_ * ay0, s_ * ay1))
             caixas_luz[n] = [bx[0], bx[1], ys_[0], ys_[1], z0_, z1_]
         relatorio.append("%s e %s iguais: |y| %.3f a %.3f, z %.3f a %.3f" % (a, b, ay0, ay1, z0_, z1_))
+# --sem-luzes (30/10/2026, Sagui): faróis em gota e lanternas modelados, com lente, refletor e seta pelo material do arquivo
+# (sketchfab_montar.py + corte com --cores-do-arquivo); a caixa reta daqui os estragaria
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
     o = objs.get(nome)
-    if not o:
+    if not o or "--sem-luzes" in args:
         continue
     box = caixas_luz.get(nome)
     if box is None:
@@ -876,7 +879,7 @@ def espelho(w, box, s, m_preto, m_vidro):
 
 for nome, s in (("mirror_left", 1), ("mirror_right", -1)):
     o = objs.get(nome)
-    if not o:
+    if not o or "--sem-retrovisor" in args:      # o retrovisor do modelo já tem forma e espelho (Sagui)
         continue
     box, _ = faces_de(o, "pintura")
     if box is None:
@@ -1005,7 +1008,9 @@ if "plate_front" in objs and "--placa-original" not in args:
 if "plate_rear" in objs and "--placa-original" not in args and "--placa-tras-original" not in args:
     Pt = np.array([list(objs["plate_rear"].matrix_world @ v.co) for v in objs["plate_rear"].data.vertices])
     zc_t = 0.5 * (Pt[:, 2].min() + Pt[:, 2].max())
-    r = refazer_placa("plate_rear", -1, [n for n in ("trunk", "body") if n in objs], zc_t - PLACA_A / 2, (-0.3, -0.26, 0.26, 0.3), zc_t)
+    # --placa-tras-no-para-choque (Sagui): a placa de trás fica no rebaixo do para-choque, não na tampa
+    alvos_t = ("bumper_rear", "body") if "--placa-tras-no-para-choque" in args else ("trunk", "body")
+    r = refazer_placa("plate_rear", -1, [n for n in alvos_t if n in objs], zc_t - PLACA_A / 2, (-0.3, -0.26, 0.26, 0.3), zc_t)
     if r:
         placas_novas["plate_rear"] = r
 placa_frente = placas_novas.get("plate_front")

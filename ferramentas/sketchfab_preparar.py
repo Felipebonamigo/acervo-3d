@@ -3,12 +3,22 @@ esticada acima do eixo até a altura real (as rodas ficam redondas), materiais p
 import bpy, bmesh, sys, json, numpy as np
 from mathutils import Vector, Matrix
 a = sys.argv[sys.argv.index("--") + 1:]
+# --manter-materiais (30/10/2026, Sagui): a face que vem com material de nome igual a um papel nosso (o sketchfab_montar.py grava
+# assim) fica com esse papel, em vez da regra por ilha; sem a opção, nada muda (o Gol Quadrado sai igual)
+MANTER = "--manter-materiais" in a
+# --sem-pca: o arquivo já vem com o comprimento em x (o sketchfab_montar.py alinha); a PCA da carroceria torcia 0,2 grau
+SEM_PCA = "--sem-pca" in a
+a = [x for x in a if x not in ("--manter-materiais", "--sem-pca")]
+PAPEIS_EXTRA = ("luz", "cromado", "luz_vermelha", "luz_ambar", "luz_branca", "lente_farol", "refletor")
 ent, out, keep = a[0], a[1], a[2].split(",")
 COMP, ALT, ARESTA = float(a[3]), float(a[4]), float(a[5])
 ANGULO = float(a[6]) if len(a) > 6 else 30.0   # aresta mais dobrada do que isso fica viva; o resto é liso
 SUAVIZAR = int(a[7]) if len(a) > 7 else 0        # passos de suavização (Taubin) dos vincos suaves: arredonda as facetas de baixo polígono
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
+if MANTER:
+    for m in list(bpy.data.materials):          # lista: renomear muda a ordem da coleção (cromado saía "entrada_entrada_")
+        m.name = "entrada_" + m.name.split(".")[0]
 for o in list(bpy.data.objects):
     if o.type == "MESH" and o.name not in keep:
         bpy.data.objects.remove(o)
@@ -35,7 +45,7 @@ P = pts(body)
 c = P.mean(0)
 Q = P[:, :2] - c[:2]
 w, vec = np.linalg.eigh(Q.T @ Q)
-ax = vec[:, 1]
+ax = vec[:, 1] if not SEM_PCA else np.array([1.0, 0.0])
 R = Matrix.Rotation(-np.arctan2(ax[1], ax[0]), 4, "Z")
 for o in objs:
     o.data.transform(Matrix.Translation(-Vector(c)))
@@ -181,8 +191,14 @@ medidas["retrovisores"] = [b[:4] + [round(float(z_eixo + (z - z_eixo) * k), 4) f
 medidas["estica_acima_do_eixo"] = dict(z_eixo=round(z_eixo, 4), k=round(float(k), 4))
 
 # 4. materiais: pintura (carroceria), vidro, pneu (ilhas de roda), chassi (o resto do assoalho)
+# o papel de entrada de cada face (antes de os materiais serem trocados), com --manter-materiais
+papel_entrada = {}
+if MANTER:
+    for o in objs:
+        nomes = [(m.name[len("entrada_"):] if m and m.name.startswith("entrada_") else "") for m in o.data.materials]
+        papel_entrada[o.name] = [nomes[p.material_index] if p.material_index < len(nomes) else "" for p in o.data.polygons]
 mats = {}
-for nome in ("pintura", "vidro", "pneu", "chassi"):
+for nome in ("pintura", "vidro", "pneu", "chassi") + (PAPEIS_EXTRA if MANTER else ()):
     m = bpy.data.materials.new(nome)
     m.use_nodes = True
     mats[nome] = m
@@ -197,13 +213,18 @@ for nome, m in mats.items():
         t = m.node_tree.nodes.new("ShaderNodeTexImage")
         t.image = tex_img
         m.node_tree.links.new(t.outputs["Color"], bsdf.inputs["Base Color"])
-    bsdf.inputs["Roughness"].default_value = {"pintura": 0.35, "vidro": 0.05, "pneu": 0.8, "chassi": 0.8}[nome]
+    bsdf.inputs["Roughness"].default_value = {"pintura": 0.35, "vidro": 0.05, "pneu": 0.8, "chassi": 0.8}.get(nome, 0.3)
     if nome == "chassi":
         bsdf.inputs["Base Color"].default_value = (0.03, 0.03, 0.03, 1)
+    elif MANTER and tex_img is None:
+        ent_m = bpy.data.materials.get("entrada_" + nome)
+        if ent_m is not None and ent_m.use_nodes and ent_m.node_tree.nodes.get("Principled BSDF"):
+            bsdf.inputs["Base Color"].default_value = ent_m.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value[:]
 for i, o in enumerate(objs):
     me = o.data
     me.materials.clear()
-    for nome in ("pintura", "vidro", "pneu", "chassi"):
+    ordem = list(mats)
+    for nome in ordem:
         me.materials.append(mats[nome])
     rod = set(np.concatenate(rodas_idx.get(o.name, [np.array([], int)])).tolist())
     jan = set(np.concatenate(janela_idx.get(o.name, [np.array([], int)])).tolist())
@@ -216,6 +237,10 @@ for i, o in enumerate(objs):
             p.material_index = 3
         else:
             p.material_index = 0
+        if MANTER:
+            pe = papel_entrada[o.name][p.index]
+            if pe in ordem:
+                p.material_index = ordem.index(pe)
 bpy.ops.object.select_all(action="DESELECT")
 for o in objs:
     o.select_set(True)

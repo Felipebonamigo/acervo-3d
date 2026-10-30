@@ -153,6 +153,8 @@ def parse_args(argv):
     p.add_argument("--debug-classes", action="store_true", help="malha única: grava <id>_classes.png com as classes de textura")
     # malha única com mapa à mão (carros do Sketchfab com pintura clara, 29/10/2026): não classifica nada pela cor da textura; os
     # vidros vêm do material 'vidro' já marcado no arquivo (take: material) e o resto das caixas do mapa
+    p.add_argument("--cores-do-arquivo", action="store_true", help="malha única: cada face fica com o material do papel que veio no "
+                   "arquivo (chassi, cromado, vidro, pneu, luzes); o papel da peça não o troca")
     p.add_argument("--sem-rotulos", action="store_true", help="malha única: ignora a classificação pela textura (rótulos só do mapa)")
     return p.parse_args(argv)
 
@@ -959,6 +961,12 @@ CORES.update({
     "rim": (0.75, 0.75, 0.78), "hubcap": (0.95, 0.80, 0.30),
 })
 MAT_ESCURO = "chassi"      # lado de dentro das peças e caixa de roda (o split_car_parts.py procura "Chassi")
+# material de cada face como veio no arquivo (atributo cq_mat), para o take 'material' do mapa e o --cores-do-arquivo. Os de 6 em
+# diante (30/10/2026, Sagui) são os da lanterna e do farol que o sketchfab_montar.py e o preparo com --manter-materiais gravam
+CQ_COD = {"vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5, "luz_vermelha": 6, "luz_ambar": 7, "luz_branca": 8,
+          "lente_farol": 9, "refletor": 10}
+CORES_PAPEL = {"luz_vermelha": (0.80, 0.02, 0.015), "luz_ambar": (0.95, 0.42, 0.02), "luz_branca": (0.90, 0.90, 0.88),
+               "lente_farol": (0.66, 0.68, 0.70), "refletor": (0.95, 0.95, 0.96)}
 MAT_VAO = "MI_DNVao"       # vão deixado na carroceria (o Unreal liga ao MI_DNVao pelo nome)
 
 
@@ -1932,15 +1940,17 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
         # faces que vieram com esse material no arquivo (vidro marcado à mão). Cada ilha ligada desse material
         # (um vidro inteiro) vai para a caixa que contém a maior parte dela: a caixa do vidro traseiro não rouba
         # o canto do vidro de quarta, nem a de quarta o canto do traseiro.
-        cod = {"vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}[p.get("material", "vidro")]
+        # "material" pode ser uma lista (o farol em gota do Sagui: lente, refletor e seta juntos, só dentro da caixa)
+        lista = p.get("material", "vidro")
+        cods = {CQ_COD[m] for m in (lista if isinstance(lista, list) else [lista])}
         if camada_mat is None:
             return []
         if b is None:
-            return [f for f in bm.faces if f[camada_mat] == cod]
+            return [f for f in bm.faces if f[camada_mat] in cods]
         minimo = p.get("fracao_na_caixa", 0.5)
         visto = set()
         for f0 in bm.faces:
-            if f0[camada_mat] != cod or f0 in visto:
+            if f0[camada_mat] not in cods or f0 in visto:
                 continue
             pilha, ilha = [f0], []
             visto.add(f0)
@@ -1949,7 +1959,7 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
                 ilha.append(g)
                 for e in g.edges:
                     for h in e.link_faces:
-                        if h[camada_mat] == cod and h not in visto:
+                        if h[camada_mat] in cods and h not in visto:
                             visto.add(h)
                             pilha.append(h)
             dentro = sum(1 for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
@@ -1961,7 +1971,7 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
         # marcou como vidro (no Gol do Sketchfab, 1,5 cm atrás do vidro traseiro, passando a borda da tampa): sai do modelo
         maior = max(out, key=lambda il: sum(g.calc_area() for g in il))
         nm = sum((g.normal * g.calc_area() for g in maior), Vector())
-        if nm.length > 1e-9:
+        if nm.length > 1e-9 and cods == {CQ_COD["vidro"]}:      # só no vidro: num farol de várias ilhas, as "abas" são o refletor
             nm.normalize()
             cm = sum((g.calc_center_median() for g in maior), Vector()) / len(maior)
             area_maior = sum(g.calc_area() for g in maior)
@@ -2165,7 +2175,8 @@ def _executar_mapa(obj, mapa, rodas, rel):
             bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
             bm.faces.ensure_lookup_table()
             continue
-        nb = _casca(bm, faces, float(p.get("thickness", 0.0)), escuro, True, nucleo, mat_papel.get(papel))
+        nb = _casca(bm, faces, float(p.get("thickness", 0.0)), escuro, True, nucleo,
+                    None if mapa.get("_cores_do_arquivo") else mat_papel.get(papel))
         if float(p.get("pocket", 0.0)) > 0.0:
             vaos.append(_casca(bm, faces, float(p["pocket"]), vao, False, nucleo))
         nme = bpy.data.meshes.new(p["name"])
@@ -2262,6 +2273,50 @@ def _materiais_unica(obj):
         me.materials.append(m)
     for p in me.polygons:
         p.material_index = 0
+
+
+def _cores_do_arquivo(obj, rel):
+    """--cores-do-arquivo (30/10/2026, Sagui): cada face fica com o material do papel que veio no arquivo (cq_mat): chassi preto,
+    cromado, vidro, pneu e as luzes; o resto é pintura. O papel da peça no mapa não troca mais o material de fora (o farol em gota
+    tem lente, refletor e seta; a roda tem pneu, aro e cubo)."""
+    import bpy
+    import numpy as np
+    me = obj.data
+    if "cq_mat" not in me.attributes:
+        return
+    cm = np.empty(len(me.polygons), np.int32)
+    me.attributes["cq_mat"].data.foreach_get("value", cm)
+    nomes = [m.name for m in me.materials]
+    # vidro, pneu, luz e cromado são cópias da pintura (_materiais_unica): sem textura, ficariam da cor dela (vidro e pneu brancos);
+    # a sombra que a cor de vértice trazia volta no assar_desgaste.py
+    for papel, cor in (("vidro", (0.10, 0.12, 0.13)), ("pneu", (0.03, 0.03, 0.03)), ("cromado", (0.60, 0.60, 0.62)), ("luz", (0.85, 0.85, 0.85))):
+        m = me.materials[nomes.index(papel)] if papel in nomes else None
+        b = m.node_tree.nodes.get("Principled BSDF") if m is not None and m.node_tree else None
+        if b is not None:
+            # a cor de vértice do arquivo ligada à Base Color faria o exportador ignorar a cor do papel
+            for ln in list(b.inputs["Base Color"].links):
+                m.node_tree.links.remove(ln)
+            b.inputs["Base Color"].default_value = (*cor, 1.0)
+    inv = {v: k for k, v in CQ_COD.items()}
+    mi = np.zeros(len(me.polygons), np.int32)
+    usados = {}
+    for c in sorted(set(cm.tolist()) - {0}):
+        papel = inv.get(c)
+        if papel is None:
+            continue
+        if papel not in nomes:
+            m = bpy.data.materials.new(papel)
+            m.use_nodes = True
+            b = m.node_tree.nodes.get("Principled BSDF")
+            b.inputs["Base Color"].default_value = (*CORES_PAPEL.get(papel, (0.8, 0.8, 0.8)), 1.0)
+            b.inputs["Roughness"].default_value = 0.25
+            me.materials.append(m)
+            nomes.append(papel)
+        mi[cm == c] = nomes.index(papel)
+        usados[papel] = int((cm == c).sum())
+    me.polygons.foreach_set("material_index", mi)
+    me.update()
+    rel["cores_do_arquivo"] = usados
 
 
 def _carregar_mdm(caminho):
@@ -2408,7 +2463,7 @@ def principal_unica(args, meshes, cid, out, rel):
         rel["avisos"].append("--sem-rotulos: nada classificado pela textura; vidros e peças só pelo mapa")
     # o material de cada face como veio no arquivo (vidro, pneu, chassi...), para o take 'material' do mapa
     nomes_mat = [(m.name.split(".")[0] if m else "") for m in me.materials]
-    cod = {"vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}
+    cod = CQ_COD if getattr(args, "cores_do_arquivo", False) else {k: v for k, v in CQ_COD.items() if v <= 5}
     if "cq_mat" in me.attributes:
         me.attributes.remove(me.attributes["cq_mat"])
     me.attributes.new("cq_mat", "INT", "FACE").data.foreach_set("value", [cod.get(nomes_mat[pg.material_index], 0) if pg.material_index < len(nomes_mat) else 0 for pg in me.polygons])
@@ -2445,6 +2500,9 @@ def principal_unica(args, meshes, cid, out, rel):
     me.attributes.new("cq_peca", "INT", "FACE").data.foreach_set("value", rot)
     guardar_normais(me)
     _materiais_unica(obj)
+    if getattr(args, "cores_do_arquivo", False):
+        _cores_do_arquivo(obj, rel)
+        mapa["_cores_do_arquivo"] = True
     pecas = _executar_mapa(obj, mapa, rodas, rel)
     obj.name = obj.data.name = "body"
     for nome_attr in ("cq_peca", "cq_mat"):
@@ -2454,7 +2512,7 @@ def principal_unica(args, meshes, cid, out, rel):
     for nome, (o, papel, origem) in pecas.items():
         finais[nome] = (o, papel, ["malha única, " + origem + " faces"])
     with open(os.path.join(out, "%s_mapa.json" % cid), "w", encoding="utf-8") as fh:
-        json.dump({k: v_ for k, v_ in mapa.items() if k != "_rotulos"}, fh, ensure_ascii=False, indent=1)
+        json.dump({k: v_ for k, v_ in mapa.items() if k not in ("_rotulos", "_cores_do_arquivo")}, fh, ensure_ascii=False, indent=1)
 
     rodas_por_nome = {r["nome"]: r for r in rodas}
     infos = []
