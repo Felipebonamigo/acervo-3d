@@ -1,0 +1,596 @@
+{
+ "car": "lambari",
+ "notes": "Mapa escrito à mão (30/10/2026) para o cupê de 2 portas dos anos 70 do Laerte.Hubaleque (Sketchfab, CC BY 4.0), já preparado pelo sketchfab_preparar_materiais.py com as regras de lambari_regras.json: as chapas do modelo são ilhas separadas, então porta, capô, tampa, para-lamas e para-choques vão por ilha inteira (ilhas: true) e só nos materiais listados; vidros pelo material; rodas pelo raio e pelo material. Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos. O carro real tem só o retrovisor do motorista (esquerdo). As caixas dos vidros são as medidas dos vidros do modelo (+1 cm): o kit desenha cabine, colunas e vão da porta por elas.",
+ "medidas": {
+  "comprimento": 4.12,
+  "meia_largura": 0.79,
+  "altura": 1.345,
+  "eixo_dianteiro": 1.1853,
+  "eixo_traseiro": -1.1853,
+  "raio_roda": 0.2994,
+  "linha_de_cintura": 0.91,
+  "coluna_a": 0.65,
+  "coluna_b": -0.46,
+  "base_do_para_brisa": 0.915,
+  "topo_para_choque_dianteiro": 0.55,
+  "topo_para_choque_traseiro": 0.575,
+  "topo_da_saia": 0.28,
+  "portas": 2,
+  "van": false
+ },
+ "parts": [
+  {
+   "name": "wheel_fl_rim",
+   "papel": "rim",
+   "take": "roda",
+   "material": "cromado",
+   "centro": [
+    1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.2
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "wheel_fl_tire",
+   "papel": "wheel",
+   "take": "roda",
+   "material": "pneu",
+   "centro": [
+    1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.33
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "wheel_fr_rim",
+   "papel": "rim",
+   "take": "roda",
+   "material": "cromado",
+   "centro": [
+    1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.2
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "wheel_fr_tire",
+   "papel": "wheel",
+   "take": "roda",
+   "material": "pneu",
+   "centro": [
+    1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.33
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "wheel_rl_rim",
+   "papel": "rim",
+   "take": "roda",
+   "material": "cromado",
+   "centro": [
+    -1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.2
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "wheel_rl_tire",
+   "papel": "wheel",
+   "take": "roda",
+   "material": "pneu",
+   "centro": [
+    -1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.33
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "wheel_rr_rim",
+   "papel": "rim",
+   "take": "roda",
+   "material": "cromado",
+   "centro": [
+    -1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.2
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "wheel_rr_tire",
+   "papel": "wheel",
+   "take": "roda",
+   "material": "pneu",
+   "centro": [
+    -1.1853,
+    0.0,
+    0.2994
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.8
+   ],
+   "raio": [
+    0.0,
+    0.33
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0
+  },
+  {
+   "name": "painel_vidro",
+   "papel": "remover",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    0.44,
+    0.52,
+    0.2,
+    0.56,
+    0.78,
+    0.95
+   ]
+  },
+  {
+   "name": "mirror_left",
+   "papel": "mirror",
+   "take": "faces",
+   "ilhas": true,
+   "box": [
+    0.29,
+    0.41,
+    0.69,
+    0.84,
+    0.85,
+    1.02
+   ],
+   "thickness": 0.004,
+   "pocket": 0.0
+  },
+  {
+   "name": "headlight_left",
+   "papel": "headlight",
+   "take": "faces",
+   "materiais": [
+    "lente_farol",
+    "cromo",
+    "chassi"
+   ],
+   "box": [
+    1.64,
+    1.8,
+    0.465,
+    0.7,
+    0.55,
+    0.765
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02,
+   "ignorar_rotulos": true
+  },
+  {
+   "name": "headlight_right",
+   "papel": "headlight",
+   "take": "faces",
+   "materiais": [
+    "lente_farol",
+    "cromo",
+    "chassi"
+   ],
+   "box": [
+    1.64,
+    1.8,
+    -0.7,
+    -0.465,
+    0.55,
+    0.765
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02,
+   "ignorar_rotulos": true
+  },
+  {
+   "name": "grille",
+   "papel": "grille",
+   "take": "faces",
+   "materiais": [
+    "cromo",
+    "chassi"
+   ],
+   "box": [
+    1.64,
+    1.8,
+    -0.465,
+    0.465,
+    0.55,
+    0.765
+   ],
+   "thickness": 0.006,
+   "pocket": 0.06,
+   "ignorar_rotulos": true
+  },
+  {
+   "name": "taillight_left",
+   "papel": "taillight",
+   "take": "faces",
+   "materiais": [
+    "luz_vermelha",
+    "luz_ambar",
+    "luz_branca",
+    "cromo",
+    "chassi"
+   ],
+   "box": [
+    -2.2,
+    -2.08,
+    0.345,
+    0.66,
+    0.575,
+    0.7
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02,
+   "ignorar_rotulos": true
+  },
+  {
+   "name": "taillight_right",
+   "papel": "taillight",
+   "take": "faces",
+   "materiais": [
+    "luz_vermelha",
+    "luz_ambar",
+    "luz_branca",
+    "cromo",
+    "chassi"
+   ],
+   "box": [
+    -2.2,
+    -2.08,
+    -0.66,
+    -0.345,
+    0.575,
+    0.7
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02,
+   "ignorar_rotulos": true
+  },
+  {
+   "name": "glass_windshield",
+   "papel": "glass_windshield",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    0.145,
+    0.665,
+    -0.66,
+    0.66,
+    0.905,
+    1.305
+   ],
+   "thickness": 0.006,
+   "pocket": 0.35
+  },
+  {
+   "name": "glass_rear",
+   "papel": "glass_rear",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -1.59,
+    -1.105,
+    -0.655,
+    0.655,
+    0.92,
+    1.27
+   ],
+   "thickness": 0.006,
+   "pocket": 0.35
+  },
+  {
+   "name": "glass_door_fl",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -0.452,
+    0.457,
+    0.555,
+    0.715,
+    0.896,
+    1.266
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_door_fr",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -0.452,
+    0.457,
+    -0.715,
+    -0.555,
+    0.896,
+    1.266
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_door_rl",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -1.198,
+    -0.475,
+    0.553,
+    0.69,
+    0.896,
+    1.266
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_door_rr",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -1.198,
+    -0.475,
+    -0.69,
+    -0.553,
+    0.896,
+    1.266
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "bumper_front",
+   "papel": "bumper_front",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "cromo",
+    "chassi"
+   ],
+   "box": [
+    1.6,
+    1.95,
+    -0.8,
+    0.8,
+    0.44,
+    0.6
+   ],
+   "thickness": 0.012,
+   "pocket": 0.0
+  },
+  {
+   "name": "bumper_rear",
+   "papel": "bumper_rear",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "cromo",
+    "chassi"
+   ],
+   "box": [
+    -2.3,
+    -1.96,
+    -0.8,
+    0.8,
+    0.46,
+    0.6
+   ],
+   "thickness": 0.012,
+   "pocket": 0.0
+  },
+  {
+   "name": "hood",
+   "papel": "hood",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "box": [
+    0.76,
+    1.86,
+    -0.66,
+    0.66,
+    0.66,
+    0.96
+   ],
+   "thickness": 0.012,
+   "pocket": 0.12
+  },
+  {
+   "name": "trunk",
+   "papel": "trunk",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "cromo"
+   ],
+   "box": [
+    -2.25,
+    -1.53,
+    -0.66,
+    0.66,
+    0.7,
+    0.97
+   ],
+   "thickness": 0.012,
+   "pocket": 0.12
+  },
+  {
+   "name": "door_fl",
+   "papel": "door",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "cromo"
+   ],
+   "box": [
+    -0.48,
+    0.66,
+    0.5,
+    0.84,
+    0.26,
+    1.3
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12
+  },
+  {
+   "name": "door_fr",
+   "papel": "door",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "cromo"
+   ],
+   "box": [
+    -0.48,
+    0.66,
+    -0.84,
+    -0.5,
+    0.26,
+    1.3
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12
+  },
+  {
+   "name": "fender_front_left",
+   "papel": "fender",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "box": [
+    0.55,
+    1.8,
+    0.5,
+    0.86,
+    0.2,
+    0.95
+   ],
+   "thickness": 0.012,
+   "pocket": 0.1
+  },
+  {
+   "name": "fender_front_right",
+   "papel": "fender",
+   "take": "faces",
+   "ilhas": true,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "box": [
+    0.55,
+    1.8,
+    -0.86,
+    -0.5,
+    0.2,
+    0.95
+   ],
+   "thickness": 0.012,
+   "pocket": 0.1
+  }
+ ]
+}

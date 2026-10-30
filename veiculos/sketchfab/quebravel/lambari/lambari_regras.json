@@ -1,0 +1,139 @@
+{
+ "notas": "Regras do sketchfab_preparar_materiais.py para o cupê de 2 portas dos anos 70 do Laerte.Hubaleque (Sketchfab, CC BY 4.0), o Lambari do Detonauto (30/10/2026). Saem o escapamento (o kit põe o dele), o interior (o kit do acervo põe o da época 70), os emblemas e os freios; a lataria vira pintura pela cor azul da textura e o resto dela (vão da porta, borracha) chassi; as peças externas pela cor e pelo metal da textura. O metal da carroceria (para-choques, frisos, molduras) é `cromo` (no jogo, o MI_DNCromoCoupe); o aro fica `cromado` (o corte o acha por esse material, e o jogo põe as rodas de kit no lugar).",
+ "comprimento": 4.12,
+ "frente": "-y",
+ "angulo": 30,
+ "aresta": 0,
+ "fora": [
+  "^Assoalho",
+  "^Box060",
+  "^PecasInternas",
+  "^Volante",
+  "^Ponteiro",
+  "^Logo",
+  "^Disco",
+  "^Pastilha",
+  "^TamborLona",
+  "^Escapamento"
+ ],
+ "objetos": [
+  {
+   "nome": "^Body_",
+   "material": "cor"
+  },
+  {
+   "nome": "^ParabrisaeVidros",
+   "material": "vidro"
+  },
+  {
+   "nome": "^Pneu_.*_Pneu",
+   "material": "pneu"
+  },
+  {
+   "nome": "^Pneu_.*_Rodas",
+   "material": "cromado"
+  },
+  {
+   "nome": ".",
+   "material": "cor"
+  }
+ ],
+ "cores": [
+  {
+   "objeto": "^Body_",
+   "material": "pintura",
+   "h": [
+    180,
+    240
+   ],
+   "s": [
+    0.35,
+    1.0
+   ]
+  },
+  {
+   "objeto": "^Body_",
+   "material": "chassi"
+  },
+  {
+   "objeto": "^Far",
+   "material": "chassi",
+   "v": [
+    0.0,
+    0.3
+   ]
+  },
+  {
+   "objeto": "^Far",
+   "material": "lente_farol"
+  },
+  {
+   "material": "luz_vermelha",
+   "h": [
+    340,
+    15
+   ],
+   "s": [
+    0.5,
+    1.0
+   ],
+   "v": [
+    0.25,
+    1.0
+   ]
+  },
+  {
+   "material": "luz_ambar",
+   "h": [
+    15,
+    55
+   ],
+   "s": [
+    0.5,
+    1.0
+   ],
+   "v": [
+    0.3,
+    1.0
+   ]
+  },
+  {
+   "objeto": "^Lanternas",
+   "material": "luz_branca",
+   "s": [
+    0.0,
+    0.25
+   ],
+   "v": [
+    0.6,
+    1.0
+   ],
+   "metal": [
+    0.0,
+    0.5
+   ]
+  },
+  {
+   "material": "cromo",
+   "metal": [
+    0.5,
+    1.0
+   ],
+   "v": [
+    0.3,
+    1.0
+   ]
+  },
+  {
+   "material": "chassi"
+  }
+ ],
+ "ilhas_pequenas": [
+  {
+   "objeto": "^Body_",
+   "de": "chassi",
+   "para": "pintura",
+   "max_faces": 40
+  }
+ ]
+}
