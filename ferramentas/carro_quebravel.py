@@ -144,6 +144,10 @@ def parse_args(argv):
     # malha única: as faces que vieram em `chassi` (plástico preto: alargador, estribo, moldura, estepe do jipe) continuam `chassi`
     # nas peças; sem a opção tudo o que o mapa não pega por material vira `pintura`, como sempre foi
     p.add_argument("--manter-chassi", action="store_true")
+    # malha única: não solda os vértices repetidos (modelo feito por gente, com cada peça numa ilha: a solda grudava peças vizinhas)
+    p.add_argument("--sem-solda", action="store_true")
+    # malha única: as faces que chegam com material cromado ou chassi ficam nele (sem a opção, tudo que não é peça vira pintura)
+    p.add_argument("--materiais-entrada", action="store_true")
     # malha única (Meshy): automático quando o arquivo tem um objeto só
     p.add_argument("--malha-unica", action="store_true", help="força o modo malha única")
     p.add_argument("--em-pecas", action="store_true", help="força o modo em peças mesmo com um objeto só")
@@ -1108,10 +1112,12 @@ def _componentes(sel, viz):
         lab = novo
 
 
-def _soldar(obj, rel, manter_normais=False):
+def _soldar(obj, rel, manter_normais=False, soldar=True):
     """
     Solda os vértices repetidos das costuras de UV (os UVs ficam nos cantos) e marca arestas vivas acima de 50 graus. Com manter_normais,
-    a normal de cada canto que veio no arquivo atravessa a solda (atributo de canto) e volta como normal personalizada.
+    a normal de cada canto que veio no arquivo atravessa a solda (atributo de canto) e volta como normal personalizada. Com soldar=False
+    (--sem-solda) os vértices ficam como vieram: no Besouro do Sketchfab o para-lama traseiro encosta na lateral vértice com vértice, e a
+    solda o grudava na carroceria (o take "ilhas" não o achava mais).
     """
     import bmesh
     me = obj.data
@@ -1120,7 +1126,8 @@ def _soldar(obj, rel, manter_normais=False):
     bm = bmesh.new()
     bm.from_mesh(me)
     v0 = len(bm.verts)
-    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-4)
+    if soldar:
+        bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-4)
     borda = sum(1 for e in bm.edges if len(e.link_faces) == 1)
     lim = math.radians(50.0)
     for e in bm.edges:
@@ -2021,6 +2028,36 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
             if dentro >= minimo * len(ilha) and dentro > 0:
                 out.extend(ilha)
         return out
+    if take == "ilhas":
+        # ilhas ligadas inteiras (o Besouro do Sketchfab traz cada peça modelada à parte: porta, para-lama, tampa): vai a ilha com
+        # pelo menos 'fracao_na_caixa' das faces dentro da caixa (e, com 'n_min', de pelo menos tantas faces); nada é cortado.
+        # 'fora': caixas de exclusão (a ilha com essa fração dentro de uma delas fica: o forro da caixa de roda sob a tampa da frente)
+        minimo = p.get("fracao_na_caixa", 0.9)
+        n_min = p.get("n_min", 1)
+        fora = p.get("fora", [])
+        visto = set()
+        for f0 in bm.faces:
+            if f0 in visto:
+                continue
+            pilha, ilha = [f0], []
+            visto.add(f0)
+            while pilha:
+                g = pilha.pop()
+                ilha.append(g)
+                for e in g.edges:
+                    for h in e.link_faces:
+                        if h not in visto:
+                            visto.add(h)
+                            pilha.append(h)
+            if len(ilha) < n_min:
+                continue
+            cs = [g.calc_center_median() for g in ilha]
+            if sum(1 for c in cs if _na_caixa(c, b)) < minimo * len(ilha):
+                continue
+            if any(sum(1 for c in cs if _na_caixa(c, fb)) >= minimo * len(ilha) for fb in fora):
+                continue
+            out.extend(ilha)
+        return out
     if take == "roda":
         cx, _, cz = p["centro"]
         s = p["lado"]
@@ -2033,6 +2070,26 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
             d = _m.hypot(c.x - cx, c.z - cz)
             if r0 <= d < r1 and y0 <= c.y * s <= y1 and (so is None or f[camada_mat] == so):
                 out.append(f)
+        if p.get("so_ilhas"):
+            # só ilhas inteiras (90% das faces no cilindro): no Besouro do Sketchfab o cilindro do pneu pegava, em zigue-zague, os
+            # triângulos da borda do para-lama, e no jogo (rodas de kit no lugar) a borda ficava com dentes
+            sel = set(out)
+            visto, out = set(), []
+            for f0 in sel:
+                if f0 in visto:
+                    continue
+                pilha, ilha = [f0], []
+                visto.add(f0)
+                while pilha:
+                    g = pilha.pop()
+                    ilha.append(g)
+                    for e in g.edges:
+                        for h in e.link_faces:
+                            if h not in visto:
+                                visto.add(h)
+                                pilha.append(h)
+                if sum(1 for g in ilha if g in sel) >= 0.9 * len(ilha):
+                    out.extend(g for g in ilha if g in sel)
         return out
     if take == "ilha":
         # carro do Sketchfab com as peças do autor (sketchfab_juntar.py): cada ilha ligada (uma porta, o capô, a tampa) vai inteira
@@ -2251,8 +2308,9 @@ def _caixa_de_roda(bm, r, escuro):
         f.material_index = escuro
 
 
-def _executar_mapa(obj, mapa, rodas, rel, manter_materiais=False):
-    """Tira as peças da carroceria na ordem do mapa. Devolve {nome: (objeto, papel, origem)} e a carroceria."""
+def _executar_mapa(obj, mapa, rodas, rel, manter_materiais=False, materiais_entrada=False):
+    """Tira as peças da carroceria na ordem do mapa. Devolve {nome: (objeto, papel, origem)} e a carroceria. Com materiais_entrada,
+    faróis e lanternas ficam com os materiais das faces (lente luz, aro cromado, caixa pintada) em vez de luz inteiros."""
     import bmesh
     import bpy
     me = obj.data
@@ -2292,8 +2350,8 @@ def _executar_mapa(obj, mapa, rodas, rel, manter_materiais=False):
             bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
             bm.faces.ensure_lookup_table()
             continue
-        nb = _casca(bm, faces, float(p.get("thickness", 0.0)), escuro, True, nucleo,
-                    None if mapa.get("_cores_do_arquivo") else mat_papel.get(papel))
+        mf = None if (mapa.get("_cores_do_arquivo") or (materiais_entrada and papel in ("headlight", "taillight"))) else mat_papel.get(papel)
+        nb = _casca(bm, faces, float(p.get("thickness", 0.0)), escuro, True, nucleo, mf)
         if float(p.get("pocket", 0.0)) > 0.0:
             # "pocket_z_max": o vão escuro só sob essa altura (porta com o quadro da janela: acima da cintura o vão tapava a janela)
             fv = faces if p.get("pocket_z_max") is None else [f for f in faces if f.calc_center_median().z <= p["pocket_z_max"]]
@@ -2558,7 +2616,7 @@ def principal_unica(args, meshes, cid, out, rel):
         juntar(meshes, "malha")
     obj = [o for o in bpy.data.objects if o.type == "MESH"][0]
     assar_transformacoes([obj])
-    _soldar(obj, rel, getattr(args, "manter_normais", False))
+    _soldar(obj, rel, getattr(args, "manter_normais", False), not getattr(args, "sem_solda", False))
     _orientar_unica(obj, args.frente, rel)
     me = obj.data
     cen, nor, area = _faces_np(me)
@@ -2660,7 +2718,18 @@ def principal_unica(args, meshes, cid, out, rel):
         mi = np.array([idx_m[nomes_orig[k]] if k >= 0 else 0 for k in orig_face], np.int32)
         me.polygons.foreach_set("material_index", mi)
         rel["avisos"].append("--manter-materiais: %s" % ", ".join(nomes_orig))
-    pecas = _executar_mapa(obj, mapa, rodas, rel, manter)
+    if getattr(args, "materiais_entrada", False):
+        # cromado e chassi como vieram do arquivo (sketchfab_reagrupar.py pela textura original: frisos, para-choques, borrachas)
+        idx_m = {m.name: i for i, m in enumerate(me.materials)}
+        cq = _arr(me, "polygons", "material_index", 1, np.int32)
+        cm = np.empty(len(me.polygons), np.int32)
+        me.attributes["cq_mat"].data.foreach_get("value", cm)
+        cq[cm == cod["cromado"]] = idx_m["cromado"]
+        cq[cm == cod["chassi"]] = idx_m[MAT_ESCURO]
+        cq[cm == cod["luz"]] = idx_m["luz"]
+        me.polygons.foreach_set("material_index", cq)
+        rel["materiais_entrada"] = {k: int((cm == cod[k]).sum()) for k in ("cromado", "chassi", "luz")}
+    pecas = _executar_mapa(obj, mapa, rodas, rel, manter, getattr(args, "materiais_entrada", False))
     obj.name = obj.data.name = "body"
     for nome_attr in ("cq_peca", "cq_mat"):
         if nome_attr in me.attributes:
