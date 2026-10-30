@@ -869,8 +869,15 @@ preparo e o corte passou a usar as juntas que o autor modelou.
 - **Saída (30/10):** `veiculos/sketchfab/quebravel/furgaozinho/` (35 peças, ~204 mil triângulos; entre-eixos 2,343 m, roda 26,2 cm,
   teto 1,38 m, 1,56 m com o bagageiro; o bagageiro é a peça `roof_rack`, onde a escada do jogo vai presa) e
   `veiculos/sketchfab/completo/furgaozinho/` (kit época 90 de furgão, 90 peças). O vidro de quarta fica na carroceria.
-- **Falta:** prévias com `previa_carro.py` e a cadeia de conferência, que precisam do repositório do Detonauto ao lado (esta sessão
-  não conseguiu acesso a ele); o interior do kit ainda tem colunas do vão aparecendo pelo para-brisa.
+- **Prévias (30/10):** `veiculos/sketchfab/previas/furgaozinho/` (4 vistas, detalhes, 6 cores e os 5 acabamentos), com
+  `previa_carro.py` no HDRI da rua, `RODAS=aro_aco13,pneu_p165_70,calota13` e a nova `ESCADA=veiculos/proprios/escada-aluminio.glb`
+  (a escada no bagageiro pela regra do `montar_escada_no_teto.py` do Detonauto, apoiada nas barras a 1,445 m). O kit foi refeito com a
+  porta de moldura do Jabuti: as colunas do vão não aparecem mais pela janela.
+- **Cadeia do Detonauto (30/10, na nuvem):** amassado com 35 malhas, 19 malhas com esqueleto e a roda (cubo a 67 cm; portas de trás,
+  bagageiro, grade e retrovisores na carroceria), textura e tinta, 11 malhas do kit. Dados, testes e pedido para o PC no Detonauto
+  (`docs/pedido-pc-furgaozinho-completo.md`, `-Modelo Furgaozinho -Row furgaozinho-da-firma`).
+- **Pendente:** a soleira do kit sob as portas (o modelo não tem chapa ali) sai na cor do carro sem a textura de desgaste, um tom mais
+  claro que a lataria, no jogo e na prévia; e a escada ainda não entra no jogo pelo kit, só pelo script do GLB.
 
 ## Sagui do Sketchfab: carro "de jogo" montado por receita (30/10/2026)
 
