@@ -720,7 +720,7 @@ novas sobre a mesma entrada e deu a mesma malha, as mesmas normais e a mesma tex
 - **`carro_completo.py`:** `--puxar-para-dentro`: a recolha na casca inclui o vão da porta e o motor, alcança 10 cm, só conta a face da
   casca que olha para fora (a de trás do para-brisa enganava) e baixa a cabine e o motor à frente do para-brisa para baixo da chapa. Sem isso as
   colunas do vão furavam o teto arredondado nos cantos, a frente do painel aparecia por cima do capô e a travessa do radiador pela
-  fresta do capô.
+  fresta do capô. As lentes também contam como casca: o para-lama interno do cofre furava o farol oval (um triângulo azul na lente).
 - **No Detonauto:** `Tools/Unreal/montar-cuiabano-completo.ps1 -Id caipora -Modelo Caipora` (parâmetros novos `-Modelo`, `-Row` e
   `-BoneZ`, com o Cuiabano de padrão); linhas `caipora-*` em `Data/CarWheels.csv`, `CarAttach.csv`, `CarParts.csv` e `CarGlass.csv`
   (as mesmas peças e vidros do Cuiabano); o jogo abre o Caipora com `-DNModel=Caipora`.

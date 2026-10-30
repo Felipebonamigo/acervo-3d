@@ -4809,7 +4809,8 @@ def principal(argv):
     if corte_objs:
         if a.puxar_para_dentro:
             andou = recolher_na_casca(objs, corte_objs, alcance=0.10, grupos=("habitaculo", "porta", "porta_malas", "vao_porta", "motor"),
-                                      so_de_fora=True, lentes=a.aparar_mais is not None)
+                                      so_de_fora=True, lentes=True)
+            # as lentes contam como casca: o para-lama interno do cofre furava o farol oval do Caipora (um triângulo azul na lente)
             # à frente da base do para-brisa a cabine e o motor ficam embaixo da chapa: no Caipora o capô passa por baixo do
             # para-brisa e a frente do painel aparecia por cima dele, e a travessa do radiador pela fresta entre o capô e a grade
             n_baixou = 0
