@@ -13,7 +13,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
     python -I ferramentas/detalhes_na_casca.py -- <corte>.glb <saida>.glb [--sem-friso] [--sem-faixa] [--sem-limpador]
         [--sem-macaneta] [--z-friso 0.58] [--z-faixa 0.42]
         Sagui (30/10/2026), carro já detalhado no modelo: [--sem-luzes] [--sem-retrovisor] [--placa-tras-no-para-choque]
-        Trilheiro (jipe, 30/10/2026): [--farol-redondo] [--grade-limpa] [--z-macaneta 1.05]
+        Trilheiro (jipe, 30/10/2026): [--farol-redondo] [--grade-limpa] [--z-macaneta 1.05] [--avental-preto 1.45 0.665]
         Pão de Forma (furgão, 30/10/2026): [--sem-lanternas] (as lanternas ficam como vieram) [--sem-folha-solta]
 
         Tupiniquim (hatch de 5 portas, 30/10/2026), luzes, grade e retrovisores com forma própria, sem refazer em caixa:
@@ -62,6 +62,9 @@ def opt(name, default):
 Z_FRISO = opt("--z-friso", 0.58)
 Z_FAIXA = opt("--z-faixa", 0.42)
 Z_MACANETA = opt("--z-macaneta", 0.0)          # 0: a regra do Gol (12 cm abaixo do topo da porta, ou 0,79 m)
+# --avental-preto X Z (jipe, 30/10/2026): a pintura da carroceria e dos para-lamas da frente com o centro à frente de X e abaixo de Z
+# vira chassi (o avental entre o para-choque e os faróis; no jogo sobrava verde em volta das setas)
+AVENTAL = [float(args[args.index("--avental-preto") + 1]), float(args[args.index("--avental-preto") + 2])] if "--avental-preto" in args else None
 relatorio = []
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -1186,7 +1189,8 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
     esq = "left" in nome
     if sinal > 0 and "--farol-redondo" in args:
         xm = xm_luz
-        farol_redondo(w, box, slot(o, "pintura"), m_preto, slot(o, "lente_farol"), m_ref, m_lente, slot(o, "luz_ambar"),
+        # moldura preta em volta do farol e da seta (no jogo a peça é de vidro: a "pintura" dela saía branca, sem a tinta trocável)
+        farol_redondo(w, box, m_preto, m_preto, slot(o, "lente_farol"), m_ref, m_lente, slot(o, "luz_ambar"),
                       x_face=None if xm is None else xm + 0.01)
         w.fechar()
         relatorio.append("%s: farol redondo de %.0f cm com lente clara e refletor" % (nome, (box[3] - box[2]) * 100))
@@ -1679,6 +1683,27 @@ for nome, sinal in (("plate_front", 1), ("plate_rear", -1)):
         w.caixa((xf + sinal * 0.002, yy, z1 - 0.022), 0.004, 0.012, 0.012, m_preto)
     w.fechar()
     relatorio.append("%s: placa %.0fx%.0f cm em branco, com moldura" % (nome, (y1 - y0) * 100, (z1 - z0) * 100))
+
+# ------------------------------------------------------------------------------------------- avental preto (jipe)
+if AVENTAL:
+    for nome in ("body", "fender_front_left", "fender_front_right"):
+        o = objs.get(nome)
+        if not o:
+            continue
+        nomes = mat_names(o)
+        if "pintura" not in nomes:
+            continue
+        i_p, i_c = nomes.index("pintura"), slot(o, "chassi")
+        mw = o.matrix_world
+        n = 0
+        for p in o.data.polygons:
+            if p.material_index == i_p:
+                c = mw @ p.center
+                if c.x >= AVENTAL[0] and c.z <= AVENTAL[1]:
+                    p.material_index = i_c
+                    n += 1
+        o.data.update()
+        relatorio.append("avental preto em %s: %d faces" % (nome, n))
 
 # ------------------------------------------------------------------------------------------- para-choques pretos
 if "--para-choque-pintado" not in args:

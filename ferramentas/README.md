@@ -634,7 +634,7 @@ grade dele tem as 7 fendas verticais de uma marca: ela sai e entra uma grade de 
     python -I ferramentas/borracha_vidro.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb
     python -I ferramentas/detalhes_na_casca.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb --sem-arco-redondo \
         --sem-face-para-choque --sem-quebra-vento --sem-friso --sem-faixa --sem-sinaleira --sem-macaneta --z-placa 0.40 \
-        --farol-redondo --grade-limpa
+        --farol-redondo --grade-limpa --avental-preto 1.45 0.665
     python -I ferramentas/assar_desgaste.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb --tamanho 2048 --amostras 32
     python -I ferramentas/carro_completo.py -- --corte <corte> --id jipe-capota --out <kit> --epoca 2000 --aparar-mais --aparar-alto 0.12
 
@@ -669,6 +669,12 @@ grade dele tem as 7 fendas verticais de uma marca: ela sai e entra uma grade de 
 - **Prévias com os materiais do jogo** (`previa_carro.py`, HDRI da rua, `RODAS=aro_aco15,pneu_p215_75,`): `veiculos/sketchfab/previas/
   jipe-capota/` (4 vistas, detalhes de frente, traseira e roda, 8 cores e 5 acabamentos de `Data/PaintFinishes.csv`). A quina chanfrada
   do capô reflete o céu e parece uma lasca clara: é reflexo, aparece igual com e sem o kit.
+- **No jogo (capturas do PC, 30/10, noite):** grade de barras, faróis redondos e nada do cofre na frente, como nas prévias. Dois
+  defeitos que a prévia escondia: a chapa em volta do farol e da seta saía **branca** (ela fica na peça de vidro do farol, e a tinta
+  trocável do jogo não chega ao vidro), com triângulos finos em leque em volta da seta que pareciam estilhaços; e sobrava **verde**
+  no avental entre o para-choque e os faróis. Agora o `--farol-redondo` faz a moldura em plástico preto e o `--avental-preto X Z`
+  (novo) põe em `chassi` a pintura da carroceria e dos para-lamas à frente de X e abaixo de Z. As rodas saem escuras no jogo em
+  todos os carros de aro de aço (o Besouro também): é o material do aro no jogo, não deste carro.
 - **Detonauto (30/10):** cadeia de conferência passou (`make_crush_channels.py`, `kit_to_detonauto.py`, `glb_texturas.py`,
   `kit_completo_to_detonauto.py` com `--modelo Trilheiro`); dados, specs e o pedido para o PC (`docs/pedido-pc-trilheiro.md`) lá.
 ## Caipora do Sketchfab (30/10/2026)
