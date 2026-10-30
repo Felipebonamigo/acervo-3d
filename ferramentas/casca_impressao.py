@@ -5,16 +5,21 @@ uma chapa de assoalho). Nada aqui muda a cadeia do Gol Quadrado, que já traz os
     python -I ferramentas/casca_impressao.py -- --entrada <scene.gltf> --out <pasta>/<id>_casca.glb --comp 4.39
         [--razao 0.3] [--aro aro_liga14] [--pneu pneu_p185_60] [--rodas veiculos/proprios/rodas] [--frente -y] [--so-casca]
 
+Depois: sketchfab_preparar.py com VIDRO_TODO=1 e --manter-materiais --sem-pca --meio-pela-caixa --soldar 0.0001.
 Casca com ondas: grave a casca cheia (--so-casca --razao 1), alise com a alisar_lataria.py e rode de novo sobre ela com --frente +x.
 
 1. Junta, solda (0,5 mm), tira as ilhas soltas, põe frente em +X, centra e reduz (colapso, --razao).
 2. Mede a casca por raios numa grade de 5 mm: lateral (de +Y e de -Y) e topo.
 3. Vidros: janela lateral é o que o raio atravessa de lado a lado acima de 0,55 m; para-brisa e vidro traseiro, o que o raio de cima
    atravessa. Para cada janela, um polinômio de poucos termos ajustado ao anel de chapa em volta (robusto: o que foge 1 cm sai) dá a
-   superfície; o vidro fica 4 mm para dentro dela, com 5 mm de espessura, e cobre o furo com 5 mm de folga (a borda some na chapa).
+   superfície; o vidro fica 4 mm para dentro dela, face de fora e face de trás 5 mm atrás (ilhas separadas), e cobre o furo com 5 mm de folga (a borda some na chapa).
 4. Rodas: as caixas de roda são o fundo da lateral que sobe acima de 0,25 m; um círculo ajustado a cada uma dá o centro. O pneu e o aro
    do kit entram no centro, encostados por dentro da lataria, e a casca sobe até o pneu tocar o chão (z = 0).
 5. Assoalho: chapa plana entre as soleiras, de eixo a eixo, no material de chassi.
+6. Pele de fora: a parede de ~3 cm da impressão dobra a casca (o atlas da assar_desgaste.py caía a 84 texels por metro e o kit
+   esbarrava na pele de dentro). Fica só o que se vê de fora: raios de --pele-direcoes direções (esfera de Fibonacci), numa grade de
+   --pele-passo m, com os vidros e uma chapa de chão de ponta a ponta tapando a cabine; face com 2 vizinhas visíveis também fica
+   (3 voltas) e ilhas de menos de 200 faces saem. Fica como a casca de uma face só do Gol. --manter-parede pula o passo.
 """
 import bpy, bmesh, sys, os, json, math, argparse, numpy as np
 from mathutils import Vector, Matrix
@@ -32,6 +37,9 @@ ap.add_argument("--pneu", default="pneu_p185_60")
 ap.add_argument("--rodas", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "veiculos", "proprios", "rodas"))
 ap.add_argument("--frente", default="-y", help="eixo da frente no arquivo, depois de importado (Blender, Z para cima)")
 ap.add_argument("--so-casca", action="store_true", help="grava só a casca orientada e soldada (para alisar antes de reduzir) e para")
+ap.add_argument("--manter-parede", action="store_true", help="não tira a pele de dentro (a casca sai maciça, com a parede inteira)")
+ap.add_argument("--pele-direcoes", type=int, default=160)
+ap.add_argument("--pele-passo", type=float, default=0.012)
 ap.add_argument("--z-janela", type=float, default=0.55, help="abaixo disso o furo lateral não é janela")
 a = ap.parse_args(sys.argv[sys.argv.index("--") + 1:])
 H = 0.005
@@ -173,10 +181,12 @@ def malha_vidro(nome, mask, us, vs, prof, normal_fora, espessura=0.005):
     for f in bmv.faces:
         if f.normal.dot(normal_fora) < 0:
             f.normal_flip()
-    ex = bmesh.ops.extrude_face_region(bmv, geom=bmv.faces[:])
-    nv = [g for g in ex["geom"] if isinstance(g, bmesh.types.BMVert)]
-    bmesh.ops.translate(bmv, verts=nv, vec=-normal_fora * espessura)
-    bmesh.ops.recalc_face_normals(bmv, faces=bmv.faces[:])
+    # face de trás como ilha à parte, sem a borda: a borracha_vidro.py acha o contorno limpo da face de fora (numa placa fechada o
+    # contorno ramificava na borda e o laço caía a 4 pontos)
+    dup = bmesh.ops.duplicate(bmv, geom=bmv.faces[:])
+    tras = [g for g in dup["geom"] if isinstance(g, bmesh.types.BMFace)]
+    bmesh.ops.translate(bmv, verts=[g for g in dup["geom"] if isinstance(g, bmesh.types.BMVert)], vec=-normal_fora * espessura)
+    bmesh.ops.reverse_faces(bmv, faces=tras)
     mv = bpy.data.meshes.new(nome)
     bmv.to_mesh(mv)
     bmv.free()
@@ -310,6 +320,96 @@ mr = bpy.data.meshes.new("rodas")
 bmr.to_mesh(mr)
 bmr.free()
 
+# 6. pele de fora
+if not a.manter_parede:
+    bmc = bmesh.new()
+    bmc.from_mesh(casca.data)
+    bmc.faces.ensure_lookup_table()
+    bvh_c = BVHTree.FromBMesh(bmc)
+    bmo = bmesh.new()
+    for v in vidros:
+        bmo.from_mesh(v)
+    Pc = np.array([v.co for v in casca.data.vertices])
+    mn, mx = Pc.min(0), Pc.max(0)
+    bmo.faces.new([bmo.verts.new(c) for c in [(mn[0] - 0.05, -0.84, z_sol), (mx[0] + 0.05, -0.84, z_sol),
+                                              (mx[0] + 0.05, 0.84, z_sol), (mn[0] - 0.05, 0.84, z_sol)]])
+    bvh_o = BVHTree.FromBMesh(bmo)
+    cen = Vector((mn + mx) / 2)
+    Rb = float(np.linalg.norm(mx - mn)) / 2
+    cantos = [Vector((x, y, z)) for x in (mn[0], mx[0]) for y in (mn[1], mx[1]) for z in (mn[2], mx[2])]
+    vis = np.zeros(len(bmc.faces), bool)
+    ga = math.pi * (3 - math.sqrt(5))
+    for k in range(a.pele_direcoes):
+        zz = 1 - 2 * (k + 0.5) / a.pele_direcoes
+        rr = math.sqrt(1 - zz * zz)
+        d = Vector((rr * math.cos(ga * k), rr * math.sin(ga * k), zz))
+        u = d.orthogonal().normalized()
+        w = d.cross(u)
+        pu = [(c - cen).dot(u) for c in cantos]
+        pw = [(c - cen).dot(w) for c in cantos]
+        for au in np.arange(min(pu), max(pu), a.pele_passo):
+            for aw in np.arange(min(pw), max(pw), a.pele_passo):
+                o = cen + d * (Rb + 1) + u * au + w * aw
+                h = bvh_c.ray_cast(o, -d, 2 * Rb + 2)
+                if h[0] is None:
+                    continue
+                ho = bvh_o.ray_cast(o, -d, h[3])
+                if ho[0] is not None and ho[3] < h[3] - 1e-4:
+                    continue
+                vis[h[2]] = True
+    viz = [[g.index for e in f.edges for g in e.link_faces if g is not f] for f in bmc.faces]
+    for _ in range(3):
+        novo = vis.copy()
+        for i, nb in enumerate(viz):
+            if not vis[i] and sum(vis[j] for j in nb) >= 2:
+                novo[i] = True
+        vis = novo
+    bmesh.ops.delete(bmc, geom=[f for f in bmc.faces if not vis[f.index]], context="FACES")
+    lab, grupos = {}, []
+    for f in bmc.faces:
+        if f in lab:
+            continue
+        pilha, g = [f], [f]
+        lab[f] = len(grupos)
+        while pilha:
+            x = pilha.pop()
+            for e in x.edges:
+                for h in e.link_faces:
+                    if h not in lab:
+                        lab[h] = len(grupos)
+                        pilha.append(h)
+                        g.append(h)
+        grupos.append(g)
+    peq = [f for g in grupos if len(g) < 200 for f in g]
+    bmesh.ops.delete(bmc, geom=peq, context="FACES")
+    bmesh.ops.delete(bmc, geom=[v for v in bmc.verts if not v.link_faces], context="VERTS")
+    antes = len(casca.data.polygons)
+    bmc.to_mesh(casca.data)
+    bmc.free()
+    bmo.free()
+    casca.data.update()
+    medidas["pele_de_fora"] = dict(faces_antes=antes, faces_depois=len(casca.data.polygons), ilhas_pequenas_tiradas=len(peq))
+    print(f"pele de fora: {antes} -> {len(casca.data.polygons)} faces")
+
+# 7. materiais com os nomes dos papéis (rode a preparação com --manter-materiais): a parede funda da caixa de roda (a casca maciça
+# tem a soleira e o fundo do para-lama cheios, e a parede saía pintada como uma placa dentro do arco) vai para `chassi`
+mats = {}
+for nome in ("pintura", "chassi", "vidro"):
+    mats[nome] = bpy.data.materials.new(nome)
+cme = casca.data
+cme.materials.clear()
+cme.materials.append(mats["pintura"])
+cme.materials.append(mats["chassi"])
+n_poco = 0
+for p in cme.polygons:
+    c = p.center
+    for r in medidas["rodas"]:
+        if math.hypot(c.x - r["x"], c.z - R) < r["raio_arco"] + 0.04 and abs(c.y) < r["y_fora"] + 0.005:
+            p.material_index = 1
+            n_poco += 1
+            break
+medidas["faces_caixa_de_roda_chassi"] = n_poco
+print(f"caixas de roda: {n_poco} faces da parede de dentro em chassi")
 # saída: 3 objetos (carroceria, vidros, rodas)
 bmv = bmesh.new()
 for v in vidros:
@@ -317,6 +417,7 @@ for v in vidros:
 mv = bpy.data.meshes.new("vidros")
 bmv.to_mesh(mv)
 bmv.free()
+mv.materials.append(mats["vidro"])
 for nome, malha in (("vidros", mv), ("rodas", mr)):
     o = bpy.data.objects.new(nome, malha)
     bpy.context.scene.collection.objects.link(o)

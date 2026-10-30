@@ -763,20 +763,29 @@ Para cada carro nacional, uma sessão. Os passos, na ordem:
 
 Para modelo do Sketchfab que é só uma **casca maciça de impressão 3D** (STL com a lataria de ~3 cm de parede, janelas e caixas de roda
 furadas, sem vidro, sem roda, sem assoalho e sem material). Entrega os 3 objetos que a `sketchfab_preparar.py` espera (`carroceria`,
-`vidros`, `rodas`), sem mexer na cadeia do Gol:
+`vidros`, `rodas`), com os materiais pelos nomes dos papéis, sem mexer na cadeia do Gol:
 
     python -I ferramentas/casca_impressao.py -- --entrada <scene.gltf> --out <pasta>/<id>_casca.glb --comp <m> [--razao 0.3]
-        [--aro aro_liga14] [--pneu pneu_p185_60] [--frente -y] [--so-casca]
+        [--aro aro_liga14] [--pneu pneu_p185_60] [--frente -y] [--manter-parede] [--pele-direcoes 160] [--pele-passo 0.012] [--so-casca]
+    VIDRO_TODO=1 python -I ferramentas/sketchfab_preparar.py -- <pasta>/<id>_casca.glb <prep>.glb "carroceria,vidros,rodas" <comp> <alt> \
+        0.06 30 0 --sem-pca --meio-pela-caixa --soldar 0.0001 --manter-materiais
 
 - Junta, solda, tira ilhas soltas, põe a frente em +X e reduz (colapso).
-- Vidros por raios numa grade de 5 mm: janela lateral é o que o raio atravessa de lado a lado acima de 0,55 m; para-brisa e vidro
+- **Vidros** por raios numa grade de 5 mm: janela lateral é o que o raio atravessa de lado a lado acima de 0,55 m; para-brisa e vidro
   traseiro, o que o raio de cima atravessa sem se ligar à borda da grade. A superfície de cada vidro é um polinômio ajustado ao anel
-  de chapa em volta (robusto), 4 mm para dentro, 5 mm de espessura.
-- Rodas do `rodas_kit` no centro do círculo ajustado a cada caixa de roda, 2,5 cm por dentro da lataria; a casca sobe até o pneu
-  tocar o chão. Assoalho plano entre as soleiras (material de chassi na preparação).
-- Primeiro uso: candidato do Barão (sedã), 30/10/2026. Entre-eixos e altura medidos batem com a referência, e os 8 vidros saem
-  certos. A chapa desse modelo vem ondulada no próprio arquivo, e o `alisar_lataria.py` piorou nos dois testes (com a camada de
-  3 cm ele mistura as duas peles; com 1,2 cm continua enrugando). Uma casca assim pede superfície refeita, como na `carroceria_limpa/`.
+  de chapa em volta (robusto), 4 mm para dentro; a face de trás fica 5 mm atrás, em ilha separada (numa placa fechada o contorno da
+  face de fora ramificava na borda e a `borracha_vidro.py` achava só 4 pontos).
+- **Rodas** do `rodas_kit` no centro do círculo ajustado a cada caixa de roda, 2,5 cm por dentro da lataria; a casca sobe até o pneu
+  tocar o chão. Assoalho plano entre as soleiras.
+- **Pele de fora:** a parede de 3 cm dobrava a casca (o atlas da `assar_desgaste.py` caía a 84 texels por metro e o kit esbarrava na
+  pele de dentro). Fica só o que se vê de fora: raios de 160 direções numa grade de 1,2 cm, com os vidros e uma chapa de chão de ponta a
+  ponta tapando a cabine; furinhos fechados pelas vizinhas. No Barão, 188 mil -> 95 mil faces, sem buraco por fora (conferido com as
+  faces de trás em verde).
+- **Caixa de roda:** a parede de dentro dela (a soleira e o fundo do para-lama eram cheios) vai para `chassi`; pintada, aparecia como
+  uma placa dentro do arco.
+- Testado e descartado na casca do Barão, que tem ondas leves de modelagem: o `alisar_lataria.py` (com a camada de 3 cm mistura as
+  duas peles; com 1,2 cm enruga) e Taubin na pele de fora (as emendas pioram). Com o verniz e o HDRI da rua as ondas leem como chapa de
+  carro usado; a forma fica a do autor.
 
 ## Tupiniquim: hatch de 5 portas do Sketchfab, fora do acervo (29 e 30/10/2026)
 
