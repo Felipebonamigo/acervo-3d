@@ -1055,11 +1055,14 @@ O comprimento passado (3,4925) é o da carroceria do autor: os para-choques pass
 - **Saída (30/10):** `veiculos/sketchfab/quebravel/jabuti/` (31 peças, ~364 mil triângulos; 3,62 x 1,58 x 1,35 m, entre-eixos 2,21 m,
   roda 28 cm) e `veiculos/sketchfab/completo/jabuti/` (kit época 70, 79 peças, LOD0 ~230 mil). Prévias com o HDRI da rua em
   `veiculos/sketchfab/previas/jabuti/`.
-- **Falta / conhecido:** uma dobra leve nas costuras do para-lama com a frente e da tampa com a lateral, de perto. O assado refaz as
-  normais por peça; com as normais do corte (`--manter-normais` do assado, ou `--normais-da-original` no preparo) a dobra some, mas a
-  lataria inteira reflete enrugada com o verniz, que é pior. O teste de face virada do assado também erra neste modelo (19 mil faces
-  "viradas" na porta, a chapa dupla do autor a menos de 2,5 cm do casco do corte); como as faces de dentro não aparecem, ficou assim.
-  O vidro de quarta mostra a lateral de trás do kit (faixa marrom) logo abaixo da janela.
+- **Falta / conhecido:** duas dobras leves, só de perto. A da quina de trás (tampa com a lateral) já vem do modelo do autor: aparece
+  no preparo, antes do corte. A da quina da frente (para-lama com a frente, junto do farol) nasce no corte, onde a costura atravessa
+  a curva; mudar a costura de lugar, as normais do corte (`--manter-normais` do assado, `--normais-da-original` no preparo) e a
+  média das normais entre as peças na emenda não a tiraram, e as duas primeiras enrugam a lataria inteira com o verniz. O teste de
+  face virada do assado erra neste modelo (19 mil faces "viradas" na porta: a chapa dupla do autor a menos de 2,5 cm do casco do
+  corte), sem efeito visível. Pelo vidro de quarta aparece o forro lateral de trás do kit (vinil marrom da época 70). Adensar com
+  aresta de 15 cm daria ~255 mil triângulos na casca, mas amassaria mais quadrado nas chapas grandes: ficou 10 cm (~364 mil);
+  medir no PC.
 
 ## Tropeiro: picape aventureira do Sketchfab (30/10/2026)
 
