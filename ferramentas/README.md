@@ -1276,3 +1276,45 @@ ficha (4,60 x 1,81 x 1,38 m, entre-eixos 2,65 m, roda 32 cm). As proporções do
 - **Falta / conhecido:** embaixo da porta, de perto e de baixo, ainda aparece a borda escura do assoalho e da saia do kit (lê como
   o fundo do carro); o para-lama dianteiro sai pela face lateral e a borda de cima dele fica serrilhada quando ele solta; o aparo do
   vão do motor fatiou dois reservatórios e a bateria (só se vê com o capô aberto).
+
+## Pampeiro do Sketchfab: hatch redondo de 5 portas (30/10/2026)
+
+O Pampeiro (nº 4 da ficha do Speed Tchê) deixou o Meshy. O primeiro candidato, o mais parecido com a referência, era um hatch de
+5 portas de ~5 mil triângulos, todo em casca dupla e com a textura de foto: a cadeia do Gol deixou a carroceria redonda facetada, os
+faróis em zigue-zague e as caixas de roda serrilhadas, e nem a subdivisão Catmull-Clark resolveu (ondulava a lateral e serrilhava a
+borda dos vidros). Ficou a reserva, com o "siga" do Felipe: o **"Hatchback" de MaG80** (Sketchfab, CC BY 4.0, crédito em
+`CREDITOS.md`), hatch redondo de 5 portas de marca fictícia, um objeto por material, faróis e lanternas modelados, id
+`hatch-redondo-5p` no acervo. A cadeia:
+
+    python -I ferramentas/sketchfab_preparar.py -- <scene.gltf do download> <prep>/hatch-redondo-5p.glb x 3.835 1.43 0.06 30 0 0 1 \
+        --juntar veiculos/sketchfab/quebravel/hatch-redondo-5p/hatch-redondo-5p_juntar.json
+    python -I ferramentas/carro_quebravel.py -- --entrada <prep>/hatch-redondo-5p.glb --out <corte> --id hatch-redondo-5p --portas 4 \
+        --sem-rotulos --manter-normais --mapa veiculos/sketchfab/quebravel/hatch-redondo-5p/hatch-redondo-5p_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/hatch-redondo-5p.glb <corte>/hatch-redondo-5p.glb
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/hatch-redondo-5p.glb <corte>/hatch-redondo-5p.glb --mapa <o mapa> \
+        --manter-luzes --manter-grade --manter-retrovisores --sem-macaneta --placa-nova --z-placa 0.43 --z-placa-tras 0.66 \
+        --antena-teto -0.9 --sem-quebra-vento --sem-sinaleira --sem-face-para-choque --sem-arco-redondo --para-choque-pintado \
+        --z-friso 0.52 --sem-faixa
+    python -I ferramentas/assar_desgaste.py -- <corte>/hatch-redondo-5p.glb <corte>/hatch-redondo-5p.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id hatch-redondo-5p --out <kit>
+
+- **`sketchfab_preparar.py`:** a caixa de `fora_caixas` do `--juntar` aceita um 7º elemento, o material do arquivo: só as ilhas dele
+  saem (os bancos e o painel de plástico ficam na mesma caixa que o para-brisa). O JSON tira a capa de vidro dos faróis e das
+  lanternas (`LightGlass: fora`): com ela, o `--manter-luzes` fazia da capa uma lente lisa que escondia as lâmpadas redondas; sem
+  ela, os refletores aparecem. Do primeiro candidato ficaram opções que servem a outros modelos: grupos com "+" no 3º argumento
+  (junta objetos), `SOLDAR=`, `VIDRO_TODO=1` e `TIRAR_VERSO=1` (tira a chapa de dentro colada na de fora, a menos de 3 mm). A
+  `borracha_vidro.py` trata o vidro em placa fechada (sem borda aberta: usa as faces viradas para fora).
+- **Mapa:** o modelo não tem frestas de porta; as portas saem dos pilares, das maçanetas e das janelas (vistas ortográficas com grade).
+  A meia-largura é a da lateral (0,845 m), não a dos retrovisores: com 0,955 os batentes e a soleira do kit saíam para fora.
+  Faróis e lanternas saem pelo material `luz` do modelo (`take: "material"`, a caixa só escolhe o lado): com a caixa pegando faces,
+  a chapa pintada em volta da lente ia para a peça do farol, ficava fora do atlas da textura e saía como um retângulo branco.
+- **Kit (`carro_completo_dados.json`, `hatch-redondo-5p`):** as opções de aparar das outras sessões (por vértice, desde a saia, capô
+  pelas pontas, cofre do motor, fundo do farol rente) e a saia em 0,27 m; sem elas a travessa e os para-lamas internos passavam o
+  capô baixo da frente, as colunas do vão passavam o teto e a soleira aparecia clara. A caixa da lanterna no mapa vai só até |y| 0,76:
+  a caixa do porta-malas atrás dela saía pela coluna, como uma aleta preta.
+- **Saída:** `veiculos/sketchfab/quebravel/hatch-redondo-5p/` (34 peças, ~245 mil triângulos; 3,835 x 1,69 x 1,43 m, entre-eixos
+  2,411 m, roda 30,1 cm) e `completo/hatch-redondo-5p/` (kit época 2000, 93 peças). Prévias em `veiculos/sketchfab/previas/hatch-redondo-5p/`
+  (4 vistas, detalhes, 6 cores e os 5 acabamentos). A cadeia de conferência do Detonauto (`make_crush_channels.py`,
+  `kit_to_detonauto.py`, `glb_texturas.py`, `kit_completo_to_detonauto.py`) passa: 19 peças e a roda, 11 malhas do kit.
+- **Fica para decidir:** o carro é um hatch redondo genérico, não o desenho da referência (farol "garra" alongado); a semelhança é de
+  arquétipo. A volta para algo mais próximo seria outro modelo ou o Meshy, com o Felipe.
