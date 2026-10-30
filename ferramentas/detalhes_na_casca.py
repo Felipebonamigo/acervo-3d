@@ -33,6 +33,8 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
         Jabuti (hatch de 2 portas, 30/10/2026): [--lanternas-como-vieram] (lanternas do modelo em segmentos; a chapa pintada da
         caixa vira moldura) [--z-placa 0.215 --z-barra-frente 0.42 --suporte-max 0.04] (placa pendurada embaixo do para-choque, sem
         chapa atrás) [--placa-na-propria-peca] (a placa de trás mede o fundo na chapa que a peça da placa levou)
+    Carro que já vem detalhado (Besouro do Sketchfab, 30/10/2026): [--luzes-modeladas] [--retrovisores-como-vieram]
+        [--piscas x0,x1,y0,y1,z0,z1] [--z-barra-frente 0.41] [--placa-tras-colada]
 
 Materiais só os do corte (`chassi` = plástico preto, `luz` = lente): o kit_names.py do Detonauto já sabe o que fazer com eles.
 As normais de canto das peças que só ganham geometria ficam; faróis, lanternas e grade são refeitos e recebem normais por ângulo.
@@ -801,6 +803,39 @@ if "--luzes-como-vieram" not in args:
             ys_ = sorted((s_ * ay0, s_ * ay1))
             caixas_luz[n] = [bx[0], bx[1], ys_[0], ys_[1], z0_, z1_]
         relatorio.append("%s e %s iguais: |y| %.3f a %.3f, z %.3f a %.3f" % (a, b, ay0, ay1, z0_, z1_))
+if "--luzes-modeladas" in args:
+    # Besouro do Sketchfab (30/10/2026): farol redondo e lanterna em gota já modelados, com a lente em `luz` e o aro cromado
+    # (sketchfab_reagrupar.py + --materiais-entrada). Nada é refeito: só os materiais do jogo. Farol: a lente vira `lente_farol`
+    # (clara e opaca, como no Gol). Lanterna: a lente pintada vira seta âmbar em cima (30%), ré branca embaixo (20%) e freio no meio
+    for nome in ("headlight_left", "headlight_right", "taillight_left", "taillight_right"):
+        o = objs.get(nome)
+        if not o:
+            continue
+        nomes = mat_names(o)
+        mw = o.matrix_world
+        if nome.startswith("headlight"):
+            if "luz" not in nomes:
+                continue
+            mi, novo = nomes.index("luz"), slot(o, "lente_farol")
+            n = 0
+            for pg in o.data.polygons:
+                if pg.material_index == mi:
+                    pg.material_index = novo
+                    n += 1
+            relatorio.append("%s: %d faces de lente viraram lente_farol (farol como veio)" % (nome, n))
+        else:
+            alvo = [i for i, m in enumerate(nomes) if m in ("pintura", "luz")]
+            fs = [pg for pg in o.data.polygons if pg.material_index in alvo]
+            if not fs:
+                continue
+            zs = [(mw @ pg.center).z for pg in fs]
+            z0_, z1_ = min(zs), max(zs)
+            m_amb, m_bra, m_ver = slot(o, "luz_ambar"), slot(o, "luz_branca"), slot(o, "luz_vermelha")
+            for pg, z in zip(fs, zs):
+                t = (z - z0_) / max(z1_ - z0_, 1e-6)
+                pg.material_index = m_amb if t > 0.70 else (m_bra if t < 0.20 else m_ver)
+            relatorio.append("%s: %d faces de lente (seta em cima, ré embaixo, freio no meio; lanterna como veio)" % (nome, len(fs)))
+        o.data.update()
 # --sem-luzes (30/10/2026, Sagui): faróis em gota e lanternas modelados, com lente, refletor e seta pelo material do arquivo
 # (sketchfab_montar.py + corte com --cores-do-arquivo); a caixa reta daqui os estragaria
 def luz_na_casca(o, nome, sinal):
@@ -836,7 +871,7 @@ MANTER_LUZES = "--manter-luzes" in args
 FAIXA_BRANCA = opt("--faixa-branca", 0.35)
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
     o = objs.get(nome)
-    if not o or "--sem-luzes" in args:
+    if not o or "--sem-luzes" in args or "--luzes-modeladas" in args:
         continue
     if MANTER_LUZES:
         # a lente do modelo fica: o farol vira `lente_farol` (o mesmo material do jogo) e a lanterna, freio vermelho em cima e ré
@@ -1154,7 +1189,7 @@ def espelho(w, box, s, m_preto, m_vidro):
 
 for nome, s in (("mirror_left", 1), ("mirror_right", -1)):
     o = objs.get(nome)
-    if not o or "--sem-retrovisor" in args:      # o retrovisor do modelo já tem forma e espelho (Sagui)
+    if not o or "--sem-retrovisor" in args or "--retrovisores-como-vieram" in args:      # o retrovisor do modelo já tem forma e espelho (Sagui)
         continue
     if "--manter-retrovisores" in args:
         nomes = mat_names(o)
@@ -1241,7 +1276,7 @@ SUPORTE_MAX = opt("--suporte-max", 99.0)
 placas_novas = {}
 
 
-def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra, yc=0.0):
+def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra, yc=0.0, colada=False):
     """Placa brasileira de PLACA_L x PLACA_A em branco, centrada em y, de z0p para cima, 0,8 cm para fora da face `alvos` medida em
     (ys_barra, z_barra); suporte preto da face até ela, tapando o rebaixo da placa antiga (a caixa da peça antiga); moldura e parafusos."""
     o = objs[nome]
@@ -1274,6 +1309,11 @@ def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra, yc=0.0):
     # o raio que passa pelo vão da placa antiga e bate do outro lado do carro não é o fundo (Caipora: dava 2,5 m)
     xs_face = [x for x in xs_face if abs(x - x_fora) < 0.25] or [x_fora]
     x_atras = min(xs_face) if sinal > 0 else max(xs_face)
+    if colada:
+        # tampa abaulada (Besouro): a face fora do centro fica para dentro do bojo e a placa sumia dentro da chapa; a placa vai
+        # para o ponto mais saliente da própria área dela
+        x_fora = max(xs_face + [x_fora]) if sinal > 0 else min(xs_face + [x_fora])
+        x_atras = x_fora - sinal * 0.03          # suporte de 3 cm (pelo vão entre a tampa e o para-choque ele ia a 12 cm)
     xp = x_fora + sinal * 0.008
     if abs(xp - x_atras) > SUPORTE_MAX:
         x_atras = xp - sinal * SUPORTE_MAX
@@ -1369,7 +1409,8 @@ if "plate_rear" in objs and "--placa-original" not in args and "--placa-tras-ori
     alvos_t = ("bumper_rear", "body") if "--placa-tras-no-para-choque" in args else ("trunk", "body")
     z0_t = opt("--z-placa-tras", zc_t - PLACA_A / 2)
     yc_t = opt("--y-placa-tras", 0.0)
-    r = refazer_placa("plate_rear", -1, [n for n in alvos_t if n in objs], z0_t, (-0.3, -0.26, 0.26, 0.3), z0_t + PLACA_A / 2, yc_t)
+    r = refazer_placa("plate_rear", -1, [n for n in alvos_t if n in objs], z0_t, (-0.3, -0.26, 0.26, 0.3), z0_t + PLACA_A / 2, yc_t,
+                      colada="--placa-tras-colada" in args)
     if r:
         placas_novas["plate_rear"] = r
 placa_frente = placas_novas.get("plate_front")
@@ -1665,6 +1706,28 @@ if "--sem-sinaleira" not in args and "bumper_front" in objs:
         n += 1
     w.fechar()
     relatorio.append("sinaleiras âmbar no para-choque: %d" % n)
+
+# --------------------------------------------------------------------------------------- piscas modelados
+# --piscas x0,x1,y0,y1,z0,z1 (lado esquerdo; o direito é o espelho em y): as faces pintadas ou de lente dentro da caixa, em qualquer
+# peça, viram seta âmbar (no Besouro, os piscas em cima dos para-lamas da frente; o pé cromado fica)
+if "--piscas" in args:
+    cx = [float(v) for v in opt("--piscas", "").split(",")]
+    for s_ in (1, -1):
+        y0_, y1_ = sorted((s_ * cx[2], s_ * cx[3]))
+        for nome, o in objs.items():
+            nomes = mat_names(o)
+            alvo = [i for i, m in enumerate(nomes) if m in ("pintura", "luz")]
+            if not alvo:
+                continue
+            mw = o.matrix_world
+            fs = [pg for pg in o.data.polygons if pg.material_index in alvo and
+                  (lambda c: cx[0] <= c.x <= cx[1] and y0_ <= c.y <= y1_ and cx[4] <= c.z <= cx[5])(mw @ pg.center)]
+            if fs:
+                m_amb = slot(o, "luz_ambar")
+                for pg in fs:
+                    pg.material_index = m_amb
+                o.data.update()
+                relatorio.append("%s: pisca âmbar, %d faces" % (nome, len(fs)))
 
 bpy.ops.export_scene.gltf(filepath=sai, export_format="GLB", export_image_format="AUTO")
 for linha in relatorio:
