@@ -1,0 +1,49 @@
+{
+ "materiais": {
+  "body_1": "pintura",
+  "body_2": "pintura",
+  "chrome": "cromado",
+  "headlights": "luz",
+  "tail_light": "luz",
+  "glass": "vidro",
+  "seat_leather": "fora",
+  "black_metal": "chassi",
+  "mirror": "cromado",
+  "rubber": "pneu",
+  "white_wall": "pneu"
+ },
+ "rodas": [
+  "Cylinder",
+  "wheel rl",
+  "wheel fr",
+  "wheel rr"
+ ],
+ "fora_caixas": [
+  [
+   -18,
+   18,
+   -281,
+   -263,
+   117,
+   153
+  ]
+ ],
+ "frente": "-y",
+ "fora_objetos": [
+  "steering wheel"
+ ],
+ "vidros_raio": [
+  {
+   "de": "+y",
+   "caixa": [
+    -80,
+    80,
+    176,
+    244
+   ],
+   "fundo": 232,
+   "passo": 1.0,
+   "recuo": 0.8
+  }
+ ]
+}

@@ -1,0 +1,638 @@
+{
+ "car": "furgao-classico",
+ "notes": "Mapa escrito à mão (30/10/2026) para o furgão \"VW T1 style Bus Free\" de Libau Media (Sketchfab, CC BY): vidros, faróis e lanternas pelos materiais marcados na preparação (take: material; o vidro de trás foi criado na preparação), o resto por caixas medidas na geometria. Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
+ "medidas": {
+  "comprimento": 4.5,
+  "meia_largura": 0.845,
+  "altura": 1.95,
+  "eixo_dianteiro": 1.2555,
+  "eixo_traseiro": -1.2555,
+  "raio_roda": 0.366,
+  "linha_de_cintura": 1.215,
+  "coluna_a": 1.95,
+  "coluna_b": 0.84,
+  "base_do_para_brisa": 1.22,
+  "topo_para_choque_dianteiro": 0.52,
+  "topo_para_choque_traseiro": 0.5,
+  "topo_da_saia": 0.48,
+  "portas": 2,
+  "van": true
+ },
+ "parts": [
+  {
+   "take": "roda",
+   "centro": [
+    1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fl_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.25
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fl_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.372
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fr_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.25
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_fr_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.372
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rl_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.25
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": 1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rl_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.372
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rr_rim",
+   "papel": "rim",
+   "raio": [
+    0.0,
+    0.25
+   ]
+  },
+  {
+   "take": "roda",
+   "centro": [
+    -1.2555,
+    0.0,
+    0.366
+   ],
+   "lado": -1,
+   "y": [
+    0.5,
+    0.81
+   ],
+   "thickness": 0.0,
+   "pocket": 0.0,
+   "name": "wheel_rr_tire",
+   "papel": "wheel",
+   "raio": [
+    0.0,
+    0.372
+   ]
+  },
+  {
+   "name": "mirror_left",
+   "papel": "mirror",
+   "take": "faces",
+   "box": [
+    1.62,
+    1.88,
+    0.85,
+    1.0,
+    1.2,
+    1.62
+   ],
+   "thickness": 0.004,
+   "pocket": 0.015
+  },
+  {
+   "name": "mirror_right",
+   "papel": "mirror",
+   "take": "faces",
+   "box": [
+    1.62,
+    1.88,
+    -1.0,
+    -0.85,
+    1.2,
+    1.62
+   ],
+   "thickness": 0.004,
+   "pocket": 0.015
+  },
+  {
+   "name": "headlight_left",
+   "papel": "headlight",
+   "take": "material",
+   "material": "luz",
+   "box": [
+    1.95,
+    2.25,
+    0.35,
+    0.66,
+    0.66,
+    0.96
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02
+  },
+  {
+   "name": "headlight_right",
+   "papel": "headlight",
+   "take": "material",
+   "material": "luz",
+   "box": [
+    1.95,
+    2.25,
+    -0.66,
+    -0.35,
+    0.66,
+    0.96
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02
+  },
+  {
+   "name": "taillight_left",
+   "papel": "taillight",
+   "take": "material",
+   "material": "luz",
+   "box": [
+    -2.12,
+    -1.95,
+    0.5,
+    0.7,
+    0.6,
+    0.77
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02
+  },
+  {
+   "name": "taillight_right",
+   "papel": "taillight",
+   "take": "material",
+   "material": "luz",
+   "box": [
+    -2.12,
+    -1.95,
+    -0.7,
+    -0.5,
+    0.6,
+    0.77
+   ],
+   "thickness": 0.004,
+   "pocket": 0.02
+  },
+  {
+   "name": "glass_windshield",
+   "papel": "glass_windshield",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    1.64,
+    2.08,
+    -0.8,
+    0.8,
+    1.25,
+    1.85
+   ],
+   "thickness": 0.006,
+   "pocket": 0.35
+  },
+  {
+   "name": "glass_rear",
+   "papel": "glass_rear",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -2.15,
+    -1.85,
+    -0.62,
+    0.62,
+    1.3,
+    1.85
+   ],
+   "thickness": 0.006,
+   "pocket": 0.35
+  },
+  {
+   "name": "glass_door_fl",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    0.86,
+    1.95,
+    0.45,
+    1.0,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_door_fr",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    0.86,
+    1.95,
+    -1.0,
+    -0.45,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_1l",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    0.25,
+    0.83,
+    0.45,
+    1.0,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_1r",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    0.25,
+    0.83,
+    -1.0,
+    -0.45,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_2l",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -0.38,
+    0.2,
+    0.45,
+    1.0,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_2r",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -0.38,
+    0.2,
+    -1.0,
+    -0.45,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_3l",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -1.01,
+    -0.4,
+    0.45,
+    1.0,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_3r",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -1.01,
+    -0.4,
+    -1.0,
+    -0.45,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_4l",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -1.6,
+    -1.03,
+    0.45,
+    1.0,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_4r",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -1.6,
+    -1.03,
+    -1.0,
+    -0.45,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_5l",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -2.0,
+    -1.62,
+    0.45,
+    1.0,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "glass_side_5r",
+   "papel": "glass_door",
+   "take": "material",
+   "material": "vidro",
+   "box": [
+    -2.0,
+    -1.62,
+    -1.0,
+    -0.45,
+    1.2,
+    1.8
+   ],
+   "thickness": 0.006,
+   "pocket": 0.3
+  },
+  {
+   "name": "plate_front",
+   "papel": "plate",
+   "take": "faces",
+   "box": [
+    2.15,
+    2.4,
+    -0.2,
+    0.2,
+    0.36,
+    0.52
+   ],
+   "thickness": 0.004,
+   "pocket": 0.0,
+   "normal": [
+    1,
+    0,
+    0,
+    0.5
+   ]
+  },
+  {
+   "name": "plate_rear",
+   "papel": "plate",
+   "take": "faces",
+   "box": [
+    -2.1,
+    -1.95,
+    -0.2,
+    0.2,
+    0.52,
+    0.66
+   ],
+   "thickness": 0.004,
+   "pocket": 0.0,
+   "normal": [
+    -1,
+    0,
+    0,
+    0.5
+   ]
+  },
+  {
+   "name": "bumper_front",
+   "papel": "bumper_front",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "box": [
+    2.17,
+    2.4,
+    -1.0,
+    1.0,
+    0.3,
+    0.72
+   ],
+   "thickness": 0.012,
+   "pocket": 0.15
+  },
+  {
+   "name": "bumper_rear",
+   "papel": "bumper_rear",
+   "take": "faces",
+   "fora_das_rodas": true,
+   "box": [
+    -2.3,
+    -2.025,
+    -1.0,
+    1.0,
+    0.3,
+    0.74
+   ],
+   "thickness": 0.012,
+   "pocket": 0.15
+  },
+  {
+   "name": "trunk",
+   "papel": "trunk",
+   "take": "faces",
+   "normal": [
+    -1.0,
+    0.0,
+    0.0,
+    0.5
+   ],
+   "box": [
+    -2.1,
+    -1.9,
+    -0.52,
+    0.52,
+    0.5,
+    0.86
+   ],
+   "thickness": 0.012,
+   "pocket": 0.12
+  },
+  {
+   "name": "door_fl",
+   "papel": "door",
+   "take": "ilha",
+   "fracao_na_caixa": 0.6,
+   "box": [
+    0.82,
+    1.8,
+    0.55,
+    1.1,
+    0.4,
+    1.82
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12,
+   "pocket_z_max": 1.25
+  },
+  {
+   "name": "door_fr",
+   "papel": "door",
+   "take": "ilha",
+   "fracao_na_caixa": 0.6,
+   "box": [
+    0.82,
+    1.8,
+    -1.1,
+    -0.55,
+    0.4,
+    1.82
+   ],
+   "thickness": 0.015,
+   "pocket": 0.12,
+   "pocket_z_max": 1.25
+  }
+ ]
+}

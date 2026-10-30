@@ -1,0 +1,11 @@
+Model Information:
+* title:	VW T1 style Bus Free
+* source:	https://sketchfab.com/3d-models/vw-t1-style-bus-free-c6dc0d2275524bb1a43ddc398d2be3bc
+* author:	Libau Media (https://sketchfab.com/robinmikart)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "VW T1 style Bus Free" (https://sketchfab.com/3d-models/vw-t1-style-bus-free-c6dc0d2275524bb1a43ddc398d2be3bc) by Libau Media (https://sketchfab.com/robinmikart) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
