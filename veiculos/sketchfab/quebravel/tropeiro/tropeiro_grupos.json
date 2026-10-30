@@ -1,0 +1,61 @@
+{
+ "nota": "Picape de cabine simples do Ramon.Dos.Santos (Sketchfab, CC BY 4.0, \"Saveiro G3\"), 30/10/2026. Sai: interior (bancos, painel, volante, câmbio, forros), os símbolos de marca da grade, da tampa e dos cubos das rodas, a lona da caçamba (a versão aventureira tem caçamba aberta com santo-antônio, que o kit põe), a fita preta lateral (o friso do detalhes_na_casca.py entra no lugar; inteira, ela cruzava o vão da porta aberta), os panfletos e o chão da cena. Carro rebaixado: erguido 5,7 cm de arquivo (5 cm reais) e as rodas da frente vinham esterçadas 18,9 graus. Faróis de milha em cromado (como luz, no para-choque, viravam lente de lanterna); o fundo e as paredes da caçamba são pintura, como no carro de verdade (o protetor preto é do kit). As normais do autor já olham para fora, e a caçamba olha para dentro de propósito: nada é virado (nao_virar).",
+ "tirar": [
+  "^Circle\\.003",
+  "^Cube\\.00[1245]_",
+  "^Cube\\.00[79]_",
+  "^Cube\\.010_",
+  "^Cube_[0-9]",
+  "^Plane\\.001_",
+  "^Plane\\.01[678]_",
+  "^carro\\.00[1245]_",
+  "^logo volante",
+  "^parabrisa\\.001_[2-6]$",
+  "^volante_",
+  "^Cube\\.002_",
+  "^Cube\\.003_"
+ ],
+ "vidros": {
+  "^parabrisa_0$": "vidro",
+  "^parabrisa\\.001_1$": "vidro"
+ },
+ "rodas": {
+  "^Cylinder(\\.00[157])?_0$": "pneu",
+  "^Plane\\.00[2348]_0$": "cromado",
+  "^Cylinder\\.00[2468]_0$": "cromado",
+  "^carro_1$": "chassi",
+  "^Cube\\.012_0$": "chassi"
+ },
+ "carroceria": {
+  "^carro_0$": "pintura",
+  "^carro_2$": "chassi",
+  "^carro_3$": "cromado",
+  "^carro_4$": "chassi",
+  "^carro\\.003_0$": "pintura",
+  "^carro\\.006_0$": "chassi",
+  "^farol dianteiro_[01]$": "luz",
+  "^farol draseiro_[01]$": "luz",
+  "^Cube\\.006_0$": "pintura",
+  "^Cube\\.006_1$": "chassi",
+  "^Cube\\.006_2$": "cromado",
+  "^parabrisa\\.001_0$": "pintura",
+  "^Plane\\.01[12]_0$": "pintura",
+  "^carro_[56]$": "pintura"
+ },
+ "erguer": 0.057,
+ "endireitar": [
+  [
+   "^Cylinder\\.001_0$",
+   "^Plane\\.002_0$",
+   "^Cylinder\\.004_0$"
+  ],
+  [
+   "^Cylinder\\.005_0$",
+   "^Plane\\.003_0$",
+   "^Cylinder\\.006_0$"
+  ]
+ ],
+ "nao_virar": [
+  ".*"
+ ]
+}

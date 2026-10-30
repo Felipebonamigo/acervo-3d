@@ -1,0 +1,11 @@
+Model Information:
+* title:	Saveiro G3
+* source:	https://sketchfab.com/3d-models/saveiro-g3-2b5c1ffec3b545168ab5280296cd5ffa
+* author:	Ramon.Dos.Santos (https://sketchfab.com/Ramon.Dos.Santos)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Saveiro G3" (https://sketchfab.com/3d-models/saveiro-g3-2b5c1ffec3b545168ab5280296cd5ffa) by Ramon.Dos.Santos (https://sketchfab.com/Ramon.Dos.Santos) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
