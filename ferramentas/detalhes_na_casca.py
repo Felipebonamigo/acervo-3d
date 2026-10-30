@@ -20,6 +20,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
     --manter-luzes         a lente do farol vira `lente_farol` e a lanterna, vermelha em cima e branca na faixa de baixo
                            (--faixa-branca 0.35 = fração da altura); nada é refeito em caixa
     --manter-grade         a grade do modelo fica como veio
+    --grade-recuo 0.03     a grade refeita recua isso (m) atrás da frente da caixa dela
     --grade-chassi         a grade veio preta (chassi): é refeita com palhetas na caixa dela
     --manter-retrovisores  a forma fica; a capa pintada vira plástico preto
     (as portas de trás ganham maçaneta quando existem, na altura de --z-macaneta)
@@ -1041,6 +1042,8 @@ elif o and "--manter-grade" not in args:
         m_preto = slot(o, "chassi")
         x0, x1, y0, y1, z0, z1 = box
         xf = x1 if xm_grade is None else xm_grade + 0.01     # grade limpa: no plano da face, não na ponta que salta
+        # --grade-recuo 0.03 (Tupiniquim, 30/10): a grade refeita fica atrás da borda do capô, em vez de saltar como uma caixa na frente
+        xf -= opt("--grade-recuo", 0.0)
         e = 0.012
         w.ref = Vector((xf - 1.0, 0.5 * (y0 + y1), 0.5 * (z0 + z1)))
         ext = [(xf, y0, z0), (xf, y1, z0), (xf, y1, z1), (xf, y0, z1)]

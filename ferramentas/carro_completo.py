@@ -16,6 +16,7 @@ Uso (Blender 5.2 ou o módulo bpy num venv; a parte de medidas roda em Python pu
     --epoca 70|80|90|2000, --motor l4_transversal|l4_longitudinal|v8_longitudinal|boxer_traseiro   forçam o que a tabela diz
     --amostras <n>       amostras do Cycles nas prévias (padrão 24)
     --sem-previa         não renderiza
+    --sem-saia-para-choque  sem a chapa da saia sob os para-choques (o plano dela continua aparando o kit)
     --aparar-mais [zf zt]  tira também o que sai da casca no motor (acima de zf) e no porta-malas (acima de zt)
     --so-medidas         só imprime as medidas derivadas (não precisa do bpy)
 
@@ -3924,7 +3925,10 @@ class Kit:
                 if any(h is None or (h[0].x - xb) * sinal < 0.03 for h in hs):
                     larg = min(larg, 2 * (yy - 0.03))
                     break
-            p.caixa("chassi_graxa", T(xb, 0, zc) @ Ry(math.radians(-sinal * 12)), 0.012, larg, alt, 0.004)
+            # --sem-saia-para-choque (Tupiniquim, 30/10): o para-choque desce até o piso e sobe nas pontas; a chapa aparecia por baixo
+            # da ponta como aba preta. O plano fica (o que passa dele embaixo é aparado), só a chapa não é desenhada
+            if not getattr(self, "sem_saia_para_choque", False):
+                p.caixa("chassi_graxa", T(xb, 0, zc) @ Ry(math.radians(-sinal * 12)), 0.012, larg, alt, 0.004)
             # sem laterais até a caixa de roda: de lado elas penduravam sob a ponta do para-choque como apara-barro (29/10); no carro
             # de verdade ali se vê o pneu e o escuro da caixa
         # soleira fora dos vãos das portas (entre a porta e as caixas de roda)
@@ -4719,6 +4723,8 @@ def parse_args(argv):
     p.add_argument("--motor", choices=MOTORES, default=None)
     p.add_argument("--amostras", type=int, default=24)
     p.add_argument("--sem-previa", action="store_true")
+    p.add_argument("--sem-saia-para-choque", action="store_true",
+                   help="não desenha a chapa da saia sob os para-choques (o plano dela continua aparando o kit)")
     p.add_argument("--aparar-mais", type=float, nargs="*", default=None, metavar="Z",
                    help="também tira as faces do motor (acima de z da frente) e do porta-malas (acima de z de trás) que saem da casca")
     p.add_argument("--puxar-para-dentro", action="store_true",
@@ -4765,6 +4771,7 @@ def principal(argv):
     mats = Materiais(estilo, pint, cfg["epoca"])
     kit = Kit(M, cfg, estilo, mats, casca)
     kit.capo_pelas_pontas = a.aparar_mais is not None
+    kit.sem_saia_para_choque = a.sem_saia_para_choque
     kit._mapa_parts = corte["mapa"]["parts"]
     kit.habitaculo()
     kit.portas()

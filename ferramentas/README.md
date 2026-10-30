@@ -788,9 +788,11 @@ misturados num objeto, e a malha é uma sopa de triângulos soltos. A cadeia gan
     python -I ferramentas/borracha_vidro.py -- <corte>/<id>.glb <corte>/<id>.glb
     python -I ferramentas/detalhes_na_casca.py -- <corte>/<id>.glb <corte>/<id>.glb --manter-luzes --grade-chassi --manter-retrovisores \
         --sem-friso --sem-faixa --sem-face-para-choque --sem-arco-redondo --para-choque-pintado --sem-sinaleira --sem-quebra-vento \
-        --placa-nova --z-placa 0.365 --z-placa-tras 0.742 --z-macaneta 0.84 --antena-teto 0.05 --limpadores 0.30,0.50,-0.16,0.44
+        --placa-nova --z-placa 0.365 --z-placa-tras 0.742 --z-macaneta 0.84 --antena-teto 0.05 --limpadores 0.30,0.50,-0.16,0.44 \
+        --grade-recuo 0.03
     python -I ferramentas/assar_desgaste.py -- <corte>/<id>.glb <corte>/<id>.glb --tamanho 2048 --amostras 32
-    python -I ferramentas/carro_completo.py -- --corte <corte> --id <id> --out <kit> --epoca 2000 --aparar-mais 0.62 0.75
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id <id> --out <kit> --epoca 2000 --aparar-mais 0.62 0.75 \
+        --sem-saia-para-choque
 
 - **`sketchfab_rotular.py` (novo):** junta os vértices (1 mm), corta por planos opcionais e rotula cada ilha de faces (ou cada face)
   por regras de caixa, na ordem, com filtro de normal: `pintura`, `vidro`, `luz`, `chassi`, `cromado`, `pneu` ou `fora` (emblemas,
@@ -813,6 +815,11 @@ misturados num objeto, e a malha é uma sopa de triângulos soltos. A cadeia gan
   porta-malas (a travessa do painel aparecia acima da grade e o carpete furava a lanterna), as colunas do vão vistas pela janela (a
   coluna B deste carro é inclinada e a do kit é reta), recolhe o kit também atrás das lentes e põe a travessa sob a borda mais baixa
   do capô.
+- **Segunda rodada (30/10, noite):** `--grade-recuo` (a grade refeita recua atrás da borda do capô em vez de saltar como uma caixa) e
+  `--sem-saia-para-choque` no kit (o para-choque deste carro desce até o piso e sobe nas pontas, e a chapa da saia aparecia por baixo
+  da ponta como aba preta; o plano dela continua aparando o kit). Testada e descartada: moldura e refletor por faces na lente do farol
+  (a lente é triangulada e a borda saía em dente de serra). As lascas pretas nas colunas A da prévia do kit são da própria prévia, que
+  tira o para-brisa e a chapa em volta; com o vidro, de dentro, a coluna é inteira.
 - **Resultado (30/10):** 34 peças, ~125 mil triângulos, 3,83 m, entre-eixos de 2,39 m, roda de 29,6 cm; kit época 2000. As portas de
   trás e os para-lamas traseiros ficam na carroceria no jogo (uma porta por lado no contrato do Detonauto; o para-lama traseiro de
   carro real não solta). Prévias, mapa, regras e a cadeia em
