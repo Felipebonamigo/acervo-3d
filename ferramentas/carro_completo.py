@@ -4741,6 +4741,12 @@ def parse_args(argv):
     p.add_argument("--aparar-alto", type=float, default=None, help="apaga também no motor e no porta-malas, de z para cima, a face do kit "
                    "com algum vértice fora do envelope da casca (raio de cima, da frente ou de trás) ou a menos de 1,5 cm dela")
     p.add_argument("--sufixo", default="", help="sufixo nos arquivos de saída (ex.: _2000 para testar outra época)")
+    p.add_argument("--aparar-frente-abaixo", type=float, default=None, metavar="Z",
+                   help="tira do vão do motor as faces à frente da roda dianteira com o centro abaixo de z (Gaúcho V8: a chapa da frente "
+                   "acaba a 34 cm e o para-lama interno e a travessa apareciam embaixo do para-choque)")
+    p.add_argument("--z-aparar-abaixo", type=float, default=None, metavar="Z",
+                   help="com --aparar-abaixo, apara de z para cima em vez do topo da saia (Gaúcho V8: a chapa acaba no friso a 30 cm "
+                   "e a soleira e o forro da porta passavam embaixo dela)")
     p.add_argument("--aparar-abaixo", action="store_true",
                    help="tira também do porta-malas, do vão e da porta, da saia para cima, as faces fora da casca (Jabuti)")
     return p.parse_args(argv)
@@ -4848,11 +4854,42 @@ def principal(argv):
         if a.aparar_abaixo:
             # Jabuti: as quinas de trás são redondas (a caixa das lanternas e a lateral do carpete furavam a chapa) e a coluna do vão
             # e a borda da chapa da porta apareciam na base da coluna A, logo abaixo da cintura
-            tirou = aparar_expostos(objs, corte_objs, kit.M["z_saia"], grupos=("porta_malas", "vao_porta", "porta"))
+            z_ab = kit.M["z_saia"] if a.z_aparar_abaixo is None else a.z_aparar_abaixo
+            tirou = aparar_expostos(objs, corte_objs, z_ab, grupos=("porta_malas", "vao_porta", "porta"))
             print("porta-malas e vão da porta fora da casca, abaixo da cintura (faces tiradas):", tirou)
     if getattr(kit, "saia", None):
         tirou = aparar_sob_a_saia(objs, kit.saia, kit.M["rodas"], kit.M["R"])
         print("fora das saias, embaixo (faces tiradas):", tirou)
+    if a.aparar_frente_abaixo is not None:
+        import bmesh
+        x_lim = max(r["x"] for r in kit.M["rodas"].values()) + kit.M["R"] if kit.M.get("rodas") else 1.0
+        tirou = {}
+        for o in objs:
+            if o.type != "MESH" or not o.name.startswith("engine_"):
+                continue
+            bm_ = bmesh.new()
+            bm_.from_mesh(o.data)
+            bm_.transform(o.matrix_world)
+            # corta no plano z (a face alta do para-lama interno tem o centro acima de z e descia até 22 cm) e tira o que fica embaixo
+            sel = [f for f in bm_.faces if any(v.co.x > x_lim for v in f.verts) and min(v.co.z for v in f.verts) < a.aparar_frente_abaixo]
+            if sel:
+                geo = list({e for f in sel for e in f.edges}) + list({v for f in sel for v in f.verts}) + sel
+                bmesh.ops.bisect_plane(bm_, geom=geo, plane_co=(0.0, 0.0, a.aparar_frente_abaixo), plane_no=(0.0, 0.0, 1.0))
+                fora = [f for f in bm_.faces if f.calc_center_median().x > x_lim and f.calc_center_median().z < a.aparar_frente_abaixo]
+                bmesh.ops.delete(bm_, geom=fora, context="FACES")
+                bm_.transform(o.matrix_world.inverted())
+                bm_.to_mesh(o.data)
+                o.data.update()
+                tirou[o.name] = len(fora)
+            bm_.free()
+        print("vão do motor à frente da roda, abaixo de z=%.2f (faces tiradas):" % a.aparar_frente_abaixo, tirou)
+    # peça que o aparo esvaziou inteira (Gaúcho V8: a longarina toda fora da casca, à frente da chapa baixa) sai do kit; o bake de
+    # oclusão parava com "No faces found"
+    vazias = [o for o in objs if o.type == "MESH" and not o.data.polygons]
+    for o in vazias:
+        print("peça vazia depois do aparo, tirada do kit:", o.name)
+        objs.remove(o)
+        bpy.data.objects.remove(o)
     if a.sem_sujeira:
         sujeira_branca(objs)
     else:

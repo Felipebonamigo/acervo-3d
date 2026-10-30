@@ -408,6 +408,42 @@
     "pneu_p215_75_Torn_LOD1"
    ],
    "arquivo": "pneu_p215_75.glb"
+  },
+  {
+   "id": "pneu_p185_70",
+   "tipo": "pneu",
+   "material": "pneu",
+   "medida": "185/70 R14",
+   "polegadas": 14,
+   "largura_mm": 185,
+   "perfil_pct": 70,
+   "raio_externo_cm": 30.72,
+   "raio_nominal_cm": 30.73,
+   "largura_cm": 18.5,
+   "raio_contato_cm": {
+    "Ok": 30.72,
+    "Flat": 24.72,
+    "Torn": 21.34
+   },
+   "triangulos_lod0": 14168,
+   "triangulos_lod1": 5666,
+   "triangulos_por_objeto": {
+    "pneu_p185_70_Ok": 2816,
+    "pneu_p185_70_Flat": 2816,
+    "pneu_p185_70_Torn": 8536,
+    "pneu_p185_70_Ok_LOD1": 1126,
+    "pneu_p185_70_Flat_LOD1": 1126,
+    "pneu_p185_70_Torn_LOD1": 3414
+   },
+   "objetos": [
+    "pneu_p185_70_Ok",
+    "pneu_p185_70_Flat",
+    "pneu_p185_70_Torn",
+    "pneu_p185_70_Ok_LOD1",
+    "pneu_p185_70_Flat_LOD1",
+    "pneu_p185_70_Torn_LOD1"
+   ],
+   "arquivo": "pneu_p185_70.glb"
   }
  ],
  "rodas_completas": [
@@ -428,6 +464,13 @@
   {
    "aro": "aro_aco14",
    "pneu": "pneu_p185_60_Ok",
+   "calota": "calota14",
+   "triangulos_lod0": 8648,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_aco14",
+   "pneu": "pneu_p185_70_Ok",
    "calota": "calota14",
    "triangulos_lod0": 8648,
    "dentro_do_orcamento": true
@@ -477,6 +520,13 @@
   {
    "aro": "aro_liga14",
    "pneu": "pneu_p185_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 8776,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga14",
+   "pneu": "pneu_p185_70_Ok",
    "calota": null,
    "triangulos_lod0": 8776,
    "dentro_do_orcamento": true

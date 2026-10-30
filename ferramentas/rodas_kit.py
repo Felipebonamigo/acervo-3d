@@ -57,7 +57,8 @@ AROS = {
 PNEUS = {"p165_70": (165, 70, 13), "p175_70": (175, 70, 13), "p185_60": (185, 60, 14),
          "p165_95": (165, 95, 15), "p205_60": (205, 60, 15),   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
          "p165_80": (165, 80, 15),   # o 5.60-15 do clássico de motor atrás (Besouro, 30/10/2026): 32,2 cm de raio
-         "p215_75": (215, 75, 15)}   # o de uso misto do jipe (Trilheiro, 30/10/2026): 35,2 cm de raio, 21,5 cm de largura
+         "p215_75": (215, 75, 15),   # o de uso misto do jipe (Trilheiro, 30/10/2026): 35,2 cm de raio, 21,5 cm de largura
+         "p185_70": (185, 70, 14)}   # o do cupê grande dos anos 70 (Gaúcho V8, 30/10/2026): 30,7 cm de raio
 CALOTAS = {"calota13": 13, "calota14": 14, "calota15": 15}
 ESTADOS = ("Ok", "Flat", "Torn")
 
