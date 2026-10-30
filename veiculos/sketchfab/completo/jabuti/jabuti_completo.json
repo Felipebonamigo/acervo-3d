@@ -1,0 +1,1849 @@
+{
+ "id": "jabuti",
+ "gerado_por": "acervo-3d/ferramentas/carro_completo.py",
+ "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
+ "convencao": "metros; frente +X, ESQUERDA +Y, cima +Z; chão em z = 0; origem entre os eixos (a mesma do corte do carro_quebravel)",
+ "epoca": "70",
+ "estilo": "anos 70: vinil com gomos costurados, painel de chapa pintada na cor do carro, um mostrador grande, volante fino de dois raios e aro grande, manivela e pino de trava",
+ "motor": "l4_transversal",
+ "tracao": "dianteira",
+ "carroceria": "hatch",
+ "glb_do_corte": "jabuti.glb",
+ "vaos_a_tirar_do_corte": {
+  "cabine": [
+   -1.39,
+   0.83,
+   -0.85,
+   0.85,
+   0.27,
+   1.4
+  ],
+  "traseira": [
+   -1.95,
+   -1.39,
+   -0.85,
+   0.85,
+   0.204,
+   1.4
+  ],
+  "frente": [
+   0.83,
+   1.8,
+   -0.77,
+   0.77,
+   0.15,
+   1.4
+  ]
+ },
+ "vaos_nota": "faces com o material MI_DNVao do corte cujo centro cai numa destas caixas saem quando o kit entra (a casca escura atrás do vidro, das portas, do capô e da tampa)",
+ "fundo_a_tirar_do_corte": {
+  "caixa": [
+   -1.78,
+   1.63,
+   -0.74,
+   0.74,
+   -0.2,
+   0.204
+  ],
+  "normal_z_max": -0.6,
+  "pecas": [
+   "body"
+  ],
+  "nota": "o fundo liso da casca (faces viradas para baixo nesta caixa) sai: o assoalho do kit fica no lugar"
+ },
+ "medidas": {
+  "id": "jabuti",
+  "W": 0.79,
+  "H": 1.35,
+  "R": 0.28,
+  "xd": 1.1055,
+  "xt": -1.1055,
+  "entre_eixos": 2.211,
+  "comprimento": 3.618,
+  "carroceria": "hatch",
+  "bitola_d": 1.26,
+  "y_pneu_dentro_d": 0.5,
+  "bitola_t": 1.26,
+  "y_pneu_dentro_t": 0.5,
+  "x_frente": 1.75,
+  "x_tras": -1.9,
+  "z_saia": 0.3,
+  "z_cintura": 0.887,
+  "z_piso": 0.1736,
+  "z_teto": 1.35,
+  "ws": [
+   0.33,
+   0.83,
+   -0.66,
+   0.66,
+   0.86,
+   1.3
+  ],
+  "rg": [
+   -1.56,
+   -1.08,
+   -0.5,
+   0.5,
+   0.91,
+   1.26
+  ],
+  "x_corta_fogo": 0.8,
+  "prof_painel": 0.425,
+  "x_painel": 0.405,
+  "z_painel": 0.855,
+  "meia_interna": 0.66,
+  "meia_teto": 0.57,
+  "z_teto_int": 1.3,
+  "x_teto_frente": 0.35,
+  "x_teto_tras": -1.1,
+  "inclinacao_para_brisa": 1.1364,
+  "x_pb_topo": 0.33,
+  "z_pb_topo": 1.3,
+  "coluna_b": -0.36,
+  "coluna_a": 0.8,
+  "x_encosto_d": -0.34,
+  "x_encosto_t": -1.09,
+  "y_banco": 0.3,
+  "z_assento": 0.4436,
+  "z_assento_t": 0.4236,
+  "motor_traseiro": false,
+  "tampa_frente": [
+   0.78,
+   1.72,
+   -0.75,
+   0.75,
+   0.66,
+   0.9
+  ],
+  "tampa_tras": [
+   -1.83,
+   -1.005,
+   -0.57,
+   0.57,
+   0.7,
+   1.31
+  ],
+  "y_caixa_d": 0.46,
+  "y_caixa_t": 0.46,
+  "z_capo_tras": 0.83,
+  "z_capo_frente": 0.725,
+  "x_radiador": 1.55,
+  "z_tampa_tras_borda": 0.5,
+  "z_mala": 0.2536,
+  "x_mala_frente": -1.19,
+  "x_mala_tras": -1.76,
+  "avisos": []
+ },
+ "portas": {
+  "fl": {
+   "x0": -0.375,
+   "x1": 0.685,
+   "z0": 0.3,
+   "z1": 1.3,
+   "lado": 1,
+   "z_janela": 1.25,
+   "x_vidro": [
+    -0.31,
+    0.56
+   ]
+  },
+  "fr": {
+   "x0": -0.375,
+   "x1": 0.685,
+   "z0": 0.3,
+   "z1": 1.3,
+   "lado": -1,
+   "z_janela": 1.25,
+   "x_vidro": [
+    -0.31,
+    0.56
+   ]
+  }
+ },
+ "avisos": [],
+ "pecas": [
+  {
+   "nome": "interior_carpete",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 7016,
+   "triangulos_lod1": 2103,
+   "caixa_m": [
+    -1.23,
+    0.79,
+    -0.678,
+    0.678,
+    0.162,
+    0.544
+   ],
+   "materiais": [
+    "carpete",
+    "plastico"
+   ]
+  },
+  {
+   "nome": "interior_tapetes",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 1936,
+   "triangulos_lod1": 580,
+   "caixa_m": [
+    0.08,
+    0.52,
+    -0.52,
+    0.52,
+    0.183,
+    0.278
+   ],
+   "materiais": [
+    "tapete",
+    "borracha"
+   ]
+  },
+  {
+   "nome": "interior_banco_dianteiro_esq",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 13922,
+   "triangulos_lod1": 4176,
+   "caixa_m": [
+    -0.602,
+    0.252,
+    0.021,
+    0.591,
+    0.183,
+    1.227
+   ],
+   "materiais": [
+    "metal_preto",
+    "aluminio",
+    "plastico",
+    "vinil",
+    "vinil_2",
+    "cromado.001",
+    "plastico_liso",
+    "cinto",
+    "vermelho"
+   ]
+  },
+  {
+   "nome": "interior_banco_dianteiro_dir",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 13922,
+   "triangulos_lod1": 4176,
+   "caixa_m": [
+    -0.602,
+    0.252,
+    -0.591,
+    -0.021,
+    0.183,
+    1.227
+   ],
+   "materiais": [
+    "metal_preto",
+    "aluminio",
+    "plastico",
+    "vinil",
+    "vinil_2",
+    "cromado.001",
+    "plastico_liso",
+    "cinto",
+    "vermelho"
+   ]
+  },
+  {
+   "nome": "interior_banco_traseiro",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 12796,
+   "triangulos_lod1": 3838,
+   "caixa_m": [
+    -1.395,
+    -0.606,
+    -0.592,
+    0.592,
+    0.264,
+    0.922
+   ],
+   "materiais": [
+    "plastico",
+    "vinil",
+    "vinil_2",
+    "plastico_liso"
+   ]
+  },
+  {
+   "nome": "interior_painel",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 8498,
+   "triangulos_lod1": 2549,
+   "caixa_m": [
+    0.387,
+    0.854,
+    -0.43,
+    0.484,
+    0.477,
+    0.908
+   ],
+   "materiais": [
+    "vinil",
+    "pintura_interna",
+    "cromado.001",
+    "plastico",
+    "metal_preto",
+    "instrumentos_velocimetro",
+    "laranja",
+    "instrumentos_combustivel",
+    "instrumentos_temperatura",
+    "plastico_liso",
+    "alto_falante"
+   ]
+  },
+  {
+   "nome": "interior_volante",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 6724,
+   "triangulos_lod1": 2016,
+   "caixa_m": [
+    0.109,
+    0.615,
+    0.084,
+    0.516,
+    0.519,
+    0.936
+   ],
+   "materiais": [
+    "metal_preto",
+    "plastico",
+    "plastico_liso",
+    "cromado.001",
+    "aluminio",
+    "vinil",
+    "vinil_gasto"
+   ]
+  },
+  {
+   "nome": "interior_pedais",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 3458,
+   "triangulos_lod1": 1037,
+   "caixa_m": [
+    0.529,
+    0.718,
+    0.145,
+    0.585,
+    0.215,
+    0.7
+   ],
+   "materiais": [
+    "metal_preto",
+    "borracha",
+    "plastico"
+   ]
+  },
+  {
+   "nome": "interior_cambio",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 1060,
+   "triangulos_lod1": 318,
+   "caixa_m": [
+    0.3,
+    0.47,
+    -0.075,
+    0.075,
+    0.314,
+    0.703
+   ],
+   "materiais": [
+    "vinil",
+    "plastico",
+    "cromado.001",
+    "plastico_liso"
+   ]
+  },
+  {
+   "nome": "interior_freio_mao",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 1128,
+   "triangulos_lod1": 338,
+   "caixa_m": [
+    -0.307,
+    -0.01,
+    -0.04,
+    0.04,
+    0.263,
+    0.374
+   ],
+   "materiais": [
+    "plastico",
+    "metal_preto",
+    "cromado.001",
+    "borracha"
+   ]
+  },
+  {
+   "nome": "interior_console",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 108,
+   "triangulos_lod1": 32,
+   "caixa_m": [
+    0.275,
+    0.495,
+    -0.1,
+    0.1,
+    0.315,
+    0.327
+   ],
+   "materiais": [
+    "carpete"
+   ]
+  },
+  {
+   "nome": "interior_cintos",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 2244,
+   "triangulos_lod1": 669,
+   "caixa_m": [
+    -1.081,
+    -0.328,
+    -0.705,
+    0.705,
+    0.214,
+    0.876
+   ],
+   "materiais": [
+    "plastico",
+    "cromado.001",
+    "cinto"
+   ]
+  },
+  {
+   "nome": "interior_forro_teto",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 10256,
+   "triangulos_lod1": 3076,
+   "caixa_m": [
+    -1.175,
+    0.416,
+    -0.563,
+    0.565,
+    1.163,
+    1.344
+   ],
+   "materiais": [
+    "forro_teto",
+    "plastico_claro",
+    "lente",
+    "plastico"
+   ]
+  },
+  {
+   "nome": "interior_quebra_sois",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 2480,
+   "triangulos_lod1": 744,
+   "caixa_m": [
+    0.139,
+    0.307,
+    -0.512,
+    0.512,
+    1.276,
+    1.318
+   ],
+   "materiais": [
+    "vinil",
+    "plastico"
+   ]
+  },
+  {
+   "nome": "interior_retrovisor",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 1492,
+   "triangulos_lod1": 446,
+   "caixa_m": [
+    0.229,
+    0.34,
+    -0.125,
+    0.125,
+    1.17,
+    1.312
+   ],
+   "materiais": [
+    "plastico",
+    "espelho",
+    "plastico_liso"
+   ]
+  },
+  {
+   "nome": "interior_acabamento_colunas",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 250,
+   "triangulos_lod1": 74,
+   "caixa_m": [
+    -0.431,
+    0.692,
+    -0.65,
+    0.65,
+    0.887,
+    1.297
+   ],
+   "materiais": [
+    "plastico"
+   ]
+  },
+  {
+   "nome": "interior_acabamento_pe_esq",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 206,
+   "triangulos_lod1": 60,
+   "caixa_m": [
+    0.662,
+    0.78,
+    0.363,
+    0.683,
+    0.184,
+    0.717
+   ],
+   "materiais": [
+    "plastico"
+   ]
+  },
+  {
+   "nome": "interior_acabamento_pe_dir",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 206,
+   "triangulos_lod1": 60,
+   "caixa_m": [
+    0.662,
+    0.78,
+    -0.683,
+    -0.363,
+    0.184,
+    0.717
+   ],
+   "materiais": [
+    "plastico"
+   ]
+  },
+  {
+   "nome": "interior_lateral_traseira_esq",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 1374,
+   "triangulos_lod1": 412,
+   "caixa_m": [
+    -1.19,
+    -0.351,
+    0.493,
+    0.723,
+    0.234,
+    0.912
+   ],
+   "materiais": [
+    "plastico",
+    "vinil",
+    "plastico_liso"
+   ]
+  },
+  {
+   "nome": "interior_lateral_traseira_dir",
+   "grupo": "habitaculo",
+   "segue": null,
+   "triangulos": 1374,
+   "triangulos_lod1": 411,
+   "caixa_m": [
+    -1.19,
+    -0.351,
+    -0.723,
+    -0.493,
+    0.234,
+    0.912
+   ],
+   "materiais": [
+    "plastico",
+    "vinil",
+    "plastico_liso"
+   ]
+  },
+  {
+   "nome": "door_card_fl_chapa",
+   "grupo": "porta",
+   "segue": "door_fl",
+   "triangulos": 2164,
+   "triangulos_lod1": 645,
+   "caixa_m": [
+    -0.372,
+    0.706,
+    0.549,
+    0.74,
+    0.3,
+    0.916
+   ],
+   "materiais": [
+    "pintura_interna",
+    "metal_preto",
+    "aluminio",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "door_card_fl",
+   "grupo": "porta",
+   "segue": "door_fl",
+   "triangulos": 8204,
+   "triangulos_lod1": 2461,
+   "caixa_m": [
+    -0.369,
+    0.699,
+    0.515,
+    0.705,
+    0.33,
+    0.952
+   ],
+   "materiais": [
+    "vinil",
+    "cromado.001",
+    "borracha",
+    "plastico_liso",
+    "metal_preto"
+   ]
+  },
+  {
+   "nome": "jamb_fl_soleira",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 848,
+   "triangulos_lod1": 253,
+   "caixa_m": [
+    -0.425,
+    0.695,
+    0.273,
+    0.4,
+    0.21,
+    0.32
+   ],
+   "materiais": [
+    "pintura_interna",
+    "plastico",
+    "aluminio",
+    "borracha",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "jamb_fl_colunas",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 956,
+   "triangulos_lod1": 286,
+   "caixa_m": [
+    -0.399,
+    0.697,
+    0.533,
+    0.707,
+    0.502,
+    0.857
+   ],
+   "materiais": [
+    "pintura_interna",
+    "borracha",
+    "plastico"
+   ]
+  },
+  {
+   "nome": "jamb_fl_borracha",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 1016,
+   "triangulos_lod1": 304,
+   "caixa_m": [
+    -0.37,
+    0.68,
+    0.254,
+    0.716,
+    0.309,
+    0.854
+   ],
+   "materiais": [
+    "borracha"
+   ]
+  },
+  {
+   "nome": "jamb_fl_dobradicas",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 1320,
+   "triangulos_lod1": 396,
+   "caixa_m": [
+    0.635,
+    0.707,
+    0.596,
+    0.669,
+    0.377,
+    0.81
+   ],
+   "materiais": [
+    "metal_preto",
+    "aluminio",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "jamb_fl_batente",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 360,
+   "triangulos_lod1": 108,
+   "caixa_m": [
+    -0.392,
+    -0.356,
+    0.676,
+    0.716,
+    0.722,
+    0.792
+   ],
+   "materiais": [
+    "aluminio",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "door_card_fr_chapa",
+   "grupo": "porta",
+   "segue": "door_fr",
+   "triangulos": 2158,
+   "triangulos_lod1": 643,
+   "caixa_m": [
+    -0.372,
+    0.706,
+    -0.74,
+    -0.549,
+    0.3,
+    0.916
+   ],
+   "materiais": [
+    "pintura_interna",
+    "metal_preto",
+    "aluminio",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "door_card_fr",
+   "grupo": "porta",
+   "segue": "door_fr",
+   "triangulos": 8217,
+   "triangulos_lod1": 2465,
+   "caixa_m": [
+    -0.369,
+    0.699,
+    -0.705,
+    -0.515,
+    0.33,
+    0.952
+   ],
+   "materiais": [
+    "vinil",
+    "cromado.001",
+    "borracha",
+    "plastico_liso",
+    "metal_preto"
+   ]
+  },
+  {
+   "nome": "jamb_fr_soleira",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 848,
+   "triangulos_lod1": 253,
+   "caixa_m": [
+    -0.425,
+    0.695,
+    -0.4,
+    -0.273,
+    0.21,
+    0.32
+   ],
+   "materiais": [
+    "pintura_interna",
+    "plastico",
+    "aluminio",
+    "borracha",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "jamb_fr_colunas",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 956,
+   "triangulos_lod1": 286,
+   "caixa_m": [
+    -0.399,
+    0.697,
+    -0.707,
+    -0.533,
+    0.502,
+    0.857
+   ],
+   "materiais": [
+    "pintura_interna",
+    "borracha",
+    "plastico"
+   ]
+  },
+  {
+   "nome": "jamb_fr_borracha",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 1016,
+   "triangulos_lod1": 304,
+   "caixa_m": [
+    -0.37,
+    0.68,
+    -0.716,
+    -0.254,
+    0.309,
+    0.854
+   ],
+   "materiais": [
+    "borracha"
+   ]
+  },
+  {
+   "nome": "jamb_fr_dobradicas",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 1320,
+   "triangulos_lod1": 396,
+   "caixa_m": [
+    0.635,
+    0.707,
+    -0.669,
+    -0.596,
+    0.377,
+    0.81
+   ],
+   "materiais": [
+    "metal_preto",
+    "aluminio",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "jamb_fr_batente",
+   "grupo": "vao_porta",
+   "segue": null,
+   "triangulos": 360,
+   "triangulos_lod1": 108,
+   "caixa_m": [
+    -0.392,
+    -0.356,
+    -0.716,
+    -0.676,
+    0.722,
+    0.792
+   ],
+   "materiais": [
+    "aluminio",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "interior_portamalas_carpete",
+   "grupo": "porta_malas",
+   "segue": null,
+   "triangulos": 5922,
+   "triangulos_lod1": 1775,
+   "caixa_m": [
+    -1.768,
+    -1.19,
+    -0.659,
+    0.659,
+    0.242,
+    0.853
+   ],
+   "materiais": [
+    "carpete",
+    "pintura_interna",
+    "plastico",
+    "cromado.001",
+    "metal_preto",
+    "ferro"
+   ]
+  },
+  {
+   "nome": "interior_portamalas_lanternas",
+   "grupo": "porta_malas",
+   "segue": null,
+   "triangulos": 1576,
+   "triangulos_lod1": 472,
+   "caixa_m": [
+    -1.66,
+    -1.309,
+    -0.69,
+    0.69,
+    0.52,
+    0.687
+   ],
+   "materiais": [
+    "metal_preto",
+    "plastico_liso",
+    "chicote"
+   ]
+  },
+  {
+   "nome": "interior_portamalas_tampao",
+   "grupo": "porta_malas",
+   "segue": null,
+   "triangulos": 108,
+   "triangulos_lod1": 32,
+   "caixa_m": [
+    -1.44,
+    -1.19,
+    -0.62,
+    0.62,
+    0.9,
+    0.914
+   ],
+   "materiais": [
+    "plastico"
+   ]
+  },
+  {
+   "nome": "engine_paralama_interno_esq",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 4784,
+   "triangulos_lod1": 1434,
+   "caixa_m": [
+    0.796,
+    1.554,
+    0.307,
+    0.505,
+    0.196,
+    0.826
+   ],
+   "materiais": [
+    "pintura_interna_po",
+    "borracha_po",
+    "aluminio_po",
+    "metal_preto_po",
+    "fio"
+   ]
+  },
+  {
+   "nome": "engine_longarina_esq",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 2556,
+   "triangulos_lod1": 766,
+   "caixa_m": [
+    0.746,
+    1.463,
+    0.303,
+    0.389,
+    0.228,
+    0.298
+   ],
+   "materiais": [
+    "chassi_po",
+    "fio",
+    "pintura_interna_po"
+   ]
+  },
+  {
+   "nome": "engine_paralama_interno_dir",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 4784,
+   "triangulos_lod1": 1434,
+   "caixa_m": [
+    0.796,
+    1.554,
+    -0.505,
+    -0.33,
+    0.196,
+    0.826
+   ],
+   "materiais": [
+    "pintura_interna_po",
+    "borracha_po",
+    "aluminio_po",
+    "metal_preto_po",
+    "fio"
+   ]
+  },
+  {
+   "nome": "engine_longarina_dir",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 2556,
+   "triangulos_lod1": 766,
+   "caixa_m": [
+    0.746,
+    1.463,
+    -0.389,
+    -0.303,
+    0.228,
+    0.298
+   ],
+   "materiais": [
+    "chassi_po",
+    "fio",
+    "pintura_interna_po"
+   ]
+  },
+  {
+   "nome": "engine_corta_fogo",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 3948,
+   "triangulos_lod1": 1184,
+   "caixa_m": [
+    0.795,
+    1.13,
+    -0.46,
+    0.46,
+    0.196,
+    0.865
+   ],
+   "materiais": [
+    "pintura_interna_po",
+    "isolante_po",
+    "plastico_po",
+    "metal_preto_po",
+    "aluminio_po",
+    "borracha_po",
+    "reservatorio_po",
+    "amarelo"
+   ]
+  },
+  {
+   "nome": "hood_manta",
+   "grupo": "motor",
+   "segue": "hood",
+   "triangulos": 988,
+   "triangulos_lod1": 296,
+   "caixa_m": [
+    0.88,
+    1.5,
+    -0.401,
+    0.401,
+    0.794,
+    0.871
+   ],
+   "materiais": [
+    "isolante_po",
+    "pintura_interna_po"
+   ]
+  },
+  {
+   "nome": "engine_travessa",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 3612,
+   "triangulos_lod1": 1082,
+   "caixa_m": [
+    0.899,
+    1.61,
+    -0.46,
+    0.46,
+    0.567,
+    0.831
+   ],
+   "materiais": [
+    "pintura_interna_po",
+    "metal_preto_po",
+    "plastico_po",
+    "borracha_po",
+    "chicote_po"
+   ]
+  },
+  {
+   "nome": "engine_radiador",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 990,
+   "triangulos_lod1": 296,
+   "caixa_m": [
+    1.49,
+    1.59,
+    -0.34,
+    0.34,
+    0.688,
+    0.782
+   ],
+   "materiais": [
+    "radiador",
+    "metal_preto_po",
+    "borracha_po",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "engine_ventoinha",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 1468,
+   "triangulos_lod1": 439,
+   "caixa_m": [
+    1.396,
+    1.52,
+    -0.362,
+    0.1,
+    0.309,
+    0.704
+   ],
+   "materiais": [
+    "plastico_po",
+    "metal_preto_po",
+    "chicote_po"
+   ]
+  },
+  {
+   "nome": "engine_motor",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 17852,
+   "triangulos_lod1": 5355,
+   "caixa_m": [
+    0.756,
+    1.318,
+    -0.304,
+    0.402,
+    0.219,
+    0.801
+   ],
+   "materiais": [
+    "metal_preto_po",
+    "aluminio_fundido_po",
+    "fundido_po",
+    "motor_pintado_po",
+    "borracha_po",
+    "plastico_po",
+    "cromado.001",
+    "ferro_po",
+    "fio",
+    "amarelo",
+    "azul"
+   ]
+  },
+  {
+   "nome": "engine_bateria",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 3632,
+   "triangulos_lod1": 1088,
+   "caixa_m": [
+    0.964,
+    1.504,
+    0.085,
+    0.431,
+    0.252,
+    0.519
+   ],
+   "materiais": [
+    "metal_preto_po",
+    "bateria_po",
+    "aluminio_po",
+    "fundido_po",
+    "vermelho"
+   ]
+  },
+  {
+   "nome": "engine_reservatorios",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 3492,
+   "triangulos_lod1": 1047,
+   "caixa_m": [
+    0.87,
+    1.488,
+    -0.415,
+    -0.221,
+    0.286,
+    0.818
+   ],
+   "materiais": [
+    "reservatorio_po",
+    "metal_preto_po",
+    "borracha_po",
+    "aluminio_po",
+    "azul"
+   ]
+  },
+  {
+   "nome": "engine_mangueiras",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 4160,
+   "triangulos_lod1": 1248,
+   "caixa_m": [
+    0.807,
+    1.49,
+    -0.322,
+    0.332,
+    0.267,
+    0.747
+   ],
+   "materiais": [
+    "borracha_po",
+    "aluminio_po",
+    "metal_preto_po"
+   ]
+  },
+  {
+   "nome": "engine_chicote",
+   "grupo": "motor",
+   "segue": null,
+   "triangulos": 7124,
+   "triangulos_lod1": 2136,
+   "caixa_m": [
+    0.827,
+    1.477,
+    -0.436,
+    0.452,
+    0.441,
+    0.769
+   ],
+   "materiais": [
+    "chicote_po",
+    "plastico_po",
+    "metal_preto_po",
+    "fio"
+   ]
+  },
+  {
+   "nome": "interior_portamalas_estepe",
+   "grupo": "porta_malas",
+   "segue": null,
+   "triangulos": 4072,
+   "triangulos_lod1": 1220,
+   "caixa_m": [
+    0.959,
+    1.505,
+    -0.345,
+    0.191,
+    0.312,
+    0.851
+   ],
+   "materiais": [
+    "borracha",
+    "metal_preto",
+    "cromado.001",
+    "fio"
+   ]
+  },
+  {
+   "nome": "under_assoalho",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 7040,
+   "triangulos_lod1": 2112,
+   "caixa_m": [
+    -1.638,
+    0.82,
+    -0.67,
+    0.67,
+    0.099,
+    0.369
+   ],
+   "materiais": [
+    "chassi_graxa"
+   ]
+  },
+  {
+   "nome": "under_linhas",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 864,
+   "triangulos_lod1": 258,
+   "caixa_m": [
+    -0.856,
+    0.75,
+    0.205,
+    0.275,
+    0.12,
+    0.135
+   ],
+   "materiais": [
+    "aluminio_graxa",
+    "plastico_graxa",
+    "metal_preto_graxa"
+   ]
+  },
+  {
+   "nome": "under_escapamento",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 1190,
+   "triangulos_lod1": 357,
+   "caixa_m": [
+    -1.654,
+    1.27,
+    -0.468,
+    0.06,
+    0.014,
+    0.244
+   ],
+   "materiais": [
+    "ferro_graxa",
+    "cromado.001",
+    "borracha_graxa"
+   ]
+  },
+  {
+   "nome": "under_tanque",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 786,
+   "triangulos_lod1": 234,
+   "caixa_m": [
+    -1.376,
+    0.7,
+    -0.255,
+    0.716,
+    -0.071,
+    0.7
+   ],
+   "materiais": [
+    "metal_preto_graxa",
+    "borracha_graxa",
+    "aluminio_graxa"
+   ]
+  },
+  {
+   "nome": "under_berco",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 1108,
+   "triangulos_lod1": 332,
+   "caixa_m": [
+    0.935,
+    1.115,
+    -0.36,
+    0.36,
+    0.115,
+    0.3
+   ],
+   "materiais": [
+    "metal_preto_graxa",
+    "borracha_graxa"
+   ]
+  },
+  {
+   "nome": "under_suspensao_dianteira_esq",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 2900,
+   "triangulos_lod1": 869,
+   "caixa_m": [
+    0.965,
+    1.288,
+    0.137,
+    0.522,
+    0.13,
+    0.704
+   ],
+   "materiais": [
+    "fundido_graxa",
+    "metal_preto_graxa",
+    "borracha_graxa",
+    "cromado.001",
+    "aluminio_graxa"
+   ]
+  },
+  {
+   "nome": "under_caixa_roda_fl",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 656,
+   "triangulos_lod1": 196,
+   "caixa_m": [
+    0.79,
+    1.431,
+    0.475,
+    0.705,
+    0.174,
+    0.605
+   ],
+   "materiais": [
+    "plastico_graxa"
+   ]
+  },
+  {
+   "nome": "under_suspensao_dianteira_dir",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 2900,
+   "triangulos_lod1": 870,
+   "caixa_m": [
+    0.965,
+    1.288,
+    -0.521,
+    -0.137,
+    0.13,
+    0.704
+   ],
+   "materiais": [
+    "fundido_graxa",
+    "metal_preto_graxa",
+    "borracha_graxa",
+    "cromado.001",
+    "aluminio_graxa"
+   ]
+  },
+  {
+   "nome": "under_caixa_roda_fr",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 656,
+   "triangulos_lod1": 196,
+   "caixa_m": [
+    0.79,
+    1.431,
+    -0.705,
+    -0.475,
+    0.174,
+    0.605
+   ],
+   "materiais": [
+    "plastico_graxa"
+   ]
+  },
+  {
+   "nome": "under_eixo_traseiro",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 3284,
+   "triangulos_lod1": 984,
+   "caixa_m": [
+    -1.227,
+    -0.586,
+    -0.469,
+    0.469,
+    0.205,
+    0.641
+   ],
+   "materiais": [
+    "metal_preto_graxa",
+    "borracha_graxa"
+   ]
+  },
+  {
+   "nome": "under_caixa_roda_rl",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 656,
+   "triangulos_lod1": 196,
+   "caixa_m": [
+    -1.431,
+    -0.79,
+    0.475,
+    0.726,
+    0.174,
+    0.605
+   ],
+   "materiais": [
+    "plastico_graxa"
+   ]
+  },
+  {
+   "nome": "under_caixa_roda_rr",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 656,
+   "triangulos_lod1": 196,
+   "caixa_m": [
+    -1.431,
+    -0.79,
+    -0.726,
+    -0.475,
+    0.174,
+    0.605
+   ],
+   "materiais": [
+    "plastico_graxa"
+   ]
+  },
+  {
+   "nome": "under_saias",
+   "grupo": "embaixo",
+   "segue": null,
+   "triangulos": 648,
+   "triangulos_lod1": 194,
+   "caixa_m": [
+    -1.678,
+    1.502,
+    -0.59,
+    0.59,
+    0.18,
+    0.314
+   ],
+   "materiais": [
+    "chassi_graxa"
+   ]
+  },
+  {
+   "nome": "brake_fl_cubo",
+   "grupo": "freios",
+   "segue": "wheel_fl (gira com a roda)",
+   "triangulos": 704,
+   "triangulos_lod1": 210,
+   "caixa_m": [
+    1.035,
+    1.186,
+    0.565,
+    0.615,
+    0.209,
+    0.359
+   ],
+   "materiais": [
+    "aluminio_graxa",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "brake_fl_disco",
+   "grupo": "freios",
+   "segue": "wheel_fl (gira com a roda)",
+   "triangulos": 1232,
+   "triangulos_lod1": 368,
+   "caixa_m": [
+    0.994,
+    1.227,
+    0.529,
+    0.57,
+    0.167,
+    0.4
+   ],
+   "materiais": [
+    "disco",
+    "ferro_graxa"
+   ]
+  },
+  {
+   "nome": "brake_fl_pinca",
+   "grupo": "freios",
+   "segue": "wheel_fl (manga: não gira)",
+   "triangulos": 1592,
+   "triangulos_lod1": 476,
+   "caixa_m": [
+    0.904,
+    1.213,
+    0.37,
+    0.576,
+    0.099,
+    0.3
+   ],
+   "materiais": [
+    "pinca_graxa",
+    "aluminio_graxa",
+    "borracha_graxa"
+   ]
+  },
+  {
+   "nome": "brake_fl_protecao",
+   "grupo": "freios",
+   "segue": "wheel_fl (manga: não gira)",
+   "triangulos": 400,
+   "triangulos_lod1": 120,
+   "caixa_m": [
+    0.986,
+    1.235,
+    0.517,
+    0.529,
+    0.159,
+    0.392
+   ],
+   "materiais": [
+    "metal_preto_graxa"
+   ]
+  },
+  {
+   "nome": "brake_fr_cubo",
+   "grupo": "freios",
+   "segue": "wheel_fr (gira com a roda)",
+   "triangulos": 704,
+   "triangulos_lod1": 210,
+   "caixa_m": [
+    1.035,
+    1.186,
+    -0.615,
+    -0.565,
+    0.209,
+    0.359
+   ],
+   "materiais": [
+    "aluminio_graxa",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "brake_fr_disco",
+   "grupo": "freios",
+   "segue": "wheel_fr (gira com a roda)",
+   "triangulos": 1232,
+   "triangulos_lod1": 368,
+   "caixa_m": [
+    0.994,
+    1.227,
+    -0.57,
+    -0.529,
+    0.167,
+    0.4
+   ],
+   "materiais": [
+    "disco",
+    "ferro_graxa"
+   ]
+  },
+  {
+   "nome": "brake_fr_pinca",
+   "grupo": "freios",
+   "segue": "wheel_fr (manga: não gira)",
+   "triangulos": 1592,
+   "triangulos_lod1": 476,
+   "caixa_m": [
+    0.904,
+    1.213,
+    -0.576,
+    -0.37,
+    0.267,
+    0.468
+   ],
+   "materiais": [
+    "pinca_graxa",
+    "aluminio_graxa",
+    "borracha_graxa"
+   ]
+  },
+  {
+   "nome": "brake_fr_protecao",
+   "grupo": "freios",
+   "segue": "wheel_fr (manga: não gira)",
+   "triangulos": 400,
+   "triangulos_lod1": 120,
+   "caixa_m": [
+    0.986,
+    1.235,
+    -0.529,
+    -0.517,
+    0.176,
+    0.408
+   ],
+   "materiais": [
+    "metal_preto_graxa"
+   ]
+  },
+  {
+   "nome": "brake_rl_cubo",
+   "grupo": "freios",
+   "segue": "wheel_rl (gira com a roda)",
+   "triangulos": 704,
+   "triangulos_lod1": 210,
+   "caixa_m": [
+    -1.186,
+    -1.035,
+    0.565,
+    0.615,
+    0.209,
+    0.359
+   ],
+   "materiais": [
+    "aluminio_graxa",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "brake_rl_tambor",
+   "grupo": "freios",
+   "segue": "wheel_rl (gira com a roda)",
+   "triangulos": 1280,
+   "triangulos_lod1": 384,
+   "caixa_m": [
+    -1.219,
+    -1.002,
+    0.49,
+    0.57,
+    0.175,
+    0.392
+   ],
+   "materiais": [
+    "ferro_graxa"
+   ]
+  },
+  {
+   "nome": "brake_rl_espelho",
+   "grupo": "freios",
+   "segue": "wheel_rl (manga: não gira)",
+   "triangulos": 336,
+   "triangulos_lod1": 100,
+   "caixa_m": [
+    -1.223,
+    -0.998,
+    0.46,
+    0.497,
+    0.171,
+    0.396
+   ],
+   "materiais": [
+    "metal_preto_graxa"
+   ]
+  },
+  {
+   "nome": "brake_rr_cubo",
+   "grupo": "freios",
+   "segue": "wheel_rr (gira com a roda)",
+   "triangulos": 704,
+   "triangulos_lod1": 210,
+   "caixa_m": [
+    -1.186,
+    -1.035,
+    -0.615,
+    -0.565,
+    0.209,
+    0.359
+   ],
+   "materiais": [
+    "aluminio_graxa",
+    "cromado.001"
+   ]
+  },
+  {
+   "nome": "brake_rr_tambor",
+   "grupo": "freios",
+   "segue": "wheel_rr (gira com a roda)",
+   "triangulos": 1280,
+   "triangulos_lod1": 384,
+   "caixa_m": [
+    -1.219,
+    -1.002,
+    -0.57,
+    -0.49,
+    0.175,
+    0.392
+   ],
+   "materiais": [
+    "ferro_graxa"
+   ]
+  },
+  {
+   "nome": "brake_rr_espelho",
+   "grupo": "freios",
+   "segue": "wheel_rr (manga: não gira)",
+   "triangulos": 336,
+   "triangulos_lod1": 100,
+   "caixa_m": [
+    -1.223,
+    -0.998,
+    -0.497,
+    -0.46,
+    0.171,
+    0.396
+   ],
+   "materiais": [
+    "metal_preto_graxa"
+   ]
+  }
+ ],
+ "triangulos": {
+  "lod0": 229657,
+  "lod1": 68823
+ },
+ "triangulos_por_grupo": {
+  "habitaculo": 90450,
+  "porta": 20743,
+  "vao_porta": 9000,
+  "porta_malas": 11678,
+  "motor": 61946,
+  "embaixo": 23344,
+  "freios": 12496
+ },
+ "materiais": [
+  "alto_falante",
+  "aluminio",
+  "aluminio_fundido",
+  "aluminio_fundido_po",
+  "aluminio_graxa",
+  "aluminio_po",
+  "amarelo",
+  "azul",
+  "bateria",
+  "bateria_po",
+  "borracha",
+  "borracha_graxa",
+  "borracha_po",
+  "carpete",
+  "chassi",
+  "chassi_graxa",
+  "chassi_po",
+  "chicote",
+  "chicote_po",
+  "cinto",
+  "cromado",
+  "disco",
+  "espelho",
+  "ferro",
+  "ferro_graxa",
+  "ferro_po",
+  "fio",
+  "forro_teto",
+  "fundido",
+  "fundido_graxa",
+  "fundido_po",
+  "instrumentos_combustivel",
+  "instrumentos_temperatura",
+  "instrumentos_velocimetro",
+  "isolante",
+  "isolante_po",
+  "laranja",
+  "lente",
+  "metal_preto",
+  "metal_preto_graxa",
+  "metal_preto_po",
+  "motor_pintado",
+  "motor_pintado_po",
+  "pinca",
+  "pinca_graxa",
+  "pintura_interna",
+  "pintura_interna_po",
+  "plastico",
+  "plastico_claro",
+  "plastico_graxa",
+  "plastico_liso",
+  "plastico_po",
+  "radiador",
+  "reservatorio",
+  "reservatorio_po",
+  "tapete",
+  "vermelho",
+  "vinil",
+  "vinil_2",
+  "vinil_gasto"
+ ],
+ "previas": [
+  "jabuti_porta.jpg",
+  "jabuti_porta_solta.jpg",
+  "jabuti_cabine.jpg",
+  "jabuti_painel.jpg",
+  "jabuti_motor.jpg",
+  "jabuti_baixo.jpg"
+ ],
+ "previa_faces_do_para_brisa_tiradas": 4555
+}

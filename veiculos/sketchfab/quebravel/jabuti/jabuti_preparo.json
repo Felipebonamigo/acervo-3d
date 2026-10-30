@@ -1,0 +1,74 @@
+{
+ "notas": "Preparo do Jabuti (30/10/2026) sobre o 'Fiat_147' de lael.eugenio (Sketchfab, CC BY 4.0), arquivo scene.gltf do zip glTF. Fora: interior do autor (bancos, painel, volante, forros, forro de porta Object_23), que o kit de carro completo refaz. Farol (Object_29) vira `luz` para o detalhes_na_casca refazer com lente e refletor; lanternas ficam com a geometria do autor nos materiais do jogo. Cromo de verdade (para-choques, frisos da grade, molduras das janelas, espelho) em `cromo` (MI_DNCromoCoupe no jogo); aros em `cromado` (o jogo usa as rodas de kit).",
+ "corpo": "Object_47",
+ "rodas": [
+  "Object_33",
+  "Object_34",
+  "Object_82",
+  "Object_83"
+ ],
+ "materiais": {
+  "Body": "pintura",
+  "Glass": "vidro",
+  "tyres": "pneu",
+  "Silver": "cromo",
+  "Masck": "chassi",
+  "Black": "chassi",
+  "borda": "chassi",
+  "material": "luz_vermelha",
+  "orange": "luz_ambar",
+  "white": "luz_branca",
+  "material_0": "pintura"
+ },
+ "objetos": {
+  "Object_47": {},
+  "Object_48": {},
+  "Object_49": {},
+  "Object_50": {},
+  "Object_52": {},
+  "Object_54": {},
+  "Object_20": {},
+  "Object_21": {},
+  "Object_22": {},
+  "Object_24": {},
+  "Object_26": {},
+  "Object_27": {
+   "material_0": "chassi"
+  },
+  "Object_4": {},
+  "Object_6": {},
+  "Object_7": {},
+  "Object_9": {},
+  "Object_10": {},
+  "Object_12": {},
+  "Object_13": {},
+  "Object_15": {},
+  "Object_16": {},
+  "Object_17": {},
+  "Object_18": {},
+  "Object_29": {
+   "white": "luz"
+  },
+  "Object_31": {},
+  "Object_33": {},
+  "Object_34": {
+   "Silver": "cromado"
+  },
+  "Object_82": {},
+  "Object_83": {
+   "Silver": "cromado"
+  },
+  "Object_36": {},
+  "Object_38": {},
+  "Object_40": {},
+  "Object_42": {
+   "Glass": "cromo"
+  },
+  "Object_43": {
+   "Silver": "chassi"
+  },
+  "Object_45": {},
+  "Object_80": {},
+  "Object_76": {}
+ }
+}
