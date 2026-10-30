@@ -1,0 +1,43 @@
+{
+ "materiais": {
+  "CarPaint": "pintura",
+  "Glass": "vidro",
+  "Plastic": "chassi",
+  "Grill": "chassi",
+  "LightGlass": "fora",
+  "LightO": "luz",
+  "LightR": "luz",
+  "LightW": "cromado",
+  "Rim": "cromado",
+  "Rubber": "pneu",
+  "Shadow": "fora"
+ },
+ "rodas": [
+  "Wheel"
+ ],
+ "frente": "-y",
+ "fora_objetos": [
+  "SteeringWheel",
+  "Shadow"
+ ],
+ "fora_caixas": [
+  [
+   -1.45,
+   1.45,
+   -0.3,
+   2.4,
+   -0.9,
+   1.45,
+   "Plastic"
+  ],
+  [
+   -1.9,
+   1.9,
+   -3.05,
+   -0.95,
+   -0.85,
+   1.7,
+   "Plastic"
+  ]
+ ]
+}

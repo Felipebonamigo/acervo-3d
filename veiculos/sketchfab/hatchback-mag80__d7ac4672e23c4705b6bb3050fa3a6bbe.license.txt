@@ -1,0 +1,11 @@
+Model Information:
+* title:	Hatchback
+* source:	https://sketchfab.com/3d-models/hatchback-d7ac4672e23c4705b6bb3050fa3a6bbe
+* author:	MaG80 (https://sketchfab.com/MaG80)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Hatchback" (https://sketchfab.com/3d-models/hatchback-d7ac4672e23c4705b6bb3050fa3a6bbe) by MaG80 (https://sketchfab.com/MaG80) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
