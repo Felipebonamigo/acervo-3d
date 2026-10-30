@@ -29,6 +29,7 @@
       "estepe_inclinacao": 72,
       "saias": false,
       "aparar_desde_a_saia": true,
+      "lateral_traseira_recuada": 0.08,
       "tanque": "frente",
       "carroceria": "sedan",
       "nota": "motor traseiro arrefecido a ar (sem radiador: a ventoinha fica na carcaça do motor); porta-malas, estepe e tanque na frente"

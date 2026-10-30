@@ -2161,6 +2161,11 @@ class Kit:
                 k = (round(x, 4), round(z, 4))
                 if k not in cache:
                     cache[k] = self.lado_em(x, z, s, folga=0.02)
+                    # "lateral_traseira_recuada" (Besouro, 30/10/2026): a carroceria acaba onde o para-lama aparafusado começa e a
+                    # lateral, medida rente à borda dele, aparecia pela fresta da emenda; fica atrás da chapa de até tanto acima
+                    dz = self.cfg.get("lateral_traseira_recuada")
+                    if dz:
+                        cache[k] = min(cache[k], min(self.lado_em(x, z + dz * j / 3, s, folga=0.02) for j in (1, 2, 3)))
                 yy = min(cache[k], M["meia_interna"] + 0.06)
                 return V(x, s * yy, z)
             q.grade("plastico", 16, 10, ponto, 0.015, normal_fn=lambda u, v, s=s: (0, s, 0))

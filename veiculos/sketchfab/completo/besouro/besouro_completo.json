@@ -543,15 +543,15 @@
    "nome": "interior_lateral_traseira_esq",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 1462,
-   "triangulos_lod1": 438,
+   "triangulos": 1476,
+   "triangulos_lod1": 442,
    "caixa_m": [
-    -1.331,
-    -0.399,
+    -1.33,
+    -0.4,
     0.495,
     0.712,
-    0.267,
-    0.922
+    0.272,
+    0.92
    ],
    "materiais": [
     "plastico",
@@ -563,15 +563,15 @@
    "nome": "interior_lateral_traseira_dir",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 1458,
-   "triangulos_lod1": 436,
+   "triangulos": 1476,
+   "triangulos_lod1": 442,
    "caixa_m": [
     -1.331,
-    -0.399,
+    -0.4,
     -0.722,
     -0.495,
-    0.27,
-    0.92
+    0.272,
+    0.921
    ],
    "materiais": [
     "plastico",
@@ -1498,11 +1498,11 @@
   }
  ],
  "triangulos": {
-  "lod0": 185715,
-  "lod1": 55626
+  "lod0": 185747,
+  "lod1": 55636
  },
  "triangulos_por_grupo": {
-  "habitaculo": 91975,
+  "habitaculo": 92007,
   "porta": 20932,
   "vao_porta": 8920,
   "porta_malas": 11576,

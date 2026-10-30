@@ -1224,7 +1224,9 @@ fica em `veiculos/sketchfab/besouro-matej-ondra__3d166ec739cb440984cbcd17608675e
 - **`carro_completo.py`:** a sonda da saia só aceita o que fica além da roda (a lâmina alta deixava o raio bater no tubo do eixo
   traseiro, e a saia de trás caía no entre-eixos apagando o motor e o escapamento); por carro nos dados: `estepe_recuo` e
   `estepe_inclinacao` (o estepe da frente furava o bico da tampa), `saias: false` (a saia preta sob a lâmina aparecia como bloco) e o
-  `aparar_desde_a_saia` das outras sessões (o painel lateral do banco de trás aparecia na fresta do para-lama); as paredes do vão do
+  `aparar_desde_a_saia` das outras sessões (o painel lateral do banco de trás aparecia na fresta do para-lama) e `lateral_traseira_recuada`
+  (0,08: a lateral traseira da cabine fica atrás da chapa de até 8 cm acima; rente à borda do para-lama aparafusado, ela aparecia em
+  manchas cinza pela fresta da emenda, porque a carroceria acaba onde ele começa); as paredes do vão do
   motor boxer param onde a casca fica mais estreita que elas (saíam nos cantos da tampa do motor). `besouro` nos dados vale também para
   o Besouro do Meshy, que fica no acervo como estava.
 - **`rodas_kit.py`:** pneu 165/80 R15 (raio 32,2 cm, perto do 5.60-15 do carro real), no aro de aço 15 e na calota 15 do Pão de
