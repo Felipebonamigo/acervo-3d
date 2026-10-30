@@ -906,3 +906,46 @@ grade) numa textura só, interior, painel e freios. A cadeia:
   `previas/lambari/` (vistas, closes, as 14 cores e os 5 acabamentos com o HDRI de rua, a textura e o preparo dos materiais).
 - **Fica para decidir:** a grade é a de barras do modelo real (a ficha pede "sem a grade de barras do modelo real"); trocar por
   uma grade própria é um passo à parte se o Felipe quiser. As venezianas da coluna C, que eram só desenho na textura, saíram.
+
+## Pão de Forma do Sketchfab: furgão de passageiros, motor atrás (30/10/2026)
+
+O Pão de Forma do Detonauto passou a ser o "VW T1 style Bus Free" de Libau Media (Sketchfab, CC BY 4.0, crédito em `CREDITOS.md`),
+id `furgao-classico` no acervo. O do Meshy (`meshy-conta/pao-de-forma__*`) saiu sem o painel em V da frente e fica como reserva. O
+original traz o emblema da marca modelado: ele não entra no acervo; o que fica é a saída do preparo, já sem o emblema
+(`veiculos/sketchfab/furgao-classico-libau__c6dc0d2275524bb1a43ddc398d2be3bc.glb`). A cadeia:
+
+    python -I ferramentas/sketchfab_preparar.py -- <scene.gltf do download> <prep>/pao-de-forma.glb x 4.50 1.95 0.06 30 0 \
+        --juntar veiculos/sketchfab/quebravel/furgao-classico/furgao-classico_juntar.json
+    python -I ferramentas/carro_quebravel.py -- --entrada <prep>/pao-de-forma.glb --out <corte> --id furgao-classico --portas 2 \
+        --sem-rotulos --manter-normais --mapa veiculos/sketchfab/quebravel/furgao-classico/furgao-classico_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/furgao-classico.glb <corte>/furgao-classico.glb --dona glass_rear=body
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/furgao-classico.glb <corte>/furgao-classico.glb --mapa <o mapa> \
+        --sem-arco-redondo --sem-face-para-choque --sem-friso --sem-macaneta --sem-faixa --sem-quebra-vento --sem-sinaleira \
+        --sem-retrovisor --sem-miudezas --farol-redondo --sem-lanternas --sem-folha-solta --para-choque-pintado
+    python -I ferramentas/assar_desgaste.py -- <corte>/furgao-classico.glb <corte>/furgao-classico.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id furgao-classico --out <kit>
+    RODAS=aro_aco15,pneu_p165_95,calota15 ... python -I ferramentas/previa_carro.py -- ...     (prévias; CAM= para a van, 4,5 m)
+
+- **`sketchfab_preparar.py --juntar <json>` (novo):** para modelo de muitos objetos, cada um com seus materiais. O JSON dá o material
+  nosso de cada material do arquivo (`pintura`, `vidro`, `pneu`, `chassi`, `luz`, `cromado` ou `fora`), os objetos que são rodas,
+  `fora_objetos` (volante e bancos: o kit põe o interior dele), `fora_caixas` (ilhas inteiras dentro de uma caixa saem: o emblema),
+  `frente` (num furgão a frente e a traseira têm a mesma altura e a regra do Gol errava) e `vidros_raio` (a janela de trás veio
+  aberta: raios de fora acham o vão e a moldura, e o vidro novo fica 8 mm para dentro dela). O arquivo vem com os vértices soltos nas
+  costuras e o teto é um leque de triângulos finos: o preparo solda as costuras e, no fim, devolve as normais do arquivo (projetadas
+  pela normal; o teto tem forro por dentro a 1 cm). Sem a opção o Gol sai idêntico (posições, materiais e normais conferidos).
+- **Corte:** as portas da cabine vão pela ilha do modelo (`take: "ilha"`): a roda da frente fica embaixo da porta, e o recorte por
+  caixa deixava dentes no arco. O pneu do mapa vai até 37,2 cm do cubo e |y| 0,81: com 40 cm ele levava a borda do arco junto. Sem
+  para-lamas e sem capô (cabine avançada); a `trunk` é a tampa do motor.
+- **`borracha_vidro.py --dona vidro=peça`:** o vidro de trás fica na carroceria (a tampa de trás é a do motor, abaixo da janela).
+- **`detalhes_na_casca.py`:** `--sem-lanternas` (as lanternas redondas pequenas do modelo ficam; a de 3 segmentos não cabe) e
+  `--sem-folha-solta` (no furgão a "folha solta" do Gol é a frente da carroceria atrás do para-choque).
+- **`carro_completo.py`:** o dado `passageiros` troca a divisória com grade da versão de carga por fileiras do banco de trás (pelas
+  janelas se via uma gaiola); a derivada `y_vao_traseira` deixa o vão de trás por dentro das venezianas da lateral (as aletas que olham
+  para dentro saíam e abriam um buraco); o estepe em pé da área de carga não sai mais pela lateral. Nos dados de `furgao-classico`,
+  `x_frente` e `x_corta_fogo` vêm da chapa do nariz, não do para-choque (o painel e os acabamentos de pé saíam pela frente).
+- **`rodas_kit.py`:** aro de aço 15, calota 15 e o pneu diagonal alto 165/95 (34,7 cm de raio; o perfil 95 é o máximo do validador
+  do Detonauto); os itens que já existiam saem idênticos.
+- **Saída (30/10):** `quebravel/furgao-classico/` (36 peças, ~412 mil triângulos, 4,50 x 1,95 x 1,95 m, entre-eixos 2,51 m),
+  `completo/furgao-classico/` (68 peças, época 70, boxer traseiro, passageiros) e as prévias em `previas/furgao-classico/`. A cadeia de
+  conferência do Detonauto (make_crush_channels, kit_to_detonauto, glb_texturas, kit_completo_to_detonauto) passou com
+  `--modelo PaoDeForma`: 5 peças, 8 vidros (os 10 fixos da lateral ficam na carroceria), 8 malhas de kit, amassado em 512x512.
