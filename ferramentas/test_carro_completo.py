@@ -159,3 +159,42 @@ class TestDados(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestPicape(unittest.TestCase):
+    """Carroceria picape (Tropeiro, 30/10/2026): cabine simples sem banco de trás e a caçamba fora dos vãos que saem do corte."""
+
+    def setUp(self):
+        dados = cc.ler_dados()
+        self.cfg, _, self.avisos = cc.config_carro(dados, "tropeiro")
+        pasta = os.path.join(AQUI, "..", "veiculos", "sketchfab", "quebravel", "tropeiro")
+        self.M = cc.medidas(cc.ler_corte(pasta, "tropeiro"), self.cfg)
+
+    def test_tropeiro_e_picape_sem_aviso(self):
+        self.assertEqual(self.cfg["carroceria"], "picape")
+        self.assertIn("picape", cc.CARROCERIAS)
+        self.assertEqual(self.avisos, [])
+        self.assertEqual(self.M["avisos"], [])
+
+    def test_cabine_acaba_na_parede_de_tras(self):
+        M = self.M
+        # o encosto fica à frente da parede da cabine, e "banco de trás" é a própria parede
+        self.assertGreater(M["x_encosto_d"], M["x_cabine_tras"] + 0.1)
+        self.assertEqual(M["x_encosto_t"], M["x_cabine_tras"])
+        self.assertGreater(M["x_cabine_tras"], M["xt"] + 0.5)
+
+    def test_cacamba_nao_e_vao(self):
+        M = self.M
+        self.assertNotIn("traseira", M["vaos"])
+        self.assertLessEqual(M["vaos"]["cabine"][0], M["x_cabine_tras"])
+        # o assoalho da caçamba vem do mapa, acima do eixo
+        self.assertAlmostEqual(M["z_mala"], 0.55, places=3)
+        self.assertGreater(M["z_mala"], M["R"])
+
+    def test_outras_carrocerias_nao_mudam(self):
+        # a medida nova só existe na picape
+        dados = cc.ler_dados()
+        cfg, _, _ = cc.config_carro(dados, "caipora")
+        M = cc.medidas(cc.ler_corte(os.path.join(QUEBRAVEL, "caipora"), "caipora"), cfg)
+        self.assertNotIn("x_cabine_tras", M)
+        self.assertIn("traseira", M["vaos"])

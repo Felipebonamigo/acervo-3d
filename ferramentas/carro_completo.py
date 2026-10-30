@@ -42,7 +42,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 DADOS = os.path.join(AQUI, "carro_completo_dados.json")
 EPOCAS = ("70", "80", "90", "2000")
 MOTORES = ("l4_transversal", "l4_longitudinal", "v8_longitudinal", "boxer_traseiro")
-CARROCERIAS = ("hatch", "sedan", "furgao", "cabine_avancada", "jipe")
+CARROCERIAS = ("hatch", "sedan", "furgao", "cabine_avancada", "jipe", "picape")
 TEX = 1024             # lado das texturas de cor dos materiais grandes (px); aspereza e relevo em meia resolução
 LOD1_RAZAO = 0.3       # fração dos triângulos no LOD1
 JPEG_QUALIDADE = 82    # as texturas vão em JPEG dentro do GLB (cada GLB < 50 MB, regra do acervo)
@@ -200,8 +200,14 @@ def medidas(corte, cfg=None):
     cb = med.get("coluna_b", xt + 0.4 * M["entre_eixos"])
     M["coluna_b"] = cb
     M["coluna_a"] = med.get("coluna_a", ws[1] - 0.2)
-    d("x_encosto_d", min(cb + 0.02, M["x_corta_fogo"] - 1.05))
-    d("x_encosto_t", _limitar(xt + 0.05, rg[0] + 0.12, M["x_encosto_d"] - 0.75))
+    if carroc == "picape":
+        # cabine simples: a parede de trás é a do vidro traseiro; o encosto fica 14 cm à frente dela e não há banco de trás
+        d("x_cabine_tras", rg[1] + 0.02)
+        d("x_encosto_d", max(M["x_cabine_tras"] + 0.14, min(cb + 0.02, M["x_corta_fogo"] - 1.05)))
+        d("x_encosto_t", M["x_cabine_tras"])
+    else:
+        d("x_encosto_d", min(cb + 0.02, M["x_corta_fogo"] - 1.05))
+        d("x_encosto_t", _limitar(xt + 0.05, rg[0] + 0.12, M["x_encosto_d"] - 0.75))
     d("y_banco", max(0.27, M["meia_interna"] - 0.36))
     d("z_assento", M["z_piso"] + 0.27)
     d("z_assento_t", M["z_piso"] + 0.25)
@@ -235,7 +241,10 @@ def medidas(corte, cfg=None):
     d("x_radiador", M["x_frente"] - 0.20)
     tl = cx.get("taillight_left") or cx.get("taillight_right")
     d("z_tampa_tras_borda", (tl[4] - 0.02) if tl else med.get("topo_para_choque_traseiro", 0.5) + 0.05)
-    if carroc in ("hatch", "furgao", "jipe"):
+    if carroc == "picape":
+        # z_mala é o assoalho da caçamba (medida do mapa, ou um palmo abaixo do topo do para-choque de trás)
+        d("z_mala", med.get("piso_cacamba", med.get("topo_para_choque_traseiro", 0.6) - 0.06))
+    elif carroc in ("hatch", "furgao", "jipe"):
         d("z_mala", M["z_piso"] + 0.08)
     elif carroc == "cabine_avancada":
         d("z_mala", M["z_piso"])
@@ -247,6 +256,9 @@ def medidas(corte, cfg=None):
     # caixas onde a casca escura do corte (MI_DNVao) sai quando o kit entra
     vaos = {"cabine": [M["x_encosto_t"] - 0.30, M["x_corta_fogo"] + 0.03, -W - 0.06, W + 0.06, M["z_saia"] - 0.03, H + 0.05]}
     vaos["traseira"] = [M["x_tras"] - 0.05, M["x_encosto_t"] - 0.30, -W - 0.06, W + 0.06, M["z_mala"] - 0.05, H + 0.05]
+    if carroc == "picape":
+        # a caçamba é chapa de verdade, a céu aberto: nada dela sai; a cabine vai até a parede de trás
+        del vaos["traseira"]
     if carroc == "cabine_avancada":
         vaos["cabine"][1] = M["x_frente"] + 0.05
     else:
@@ -1343,6 +1355,22 @@ class Kit:
             self.area_de_carga()
         if carroc == "jipe":
             self.santantonio()
+        if carroc == "picape":
+            self.parede_cabine()
+            self.cacamba()
+
+    def parede_cabine(self):
+        """Picape: acabamento de plástico na parede de trás da cabine, do carpete até o pé do vidro traseiro (por dentro era chapa)."""
+        M = self.M
+        p = self.nova("interior_parede_cabine", "habitaculo", nota="acabamento da parede de trás da cabine (picape)")
+        x = M["x_cabine_tras"] + 0.012
+        z0 = self.z_carpete(x + 0.05, 0.3)
+        z1 = M["rg"][4] - 0.01
+        ym = M["meia_interna"] - 0.01
+        p.caixa("plastico", T(x, 0, (z0 + z1) / 2), 0.016, 2 * ym, z1 - z0, 0.004)
+        p.caixa("plastico", T(x + 0.02, 0, z1 - 0.01), 0.05, 2 * ym - 0.02, 0.02, 0.006)       # aba sob o vidro
+        for sd in (1, -1):                                                                     # ganchos dos cintos
+            p.cilindro("metal_preto", T(x + 0.01, sd * (ym - 0.12), z1 - 0.12) @ Ry(math.pi / 2), 0.012, 0.012, 8, 0.002)
 
     @property
     def tun_h(self):
@@ -2229,6 +2257,76 @@ class Kit:
         for yb in (-0.36, 0.36):
             p.cilindro("borracha", T(x, yb, zt) @ Rx(math.pi / 2), 0.044, 0.01, 16, 0.003)
 
+    def cacamba(self):
+        """
+        Picape: o que a caçamba pede (a chapa dela vem do corte). Protetor de plástico preto estriado no assoalho, entre as caixas
+        de roda; 4 ganchos de amarração nas paredes; santo-antônio de tubo preto sobre as bordas, logo atrás da cabine, com as
+        duas escoras para trás (o da versão aventureira); e o estepe pendurado embaixo, atrás do eixo (grupo embaixo). Grupo
+        "cacamba": fica fora do recolher_na_casca e do aparar_expostos, que tomariam a caçamba aberta por "fora da casca".
+        """
+        M = self.M
+        R = M["R"]
+        xf = M["x_cabine_tras"] - 0.06                       # parede da frente da caçamba (atrás da parede da cabine)
+        xb = M["tampa_tras"][1] + 0.02                        # face de dentro da tampa
+        xm = 0.5 * (xf + xb)
+        zf = self.z_casca(xm, 0.0) or M["z_mala"]             # assoalho da caçamba (o primeiro que o raio de cima pega)
+        ym = min(self.lado_em(xm, zf + 0.12, 1, folga=0.02), M["y_pneu_dentro_t"] - 0.06)
+        p = self.nova("cargo_protetor", "cacamba", nota="protetor de caçamba (plástico preto estriado)")
+        p.caixa("plastico", T(xm, 0, zf + 0.004), xf - xb - 0.04, 2 * ym, 0.008, 0.002)
+        n = max(4, int(2 * ym / 0.11))
+        for k in range(n + 1):
+            y = -ym + 0.05 + (2 * ym - 0.10) * k / n
+            p.caixa("plastico", T(xm, y, zf + 0.012), xf - xb - 0.12, 0.035, 0.012, 0.003)
+        # ganchos de amarração nas paredes, nos cantos
+        g = self.nova("cargo_ganchos", "cacamba", nota="ganchos de amarração")
+        for xx in (xf - 0.10, xb + 0.12):
+            for sd in (1, -1):
+                zg = zf + 0.22
+                yg = self.lado_em(xx, zg, sd, folga=0.0)
+                Mg = T(xx, sd * (yg - 0.004), zg)
+                g.caixa("metal_preto", Mg, 0.06, 0.008, 0.04, 0.002)
+                g.toro("cromado", Mg @ T(0, -sd * 0.014, 0) @ Rz(math.pi / 2), 0.016, 0.004, 0.004, 20, 6)
+        # santo-antônio: arco sobre as bordas da caçamba, logo atrás da cabine, e as escoras até a borda mais atrás
+        a = self.nova("cargo_santantonio", "cacamba", nota="santo-antônio da caçamba (versão aventureira)")
+        xs = xf - 0.10
+        # em cima da borda: o ponto mais alto da chapa entre a parede de dentro e a lateral (o raio bem na parede passava pela fresta);
+        # a borda é das laterais da caçamba (fender_rear_*), que o z_casca não olha
+        def z_borda(x, y):
+            h = self.casca.raio(["body", "fender_rear_left", "fender_rear_right", "trunk"], (x, y, 2.5), (0, 0, -1), 2.5) if self.casca else None
+            return h[0].z if h else None
+        y_in = self.lado_em(xs, zf + 0.30, 1, folga=0.0)
+        topo = []
+        for k in range(9):
+            yy = y_in + (M["W"] - y_in) * k / 8
+            z1, z2 = z_borda(xs, yy), z_borda(xs, -yy)
+            if z1 and z2:
+                topo.append((min(z1, z2), yy))
+        zb, yb = max(topo) if topo else (zf + 0.45, y_in + 0.03)
+        zt = min(M["H"] - 0.03, zb + 0.42)
+        print(f"caçamba: assoalho z={zf:.3f}, de x={xb:.2f} a {xf:.2f}, protetor ±{ym:.2f}; santo-antônio x={xs:.2f} y=±{yb:.2f} de z={zb:.3f} a {zt:.3f}")
+        r = 0.025
+        arco = [(xs, -yb, zb), (xs, -yb, zt - 0.10), (xs, -yb + 0.05, zt - 0.02), (xs, -yb + 0.14, zt), (xs, yb - 0.14, zt),
+                (xs, yb - 0.05, zt - 0.02), (xs, yb, zt - 0.10), (xs, yb, zb)]
+        a.tubo("metal_preto", arco, r, seg=14, sub=4)
+        a.tubo("metal_preto", [(xs, -yb + 0.03, zt - 0.06), (xs, yb - 0.03, zt - 0.06)], 0.018, seg=12, sub=1)
+        xe = xs - 0.55
+        for sd in (1, -1):
+            ze = max([z_borda(xe, sd * (yb + dy)) or 0.0 for dy in (-0.02, 0.0, 0.02)]) or zb
+            a.tubo("metal_preto", [(xs - 0.01, sd * yb, zt - 0.12), (xe, sd * yb, ze + 0.02)], 0.02, seg=12, sub=1)
+            for xx, zz in ((xs, zb), (xe, ze)):
+                a.caixa("metal_preto", T(xx, sd * yb, zz + 0.004), 0.09, 0.07, 0.008, 0.003)
+                for dx in (-0.025, 0.025):
+                    a.cilindro("cromado", T(xx + dx, sd * yb, zz + 0.011), 0.007, 0.006, 6, 0.002)
+        # estepe embaixo da caçamba, deitado, atrás do eixo, preso por um suporte de corrente
+        e = self.nova("under_estepe", "embaixo", nota="estepe pendurado sob a caçamba")
+        Rs = R * 0.96
+        xe = M["x_tras"] + 0.27 + Rs                        # a beira de trás fica 27 cm à frente da ponta (a saia de trás corta ali)
+        ze = max(Rs * 0.5 + 0.08, zf - 0.30)
+        Me = T(xe, 0, ze)
+        self._roda_estepe(e, Me, Rs)
+        e.caixa("metal_preto", T(xe, 0, ze - 0.10), 2 * Rs + 0.04, 0.05, 0.012, 0.003)
+        e.tubo("metal_preto", [(xe, 0, ze - 0.10), (xe, 0, zf - 0.06)], 0.008, seg=8, sub=1)
+
     # ================================================================================================================ PORTAS
     def portas(self):
         for pos, d in self.M["portas"].items():
@@ -2564,6 +2662,8 @@ class Kit:
                 self._lanternas_dentro()
                 self._estepe_carga()
             return
+        if carroc == "picape":
+            return          # sem porta-malas: a caçamba vem no habitaculo() (cacamba) e o estepe fica embaixo dela
         if carroc == "furgao":
             self._lanternas_dentro()
             if self.cfg["estepe"] not in ("vao_motor", "externo"):
@@ -3710,8 +3810,18 @@ class Kit:
         # frente e trás: a borda de baixo do para-choque (raio horizontal a 1,5 cm acima da saia) diz onde a chapa fica
         for sinal, nomes in ((1, ["bumper_front", "body", "grille", "plate_front"]), (-1, ["bumper_rear", "body", "plate_rear"])):
             xs = []
+            z_raio = zs + 0.015
+            if M["carroceria"] == "picape" and self.casca:
+                # picape alta: o para-choque começa bem acima da saia, e o raio na altura dela passava por baixo dele e batia na
+                # travessa entre o eixo e o para-choque (a saia de trás ia parar 60 cm para dentro e cortava o estepe). Sobe até o
+                # raio pegar o para-choque
+                for k in range(12):
+                    h = self.casca.raio(nomes, (sinal * 3.0, 0.0, z_raio), (-sinal, 0, 0), 4.0)
+                    if h and h[2] == nomes[0]:
+                        break
+                    z_raio += 0.02
             for yy in (-0.45, -0.2, 0.0, 0.2, 0.45):
-                h = self.casca.raio(nomes, (sinal * 3.0, yy, zs + 0.015), (-sinal, 0, 0), 4.0) if self.casca else None
+                h = self.casca.raio(nomes, (sinal * 3.0, yy, z_raio), (-sinal, 0, 0), 4.0) if self.casca else None
                 if h:
                     xs.append(h[0].x)
             if not xs:
