@@ -1323,7 +1323,8 @@ borda dos vidros). Ficou a reserva, com o "siga" do Felipe: o **"Hatchback" de M
   Faróis e lanternas saem pelo material `luz` do modelo (`take: "material"`, a caixa só escolhe o lado): com a caixa pegando faces,
   a chapa pintada em volta da lente ia para a peça do farol, ficava fora do atlas da textura e saía como um retângulo branco.
 - **Kit (`carro_completo_dados.json`, `hatch-redondo-5p`):** as opções de aparar das outras sessões (por vértice, desde a saia, capô
-  pelas pontas, cofre do motor, fundo do farol rente) e a saia em 0,27 m; sem elas a travessa e os para-lamas internos passavam o
+  pelas pontas, cofre do motor, fundo do farol rente), a saia em 0,27 m e a soleira preta (`soleira_preta`, a do Sagui: pintada,
+  a caixa da soleira lia como uma tira clara sob as portas e uma aba atrás do arco da frente); sem elas a travessa e os para-lamas internos passavam o
   capô baixo da frente, as colunas do vão passavam o teto e a soleira aparecia clara. A caixa da lanterna no mapa vai só até |y| 0,76:
   a caixa do porta-malas atrás dela saía pela coluna, como uma aleta preta.
 - **Saída:** `veiculos/sketchfab/quebravel/hatch-redondo-5p/` (34 peças, ~245 mil triângulos; 3,835 x 1,69 x 1,43 m, entre-eixos

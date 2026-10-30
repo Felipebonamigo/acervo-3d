@@ -114,7 +114,12 @@
       "tanque": "sob_banco_traseiro",
       "carroceria": "sedan",
       "fundo_farol_rente": true,
-      "corrigir": {"derivadas": {"x_radiador": 1.82}, "nota": "Barão (30/10/2026): os faróis são recuados nos cantos (a lente fica entre x = 2,00 e 2,07 m); com x_radiador = x_frente - 0,20 = 2,01 a travessa do painel dianteiro furava a lente"},
+      "corrigir": {
+        "derivadas": {
+          "x_radiador": 1.82
+        },
+        "nota": "Barão (30/10/2026): os faróis são recuados nos cantos (a lente fica entre x = 2,00 e 2,07 m); com x_radiador = x_frente - 0,20 = 2,01 a travessa do painel dianteiro furava a lente"
+      },
       "nota": "sedã de 4 portas do fim dos anos 90; casca do Sketchfab (sedã do FreshCanidae1571, CC BY, completada pelo casca_impressao.py), medidas do mapa veiculos/sketchfab/quebravel/barao/; fundo_farol_rente e --aparar-mais 0.55 0.6 (30/10/2026): a travessa do painel dianteiro saía acima da borda do capô e o carpete do porta-malas pelos cantos da traseira"
     },
     "furgaozinho-da-firma": {
@@ -284,9 +289,10 @@
       "capo_pelas_pontas": true,
       "aparar_motor": true,
       "fundo_farol_rente": true,
+      "soleira_preta": true,
       "corrigir": {
         "topo_da_saia": 0.27,
-        "nota": "a lateral embaixo da porta acaba em 0,21 a 0,25 m: com 0,22 a soleira aparecia clara sob as portas (30/10/2026)"
+        "nota": "a lateral embaixo da porta acaba em 0,21 a 0,25 m: com 0,22 a soleira aparecia clara sob as portas (30/10/2026); a caixa da soleira abaixo da porta sai preta (soleira_preta): pintada, ela lia como uma tira clara sob as portas e uma aba atrás do arco da frente"
       },
       "nota": "hatch de 5 portas dos anos 2000, de formas redondas; casca do Sketchfab ('Hatchback' do MaG80, CC BY), medidas do mapa veiculos/sketchfab/quebravel/hatch-redondo-5p/. As cinco opções de aparar (30/10/2026): a lateral cai para dentro acima da cintura e o capô é baixo na frente; sem elas a travessa e os para-lamas internos passavam o capô e as colunas do vão passavam o teto"
     }
