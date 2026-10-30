@@ -8,3 +8,7 @@ que a licença deixa redistribuir.
 
 Gerar no Meshy só em último caso e sempre perguntando ao Felipe antes, com o número de créditos
 (~30 por modelo com textura). Aceitar EULA, logar em conta ou comprar: só o Felipe autoriza.
+
+**Sessões na nuvem e o PC (30/10/2026):** o PC do Felipe é Windows e nenhuma sessão na nuvem abre pasta nele. Nunca peça ao
+Felipe para rodar algo no PC: escreva o `docs/pedido-pc-*.md` no repositório do jogo e diga "pedido atualizado para a central";
+a sessão central ("Documento de ferramentas e jogos") leva o pedido à sessão do PC.
