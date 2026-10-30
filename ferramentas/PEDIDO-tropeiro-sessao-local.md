@@ -27,7 +27,7 @@ Siga `docs/pedido-pc-tropeiro-completo.md` do Detonauto:
    - close da frente (grade preta, faróis, faróis de milha, placa) e da traseira (lanternas em três faixas, placa no para-choque);
    - a caçamba de cima, com protetor, ganchos e santo-antônio;
    - a porta arrancada, para ver o vão e o forro;
-   - a tampa da caçamba depois de uma batida de ré: ela solta inteira, porque não há dobradiça de baixo;
+   - a tampa da caçamba depois de uma batida de ré média: ela pendura pela borda de baixo e fica deitada a 90 graus;
    - o carro amassado depois de uma batida forte.
 6. Anote o desempenho com 40 de tráfego (rotina `fechar-lote`): a casca tem ~281 mil triângulos e o kit ~223 mil.
 
