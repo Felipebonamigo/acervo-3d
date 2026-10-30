@@ -809,3 +809,54 @@ preparo e o corte passou a usar as juntas que o autor modelou.
   `veiculos/sketchfab/completo/furgaozinho/` (kit época 90 de furgão, 90 peças). O vidro de quarta fica na carroceria.
 - **Falta:** prévias com `previa_carro.py` e a cadeia de conferência, que precisam do repositório do Detonauto ao lado (esta sessão
   não conseguiu acesso a ele); o interior do kit ainda tem colunas do vão aparecendo pelo para-brisa.
+## Sagui do Sketchfab: carro "de jogo" montado por receita (30/10/2026)
+
+O Sagui (micro do Detonauto) saiu do modelo **"Ford Ka MK2 2008-2016" por DEMON_SCARY1235** (Sketchfab, CC BY 4.0, escolhido pelo
+Felipe entre 3 candidatos; o crédito está em `veiculos/sketchfab/sagui-demon-scary__d2b74e929d9745ea9d151f8e2b195b17.license.txt`).
+É a versão europeia do carro de referência (mais curta e mais alta) e vem "de jogo": a roda solta no centro do arquivo, o pneu em
+metades, a carroceria em 15 objetos e 29 materiais de molde, com cores trocadas (carroceria vermelha, vidro azul, cromo azul). O
+`.glb` original **não** entra no acervo: traz emblemas e inscrição na geometria (baixar de novo pelo link do crédito).
+
+    python -I ferramentas/sketchfab_montar.py -- <scene.gltf> <pasta>/montado.glb veiculos/sketchfab/quebravel/sagui/sagui_montagem.json
+    python -I ferramentas/sketchfab_preparar.py -- <pasta>/montado.glb <pasta>/sagui.glb "carroceria,vidros,rodas" 3.836 1.5945 0.12 30 0 \
+        --manter-materiais --sem-pca
+    python -I ferramentas/carro_quebravel.py -- --entrada <pasta>/sagui.glb --out <corte> --id sagui --portas 2 --sem-rotulos \
+        --manter-normais --cores-do-arquivo --mapa veiculos/sketchfab/quebravel/sagui/sagui_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/sagui.glb <corte>/sagui.glb
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/sagui.glb <corte>/sagui.glb --sem-luzes --sem-retrovisor \
+        --placa-tras-no-para-choque --sem-arco-redondo --sem-face-para-choque --sem-limpador --sem-macaneta --sem-friso --sem-faixa \
+        --sem-quebra-vento --sem-sinaleira --sem-miudezas --para-choque-pintado --z-placa 0.38 --mapa veiculos/sketchfab/quebravel/sagui/sagui_mapa.json
+    python -I ferramentas/assar_desgaste.py -- <corte>/sagui.glb <corte>/sagui.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id sagui --out <kit> --epoca 2000 --aparar-alto 0.55
+
+- **`sketchfab_montar.py` (novo):** tudo por receita JSON (`sagui_montagem.json`). Objetos fora (o volante solto); um **papel por
+  material** (`pintura`, `chassi`, `cromado`, `vidro`, `pneu`, `lente_farol`, `refletor`, `luz_vermelha`, `luz_ambar`,
+  `luz_branca` ou `remover`) e **regras** por objeto, material e caixa antes dele (a lente do farol vira `lente_farol` opaca e clara,
+  a lição do Cuiabano; a da lanterna sai e mostra o vermelho, o âmbar e o branco de dentro; a inscrição do modelo sai; o lugar do
+  emblema fica pintado e liso; a maçaneta da tampa vira plástico preto, porque o cromado tinha o desenho da marca). A roda solta é
+  soldada (o pneu vinha em metades) e copiada para os 4 cantos. **Alongar:** as caixas de roda andam inteiras (continuam redondas),
+  o meio estica até o entre-eixos e os balanços até o comprimento da referência (de 3,62 para 3,836 m; entre-eixos de 2,30 para
+  2,452 m). **Baixar:** o que fica acima do topo dos arcos encolhe até o teto ficar a 1,42 m do chão. Grava sem UV e sem normais
+  (o exportador duplicava os vértices nas costuras e o preparo não achava o pneu).
+- **`sketchfab_preparar.py`:** `--manter-materiais` (a face com material de nome igual a um papel fica com ele; sem textura, cada
+  papel herda a cor de entrada) e `--sem-pca` (a PCA torcia o carro já alinhado em 0,2°). A renomeação dos materiais de entrada
+  passou a iterar sobre uma cópia da lista (iterando a coleção, o `cromado` saía `entrada_entrada_cromado` e virava pintura).
+- **`carro_quebravel.py`:** `--cores-do-arquivo` (cada face fica com o material do papel que veio no arquivo; o papel da peça não o
+  troca: o farol em gota tem lente, refletor e seta; a roda tem aro e pneu) e os códigos `cq_mat` de 6 a 10 para as luzes;
+  `take: material` aceita uma **lista** de materiais com caixa; a remoção da "aba de caixilho" só vale no vidro (num farol de
+  várias ilhas, as "abas" eram o refletor). Vidro, pneu, cromado e luz, cópias da pintura, ganham a cor do papel.
+- **`detalhes_na_casca.py`:** `--sem-luzes` (faróis e lanternas já modelados), `--sem-retrovisor` e `--placa-tras-no-para-choque`.
+- **`carro_completo.py`:** `--aparar-alto Z` estende o `aparar_expostos` ao motor e ao porta-malas, de Z para cima, com um teste de
+  envelope por vértice (um raio de cima, da frente ou de trás que só bate na casca depois do vértice, ou a menos de 1,5 cm dele,
+  apaga a face). No Sagui, o capô curto e inclinado deixava a travessa do motor como uma barra na frente do capô, abas da coluna
+  da travessa furando a lente do farol e espinhos das colunas no teto.
+- **`previa_carro.py` e `carro_completo.py`:** sem roda cortada por raio, os cantos vêm da lista `rodas` do mapa (sem isso o kit
+  saía sem freios e sem forro de caixa de roda); a prévia troca as rodas de kit pela variável `RODAS` (Sagui: aço 14, 185/60, calota 14).
+- **O Gol sai igual:** a cadeia do Gol (preparo, corte, borracha, detalhes) rodou com o código antigo e com o novo; o preparo saiu
+  idêntico e o resultado final tem os mesmos materiais por peça e os mesmos vértices a 1 mm (a cadeia antiga já varia a divisão
+  de vértices entre duas rodadas).
+- **Saída:** `veiculos/sketchfab/quebravel/sagui/` (31 peças, ~297 mil triângulos) e `veiculos/sketchfab/completo/sagui/` (kit
+  época 2000, 81 peças, com freios e forros das caixas de roda). Prévias em `veiculos/sketchfab/previas/sagui/`.
+- **Falta melhorar:** as vistas internas do kit (porta solta, cabine) têm lascas, como as do Gol; a saia do kit sob as portas
+  sai um tom mais clara que a lataria; o modelo é a versão europeia, de
+  rosto parecido mas não igual ao carro de referência; a calota do kit lê branca de longe.

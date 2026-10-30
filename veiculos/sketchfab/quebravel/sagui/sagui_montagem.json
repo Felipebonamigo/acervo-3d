@@ -1,0 +1,151 @@
+{
+ "notas": "Receita do sketchfab_montar.py para o Sagui (\"Ford Ka MK2 2008-2016\" por DEMON_SCARY1235, Sketchfab, CC BY 4.0), 30/10/2026. O arquivo vem de jogo: comprimento em y com a frente em -y, roda solta no centro, cores de molde. Medidas do carro de referência: 3,836 m de comprimento, 2,452 m de entre-eixos, 1,42 m de altura.",
+ "comprimento_no_eixo": "y",
+ "frente": -1,
+ "remover_objetos": [
+  "fmka_steer"
+ ],
+ "vidros": [
+  "fmka_windshield",
+  "fmka_rearglass",
+  "fmka_doorglass"
+ ],
+ "materiais": {
+  "am5eunew1": "pintura",
+  "am5eunew1_black": "chassi",
+  "am5eunew1_underbody": "chassi",
+  "am5eunew1_raceparts": "chassi",
+  "am5eunew1_raceparts_light": "chassi",
+  "am5eunew1_chrome": "cromado",
+  "am5eunew1_badges": "pintura",
+  "am5eunew1_glass": "vidro",
+  "am5eunew1_grey": "cromado",
+  "am5eunew1_mirror": "chassi",
+  "am5eunew1_frontlights": "refletor",
+  "am5eunew1_frontlights_grey": "refletor",
+  "am5eunew1_foglights": "refletor",
+  "am5eunew1_indicator_L": "luz_ambar",
+  "am5eunew1_indicator_R": "luz_ambar",
+  "am5eunew1_indicator_L_orange": "luz_ambar",
+  "am5eunew1_indicator_R_orange": "luz_ambar",
+  "am5eunew1_indicator_L_grey": "refletor",
+  "am5eunew1_indicator_R_grey": "refletor",
+  "am5eunew1_rearlights": "luz_vermelha",
+  "am5eunew1_rearlights_light": "luz_vermelha",
+  "am5eunew1_rearlights_colour": "luz_vermelha",
+  "am5eunew1_rearlights_glow": "luz_vermelha",
+  "am5eunew1_rearlights_brakeglow": "luz_vermelha",
+  "am5eunew1_rearlights_glowchrome": "refletor",
+  "am5eunew1_rearlights_brakeglow_chrome": "refletor",
+  "am5eunew1_rearlights_raceparts": "chassi",
+  "am5eunew1_reverselights": "luz_branca",
+  "tire_01a": "pneu"
+ },
+ "roda": {
+  "objetos": [
+   "fmka_wheels",
+   "fmka_tires"
+  ],
+  "eixos": [
+   -1.425,
+   0.875
+  ],
+  "z": 0.4,
+  "y_fora": 0.78,
+  "face_de_fora": 1
+ },
+ "alongar": {
+  "arcos": [
+   [
+    -1.76,
+    -1.09
+   ],
+   [
+    0.55,
+    1.2
+   ]
+  ],
+  "comprimento": 3.836,
+  "entre_eixos": 2.452
+ },
+ "baixar_acima_de": {
+  "z": 0.75,
+  "altura": 1.42,
+  "topo": 1.588
+ },
+ "regras": [
+  {
+   "nota": "maçaneta da tampa: plástico preto liso (o cromado tinha o desenho da marca)",
+   "objeto": "fmka_body",
+   "material": "am5eunew1_chrome",
+   "caixa": [
+    -0.13,
+    0.13,
+    1.28,
+    1.5,
+    0.85,
+    1.12
+   ],
+   "papel": "chassi"
+  },
+  {
+   "nota": "lente do farol: lente_farol (opaca e clara, como no Cuiabano)",
+   "objeto": "fmka_body",
+   "material": "am5eunew1_glass",
+   "caixa": [
+    -2,
+    2,
+    -3,
+    0,
+    0,
+    3
+   ],
+   "papel": "lente_farol"
+  },
+  {
+   "nota": "lente da lanterna sai: aparecem o vermelho, o âmbar e o branco de dentro",
+   "objeto": "fmka_body",
+   "material": "am5eunew1_glass",
+   "caixa": [
+    -2,
+    2,
+    0,
+    3,
+    0,
+    3
+   ],
+   "papel": "remover"
+  },
+  {
+   "nota": "lente do farol de neblina",
+   "objeto": "fmka_bumper_F",
+   "material": "am5eunew1_glass",
+   "papel": "lente_farol"
+  },
+  {
+   "nota": "inscrição do modelo na tampa sai",
+   "objeto": "fmka_body",
+   "material": "am5eunew1_chrome",
+   "caixa": [
+    -0.43,
+    -0.12,
+    1.25,
+    1.5,
+    0.85,
+    1.06
+   ],
+   "papel": "remover"
+  },
+  {
+   "nota": "centro da calota sem emblema",
+   "objeto": "fmka_wheels",
+   "material": "am5eunew1_badges",
+   "papel": "cromado"
+  },
+  {
+   "nota": "parafusos e miolo da roda: cromado (vão com o aro)",
+   "objeto": "fmka_wheels",
+   "papel": "cromado"
+  }
+ ]
+}

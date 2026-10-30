@@ -1,0 +1,11 @@
+Model Information:
+* title:	Ford Ka MK2 2008-2016
+* source:	https://sketchfab.com/3d-models/ford-ka-mk2-2008-2016-d2b74e929d9745ea9d151f8e2b195b17
+* author:	DEMON_SCARY1235 (https://sketchfab.com/szymonpasterczyk734)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Ford Ka MK2 2008-2016" (https://sketchfab.com/3d-models/ford-ka-mk2-2008-2016-d2b74e929d9745ea9d151f8e2b195b17) by DEMON_SCARY1235 (https://sketchfab.com/szymonpasterczyk734) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
