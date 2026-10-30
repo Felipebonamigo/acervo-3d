@@ -3885,6 +3885,13 @@ class Kit:
             return V(cx + R * math.cos(a), s * y, cz + R * math.sin(a))
         p.grade("plastico", 32, 4, ponto, 0.006, normal_fn=lambda u, v: (-math.cos(math.radians(-20 + 220 * u)), 0,
                                                                          -math.sin(math.radians(-20 + 220 * u))))
+        if self.cfg.get("caixa_roda_fechada"):
+            # dados "caixa_roda_fechada" (Pampeiro, 30/10/2026): parede do lado de dentro do forro; sem ela, pelo vão do arco atrás
+            # da roda via-se o forro de alumínio da porta e o carpete (uma lasca clara de perto)
+            def parede(u, v):
+                a = math.radians(-20 + 220 * u)
+                return V(cx + R * v * math.cos(a), s * y0, cz + R * v * math.sin(a))
+            p.grade("plastico", 32, 4, parede, 0.006, normal_fn=lambda u, v: (0, s, 0))
 
     # ================================================================================================================ SAIAS
     def saias(self):
@@ -4910,6 +4917,33 @@ def principal(argv):
     if getattr(kit, "saia", None):
         tirou = aparar_sob_a_saia(objs, kit.saia, kit.M["rodas"], kit.M["R"])
         print("fora das saias, embaixo (faces tiradas):", tirou)
+    if kit.cfg.get("caixa_roda_fechada") and kit.M.get("rodas"):
+        # "caixa_roda_fechada" (Pampeiro, 30/10/2026): a frente da porta passa da borda de trás do arco da roda da frente, e o forro da
+        # porta e o carpete entravam no vão da roda (uma lasca clara de perto); sai do forro, do vão da porta e do carpete da cabine toda
+        # face dentro do cilindro do forro da caixa de roda da FRENTE, do lado de fora da parede dele (atrás, o banco e o porta-malas
+        # passam pela caixa de roda de propósito, como no carro de verdade)
+        import bmesh
+        Rc = kit.M["R"] + 0.035
+        tirou = {}
+        for o in objs:
+            if o.type != "MESH" or not o.name.startswith(("door_card", "jamb_", "interior_carpete")) or o.name.startswith("interior_carpete_"):
+                continue
+            bm = bmesh.new()
+            bm.from_mesh(o.data)
+            mw = o.matrix_world
+            fora = []
+            for f in bm.faces:
+                # basta um canto dentro: as faces do forro da porta são grandes e o centro delas ficava fora do vão
+                if any(r["x"] > 0 and math.hypot(c.x - r["x"], c.z - r["z"]) < Rc and c.y * r["lado"] > r["y_dentro"] - 0.025
+                       for c in (mw @ v.co for v in f.verts) for r in kit.M["rodas"].values()):
+                    fora.append(f)
+            if fora:
+                bmesh.ops.delete(bm, geom=fora, context="FACES")
+                bm.to_mesh(o.data)
+                o.data.update()
+                tirou[o.name] = len(fora)
+            bm.free()
+        print("dentro das caixas de roda (faces tiradas):", tirou)
     if a.aparar_frente_abaixo is not None:
         import bmesh
         x_lim = max(r["x"] for r in kit.M["rodas"].values()) + kit.M["R"] if kit.M.get("rodas") else 1.0

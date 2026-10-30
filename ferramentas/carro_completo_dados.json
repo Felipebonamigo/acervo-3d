@@ -291,9 +291,10 @@
       "aparar_motor": true,
       "fundo_farol_rente": true,
       "soleira_preta": true,
+      "caixa_roda_fechada": true,
       "corrigir": {
         "topo_da_saia": 0.27,
-        "nota": "a lateral embaixo da porta acaba em 0,21 a 0,25 m: com 0,22 a soleira aparecia clara sob as portas (30/10/2026); a caixa da soleira abaixo da porta sai preta (soleira_preta): pintada, ela lia como uma tira clara sob as portas e uma aba atrás do arco da frente"
+        "nota": "a lateral embaixo da porta acaba em 0,21 a 0,25 m: com 0,22 a soleira aparecia clara sob as portas (30/10/2026); a caixa da soleira abaixo da porta sai preta (soleira_preta): pintada, ela lia como uma tira clara sob as portas e uma aba atrás do arco da frente; a caixa de roda ganha parede do lado de dentro (caixa_roda_fechada): pelo vão do arco da frente via-se o forro de alumínio da porta"
       },
       "nota": "hatch de 5 portas dos anos 2000, de formas redondas; casca do Sketchfab ('Hatchback' do MaG80, CC BY), medidas do mapa veiculos/sketchfab/quebravel/hatch-redondo-5p/. As cinco opções de aparar (30/10/2026): a lateral cai para dentro acima da cintura e o capô é baixo na frente; sem elas a travessa e os para-lamas internos passavam o capô e as colunas do vão passavam o teto"
     }
