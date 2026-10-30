@@ -648,15 +648,15 @@
    "nome": "jamb_fl_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1138,
-   "triangulos_lod1": 341,
+   "triangulos": 1098,
+   "triangulos_lod1": 329,
    "caixa_m": [
-    -0.409,
-    0.623,
-    0.315,
-    0.722,
+    -0.394,
+    0.622,
+    0.507,
+    0.718,
     0.34,
-    1.344
+    0.87
    ],
    "materiais": [
     "pintura_interna",
@@ -668,15 +668,15 @@
    "nome": "jamb_fl_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1650,
-   "triangulos_lod1": 494,
+   "triangulos": 898,
+   "triangulos_lod1": 269,
    "caixa_m": [
-    -0.366,
-    0.606,
-    0.359,
+    -0.365,
+    0.605,
+    0.59,
     0.696,
     0.35,
-    1.331
+    0.902
    ],
    "materiais": [
     "borracha"
@@ -725,14 +725,14 @@
    "nome": "door_card_fr_chapa",
    "grupo": "porta",
    "segue": "door_fr",
-   "triangulos": 2190,
-   "triangulos_lod1": 654,
+   "triangulos": 2198,
+   "triangulos_lod1": 656,
    "caixa_m": [
     -0.367,
     0.672,
     -0.711,
     -0.538,
-    0.34,
+    0.339,
     0.915
    ],
    "materiais": [
@@ -790,15 +790,15 @@
    "nome": "jamb_fr_colunas",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1138,
-   "triangulos_lod1": 340,
+   "triangulos": 1098,
+   "triangulos_lod1": 329,
    "caixa_m": [
     -0.394,
-    0.629,
-    -0.73,
-    -0.306,
+    0.622,
+    -0.723,
+    -0.508,
     0.34,
-    1.358
+    0.87
    ],
    "materiais": [
     "pintura_interna",
@@ -810,15 +810,15 @@
    "nome": "jamb_fr_borracha",
    "grupo": "vao_porta",
    "segue": null,
-   "triangulos": 1522,
-   "triangulos_lod1": 456,
+   "triangulos": 792,
+   "triangulos_lod1": 236,
    "caixa_m": [
-    -0.366,
+    -0.365,
     0.606,
     -0.704,
-    -0.359,
-    0.35,
-    1.331
+    -0.591,
+    0.349,
+    0.901
    ],
    "materiais": [
     "borracha"
@@ -1498,13 +1498,13 @@
   }
  ],
  "triangulos": {
-  "lod0": 187269,
-  "lod1": 56092
+  "lod0": 185715,
+  "lod1": 55626
  },
  "triangulos_por_grupo": {
   "habitaculo": 91975,
-  "porta": 20924,
-  "vao_porta": 10482,
+  "porta": 20932,
+  "vao_porta": 8920,
   "porta_malas": 11576,
   "embaixo": 19016,
   "motor": 20800,
