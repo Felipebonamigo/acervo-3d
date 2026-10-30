@@ -3,7 +3,7 @@ Borracha de vedação pela borda real de cada vidro (modelos limpos, como o Gol 
 vidro tem um contorno poligonal limpo, com cantos vivos; o cordão segue esse contorno para fora, sobre a chapa, com 3 fileiras
 (perfil arredondado), sem alisar nada. O vedacao_vidros.py (raster + alisamento) é para a borda serrilhada do Meshy.
 
-    python -I ferramentas/borracha_vidro.py -- <corte>.glb <saida>.glb [--largura-cm 1.6] [--largura-fixo-cm 2.4]
+    python -I ferramentas/borracha_vidro.py -- <corte>.glb <saida>.glb [--largura-cm 1.6] [--largura-fixo-cm 2.4] [--dona vidro=peça]
 
 A borracha entra na peça que leva o vidro no jogo (porta, tampa ou carroceria), material `chassi`.
 """
@@ -26,6 +26,12 @@ LARG = opt("--largura-cm", 1.6) / 100
 LARG_FIXO = opt("--largura-fixo-cm", 2.4) / 100
 ALT = 0.004
 DONA = {"glass_door_fl": "door_fl", "glass_door_fr": "door_fr", "glass_door_rl": "door_rl", "glass_door_rr": "door_rr", "glass_rear": "trunk"}
+# --dona vidro=peça (repetível; Pão de Forma, 30/10/2026): no furgão de motor atrás a "trunk" é a tampa do motor, abaixo da janela,
+# e o vidro de trás fica na carroceria (--dona glass_rear=body)
+for i_, x_ in enumerate(args):
+    if x_ == "--dona":
+        k_, v_ = args[i_ + 1].split("=")
+        DONA[k_] = v_
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)

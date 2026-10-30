@@ -155,6 +155,16 @@
         "nota": "o piso da cabine fica na altura da borda de baixo da porta (0,71 m), não da saia"
       }
     },
+    "furgao-classico": {
+      "nome": "Pão de Forma",
+      "epoca": "70",
+      "motor": "boxer_traseiro",
+      "tracao": "traseira",
+      "estepe": "carga",
+      "tanque": "atras",
+      "carroceria": "cabine_avancada",
+      "nota": "Pão de Forma do Sketchfab (30/10/2026): mesmo carro da linha pao-de-forma, sem a correção do piso (no corte deste modelo o topo da saia do mapa já é a borda de baixo da porta, 0,48 m)"
+    },
     "trilheiro": {
       "nome": "Trilheiro",
       "epoca": "2000",

@@ -14,6 +14,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
         [--sem-macaneta] [--z-friso 0.58] [--z-faixa 0.42]
         Sagui (30/10/2026), carro já detalhado no modelo: [--sem-luzes] [--sem-retrovisor] [--placa-tras-no-para-choque]
         Trilheiro (jipe, 30/10/2026): [--farol-redondo] [--grade-limpa] [--z-macaneta 1.05]
+        Pão de Forma (furgão, 30/10/2026): [--sem-lanternas] (as lanternas ficam como vieram) [--sem-folha-solta]
 
         Tupiniquim (hatch de 5 portas, 30/10/2026), luzes, grade e retrovisores com forma própria, sem refazer em caixa:
     --manter-luzes         a lente do farol vira `lente_farol` e a lanterna, vermelha em cima e branca na faixa de baixo
@@ -826,6 +827,8 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
         o.data.update()
         relatorio.append("%s: lente do modelo mantida (%d faces)" % (nome, len(fl)))
         continue
+    if sinal < 0 and "--sem-lanternas" in args:
+        continue                              # Pão de Forma: a lanterna redonda pequena do modelo fica (a de 3 segmentos não cabe)
     box = caixas_luz.get(nome)
     if box is None:
         continue
@@ -1208,8 +1211,9 @@ if PLACA_NOVA:
         relatorio.append("%s nova: placa 40 x 13 cm em z %.3f-%.3f, %.1f cm fora da chapa" % (nome, z0p, z1p, 100 * abs(xp - x_atras)))
         placas_novas[nome] = (xp, -PLACA_L / 2 - 0.005, PLACA_L / 2 + 0.005, z0p - 0.005, z1p + 0.005)
 if "plate_front" in objs and "--placa-original" not in args and not PLACA_NOVA:
-    # a folha solta da carroceria na frente do para-choque, onde ficava a parte de baixo da placa antiga
-    if "body" in objs:
+    # a folha solta da carroceria na frente do para-choque, onde ficava a parte de baixo da placa antiga (só no Gol: no furgão a
+    # chapa ali é a frente da carroceria atrás do para-choque, e --sem-folha-solta a deixa)
+    if "body" in objs and "--sem-folha-solta" not in args:
         bo = objs["body"]
         bmb = bmesh.new()
         bmb.from_mesh(bo.data)
