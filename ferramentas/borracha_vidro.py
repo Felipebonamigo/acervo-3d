@@ -112,20 +112,28 @@ for g in [o for o in meshes if o.name.startswith("glass_")]:
         a, b = e.verts
         viz.setdefault(a, []).append(b)
         viz.setdefault(b, []).append(a)
-    inicio = borda[0].verts[0]
-    laco = [inicio]
-    ant, cur = None, inicio
-    while True:
-        prox = [v for v in viz[cur] if v is not ant]
-        if not prox:
-            break
-        nxt = prox[0]
-        if nxt is inicio:
-            break
-        laco.append(nxt)
-        ant, cur = cur, nxt
-        if len(laco) > 5000:
-            break
+    # o laço mais comprido é o contorno; um furo de uma face (o vidro de quarta esquerdo do Caipora) é outro laço, curto
+    lacos, usados = [], set()
+    for e0 in borda:
+        inicio = e0.verts[0]
+        if inicio in usados:
+            continue
+        laco = [inicio]
+        ant, cur = None, inicio
+        while True:
+            prox = [v for v in viz[cur] if v is not ant]
+            if not prox:
+                break
+            nxt = prox[0]
+            if nxt is inicio:
+                break
+            laco.append(nxt)
+            ant, cur = cur, nxt
+            if len(laco) > 5000:
+                break
+        usados.update(laco)
+        lacos.append(laco)
+    laco = max(lacos, key=len)
     P = np.array([list(v.co) for v in laco])
     # espigões: uma racha interna da malha entra no laço como ida e volta; some o vértice onde a direção inverte, até não ter mais
     mudou = True

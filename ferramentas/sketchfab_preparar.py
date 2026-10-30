@@ -24,6 +24,38 @@ if "--juntar" in a:
     i_ = a.index("--juntar")
     CFG = json.load(open(a[i_ + 1]))
     a = a[:i_] + a[i_ + 2:]
+# --mat "Plastic_Parts=chassi,Lights_Front=luz": objeto cujo material do arquivo tem esse nome vai inteiro para o nosso material
+# (pintura, vidro, pneu, chassi, luz ou cromado); serve aos modelos que já vêm separados por material (Caipora, 30/10/2026)
+MAT_ENTRADA = {}
+if "--mat" in a:
+    i = a.index("--mat")
+    MAT_ENTRADA = dict(par.split("=") for par in a[i + 1].split(","))
+    del a[i:i + 2]
+# --soldar 0.0005: junta vértices a essa distância (m, antes da escala) em cada objeto; modelos de sombreado chapado vêm com cada face
+# solta e, sem isso, toda ilha é uma face (nem roda nem vidro são achados)
+SOLDAR = 0.0
+if "--soldar" in a:
+    i = a.index("--soldar")
+    SOLDAR = float(a[i + 1])
+    del a[i:i + 2]
+# --normais-da-original: depois de adensar, as normais vêm da malha de antes (lisas por ângulo), interpoladas na face mais perto.
+# No baixo polígono arredondado (Caipora) os triângulos finos do adensamento davam normais tortas e a lataria refletia enrugada
+NORMAIS_DA_ORIGINAL = "--normais-da-original" in a
+if NORMAIS_DA_ORIGINAL:
+    a.remove("--normais-da-original")
+# --rodas-no-chao: roda (pneu e o aro dos objetos de roda) que o autor deixou acima do chão desce até ele; no Caipora a da frente
+# flutuava 2,5 cm e o corte não acha o contato com o chão
+RODAS_NO_CHAO = "--rodas-no-chao" in a
+if RODAS_NO_CHAO:
+    a.remove("--rodas-no-chao")
+# --remapear-z "x0,x1,y0,y1,z0,z1=za,zb" (metros, já no nosso referencial): cada ilha inteira dentro da caixa passa a ocupar za a zb em
+# altura. No Caipora, a fechadura da tampa descia até onde vai a placa brasileira de 13 cm; no carro real ela fica logo acima da placa
+REMAPEAR_Z = []
+while "--remapear-z" in a:
+    i = a.index("--remapear-z")
+    cx_, zz_ = a[i + 1].split("=")
+    REMAPEAR_Z.append(([float(t) for t in cx_.split(",")], [float(t) for t in zz_.split(",")]))
+    del a[i:i + 2]
 ent, out, keep = a[0], a[1], a[2].split(",")
 COMP, ALT, ARESTA = float(a[3]), float(a[4]), float(a[5])
 ANGULO = float(a[6]) if len(a) > 6 else 30.0   # aresta mais dobrada do que isso fica viva; o resto é liso
@@ -203,6 +235,8 @@ todos = [n for g in grupos for n in g]
 for o in list(bpy.data.objects):
     if o.type == "MESH" and o.name not in todos:
         bpy.data.objects.remove(o)
+mat_do_obj = {n: MAT_ENTRADA.get(bpy.data.objects[n].material_slots[0].material.name.split(".")[0])
+              if bpy.data.objects[n].material_slots and bpy.data.objects[n].material_slots[0].material else None for n in todos}
 for o in [bpy.data.objects[n] for n in todos]:
     M = o.matrix_world.copy()
     o.parent = None
@@ -213,6 +247,14 @@ for o in [bpy.data.objects[n] for n in todos]:
         bm = bmesh.new()
         bm.from_mesh(o.data)
         bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=SOLDA)
+        bm.to_mesh(o.data)
+        bm.free()
+    if SOLDAR > 0:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bmesh.ops.remove_doubles(bm, verts=bm.verts[:], dist=SOLDAR)
+        # a frente do Caipora vinha com as faces viradas para dentro (o filtro de normal do corte não achava grade nem placa)
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
         bm.to_mesh(o.data)
         bm.free()
 bpy.context.view_layer.update()
@@ -328,6 +370,19 @@ if virar:
         o.data.transform(Matrix.Rotation(np.pi, 4, "Z"))
     TOT = Matrix.Rotation(np.pi, 4, "Z") @ TOT
 
+if SOLDAR > 0:
+    # face no plano de simetria (todos os vértices em |y| < 1 mm, normal lateral): barbatana interna que o autor deixou no meio do
+    # para-brisa e do vidro traseiro do Caipora (aparecia como um risco no vidro e prendia 3 faces numa aresta)
+    for o in objs:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        fins = [f for f in bm.faces if all(abs(v.co.y) < 0.001 for v in f.verts) and abs(f.normal.y) > 0.9]
+        if fins:
+            bmesh.ops.delete(bm, geom=fins, context="FACES")
+            bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+            bm.to_mesh(o.data)
+            print(f"{o.name}: {len(fins)} faces no plano de simetria tiradas")
+        bm.free()
 # 2. ilhas por objeto, com caixa; rodas = ilhas baixas nos cantos
 def ilhas(o):
     bm = bmesh.new()
@@ -392,6 +447,26 @@ for o in objs:
         elif o is objs[0] and tam[0] < 0.3 and tam[2] < 0.3 and abs(cen[1]) > 0.7:
             medidas["retrovisores"].append([round(float(v), 4) for v in np.concatenate([[mn[0], mx[0]], [mn[1], mx[1]], [mn[2], mx[2]]])])
 
+if RODAS_NO_CHAO:
+    obj_roda = [o for i, o in enumerate(objs) if i == 2 or mat_do_obj.get(o.name) == "pneu"]
+    for nome_o, gs in rodas_idx.items():
+        o = bpy.data.objects[nome_o]
+        P = pts(o)
+        for g in gs:
+            mn, mx = P[g].min(0), P[g].max(0)
+            if mn[2] < 0.003:
+                continue
+            ya, yb = min(abs(mn[1]), abs(mx[1])) - 0.02, max(abs(mn[1]), abs(mx[1])) + 0.02
+            for o2 in obj_roda:
+                for v in o2.data.vertices:
+                    c = v.co
+                    if mn[0] - 0.01 <= c.x <= mx[0] + 0.01 and ya <= abs(c.y) <= yb and c.y * mn[1] > 0 and mn[2] - 0.01 <= c.z <= mx[2] + 0.01:
+                        c.z -= mn[2]
+                o2.data.update()
+            for r in medidas["rodas"]:
+                if abs(r["centro"][0] - 0.5 * (mn[0] + mx[0])) < 0.05 and abs(r["centro"][1] - 0.5 * (mn[1] + mx[1])) < 0.05:
+                    r["baixada"] = round(float(mn[2]), 4)
+            print(f"roda em x {0.5 * (mn[0] + mx[0]):+.3f} y {0.5 * (mn[1] + mx[1]):+.3f}: {100 * mn[2]:.1f} cm acima do chão, baixada")
 # janelas laterais só em par espelhado (esquerda/direita com o mesmo x e z); as largas (para-brisa, traseiro) passam direto
 for nome_o, g, box in candidatas:
     larga = (box[3] - box[2]) > 0.9
@@ -465,8 +540,10 @@ if MANTER:
         nomes = [(m.name[len("entrada_"):] if m and m.name.startswith("entrada_") else "") for m in o.data.materials]
         papel_entrada[o.name] = [nomes[p.material_index] if p.material_index < len(nomes) else "" for p in o.data.polygons]
 mats = {}
-# (com --juntar cada face já tem o material mapeado: nada a fazer aqui)
-for nome in ((("pintura", "vidro", "pneu", "chassi") + (PAPEIS_EXTRA if MANTER else ())) if CFG is None else ()):
+# (com --juntar cada face já tem o material mapeado: nada a fazer aqui; com --mat, luz e cromado entram se algum objeto vai para eles)
+NOMES_MAT = (("pintura", "vidro", "pneu", "chassi") + (PAPEIS_EXTRA if MANTER else
+             tuple(n for n in ("luz", "cromado") if n in mat_do_obj.values()))) if CFG is None else ()
+for nome in NOMES_MAT:
     m = bpy.data.materials.new(nome)
     m.use_nodes = True
     mats[nome] = m
@@ -481,7 +558,7 @@ for nome, m in (mats.items() if CFG is None else ()):
         t = m.node_tree.nodes.new("ShaderNodeTexImage")
         t.image = tex_img
         m.node_tree.links.new(t.outputs["Color"], bsdf.inputs["Base Color"])
-    bsdf.inputs["Roughness"].default_value = {"pintura": 0.35, "vidro": 0.05, "pneu": 0.8, "chassi": 0.8}.get(nome, 0.3)
+    bsdf.inputs["Roughness"].default_value = {"pintura": 0.35, "vidro": 0.05, "pneu": 0.8, "chassi": 0.8, "luz": 0.15, "cromado": 0.2}.get(nome, 0.3)
     if nome == "chassi":
         bsdf.inputs["Base Color"].default_value = (0.03, 0.03, 0.03, 1)
     elif MANTER and tex_img is None:
@@ -509,6 +586,9 @@ for i, o in enumerate(objs if CFG is None else ()):
             pe = papel_entrada[o.name][p.index]
             if pe in ordem:
                 p.material_index = ordem.index(pe)
+    if mat_do_obj.get(o.name) and not rod:
+        for p in me.polygons:
+            p.material_index = ordem.index(mat_do_obj[o.name])
 bpy.ops.object.select_all(action="DESELECT")
 for o in objs:
     o.select_set(True)
@@ -516,10 +596,61 @@ bpy.context.view_layer.objects.active = body
 bpy.ops.object.join()
 ob = bpy.context.view_layer.objects.active
 me = ob.data
+if REMAPEAR_Z:
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.verts.ensure_lookup_table()
+    visto = set()
+    for v0 in bm.verts:
+        if v0.index in visto:
+            continue
+        pilha, ilha = [v0], []
+        visto.add(v0.index)
+        while pilha:
+            v = pilha.pop()
+            ilha.append(v)
+            for e in v.link_edges:
+                u = e.other_vert(v)
+                if u.index not in visto:
+                    visto.add(u.index)
+                    pilha.append(u)
+        for (x0, x1, y0, y1, z0, z1), (za, zb) in REMAPEAR_Z:
+            if all(x0 <= v.co.x <= x1 and y0 <= v.co.y <= y1 and z0 <= v.co.z <= z1 for v in ilha):
+                lo, hi = min(v.co.z for v in ilha), max(v.co.z for v in ilha)
+                for v in ilha:
+                    v.co.z = za + (v.co.z - lo) * (zb - za) / max(hi - lo, 1e-6)
+                print(f"ilha de {len(ilha)} vértices: z {lo:.3f}-{hi:.3f} passou a {za:.3f}-{zb:.3f}")
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
 # 5. adensa
 bm = bmesh.new()
 bm.from_mesh(me)
 bmesh.ops.triangulate(bm, faces=bm.faces[:])
+if NORMAIS_DA_ORIGINAL:
+    # as normais de canto de cada triângulo de antes (lisas, vivas nas dobras de mais de ANGULO); cada face guarda de qual veio
+    import math as _m0
+    cam_orig = bm.faces.layers.int.new("cq_tri_orig")
+    for f in bm.faces:
+        f[cam_orig] = f.index
+    me_g = bpy.data.meshes.new("_grossa")
+    bm.to_mesh(me_g)
+    bg = bmesh.new()
+    bg.from_mesh(me_g)
+    bg.edges.ensure_lookup_table()
+    viv_g = [len(e.link_faces) == 2 and e.calc_face_angle(0.0) > _m0.radians(ANGULO) for e in bg.edges]
+    bg.free()
+    for p in me_g.polygons:
+        p.use_smooth = True
+    ag = me_g.attributes.get("sharp_edge") or me_g.attributes.new("sharp_edge", "BOOLEAN", "EDGE")
+    ag.data.foreach_set("value", viv_g)
+    me_g.update()
+    cn = me_g.corner_normals
+    tri_orig = {}
+    for p in me_g.polygons:
+        tri_orig[p.index] = ([Vector(me_g.vertices[me_g.loops[li].vertex_index].co) for li in p.loop_indices],
+                             [Vector(cn[li].vector) for li in p.loop_indices])
+    bpy.data.meshes.remove(me_g)
 for _ in range(6):
     longas = [e for e in bm.edges if e.calc_length() > ARESTA]
     if not longas:
@@ -594,6 +725,20 @@ if REF is not None:
     bpy.ops.object.modifier_apply(modifier="normais")
     bpy.data.objects.remove(refs[0])
     print("normais do arquivo transferidas")
+if NORMAIS_DA_ORIGINAL:
+    from mathutils.geometry import barycentric_transform
+    orig = me.attributes["cq_tri_orig"].data
+    normais = [None] * len(me.loops)
+    for p in me.polygons:
+        (a0, a1, a2), (n0, n1, n2) = tri_orig[orig[p.index].value]
+        for li in p.loop_indices:
+            co = me.vertices[me.loops[li].vertex_index].co
+            w = barycentric_transform(co, a0, a1, a2, Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1)))
+            n = n0 * w.x + n1 * w.y + n2 * w.z
+            normais[li] = (n.normalized() if n.length > 1e-9 else Vector(p.normal))[:]
+    me.attributes.remove(me.attributes["cq_tri_orig"])
+    me.normals_split_custom_set(normais)
+    print("normais tiradas da malha antes do adensamento")
 allP = pts(ob)
 medidas["caixa"] = [round(float(v), 4) for v in np.concatenate([[allP[:, 0].min(), allP[:, 0].max()], [allP[:, 1].min(), allP[:, 1].max()], [allP[:, 2].min(), allP[:, 2].max()]])]
 medidas["triangulos"] = len(me.polygons)
