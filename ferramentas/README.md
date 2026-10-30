@@ -634,7 +634,8 @@ Para cada carro nacional, uma sessão. Os passos, na ordem:
    Comprar, logar ou aceitar termos: só o Felipe. Meshy só em último caso, perguntando antes com o custo (economia até 23/11).
 3. **Preparar e cortar:** `sketchfab_preparar.py` (objetos, comprimento e altura reais, frente +X, chão em z=0, normais por ângulo),
    um `_mapa.json` feito à mão (rodas, portas, capô, tampa, para-choques, vidros, luzes, placas) e `carro_quebravel.py --sem-rotulos
-   --manter-normais --mapa ...`, depois `borracha_vidro.py`.
+   --manter-normais --mapa ...`, depois `borracha_vidro.py`. Modelo com vidros, luzes e grade misturados num objeto só: rotular antes
+   com `sketchfab_rotular.py` (seção do Tupiniquim, abaixo).
 4. **Detalhes:** `detalhes_na_casca.py`. Várias medidas ali são do Gol (quebra-vento, sinaleiras no para-choque, antena, altura do
    friso e da faixa): use as opções que existem e ponha opção nova para o que mudar, **sem mudar o resultado do Gol** (rodar o Gol de
    novo e comparar). Arcos redondos, placa 40 x 13 cm, lente de farol clara e para-choques pretos servem para todos.
@@ -668,3 +669,54 @@ furadas, sem vidro, sem roda, sem assoalho e sem material). Entrega os 3 objetos
 - Primeiro uso: candidato do Barão (sedã), 30/10/2026. Entre-eixos e altura medidos batem com a referência, e os 8 vidros saem
   certos. A chapa desse modelo vem ondulada no próprio arquivo, e o `alisar_lataria.py` piorou nos dois testes (com a camada de
   3 cm ele mistura as duas peles; com 1,2 cm continua enrugando). Uma casca assim pede superfície refeita, como na `carroceria_limpa/`.
+
+## Tupiniquim: hatch de 5 portas do Sketchfab, fora do acervo (29 e 30/10/2026)
+
+O Felipe escolheu para o Tupiniquim um modelo do Sketchfab de **origem incerta**: o arquivo é um `.3ds` convertido, com materiais
+de nome em português e texturas perdidas, publicado por um usuário que subiu dezenas de modelos com cara de tirados de jogos. Decisão
+dele (30/10): o carro é feito pela receita, mas **nem o modelo nem o corte entram neste acervo público**; ficam no Detonauto (privado),
+em `Art/Carros/tupiniquim/`, com a ressalva na linha do `docs/licencas.csv`. Aqui ficam só as ferramentas, que servem para qualquer
+carro. Todas as mudanças são opções: sem elas o Gol Quadrado sai igual. Conferido com o código do `main` e o de agora sobre a
+mesma entrada: preparo, borracha, detalhes e kit idênticos (0 peças diferentes). O `carro_quebravel.py` em si não é determinístico
+(duas rodadas do mesmo código diferem em 5 ou 6 peças), então a cadeia inteira de ponta a ponta nunca sai byte a byte igual.
+
+O modelo não vem em 3 objetos (carroceria, vidros, rodas) como o Gol: vidros, faróis, lanternas, grade, frisos e caixas de roda estão
+misturados num objeto, e a malha é uma sopa de triângulos soltos. A cadeia ganhou um passo antes do preparo:
+
+    python -I ferramentas/sketchfab_rotular.py -- <scene.gltf> <pasta>/rotulado.glb <regras.json>
+    python -I ferramentas/sketchfab_preparar.py -- <pasta>/rotulado.glb <pasta>/<id>.glb "carroceria,vidros,rodas" 3.827 1.433 0.06 30 0 0.0001 1 \
+        --manter-materiais
+    python -I ferramentas/carro_quebravel.py -- --entrada <pasta>/<id>.glb --out <corte> --id <id> --portas 4 --sem-rotulos \
+        --cores-do-arquivo --manter-normais --mapa <mapa.json> --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/<id>.glb <corte>/<id>.glb
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/<id>.glb <corte>/<id>.glb --manter-luzes --grade-chassi --manter-retrovisores \
+        --sem-friso --sem-faixa --sem-face-para-choque --sem-arco-redondo --para-choque-pintado --sem-sinaleira --sem-quebra-vento \
+        --placa-nova --z-placa 0.365 --z-placa-tras 0.742 --z-macaneta 0.84 --antena-teto 0.05 --limpadores 0.30,0.50,-0.16,0.44
+    python -I ferramentas/assar_desgaste.py -- <corte>/<id>.glb <corte>/<id>.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id <id> --out <kit> --epoca 2000 --aparar-mais 0.62 0.75
+
+- **`sketchfab_rotular.py` (novo):** junta os vértices (1 mm), corta por planos opcionais e rotula cada ilha de faces (ou cada face)
+  por regras de caixa, na ordem, com filtro de normal: `pintura`, `vidro`, `luz`, `chassi`, `cromado`, `pneu` ou `fora` (emblemas,
+  letreiros, placas com número e a moldura cromada da grade saem; a grade e as fendas do para-choque viram plástico preto). Os cortes
+  por plano deixam reta a borda entre o vidro traseiro e a lanterna, que eram uma chapa só pintada na textura perdida; o vidro que
+  dobra para a lateral vira o acabamento preto da coluna (filtro de normal), como no carro de referência. Ilha de vidro menor que
+  `vidro_min_faces` vira preto (senão o corte a toma por aba de caixilho e deixa um furo). Grava os 3 objetos que o preparo espera.
+- **Preparo e corte:** os do Sagui e do Trilheiro (30/10) já serviam: `--manter-materiais`, solda de 0,1 mm (o GLB separa os vértices
+  nas costuras de normal) e vidro inteiro no preparo; `--cores-do-arquivo` no corte.
+- **`carro_quebravel.py`:** `take: "ilha"` no mapa (com `material` opcional): o painel que o modelo já traz solto (porta, capô, tampa,
+  para-choque) vai inteiro, e a borda da peça segue a fresta do modelo em vez do corte reto da caixa; `pocket_z_max` na peça limita
+  o vão escuro à parte de baixo (a porta deste carro tem o quadro da janela, e o vão tapava a janela por dentro).
+- **`borracha_vidro.py`:** o vidro da porta de trás é da porta de trás quando ela existe.
+- **`detalhes_na_casca.py`:** `--manter-luzes` (a lente do modelo fica: farol em `lente_farol`, lanterna vermelha com a faixa de
+  baixo branca), `--grade-chassi` (grade que veio preta é refeita lisa, com palhetas), `--manter-retrovisores` (forma do modelo,
+  capa preta), `--placa-nova` (placas de 40 x 13 cm no rebaixo de um carro sem placa), `--z-macaneta` e maçanetas nas portas de
+  trás, `--antena-teto` e `--limpadores`.
+- **`carro_completo.py`:** a saia sob o para-choque acaba onde a borda dele recua (no para-choque de ponta arredondada ela saía pela
+  curva como uma aba preta; no Gol, de ponta reta, nada muda); `--aparar-mais zf zt` tira o que sai da casca no motor e no
+  porta-malas (a travessa do painel aparecia acima da grade e o carpete furava a lanterna), as colunas do vão vistas pela janela (a
+  coluna B deste carro é inclinada e a do kit é reta), recolhe o kit também atrás das lentes e põe a travessa sob a borda mais baixa
+  do capô.
+- **Resultado (30/10):** 34 peças, ~125 mil triângulos, 3,83 m, entre-eixos de 2,39 m, roda de 29,6 cm; kit época 2000. As portas de
+  trás e os para-lamas traseiros ficam na carroceria no jogo (uma porta por lado no contrato do Detonauto; o para-lama traseiro de
+  carro real não solta). Prévias, mapa, regras e a cadeia em
+  `Detonauto/Art/Carros/tupiniquim/`.
