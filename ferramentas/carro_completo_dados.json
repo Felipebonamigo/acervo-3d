@@ -36,13 +36,15 @@
     },
     "gaucho-v8": {
       "nome": "Gaúcho V8",
-      "epoca": "80",
+      "epoca": "70",
       "motor": "v8_longitudinal",
       "tracao": "traseira",
       "estepe": "lateral",
       "tanque": "sob_porta_malas",
       "carroceria": "sedan",
-      "nota": "sedã V8 dos anos 70 que seguiu em linha até os 90: interior da reforma dos anos 80"
+      "assoalho_recuo": 0.15,
+      "soleira_pintada": true,
+      "nota": "cupê V8 dos anos 70 (o do Sketchfab desde 30/10): época 70 como a referência, soleira pintada e assoalho recuado 15 cm (a lataria acaba a 27 cm do chão)"
     },
     "tupiniquim": {
       "nome": "Tupiniquim",

@@ -3620,7 +3620,9 @@ class Kit:
         p = self.nova("under_assoalho", "embaixo")
         x0 = M["x_tras"] + 0.22
         x1 = M["x_corta_fogo"] + 0.02
-        ym = M["W"] - 0.12
+        # assoalho_recuo (Gaúcho V8, 30/10): o cupê acaba a 27 cm do chão e a borda do assoalho, rente à lateral, aparecia de lado
+        # como uma tábua escura sob a porta; recuada, ela fica na sombra do fundo
+        ym = M["W"] - 0.12 - self.cfg.get("assoalho_recuo", 0.0)
         zb = M["z_piso"] - 0.035
         tun_h = self.tun_h
         x_sobe = M["x_encosto_t"] + 0.5 if M["carroceria"] in ("hatch", "sedan", "jipe") else -99.0
@@ -3975,11 +3977,18 @@ class Kit:
                 continue
             x_fim_tras = (pt["x0"] if pt else pf["x0"])
             trechos = [(M["xt"] + R + 0.05, x_fim_tras - 0.01), (pf["x1"] + 0.01, M["xd"] - R - 0.05)]
+            if self.cfg.get("soleira_pintada"):
+                # a caixa de ar vai de roda a roda, também sob a porta (é da carroceria e não abre com ela): em dois trechos, o vão
+                # da porta mostrava os dentes escuros do batente embaixo do friso
+                trechos = [(M["xt"] + R + 0.05, M["xd"] - R - 0.05)]
             for xa, xb_ in trechos:
                 if xb_ - xa < 0.04:
                     continue
                 yl = min(self.lado_em((xa + xb_) / 2, zs + 0.02, s, folga=0.0), W - 0.005)
-                p.caixa("chassi_graxa", T((xa + xb_) / 2, s * (yl - 0.065), zs - 0.045), xb_ - xa, 0.10, 0.09, 0.008)
+                # soleira_pintada (Gaúcho V8, 30/10): no cupê dos anos 70 a caixa de ar abaixo da porta é chapa na cor do carro;
+                # escura, ela lia no jogo como uma viga preta sob o friso cromado
+                p.caixa("pintura_interna" if self.cfg.get("soleira_pintada") else "chassi_graxa",
+                        T((xa + xb_) / 2, s * (yl - 0.065), zs - 0.045), xb_ - xa, 0.10, 0.09, 0.008)
                 self.saia["y_lat"][(xa, xb_)] = yl
 
     # ================================================================================================================ FREIOS

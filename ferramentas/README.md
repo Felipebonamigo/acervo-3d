@@ -1305,8 +1305,13 @@ ficha (4,60 x 1,81 x 1,38 m, entre-eixos 2,65 m, roda 32 cm). As proporções do
   jogo troca pelas rodas de kit) e `veiculos/sketchfab/completo/gaucho-v8/` (kit época 70, V8 longitudinal e tração traseira pela
   entrada `gaucho-v8` do `carro_completo_dados.json`, 77 peças, LOD0 ~208 mil). Prévias com o HDRI da rua em
   `veiculos/sketchfab/previas/gaucho-v8/`.
-- **Falta / conhecido:** embaixo da porta, de perto e de baixo, ainda aparece a borda escura do assoalho e da saia do kit (lê como
-  o fundo do carro); o para-lama dianteiro sai pela face lateral e a borda de cima dele fica serrilhada quando ele solta; o aparo do
+- **No jogo (30/10, noite):** o PC montou o carro (build ok, 372 testes) e as capturas (`Detonauto/docs/img/carro-completo/gauchov8/`)
+  batem com as prévias: teto preto que não muda com a cor, cromo brilhante, piscas âmbar, faróis redondos. O que destoou foi embaixo
+  da porta: a borda do assoalho do kit, rente à lateral, e a saia escura liam como uma viga preta sob o friso cromado. Dados novos
+  do `gaucho-v8` em `carro_completo_dados.json` (sem eles nada muda nos outros carros): `assoalho_recuo` 0,15 (o assoalho fica 15 cm
+  para dentro, na sombra do fundo) e `soleira_pintada` (a caixa de ar abaixo das portas, de roda a roda e também sob a porta, sai
+  na cor do carro, como no cupê de verdade); a época do dado passou a 70, a usada desde o começo.
+- **Falta / conhecido:** o para-lama dianteiro sai pela face lateral e a borda de cima dele fica serrilhada quando ele solta; o aparo do
   vão do motor fatiou dois reservatórios e a bateria (só se vê com o capô aberto).
 
 ## Pampeiro do Sketchfab: hatch redondo de 5 portas (30/10/2026)
