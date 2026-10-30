@@ -16,6 +16,7 @@ Uso (Blender 5.2 ou o módulo bpy num venv; a parte de medidas roda em Python pu
     --epoca 70|80|90|2000, --motor l4_transversal|l4_longitudinal|v8_longitudinal|boxer_traseiro   forçam o que a tabela diz
     --amostras <n>       amostras do Cycles nas prévias (padrão 24)
     --sem-previa         não renderiza
+    --aparar-mais [zf zt]  tira também o que sai da casca no motor (acima de zf) e no porta-malas (acima de zt)
     --so-medidas         só imprime as medidas derivadas (não precisa do bpy)
 
 Saída em --out:
@@ -2785,6 +2786,9 @@ class Kit:
         zfundo = max(0.16, M["R"] * 0.70)
         zcap_t = self.capo_em(xf + 0.06, 0)
         zcap_f = self.capo_em(xr - 0.05, 0)
+        if getattr(self, "capo_pelas_pontas", False):
+            # capô que cai nas pontas (o hatch de 5 portas): a travessa fica sob a borda mais baixa, senão aparece acima da grade
+            zcap_f = min([zcap_f] + [self.capo_em(xr - 0.05, s * (yb - 0.05)) for s in (1, -1)])
 
         def zcap(x):
             t = _limitar((x - xf) / max(0.1, xr - xf), 0, 1)
@@ -3726,6 +3730,13 @@ class Kit:
             print(f"saia {'da frente' if sinal > 0 else 'de trás'}: plano x={xb:.3f}, para-choque até z={z_pc:.2f}")
             # 20 cm para dentro de cada lado: rente à lateral, de lado ela aparecia como uma aba pendurada sob a ponta do para-choque
             larg = 2 * (W - 0.20)
+            # para-choque de ponta arredondada (o hatch de 5 portas): a saia acaba onde a borda dele recua para perto do plano dela,
+            # senão a ponta da saia sai pela curva do para-choque como uma aba preta; no para-choque reto do Gol nada muda
+            for yy in _np().arange(0.30, W - 0.20, 0.03) if self.casca else ():
+                hs = [self.casca.raio(nomes, (sinal * 3.0, s_ * yy, zs + 0.015), (-sinal, 0, 0), 4.0) for s_ in (1, -1)]
+                if any(h is None or (h[0].x - xb) * sinal < 0.03 for h in hs):
+                    larg = min(larg, 2 * (yy - 0.03))
+                    break
             p.caixa("chassi_graxa", T(xb, 0, zc) @ Ry(math.radians(-sinal * 12)), 0.012, larg, alt, 0.004)
             # sem laterais até a caixa de roda: de lado elas penduravam sob a ponta do para-choque como apara-barro (29/10); no carro
             # de verdade ali se vê o pneu e o escuro da caixa
@@ -3854,7 +3865,7 @@ def triangulos(me):
     return len(me.loop_triangles)
 
 
-def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habitaculo", "porta", "porta_malas")):
+def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habitaculo", "porta", "porta_malas"), lentes=False):
     """
     Peças de dentro que encostam ou passam da chapa (o teto e o para-lama do Meshy têm calombos de 1 a 2 cm, e o forro, o quebra-sol e o
     painel apareciam por fora em manchas): cada vértice a menos de `alcance` da face de fora da casca (tinta e vidro) e a menos de
@@ -3877,7 +3888,9 @@ def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habi
             if not (f.material_index < len(mats) and mats[f.material_index]):
                 return False
             mn = mats[f.material_index].name
-            return mn.startswith(("pintura", "vidro")) or (mn == "chassi" and f.calc_center_median().z > 0.9)
+            # lentes=True: as lentes das lanternas também (no hatch de 5 portas a lanterna dobra para a lateral e o carpete a furava)
+            return (mn.startswith(("pintura", "vidro")) or (mn == "chassi" and f.calc_center_median().z > 0.9)
+                    or (lentes and mn.startswith(("luz", "lente"))))
         fora = [f for f in b.faces if not de_fora(f)]
         bmesh.ops.delete(b, geom=fora, context="FACES")
         me = bpy.data.meshes.new("_casca_fora")
@@ -3954,6 +3967,109 @@ def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", 
                     if escapes >= 2:      # dois raios livres: não é uma fresta entre painéis
                         fora.append(f)
                         break
+        if fora:
+            bmesh.ops.delete(b, geom=fora, context="FACES")
+            b.to_mesh(ob.data)
+            ob.data.update()
+            tirou[ob.name] = len(fora)
+        b.free()
+    return tirou
+
+
+def aparar_por_fora(objs, corte_objs, z_min, grupos):
+    """
+    Face do kit do lado de fora da casca: o raio do eixo do carro para fora, na altura e no x dela, bate na chapa antes de chegar nela. Pega o que o teste de dois raios livres deixa passar: o carpete do porta-malas que fura a lente da
+    lanterna, rente a ela, onde todo raio para fora ainda bate em alguma coisa.
+    """
+    import bpy
+    import bmesh
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    bm = bmesh.new()
+    for nome, ob in corte_objs.items():
+        if nome.startswith(("wheel", "hubcap")):
+            continue
+        b = bmesh.new()
+        b.from_mesh(ob.data)
+        b.transform(ob.matrix_world)
+        me = bpy.data.meshes.new("_casca_toda")
+        b.to_mesh(me)
+        bm.from_mesh(me)
+        bpy.data.meshes.remove(me)
+        b.free()
+    arv = BVHTree.FromBMesh(bm)
+    bm.free()
+    tirou = {}
+    for ob in objs:
+        if ob.get("grupo") not in grupos:
+            continue
+        M = ob.matrix_world
+        b = bmesh.new()
+        b.from_mesh(ob.data)
+        fora = []
+        for f in b.faces:
+            c = M @ f.calc_center_median()
+            if c.z < z_min or abs(c.y) < 0.05:
+                continue
+            # do eixo do carro para fora, na altura e no x da face: se a chapa vem antes da face, a face está do lado de fora
+            d = Vector((0, 1 if c.y > 0 else -1, 0))
+            hit = arv.ray_cast(Vector((c.x, 0.0, c.z)), d, abs(c.y) - 0.002)
+            if hit[0] is not None:
+                fora.append(f)
+        if fora:
+            bmesh.ops.delete(b, geom=fora, context="FACES")
+            b.to_mesh(ob.data)
+            ob.data.update()
+            tirou[ob.name] = len(fora)
+        b.free()
+    return tirou
+
+
+def aparar_na_janela(objs, corte_objs, z_min, prefixos=("jamb_",)):
+    """
+    Coluna do vão da porta que aparece pela janela: no carro de coluna B inclinada (o hatch de 5 portas) a coluna do kit é reta e,
+    medida pela borda de baixo da porta, entra no vão da janela. Face acima de z_min cujo raio para fora (em y) só passa por vidro sai.
+    """
+    import bpy
+    import bmesh
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+
+    def arvore(filtro):
+        bm = bmesh.new()
+        for nome, ob in corte_objs.items():
+            if nome.startswith(("wheel", "hubcap")) or not filtro(nome):
+                continue
+            b = bmesh.new()
+            b.from_mesh(ob.data)
+            b.transform(ob.matrix_world)
+            me = bpy.data.meshes.new("_casca_parte")
+            b.to_mesh(me)
+            bm.from_mesh(me)
+            bpy.data.meshes.remove(me)
+            b.free()
+        arv = BVHTree.FromBMesh(bm)
+        bm.free()
+        return arv
+    chapa = arvore(lambda n: not n.startswith("glass_"))
+    vidro = arvore(lambda n: n.startswith("glass_"))
+    tirou = {}
+    for ob in objs:
+        if not ob.name.startswith(prefixos):
+            continue
+        M = ob.matrix_world
+        b = bmesh.new()
+        b.from_mesh(ob.data)
+        fora = []
+        for f in b.faces:
+            c = M @ f.calc_center_median()
+            if c.z < z_min:
+                continue
+            d = Vector((0, 1 if c.y > 0 else -1, 0))
+            hv = vidro.ray_cast(c + d * 0.001, d, 1.0)
+            hc = chapa.ray_cast(c + d * 0.001, d, 1.0)
+            if hv[0] is not None and (hc[0] is None or hc[3] > hv[3]):
+                fora.append(f)
         if fora:
             bmesh.ops.delete(b, geom=fora, context="FACES")
             b.to_mesh(ob.data)
@@ -4377,6 +4493,8 @@ def parse_args(argv):
     p.add_argument("--motor", choices=MOTORES, default=None)
     p.add_argument("--amostras", type=int, default=24)
     p.add_argument("--sem-previa", action="store_true")
+    p.add_argument("--aparar-mais", type=float, nargs="*", default=None, metavar="Z",
+                   help="também tira as faces do motor (acima de z da frente) e do porta-malas (acima de z de trás) que saem da casca")
     p.add_argument("--sem-sujeira", action="store_true", help="não assa a oclusão nos vértices (mais rápido; cor sem encardido)")
     p.add_argument("--so-medidas", action="store_true")
     p.add_argument("--sufixo", default="", help="sufixo nos arquivos de saída (ex.: _2000 para testar outra época)")
@@ -4414,6 +4532,7 @@ def principal(argv):
         pint = tuple(corte["pecas"]["textura"].get("pintura_rgb", pint))
     mats = Materiais(estilo, pint, cfg["epoca"])
     kit = Kit(M, cfg, estilo, mats, casca)
+    kit.capo_pelas_pontas = a.aparar_mais is not None
     kit._mapa_parts = corte["mapa"]["parts"]
     kit.habitaculo()
     kit.portas()
@@ -4432,10 +4551,21 @@ def principal(argv):
         col.objects.link(ob)
         objs.append(ob)
     if corte_objs:
-        andou = recolher_na_casca(objs, corte_objs)
+        andou = recolher_na_casca(objs, corte_objs, lentes=a.aparar_mais is not None)
         print("dentro da casca (vértices recolhidos):", andou)
         tirou = aparar_expostos(objs, corte_objs, kit.M["z_cintura"] - 0.01)
         print("fora da casca acima da cintura (faces tiradas):", tirou)
+        if a.aparar_mais is not None:
+            # carro de capô baixo na frente e lanterna que dobra para a lateral (o hatch de 5 portas): a travessa do painel dianteiro
+            # saía acima da borda do capô e o carpete do porta-malas pela lanterna; o mesmo teste, do topo de cada para-choque para cima
+            zf = a.aparar_mais[0] if len(a.aparar_mais) > 0 else 0.6
+            zt = a.aparar_mais[1] if len(a.aparar_mais) > 1 else zf
+            tirou = aparar_expostos(objs, corte_objs, zf, grupos=("motor",))
+            tirou.update(aparar_expostos(objs, corte_objs, zt, grupos=("porta_malas",)))
+            for k, v in aparar_por_fora(objs, corte_objs, zt, ("porta_malas",)).items():
+                tirou[k] = tirou.get(k, 0) + v
+            print("fora da casca no motor e no porta-malas (faces tiradas):", tirou)
+            print("colunas do vão vistas pela janela (faces tiradas):", aparar_na_janela(objs, corte_objs, kit.M["z_cintura"] - 0.01))
     if getattr(kit, "saia", None):
         tirou = aparar_sob_a_saia(objs, kit.saia, kit.M["rodas"], kit.M["R"])
         print("fora das saias, embaixo (faces tiradas):", tirou)
