@@ -25,7 +25,7 @@ def opt(name, default):
 LARG = opt("--largura-cm", 1.6) / 100
 LARG_FIXO = opt("--largura-fixo-cm", 2.4) / 100
 ALT = 0.004
-DONA = {"glass_door_fl": "door_fl", "glass_door_fr": "door_fr", "glass_rear": "trunk"}
+DONA = {"glass_door_fl": "door_fl", "glass_door_fr": "door_fr", "glass_door_rl": "door_rl", "glass_door_rr": "door_rr", "glass_rear": "trunk"}
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
@@ -174,6 +174,8 @@ for g in [o for o in meshes if o.name.startswith("glass_")]:
             base = hit[0] if hit[0] is not None else q
             V[i, j] = np.array(base) + np.array(nrm) * (0.0015 + ALT * (1 - s_ * s_))
     best = DONA.get(g.name, "body")
+    if best not in bpy.data.objects:      # carro de 2 portas: o vidro de trás é da carroceria
+        best = "body"
     dona = bpy.data.objects[best]
     inv = dona.matrix_world.inverted()
     me = dona.data

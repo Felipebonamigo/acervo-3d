@@ -1991,6 +1991,29 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
                 bmesh.ops.delete(bm, geom=[g for il in abas for g in il], context="FACES")
                 out = [il for il in out if il not in abas]
         return [g for il in out for g in il]
+    if take == "ilha":
+        # painel que o modelo já traz solto (porta, capô, tampa com fresta de verdade): cada ilha ligada com a maior parte na caixa
+        # vai inteira, e a borda da peça segue o vinco do modelo em vez do corte reto da caixa; "material" (opcional) restringe
+        cod = {"pintura": 0, "vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}.get(p.get("material"))
+        minimo = p.get("fracao_na_caixa", 0.5)
+        visto = set()
+        for f0 in bm.faces:
+            if f0 in visto or (cod is not None and camada_mat is not None and f0[camada_mat] != cod):
+                continue
+            pilha, ilha = [f0], []
+            visto.add(f0)
+            while pilha:
+                g = pilha.pop()
+                ilha.append(g)
+                for e in g.edges:
+                    for h in e.link_faces:
+                        if h not in visto and (cod is None or camada_mat is None or h[camada_mat] == cod):
+                            visto.add(h)
+                            pilha.append(h)
+            dentro = sum(1 for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
+            if dentro >= minimo * len(ilha) and dentro > 0:
+                out.extend(ilha)
+        return out
     if take == "roda":
         cx, _, cz = p["centro"]
         s = p["lado"]
@@ -2181,7 +2204,10 @@ def _executar_mapa(obj, mapa, rodas, rel):
         nb = _casca(bm, faces, float(p.get("thickness", 0.0)), escuro, True, nucleo,
                     None if mapa.get("_cores_do_arquivo") else mat_papel.get(papel))
         if float(p.get("pocket", 0.0)) > 0.0:
-            vaos.append(_casca(bm, faces, float(p["pocket"]), vao, False, nucleo))
+            # "pocket_z_max": o vão escuro só sob essa altura (porta com o quadro da janela: acima da cintura o vão tapava a janela)
+            fv = faces if p.get("pocket_z_max") is None else [f for f in faces if f.calc_center_median().z <= p["pocket_z_max"]]
+            if fv:
+                vaos.append(_casca(bm, fv, float(p["pocket"]), vao, False, nucleo))
         nme = bpy.data.meshes.new(p["name"])
         nb.to_mesh(nme)
         nb.free()
