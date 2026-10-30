@@ -7,8 +7,17 @@ grupos.json: {"tirar": [regex...], "carroceria": {regex: material}, "vidros": {r
 Cada regex casa com o nome do objeto ou do pai dele (no GLB do Sketchfab a malha se chama Object_N e o nome do autor fica no pai).
 Peça que não casa com nada para o script com erro: tudo tem dono. O comprimento sai em x. Depois rode o sketchfab_preparar.py com
 os objetos "carroceria,vidros,rodas" e --manter-materiais --sem-pca (o material de cada face tem o nome do papel, como no
-sketchfab_montar.py, que faz o mesmo para modelos que se separam por material)."""
+sketchfab_montar.py, que faz o mesmo para modelos que se separam por material).
+
+Chaves opcionais do grupos.json (Tropeiro, 30/10/2026):
+    "erguer": dz            sobe tudo menos pneus e aros (as peças de "rodas" com material pneu ou cromado), na unidade do arquivo e
+                            no cima do Blender (+z): carro rebaixado que precisa da suspensão de fábrica ou de aventureiro
+    "endireitar": [[regex, ...], ...]   desfaz o esterço das rodas da frente: por grupo, o eixo do primeiro objeto (o pneu: a direção
+                            de menor espalhamento no plano do chão) volta a ficar paralelo ao eixo de lado, girando o grupo todo em
+                            torno do centro dele
+    "nao_virar": [regex, ...]   peças que olham para o meio do carro de propósito (fundo e paredes da caçamba): ficam como vieram"""
 import bpy, bmesh, sys, json, re
+import numpy as np
 from mathutils import Matrix, Vector
 
 a = sys.argv[sys.argv.index("--") + 1:]
@@ -33,6 +42,11 @@ def casa(o, padroes):
     return None
 
 
+# material do arquivo com o nome de um papel nosso (o painel da picape do Tropeiro tem um "vidro") vira entrada_<nome>: senão o nosso
+# saía "vidro.001" e o preparo não o reconhecia
+for m in bpy.data.materials:
+    if m.name in ("pintura", "vidro", "pneu", "chassi", "luz", "cromado"):
+        m.name = "entrada_" + m.name
 mats = {}
 for nome in ("pintura", "vidro", "pneu", "chassi", "luz", "cromado"):
     m = bpy.data.materials.new(nome)
@@ -66,6 +80,34 @@ for o in list(bpy.data.objects):
     if o.type != "MESH":
         bpy.data.objects.remove(o)
 
+for grupo in grupos.get("endireitar", []):
+    obs = [o for rx in grupo for o in [o for objs_ in destino.values() for o in objs_] if any(re.search(rx, n, re.I) for n in nomes(o))]
+    if not obs:
+        raise SystemExit("endireitar: nada casa com %s" % grupo)
+    P = np.array([v.co[:] for v in obs[0].data.vertices])
+    c = Vector(0.5 * (P.min(0) + P.max(0)))
+    Q = P[:, :2] - P[:, :2].mean(0)
+    w_, vec = np.linalg.eigh(Q.T @ Q)
+    eixo = vec[:, 0]
+    # o eixo da roda tem que ficar no eixo de lado do carro: pela caixa da carroceria, o horizontal mais curto
+    cpts = np.array([v.co[:] for o in destino["carroceria"] for v in o.data.vertices])
+    ce = cpts.max(0) - cpts.min(0)
+    alvo = np.array([1.0, 0.0]) if ce[0] < ce[1] else np.array([0.0, 1.0])
+    ang = np.arctan2(eixo[1], eixo[0]) - np.arctan2(alvo[1], alvo[0])
+    ang = (ang + np.pi / 2) % np.pi - np.pi / 2
+    M_ = Matrix.Translation(c) @ Matrix.Rotation(-ang, 4, "Z") @ Matrix.Translation(-c)
+    for o in obs:
+        o.data.transform(M_)
+    print("endireitado %s: %.1f graus" % ([o.name for o in obs], np.degrees(ang)))
+if grupos.get("erguer"):
+    dz = float(grupos["erguer"])
+    for g, objs_ in destino.items():
+        for o in objs_:
+            if g == "rodas" and o.data.materials[0].name in ("pneu", "cromado"):
+                continue
+            o.data.transform(Matrix.Translation((0, 0, dz)))
+    print("erguido %.3f (tudo menos pneus e aros)" % dz)
+
 # normais para fora: o autor deixou o teto do Furgãozinho com as faces viradas para dentro (o material é de duas faces, no Sketchfab
 # não aparece), e o carro_completo.py empurrava o forro do teto para fora da chapa. Ordem dos vértices coerente em cada ilha e, se
 # a ilha olha mais para o meio do carro do que para fora, ela é virada inteira
@@ -83,8 +125,11 @@ if lateral == 0:
     centro = giro @ centro
     lateral = 1
 viradas = 0
+por_peca = {}
 for g, objs in destino.items():
     for o in objs:
+        if any(re.search(rx, n, re.I) for rx in grupos.get("nao_virar", []) for n in nomes(o)):
+            continue        # "nao_virar": peça que olha para dentro de propósito (as paredes da caçamba de uma picape)
         bm = bmesh.new()
         bm.from_mesh(o.data)
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
@@ -112,9 +157,10 @@ for g, objs in destino.items():
             if s < 0:
                 bmesh.ops.reverse_faces(bm, faces=ilha)
                 viradas += 1
+                por_peca[o.name] = por_peca.get(o.name, 0) + 1
         bm.to_mesh(o.data)
         bm.free()
-print("ilhas viradas para fora:", viradas)
+print("ilhas viradas para fora:", viradas, por_peca)
 for g, objs in destino.items():
     if not objs:
         raise SystemExit("grupo vazio: " + g)
