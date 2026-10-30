@@ -1,0 +1,11 @@
+Model Information:
+* title:	Chevrolet Chevette sl 76
+* source:	https://sketchfab.com/3d-models/chevrolet-chevette-sl-76-2322139894c545b6838000f08d853662
+* author:	Laerte.Hubaleque (https://sketchfab.com/Laerte.Hubaleque)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Chevrolet Chevette sl 76" (https://sketchfab.com/3d-models/chevrolet-chevette-sl-76-2322139894c545b6838000f08d853662) by Laerte.Hubaleque (https://sketchfab.com/Laerte.Hubaleque) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

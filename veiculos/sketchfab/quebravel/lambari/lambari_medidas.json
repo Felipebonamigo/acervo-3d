@@ -1,0 +1,67 @@
+{
+ "regras": "lambari_regras.json",
+ "escala": 1.00119,
+ "caixa": [
+  -2.2394,
+  1.8806,
+  -0.7928,
+  0.818,
+  0.0,
+  1.3452
+ ],
+ "rodas": [
+  {
+   "nome": "fl",
+   "lado": 1,
+   "cx": 1.186,
+   "cz": 0.2994,
+   "raio": 0.2987,
+   "y_dentro": 0.5682,
+   "y_fora": 0.7406
+  },
+  {
+   "nome": "fr",
+   "lado": -1,
+   "cx": 1.1846,
+   "cz": 0.2994,
+   "raio": 0.2992,
+   "y_dentro": 0.5658,
+   "y_fora": 0.743
+  },
+  {
+   "nome": "rl",
+   "lado": 1,
+   "cx": -1.1846,
+   "cz": 0.2994,
+   "raio": 0.2987,
+   "y_dentro": 0.5682,
+   "y_fora": 0.7406
+  },
+  {
+   "nome": "rr",
+   "lado": -1,
+   "cx": -1.186,
+   "cz": 0.2994,
+   "raio": 0.2994,
+   "y_dentro": 0.5646,
+   "y_fora": 0.7442
+  }
+ ],
+ "eixos": {
+  "dianteiro": 1.1853,
+  "traseiro": -1.1853
+ },
+ "faces_por_material": {
+  "pintura": 10818,
+  "chassi": 5288,
+  "lente_farol": 190,
+  "luz_branca": 113,
+  "luz_ambar": 345,
+  "luz_vermelha": 89,
+  "vidro": 908,
+  "cromo": 7097,
+  "pneu": 4032,
+  "cromado": 10872
+ },
+ "triangulos": 39752
+}
