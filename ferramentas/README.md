@@ -1356,11 +1356,12 @@ e um caricato. O do Meshy (`meshy-conta/barao__01a16960.glb`) fica no acervo.
     python -I ferramentas/decimar.py -- <tmp>/barao.glb <tmp>/barao_red.glb 130000
     python -I ferramentas/carro_quebravel.py -- --entrada <tmp>/barao_red.glb --out <corte> --id barao --portas 4 --sem-rotulos \
         --manter-normais --mapa veiculos/sketchfab/quebravel/barao/barao_mapa.json --sem-fbx
-    python -I ferramentas/borracha_vidro.py -- <corte>/barao.glb <corte>/barao.glb --dona glass_rear=body
+    python -I ferramentas/borracha_vidro.py -- <corte>/barao.glb <corte>/barao.glb --dona glass_rear=body --por-ilha
     python -I ferramentas/detalhes_na_casca.py -- <corte>/barao.glb <corte>/barao.glb --mapa veiculos/sketchfab/quebravel/barao/barao_mapa.json \
         --sem-quebra-vento --sem-sinaleira --sem-face-para-choque --manter-chapa-dos-vidros --para-choque-pintado --sem-macaneta \
         --sem-retrovisor --z-friso 0.465 --z-faixa 0.47 --placa-nova --z-placa 0.30 --z-placa-tras 0.705 \
         --limpadores 0.25,0.55,-0.32,0.52 --sem-arco-redondo --luz-na-casca --luz-reta 0.02 --faixas-lanterna-y 0.10,0.22 \
+        --luz-reta-raio-lanterna 0.05 \
         --friso-tampa 0.905,0.30 --manter-grade --grade-preta
     python -I ferramentas/assar_desgaste.py -- <corte>/barao.glb <corte>/barao.glb --tamanho 2048 --amostras 32 --uv-smart
     python -I ferramentas/carro_completo.py -- --corte <corte> --id barao --out <kit> --aparar-mais 0.55 0.6
@@ -1387,8 +1388,11 @@ e um caricato. O do Meshy (`meshy-conta/barao__01a16960.glb`) fica no acervo.
 - **Comparado com fotos reais do sedã da referência:** silhueta, porta-malas alto, faróis finos com as fendas da grade no meio,
   entrada de ar preta embaixo da placa, faixa preta nos para-choques e friso lateral fino batem; a lanterna real é redonda nos
   cantos, a daqui é um retângulo na própria chapa com o friso cromado entre elas (o traço próprio da ficha).
-- **Defeitos conhecidos:** a chapa do autor tem ondas leves na lateral traseira (de perto, com sol baixo); o vidro fixo de quarta não
-  tem borracha; o retrovisor é o do autor, sem espelho.
+- **Depois (30/10, noite):** `borracha_vidro.py --por-ilha` (o fixo de quarta, na peça do vidro da porta de trás, ganha a borracha
+  dele; a cópia que o corte põe 6 mm atrás não ganha outra) e `--luz-reta-raio-lanterna 0.05` (cantos redondos na lanterna, mais
+  perto da real). Alisar só a lateral traseira (Taubin com os vincos travados, 1 cm no máximo) quase não mudou o reflexo: ficou de fora.
+- **Defeitos conhecidos:** a chapa do autor tem ondas leves na lateral traseira (de perto, com sol baixo); o retrovisor é o do
+  autor, sem espelho.
 - **Táxi (30/10/2026):** `taxi_do_corte.py` faz o táxi de tráfego do corte: malha estática branca com a textura de desgaste,
   vidros escuros opacos, caixa de teto lisa sem texto, ~90 mil triângulos (o do Meshy tinha ~79 mil),
   `veiculos/sketchfab/taxi-barao__0383ac51df544ef5ab97559f7a97a811.glb`; prévia em `previas/barao/barao-taxi.jpg`.

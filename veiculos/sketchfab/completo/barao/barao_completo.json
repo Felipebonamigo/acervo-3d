@@ -210,7 +210,7 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 3248,
-   "triangulos_lod1": 1441,
+   "triangulos_lod1": 1457,
    "caixa_m": [
     -0.66,
     0.69,
@@ -302,8 +302,8 @@
    "nome": "interior_painel",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 13986,
-   "triangulos_lod1": 4194,
+   "triangulos": 13984,
+   "triangulos_lod1": 4193,
    "caixa_m": [
     0.38,
     1.017,
@@ -444,7 +444,7 @@
     -0.784,
     0.779,
     0.22,
-    0.916
+    0.924
    ],
    "materiais": [
     "plastico",
@@ -456,8 +456,8 @@
    "nome": "interior_forro_teto",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 10218,
-   "triangulos_lod1": 3061,
+   "triangulos": 10226,
+   "triangulos_lod1": 3064,
    "caixa_m": [
     -1.306,
     0.244,
@@ -478,12 +478,12 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 2696,
-   "triangulos_lod1": 806,
+   "triangulos_lod1": 807,
    "caixa_m": [
     -0.041,
     0.131,
-    -0.581,
-    0.568,
+    -0.583,
+    0.567,
     1.286,
     1.382
    ],
@@ -536,7 +536,7 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 204,
-   "triangulos_lod1": 60,
+   "triangulos_lod1": 61,
    "caixa_m": [
     0.82,
     0.954,
@@ -554,9 +554,9 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 204,
-   "triangulos_lod1": 61,
+   "triangulos_lod1": 60,
    "caixa_m": [
-    0.819,
+    0.82,
     0.953,
     -0.819,
     -0.718,
@@ -859,10 +859,10 @@
    "nome": "door_card_rl_chapa",
    "grupo": "porta",
    "segue": "door_rl",
-   "triangulos": 2732,
-   "triangulos_lod1": 819,
+   "triangulos": 2728,
+   "triangulos_lod1": 818,
    "caixa_m": [
-    -0.991,
+    -0.978,
     -0.189,
     0.724,
     0.845,
@@ -1003,7 +1003,7 @@
    "nome": "door_card_rr_chapa",
    "grupo": "porta",
    "segue": "door_rr",
-   "triangulos": 2732,
+   "triangulos": 2728,
    "triangulos_lod1": 818,
    "caixa_m": [
     -0.978,
@@ -1147,7 +1147,7 @@
    "nome": "interior_portamalas_carpete",
    "grupo": "porta_malas",
    "segue": null,
-   "triangulos": 6102,
+   "triangulos": 6104,
    "triangulos_lod1": 1830,
    "caixa_m": [
     -2.122,
@@ -1163,7 +1163,8 @@
     "plastico",
     "cromado.001",
     "metal_preto",
-    "ferro"
+    "ferro",
+    "chassi_graxa"
    ]
   },
   {
@@ -1245,7 +1246,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -1265,7 +1267,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1287,7 +1290,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -1307,7 +1311,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1332,7 +1337,8 @@
     "aluminio_po",
     "borracha_po",
     "reservatorio_po",
-    "amarelo"
+    "amarelo",
+    "chassi_graxa"
    ]
   },
   {
@@ -1351,7 +1357,8 @@
    ],
    "materiais": [
     "isolante_po",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1373,7 +1380,8 @@
     "metal_preto_po",
     "plastico_po",
     "borracha_po",
-    "chicote_po"
+    "chicote_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1767,12 +1775,12 @@
    "triangulos": 432,
    "triangulos_lod1": 128,
    "caixa_m": [
-    -2.111,
-    2.049,
+    -2.104,
+    2.042,
     -0.697,
     0.697,
-    0.186,
-    0.324
+    0.22,
+    0.325
    ],
    "materiais": [
     "chassi_graxa"
@@ -2085,13 +2093,13 @@
  ],
  "triangulos": {
   "lod0": 274950,
-  "lod1": 82868
+  "lod1": 82886
  },
  "triangulos_por_grupo": {
-  "habitaculo": 88770,
-  "porta": 43748,
+  "habitaculo": 88776,
+  "porta": 43740,
   "vao_porta": 21946,
-  "porta_malas": 11832,
+  "porta_malas": 11834,
   "motor": 67852,
   "embaixo": 24450,
   "freios": 16352
