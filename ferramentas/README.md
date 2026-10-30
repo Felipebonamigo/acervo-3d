@@ -928,6 +928,7 @@ grade) numa textura só, interior, painel e freios. A cadeia:
     python -I ferramentas/carro_quebravel.py -- --entrada <pasta>/lambari.glb --out <corte> --id lambari --portas 2 --frente +x \
         --sem-rotulos --manter-normais --manter-materiais --mapa veiculos/sketchfab/quebravel/lambari/lambari_mapa.json --sem-fbx
     python -I ferramentas/placa_na_casca.py -- <corte>/lambari.glb <corte>/lambari.glb
+    python -I ferramentas/grade_propria.py -- <corte>/lambari.glb <corte>/lambari.glb
     python -I ferramentas/assar_desgaste.py -- <corte>/lambari.glb <corte>/lambari.glb --tamanho 2048 --amostras 32
     python -I ferramentas/carro_completo.py -- --corte <corte> --id lambari --out <kit> --epoca 70
 
@@ -958,8 +959,13 @@ grade) numa textura só, interior, painel e freios. A cadeia:
   roda de aço com calotinha do carro real (`previas/lambari/lambari-rodas-calota.jpg`, com e sem).
 - **Saída:** `quebravel/lambari/` (29 peças, 77,5 mil triângulos, fresta zero nos amassados), `completo/lambari/` (79 peças) e
   `previas/lambari/` (vistas, closes, as 14 cores e os 5 acabamentos com o HDRI de rua, a textura e o preparo dos materiais).
-- **Fica para decidir:** a grade é a de barras do modelo real (a ficha pede "sem a grade de barras do modelo real"); trocar por
-  uma grade própria é um passo à parte se o Felipe quiser. As venezianas da coluna C, que eram só desenho na textura, saíram.
+- **`grade_propria.py` (novo, 30/10, noite; "siga" do Felipe):** a grade de barras do carro real é detalhe de assinatura (a ficha
+  pede "sem a grade de barras do modelo real" e o CLAUDE.md do Detonauto manda mudar o detalhe que chega perto demais). Apaga o
+  cromo e o preto da grade antiga dentro da caixa (`--caixa`, 1,3 cm a mais nas pontas) na peça `grille`, na carroceria e no
+  para-choque da frente (o corte tinha deixado barras nos dois) e faz a nossa: moldura cromada de 1,2 cm, fundo preto recuado 5 cm,
+  colmeia preta de 9 x 3 células largas e uma barra cromada no meio (`--colunas`, `--linhas`, `--sem-barra`), face em x = 1,79 (a
+  1,81 ela saltava à frente dos aros dos faróis como uma placa colada). As venezianas da coluna C (só desenho na textura) ficaram
+  de fora de propósito pelo mesmo motivo.
 
 ## Pão de Forma do Sketchfab: furgão de passageiros, motor atrás (30/10/2026)
 
