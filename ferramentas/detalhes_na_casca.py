@@ -13,6 +13,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
     python -I ferramentas/detalhes_na_casca.py -- <corte>.glb <saida>.glb [--sem-friso] [--sem-faixa] [--sem-limpador]
         [--sem-macaneta] [--z-friso 0.58] [--z-faixa 0.42]
         Sagui (30/10/2026), carro já detalhado no modelo: [--sem-luzes] [--sem-retrovisor] [--placa-tras-no-para-choque]
+        Trilheiro (jipe, 30/10/2026): [--farol-redondo] [--grade-limpa] [--z-macaneta 1.05]
 
 Materiais só os do corte (`chassi` = plástico preto, `luz` = lente): o kit_names.py do Detonauto já sabe o que fazer com eles.
 As normais de canto das peças que só ganham geometria ficam; faróis, lanternas e grade são refeitos e recebem normais por ângulo.
@@ -35,6 +36,7 @@ def opt(name, default):
 
 Z_FRISO = opt("--z-friso", 0.58)
 Z_FAIXA = opt("--z-faixa", 0.42)
+Z_MACANETA = opt("--z-macaneta", 0.0)          # 0: a regra do Gol (12 cm abaixo do topo da porta, ou 0,79 m)
 relatorio = []
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -673,6 +675,73 @@ def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008
                 w.caixa(c + Vector((sinal * 0.018, 0, 0)), 0.024, 0.016, 0.016, m_lampada)
 
 
+def x_da_face(o, material):
+    """Mediana do x das faces de `material` viradas para a frente (+X) na peça: o plano da face, sem a ponta que salta."""
+    nomes = mat_names(o)
+    mw = o.matrix_world
+    xs = [(mw @ p.center).x for p in o.data.polygons if nomes[p.material_index] == material and (mw.to_3x3() @ p.normal).x > 0.3]
+    return float(np.median(xs)) if xs else None
+
+
+def farol_redondo(w, box, m_pint, m_preto, m_lente, m_refletor, m_lampada, m_seta, e=0.010, prof=0.05, n=40, x_face=None):
+    """Farol redondo (jipe, 30/10/2026, `--farol-redondo`): na metade de cima da caixa um círculo do diâmetro da largura, com moldura
+    preta de `e`, lente clara 6 mm à frente (convexa: o miolo mais 4 mm), refletor em cone e lâmpada; embaixo, se sobra altura, uma
+    seta âmbar redonda. O que sobra do retângulo da caixa até cada círculo volta a ser chapa pintada (a caixa era a chapa). O plano é
+    `x_face` (a mediana das faces da frente + 1 cm): o x máximo da caixa pegava uma ponta 15 cm à frente da chapa."""
+    x0, x1, y0, y1, z0, z1 = box
+    xf = x1 if x_face is None else x_face
+    w.ref = Vector((xf - 1.0, 0.5 * (y0 + y1), 0.5 * (z0 + z1)))
+    dy = y1 - y0
+    yc = 0.5 * (y0 + y1)
+    blocos = [(z1 - dy, z1, 0.5 * dy - 0.006, m_lente, True)]
+    if (z1 - dy) - z0 > 0.06:
+        hb = (z1 - dy) - z0
+        blocos.append((z0, z1 - dy, min(0.04, 0.5 * hb - 0.008, 0.5 * dy - 0.02), m_seta, False))
+    else:
+        blocos[0] = (z0, z1, 0.5 * min(dy, z1 - z0) - 0.006, m_lente, True)
+    for (za, zb, R, m_l, eh_farol) in blocos:
+        zc = 0.5 * (za + zb)
+        hy, hz = 0.5 * dy, 0.5 * (zb - za)
+        angs = [2 * math.pi * k / n for k in range(n)] + [math.atan2(sz * hz, sy * hy) % (2 * math.pi) for sy in (-1, 1) for sz in (-1, 1)]
+        angs = sorted(set(round(a, 6) for a in angs))
+
+        def no_ret(a):
+            c, s_ = math.cos(a), math.sin(a)
+            t = min(hy / abs(c) if abs(c) > 1e-9 else 1e9, hz / abs(s_) if abs(s_) > 1e-9 else 1e9)
+            return Vector((xf, yc + t * c, zc + t * s_))
+
+        def no_circ(a, r, x):
+            return Vector((x, yc + r * math.cos(a), zc + r * math.sin(a)))
+        Rm = R + e
+        xl = xf + 0.006
+        cen = Vector((xf, yc, zc))
+        for i in range(len(angs)):
+            a, b = angs[i], angs[(i + 1) % len(angs)]
+            # chapa do retângulo até a moldura
+            w.quad([no_ret(a), no_ret(b), no_circ(b, Rm, xf), no_circ(a, Rm, xf)], m_pint, ref=cen - Vector((1.0, 0, 0)))
+            # moldura preta (anel) e o lado da lente até ela
+            w.quad([no_circ(a, Rm, xf), no_circ(b, Rm, xf), no_circ(b, R, xl), no_circ(a, R, xl)], m_preto, ref=cen - Vector((1.0, 0, 0)))
+            # lente convexa: anel externo e miolo
+            w.quad([no_circ(a, R, xl), no_circ(b, R, xl), no_circ(b, 0.55 * R, xl + 0.003), no_circ(a, 0.55 * R, xl + 0.003)], m_l,
+                   ref=cen - Vector((1.0, 0, 0)))
+            w.quad([no_circ(a, 0.55 * R, xl + 0.003), no_circ(b, 0.55 * R, xl + 0.003), Vector((xl + 0.004, yc, zc))], m_l,
+                   ref=cen - Vector((1.0, 0, 0)))
+            # refletor em cone atrás da lente (fecha o bolso)
+            if eh_farol and m_refletor is not None:
+                w.quad([no_circ(a, Rm, xf), no_circ(b, Rm, xf), Vector((xf - prof, yc, zc))], m_refletor, ref=cen + Vector((1.0, 0, 0)))
+        if eh_farol:
+            # frisos verticais na lente (relevo que lê como farol na lente opaca do jogo)
+            n_fr = max(3, int(2 * R / 0.022))
+            for k in range(n_fr):
+                yk = yc - R + 2 * R * (k + 0.5) / n_fr
+                hk = 2 * math.sqrt(max(R * R - (yk - yc) ** 2, 0.0)) * 0.85
+                if hk > 0.01:
+                    w.caixa((xl + 0.0035, yk, zc), 0.0015, 0.006, hk, m_l)
+            if m_lampada is not None:
+                w.caixa((xf - 0.5 * prof, yc, zc), 0.024, 0.016, 0.016, m_lampada)
+    w.ref = None
+
+
 # pares iguais (29/10): no modelo a lanterna esquerda tinha 24 cm e a direita 28 (o farol 21 e 22). No carro de verdade os dois lados
 # são o espelho um do outro: cada par usa a união das duas caixas, espelhada em y
 caixas_luz = {n: faces_de(objs[n], "luz")[0] for n in ("headlight_left", "headlight_right", "taillight_left", "taillight_right") if n in objs}
@@ -697,10 +766,18 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
     box = caixas_luz.get(nome)
     if box is None:
         continue
+    xm_luz = x_da_face(o, "luz")
     w = Escritor(o, refazer=("luz", "pintura", "cromado"))
     m_preto, m_lente = slot(o, "chassi"), slot(o, "luz")
     m_ref = slot(o, "refletor")
     esq = "left" in nome
+    if sinal > 0 and "--farol-redondo" in args:
+        xm = xm_luz
+        farol_redondo(w, box, slot(o, "pintura"), m_preto, slot(o, "lente_farol"), m_ref, m_lente, slot(o, "luz_ambar"),
+                      x_face=None if xm is None else xm + 0.01)
+        w.fechar()
+        relatorio.append("%s: farol redondo de %.0f cm com lente clara e refletor" % (nome, (box[3] - box[2]) * 100))
+        continue
     if sinal > 0:
         # farol (29/10, "lanternas e sinaleiras mais realistas"): lente prismática com frisos, e atrás dela o refletor e a lâmpada. A
         # lente é `lente_farol`, clara, prateada e envernizada, e não vidro transparente: no jogo o bolso atrás do vidro ficava no
@@ -728,10 +805,27 @@ if o:
     if box is None:
         box, nrm = faces_de(o, "luz")
     if box is not None:
-        w = Escritor(o, refazer=("pintura", "luz", "cromado"))
+        limpa = "--grade-limpa" in args
+        if limpa and "body" in objs:
+            # grade limpa (jipe, 30/10/2026): a grade do modelo tinha fendas verticais de marca; saem as palhetas antigas (chassi) da
+            # peça e, na carroceria, toda face dentro da caixa da grade até 15 cm atrás da face (paredes e fundo das fendas)
+            ob = objs["body"]
+            bmb = bmesh.new()
+            bmb.from_mesh(ob.data)
+            mwb = ob.matrix_world
+            fora = [f for f in bmb.faces if (lambda c: box[1] - 0.15 <= c.x <= box[1] + 0.03 and box[2] <= c.y <= box[3] and
+                                             box[4] <= c.z <= box[5])(mwb @ f.calc_center_median())]
+            bmesh.ops.delete(bmb, geom=fora, context="FACES")
+            bmb.to_mesh(ob.data)
+            bmb.free()
+            ob.data.update()
+            arvores.pop("body", None)
+            relatorio.append("grade limpa: %d faces da carroceria atrás da grade fora" % len(fora))
+        xm_grade = x_da_face(o, "pintura") if limpa else None
+        w = Escritor(o, refazer=("pintura", "luz", "cromado", "chassi") if limpa else ("pintura", "luz", "cromado"))
         m_preto = slot(o, "chassi")
         x0, x1, y0, y1, z0, z1 = box
-        xf = x1
+        xf = x1 if xm_grade is None else xm_grade + 0.01     # grade limpa: no plano da face, não na ponta que salta
         e = 0.012
         w.ref = Vector((xf - 1.0, 0.5 * (y0 + y1), 0.5 * (z0 + z1)))
         ext = [(xf, y0, z0), (xf, y1, z0), (xf, y1, z1), (xf, y0, z1)]
@@ -798,7 +892,7 @@ if "--sem-macaneta" not in args:
         if box is None:
             continue
         x = box[0] + 0.16
-        z = box[5] - 0.12 if box[5] < 1.0 else 0.79
+        z = Z_MACANETA if Z_MACANETA > 0 else (box[5] - 0.12 if box[5] < 1.0 else 0.79)
         h = raio([nome], (x, s * 1.5, z), (0, -s, 0), 2.0)
         if not h:
             continue
@@ -882,6 +976,10 @@ for nome, s in (("mirror_left", 1), ("mirror_right", -1)):
     if not o or "--sem-retrovisor" in args:      # o retrovisor do modelo já tem forma e espelho (Sagui)
         continue
     box, _ = faces_de(o, "pintura")
+    if box is None or (box[1] - box[0]) * (box[5] - box[4]) < 0.004:
+        # retrovisor de plástico preto (jipe, com --manter-chassi no corte): a caixa sai das faces chassi
+        box_c, _ = faces_de(o, "chassi")
+        box = box_c if box_c is not None else box
     if box is None:
         continue
     w = Escritor(o, refazer=("pintura", "luz", "cromado", "chassi", "vidro"))
