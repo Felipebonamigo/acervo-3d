@@ -1,5 +1,13 @@
 """Carro do Sketchfab (3 objetos: carroceria, vidros, rodas+assoalho) -> um objeto só no nosso referencial, adensado, com a carroceria
-esticada acima do eixo até a altura real (as rodas ficam redondas), materiais por ilha (pintura, vidro, pneu) e medidas impressas."""
+esticada acima do eixo até a altura real (as rodas ficam redondas), materiais por ilha (pintura, vidro, pneu) e medidas impressas.
+
+Modo por preparo (Jabuti, 30/10/2026): no lugar da lista de objetos, um `<id>_preparo.json` para modelos em muitas peças com material
+próprio (portas, capô, luzes, interior): {"corpo": "<objeto da carroceria>", "rodas": [objetos de pneu e aro], "materiais": {material de
+entrada: nosso material}, "objetos": {objeto: {material de entrada: nosso material} ou {}}}. Só os objetos listados ficam; o material
+de cada face sai do mapa do objeto e, se não estiver nele, do mapa geral (o --juntar só tem o mapa geral e seis materiais: no Jabuti o
+mesmo branco é lente no farol e ré na lanterna, e o prata é cromo no para-choque e plástico no retrovisor). As rodas vêm dos objetos
+de "rodas" (agrupados por quadrante), não das ilhas, e os vidros são as ilhas com o material `vidro`. O glTF chega com os vértices
+separados em cada costura: passe a solda (9º argumento, 0.00001)."""
 import bpy, bmesh, sys, json, numpy as np
 from mathutils import Vector, Matrix
 a = sys.argv[sys.argv.index("--") + 1:]
@@ -56,7 +64,9 @@ while "--remapear-z" in a:
     cx_, zz_ = a[i + 1].split("=")
     REMAPEAR_Z.append(([float(t) for t in cx_.split(",")], [float(t) for t in zz_.split(",")]))
     del a[i:i + 2]
-ent, out, keep = a[0], a[1], a[2].split(",")
+ent, out = a[0], a[1]
+SPEC = json.load(open(a[2])) if a[2].endswith(".json") else None
+keep = ([SPEC["corpo"]] + [k for k in SPEC["objetos"] if k != SPEC["corpo"]]) if SPEC else a[2].split(",")
 COMP, ALT, ARESTA = float(a[3]), float(a[4]), float(a[5])
 ANGULO = float(a[6]) if len(a) > 6 else 30.0   # aresta mais dobrada do que isso fica viva; o resto é liso
 SUAVIZAR = int(a[7]) if len(a) > 7 else 0        # passos de suavização (Taubin) dos vincos suaves: arredonda as facetas de baixo polígono
@@ -424,7 +434,42 @@ def eh_janela(mn, mx, n):
     return (tam[1] > 0.9) or (tam[1] < 0.25 and min(abs(mn[1]), abs(mx[1])) > 0.35)
 
 
-for o in objs:
+def mat_de(o, p):
+    """Modo por preparo: o nosso material da face p do objeto o."""
+    m = o.data.materials[p.material_index].name if o.data.materials else ""
+    return SPEC["objetos"][o.name].get(m, SPEC["materiais"].get(m, "pintura"))
+
+
+if SPEC:
+    # rodas: todos os vértices dos objetos de roda, um grupo por quadrante (frente/trás pelo x, lado pelo y)
+    for nome in SPEC["rodas"]:
+        rodas_idx[nome] = [np.arange(len(bpy.data.objects[nome].data.vertices))]
+    W = np.concatenate([pts(bpy.data.objects[n]) for n in SPEC["rodas"]])
+    for sx in (1, -1):
+        for sy in (1, -1):
+            g = W[(np.sign(W[:, 0]) == sx) & (np.sign(W[:, 1]) == sy)]
+            if not len(g):
+                continue
+            mn, mx = g.min(0), g.max(0)
+            cen = 0.5 * (mn + mx)
+            raio_ = float(0.5 * (mx[2] - mn[2]))
+            medidas["rodas"].append(dict(centro=[round(float(cen[0]), 4), round(float(cen[1]), 4), round(raio_, 4)], raio=round(raio_, 4),
+                                         y=[round(float(min(abs(mn[1]), abs(mx[1]))), 4), round(float(max(abs(mn[1]), abs(mx[1]))), 4)]))
+    # vidros: as ilhas de faces `vidro`
+    for o in objs:
+        if o.name in SPEC["rodas"]:
+            continue
+        vid = {v for p in o.data.polygons if mat_de(o, p) == "vidro" for v in p.vertices}
+        if not vid:
+            continue
+        P = pts(o)
+        for g in ilhas(o):
+            if g[0] not in vid:
+                continue
+            mn, mx = P[g].min(0), P[g].max(0)
+            box = [round(float(v), 4) for v in np.concatenate([[mn[0], mx[0]], [mn[1], mx[1]], [mn[2], mx[2]]])]
+            medidas["vidros"][len(medidas["vidros"])] = dict(box=box, n=int(len(g)), objeto=o.name)
+for o in ([] if SPEC else objs):
     P = pts(o)
     for g in ilhas(o):
         mn, mx = P[g].min(0), P[g].max(0)
@@ -539,14 +584,30 @@ if MANTER:
     for o in objs:
         nomes = [(m.name[len("entrada_"):] if m and m.name.startswith("entrada_") else "") for m in o.data.materials]
         papel_entrada[o.name] = [nomes[p.material_index] if p.material_index < len(nomes) else "" for p in o.data.polygons]
+if SPEC:
+    # o material da face antes de trocar os materiais (o nome do material de entrada se perde no clear)
+    faces_mat = {o.name: [mat_de(o, p) for p in o.data.polygons] for o in objs}
+    NOSSOS_SPEC = ("pintura", "vidro", "pneu", "chassi")
+    NOSSOS_SPEC = NOSSOS_SPEC + tuple(sorted({m for v in faces_mat.values() for m in v} - set(NOSSOS_SPEC)))
+    for m in list(bpy.data.materials):
+        if m.name in NOSSOS_SPEC:
+            m.name = "entrada_" + m.name
+CORES_SPEC = {"chassi": (0.03, 0.03, 0.03, 1), "cromado": (0.6, 0.6, 0.62, 1), "pneu": (0.04, 0.04, 0.04, 1), "luz": (0.9, 0.9, 0.88, 1),
+              "lente_farol": (0.66, 0.68, 0.70, 1), "luz_ambar": (0.95, 0.42, 0.02, 1), "luz_branca": (0.90, 0.90, 0.88, 1),
+              "luz_vermelha": (0.80, 0.02, 0.015, 1), "refletor": (0.95, 0.95, 0.96, 1), "pintura": (0.8, 0.8, 0.78, 1),
+              "cromo": (0.80, 0.80, 0.82, 1)}
 mats = {}
 # (com --juntar cada face já tem o material mapeado: nada a fazer aqui; com --mat, luz e cromado entram se algum objeto vai para eles)
 NOMES_MAT = (("pintura", "vidro", "pneu", "chassi") + (PAPEIS_EXTRA if MANTER else
              tuple(n for n in ("luz", "cromado") if n in mat_do_obj.values()))) if CFG is None else ()
-for nome in NOMES_MAT:
+for nome in (NOSSOS_SPEC if SPEC else NOMES_MAT):
     m = bpy.data.materials.new(nome)
     m.use_nodes = True
     mats[nome] = m
+    if SPEC:
+        b_ = m.node_tree.nodes["Principled BSDF"]
+        b_.inputs["Base Color"].default_value = CORES_SPEC.get(nome, (0.5, 0.5, 0.5, 1))
+        b_.inputs["Metallic"].default_value = 1.0 if nome in ("cromado", "cromo") else 0.0
 tex_img = None
 for m in body.data.materials:
     for n in m.node_tree.nodes:
@@ -558,7 +619,7 @@ for nome, m in (mats.items() if CFG is None else ()):
         t = m.node_tree.nodes.new("ShaderNodeTexImage")
         t.image = tex_img
         m.node_tree.links.new(t.outputs["Color"], bsdf.inputs["Base Color"])
-    bsdf.inputs["Roughness"].default_value = {"pintura": 0.35, "vidro": 0.05, "pneu": 0.8, "chassi": 0.8, "luz": 0.15, "cromado": 0.2}.get(nome, 0.3)
+    bsdf.inputs["Roughness"].default_value = {"pintura": 0.35, "vidro": 0.05, "pneu": 0.8, "chassi": 0.8, "luz": 0.15, "cromado": 0.2, "cromo": 0.15}.get(nome, 0.3)
     if nome == "chassi":
         bsdf.inputs["Base Color"].default_value = (0.03, 0.03, 0.03, 1)
     elif MANTER and tex_img is None:
@@ -571,6 +632,10 @@ for i, o in enumerate(objs if CFG is None else ()):
     ordem = list(mats)
     for nome in ordem:
         me.materials.append(mats[nome])
+    if SPEC:
+        for p, nome in zip(me.polygons, faces_mat[o.name]):
+            p.material_index = ordem.index(nome)
+        continue
     rod = set(np.concatenate(rodas_idx.get(o.name, [np.array([], int)])).tolist())
     jan = set(np.concatenate(janela_idx.get(o.name, [np.array([], int)])).tolist())
     for p in me.polygons:

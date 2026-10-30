@@ -2411,6 +2411,9 @@ class Kit:
                                  (d["x0"] + 0.003, d["x1"] - 0.003, d["z0"] + 0.002, d["z0"] + 0.012)):
             xm, zm = (xa + xb) / 2, (za + zb) / 2
             yy = yin(xm, zm) - prof / 2 + 0.004
+            if d["z1"] > M["z_cintura"] + 0.15:
+                # porta com moldura (Jabuti): perto da cintura a porta dobra para dentro e a borda medida no meio furava a chapa
+                yy = min(yy, yin(xm, zb - 0.02) - prof / 2 + 0.004)
             c.caixa("pintura_interna", T(xm, s * yy, zm), xb - xa, prof, zb - za, 0.003)
         # furos de dreno na borda de baixo
         for k in range(3):
@@ -2593,6 +2596,9 @@ class Kit:
             x1c = min(x1, M["x_pb_topo"] + M["inclinacao_para_brisa"] * (M["z_pb_topo"] - zc) - 0.05)
         g = f"jamb_{pos}"
         W = M["W"]
+        # porta com moldura da janela até o teto (Jabuti, 30/10): o vão acima da cintura é a própria moldura da porta e o batente da
+        # carroceria; as fitas das colunas e do topo e a borracha de cima apareciam pelo para-brisa e pela janela
+        moldura = d["z1"] > M["z_cintura"] + 0.15
         # soleira: caixa pintada, a borracha-friso de pisar e o friso de alumínio (anos 70)
         p = self.nova(f"{g}_soleira", "vao_porta")
         ys = self.lado_em((x0 + x1) / 2, zs - 0.05, s, folga=0.0)
@@ -2612,20 +2618,26 @@ class Kit:
         for (xx, sinal) in ((x1 + 0.006, 1), (x0 - 0.006, -1)):
             yy = self.lado_em(xx + sinal * 0.02, (zs + zc) / 2, s, folga=0.0)
             yy = min(yy, W - 0.005)
-            q.caixa("pintura_interna", T(xx, s * (yy - prof / 2), (zs + zc) / 2), 0.012, prof, zc - zs, 0.004)
+            zt_ = zc
+            if moldura:
+                # a lateral do Jabuti dobra para dentro perto da cintura: a coluna medida no meio furava a chapa em cima
+                zt_ = zc - 0.03
+                yy = min(yy, self.lado_em(xx + sinal * 0.02, zt_ - 0.02, s, folga=0.0))
+            q.caixa("pintura_interna", T(xx, s * (yy - prof / 2), (zs + zt_) / 2), 0.012, prof, zt_ - zs, 0.004)
             # furos de serviço na coluna (tampados com borracha)
             for zz in ((zs + zc) / 2 - 0.08, (zs + zc) / 2 + 0.10):
                 q.cilindro("borracha", T(xx - sinal * 0.007, s * (yy - prof / 2), zz) @ Ry(math.pi / 2), 0.011, 0.004, 12, 0.001)
         ya = min(self.lado_em(x1c, zc + 0.05, s), W - 0.02)
         a, b = V(x1c + 0.006, s * (ya - 0.05), zc), V(xa_top + 0.006, s * (min(self.y_janela(xa_top, zj - 0.03, s, pos), W - 0.06) - 0.05), zj)
-        q.fita("pintura_interna", [a, b], 0.10, 0.012, (1, 0, -incl * 0.5) if (frente and M["carroceria"] != "cabine_avancada") else (1, 0, 0))
-        a2 = V(x0 - 0.006, s * (min(self.lado_em(x0, zc, s), W - 0.02) - 0.05), zc)
-        b2 = V(xb_top - 0.006, s * (min(self.y_janela(xb_top, zj - 0.03, s, pos), W - 0.06) - 0.05), zj)
-        q.fita("pintura_interna", [a2, b2], 0.10, 0.012, (1, 0, 0))
-        topo = [V(xb_top + (xa_top - xb_top) * k / 6, 0, zj + 0.008) for k in range(7)]
-        for t in topo:
-            t.y = s * (min(self.y_janela(t.x, zj - 0.03, s, pos), W - 0.06) - 0.04)
-        q.fita("pintura_interna", topo, 0.09, 0.012, (0, 0, 1))
+        if not moldura:
+            q.fita("pintura_interna", [a, b], 0.10, 0.012, (1, 0, -incl * 0.5) if (frente and M["carroceria"] != "cabine_avancada") else (1, 0, 0))
+            a2 = V(x0 - 0.006, s * (min(self.lado_em(x0, zc, s), W - 0.02) - 0.05), zc)
+            b2 = V(xb_top - 0.006, s * (min(self.y_janela(xb_top, zj - 0.03, s, pos), W - 0.06) - 0.05), zj)
+            q.fita("pintura_interna", [a2, b2], 0.10, 0.012, (1, 0, 0))
+            topo = [V(xb_top + (xa_top - xb_top) * k / 6, 0, zj + 0.008) for k in range(7)]
+            for t in topo:
+                t.y = s * (min(self.y_janela(t.x, zj - 0.03, s, pos), W - 0.06) - 0.04)
+            q.fita("pintura_interna", topo, 0.09, 0.012, (0, 0, 1))
         # interruptor da luz de cortesia na coluna de trás
         zi = zs + 0.25
         yi = min(self.lado_em(x0 - 0.02, zi, s), W - 0.02) - 0.06
@@ -2635,6 +2647,8 @@ class Kit:
         r = self.nova(f"{g}_borracha", "vao_porta")
         contorno = [V(x0 + 0.02, 0, zs + 0.02), V(x1 - 0.02, 0, zs + 0.02), V(x1c - 0.015, 0, zc),
                     V(xa_top - 0.01, 0, zj - 0.01), V(xb_top + 0.02, 0, zj - 0.01), V(x0 + 0.015, 0, zc), V(x0 + 0.02, 0, zs + 0.02)]
+        if moldura:
+            contorno = [V(x0 + 0.015, 0, zc), V(x0 + 0.02, 0, zs + 0.02), V(x1 - 0.02, 0, zs + 0.02), V(x1c - 0.015, 0, zc)]
         dens = []
         for i in range(len(contorno) - 1):
             a, b = contorno[i], contorno[i + 1]
@@ -4679,6 +4693,8 @@ def parse_args(argv):
     p.add_argument("--aparar-alto", type=float, default=None, help="apaga também no motor e no porta-malas, de z para cima, a face do kit "
                    "com algum vértice fora do envelope da casca (raio de cima, da frente ou de trás) ou a menos de 1,5 cm dela")
     p.add_argument("--sufixo", default="", help="sufixo nos arquivos de saída (ex.: _2000 para testar outra época)")
+    p.add_argument("--aparar-abaixo", action="store_true",
+                   help="tira também do porta-malas, do vão e da porta, da saia para cima, as faces fora da casca (Jabuti)")
     return p.parse_args(argv)
 
 
@@ -4780,6 +4796,11 @@ def principal(argv):
             tirou = aparar_expostos(objs, corte_objs, a.aparar_alto, grupos=("motor", "porta_malas", "habitaculo", "vao_porta", "porta"),
                                     cima_basta=True)
             print("fora da casca acima de z=%.2f (faces tiradas):" % a.aparar_alto, tirou)
+        if a.aparar_abaixo:
+            # Jabuti: as quinas de trás são redondas (a caixa das lanternas e a lateral do carpete furavam a chapa) e a coluna do vão
+            # e a borda da chapa da porta apareciam na base da coluna A, logo abaixo da cintura
+            tirou = aparar_expostos(objs, corte_objs, kit.M["z_saia"], grupos=("porta_malas", "vao_porta", "porta"))
+            print("porta-malas e vão da porta fora da casca, abaixo da cintura (faces tiradas):", tirou)
     if getattr(kit, "saia", None):
         tirou = aparar_sob_a_saia(objs, kit.saia, kit.M["rodas"], kit.M["R"])
         print("fora das saias, embaixo (faces tiradas):", tirou)

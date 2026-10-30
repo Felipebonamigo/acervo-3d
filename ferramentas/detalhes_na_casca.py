@@ -30,6 +30,9 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
         [--manter-chapa-dos-vidros]
         Tropeiro (picape aventureira, 30/10/2026): [--protecoes] [--largura-alargador 0.07] [--z-protecao 0.36] [--z-saia 0.29]
         alargador preto em volta de cada caixa de roda e protetor na soleira, como geometria (tira de 4 mm sobre a chapa)
+        Jabuti (hatch de 2 portas, 30/10/2026): [--lanternas-como-vieram] (lanternas do modelo em segmentos; a chapa pintada da
+        caixa vira moldura) [--z-placa 0.215 --z-barra-frente 0.42 --suporte-max 0.04] (placa pendurada embaixo do para-choque, sem
+        chapa atrás) [--placa-na-propria-peca] (a placa de trás mede o fundo na chapa que a peça da placa levou)
 
 Materiais só os do corte (`chassi` = plástico preto, `luz` = lente): o kit_names.py do Detonauto já sabe o que fazer com eles.
 As normais de canto das peças que só ganham geometria ficam; faróis, lanternas e grade são refeitos e recebem normais por ângulo.
@@ -869,6 +872,14 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
                 n_[cor] = recolorir(o, "luz", "luz_" + cor, [float(t) for t in reg.split(",")])
         n_["vermelha"] = recolorir(o, "luz", "luz_vermelha")
         relatorio.append("%s: lanterna do modelo, faces %s" % (nome, n_))
+    if sinal < 0 and "--lanternas-como-vieram" in args:
+        # o modelo já traz a lanterna em segmentos com os materiais do jogo (Jabuti: vermelha em cima, âmbar e ré embaixo); a chapa
+        # pintada que veio junto na caixa vira a moldura preta
+        nomes = mat_names(o)
+        for p in o.data.polygons:
+            if nomes[p.material_index] in ("luz", "pintura"):
+                p.material_index = slot(o, "chassi")
+        relatorio.append("%s: como veio (segmentos do modelo)" % nome)
         continue
     box = caixas_luz.get(nome)
     if box is None:
@@ -1222,6 +1233,11 @@ if "body" in objs and "--sem-miudezas" not in args:
 # carroceria logo abaixo (o "bloco escuro" embaixo da placa). No Gol quadrado a placa (40 x 13 cm, o tamanho brasileiro) fica no meio
 # da face do para-choque, na metade de baixo, sobre um suporte preto rente à face
 PLACA_L, PLACA_A, PLACA_Z0 = 0.40, 0.13, opt("--z-placa", 0.355)
+# Jabuti (30/10): a barra do para-choque dele vai de 0,35 a 0,48 m (a 0,48 o raio passava por cima); a placa de trás fica na chapa
+# entre as lanternas, que a própria peça da placa levou (--placa-na-propria-peca mede o fundo nela); o suporte da placa pendurada
+# embaixo do para-choque bate na estrutura 14 cm para trás (--suporte-max limita o fundo do suporte)
+Z_BARRA_FRENTE = opt("--z-barra-frente", 0.48)
+SUPORTE_MAX = opt("--suporte-max", 99.0)
 placas_novas = {}
 
 
@@ -1233,17 +1249,21 @@ def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra, yc=0.0):
     Pp = np.array([list(o.matrix_world @ v.co) for v in o.data.vertices])
     reb = (Pp[:, 1].min(), Pp[:, 1].max(), Pp[:, 2].min(), Pp[:, 2].max())
     xs_face, xs_barra = [], []
+    alvos_face = alvos + [nome] if "--placa-na-propria-peca" in args else alvos
     for yy in (yc - 0.15, yc, yc + 0.15):
         for zz in np.arange(z0p, z1p + 0.001, 0.01):
-            h = raio(alvos, (sinal * 3.0, yy, zz), (-sinal, 0, 0), 4.0)
+            h = raio(alvos_face, (sinal * 3.0, yy, zz), (-sinal, 0, 0), 4.0)
             if h:
                 xs_face.append(h[0].x)
     for yy in ys_barra:
         h = raio(alvos, (sinal * 3.0, yy, z_barra), (-sinal, 0, 0), 4.0)
         if h:
             xs_barra.append(h[0].x)
-    if not (xs_face and xs_barra):
+    if not xs_barra:
         return None
+    if not xs_face:
+        # placa abaixo do para-choque (Jabuti, --z-placa embaixo da barra): nada atrás dela, o suporte preto tem 3 cm de fundo
+        xs_face = [(max(xs_barra) if sinal > 0 else min(xs_barra)) - sinal * 0.03]
     # o mais fundo da face atrás da placa e o mais para fora da face em volta dela
     x_fora = max(xs_barra) if sinal > 0 else min(xs_barra)
     # --placa-pela-face: a face atrás da placa mais saliente que a barra em volta (a tampa abaulada do Caipora, no meio) também
@@ -1255,6 +1275,8 @@ def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra, yc=0.0):
     xs_face = [x for x in xs_face if abs(x - x_fora) < 0.25] or [x_fora]
     x_atras = min(xs_face) if sinal > 0 else max(xs_face)
     xp = x_fora + sinal * 0.008
+    if abs(xp - x_atras) > SUPORTE_MAX:
+        x_atras = xp - sinal * SUPORTE_MAX
     w = Escritor(o, refazer=set(mat_names(o)))
     m_preto, mi_placa = slot(o, "chassi"), slot(o, "placa")
     zc = 0.5 * (z0p + z1p)
@@ -1335,7 +1357,7 @@ if "plate_front" in objs and "--placa-original" not in args and not PLACA_NOVA:
             bo.data.update()
             relatorio.append("folha solta embaixo da placa da frente: %d faces fora" % len(soltas))
         bmb.free()
-    r = refazer_placa("plate_front", 1, ["bumper_front"], PLACA_Z0, (-0.35, -0.3, 0.3, 0.35), 0.48)
+    r = refazer_placa("plate_front", 1, ["bumper_front"], PLACA_Z0, (-0.35, -0.3, 0.3, 0.35), Z_BARRA_FRENTE)
     if r:
         placas_novas["plate_front"] = r
 # a de trás (29/10): era 30 x 12 cm no rebaixo da tampa; a placa brasileira é a mesma da frente, 40 x 13 cm, no meio da tampa

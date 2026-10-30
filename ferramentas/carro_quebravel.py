@@ -1896,7 +1896,7 @@ def _gerar_mapa(cid, cen, nor, rodas, retros, janelas, pecas_tex, info, rel):
                   "ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos. take: roda (cilindro: centro, raio [r0, r1], y [|y| "
                   "mínimo, máximo] do lado), textura (faces com o rótulo da peça, achado pela cor da textura, dentro da caixa), faces "
                   "(corte pelos planos da caixa, como Tools/Blender/split_car_parts.py do Detonauto, com 'normal' [nx, ny, nz, mínimo]). "
-                  "fora_das_rodas: não leva faces da caixa de roda. ignorar_rotulos: leva também faces que a cor marcou como outra peça. thickness: espessura da peça; pocket: profundidade do vão escuro.")
+                  "extra: caixas a mais (pecinhas soltas que vão junto, sem filtro de normal). fora_das_rodas: não leva faces da caixa de roda. ignorar_rotulos: leva também faces que a cor marcou como outra peça. thickness: espessura da peça; pocket: profundidade do vão escuro.")
     return m
 
 
@@ -2120,7 +2120,15 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
         cand.add(f)
         if nv is None or f.normal.dot(nv) >= p["normal"][3]:
             out.append(f)
-    return _limpar_selecao(out, cand)
+    out = _limpar_selecao(out, cand)
+    # "extra": caixas a mais, sem filtro de normal nem corte, para pecinhas soltas que vão com a peça (a grelha de ventilação do capô
+    # do Jabuti, objeto à parte com as fendas olhando para os lados)
+    if p.get("extra"):
+        ja = set(out)
+        for eb in p["extra"]:
+            out += [f for f in bm.faces if f not in ja and _na_caixa(f.calc_center_median(), eb)]
+            ja = set(out)
+    return out
 
 
 def _viz_bm(f):
@@ -2268,6 +2276,10 @@ def _executar_mapa(obj, mapa, rodas, rel, manter_materiais=False):
             # só as faces desses materiais (os nomes dos materiais da malha; com --manter-materiais, os do arquivo)
             p = dict(p, _so_idx={i for i, m in enumerate(mats) if m.name.split(".")[0] in p["materiais"]})
         faces = _escolher(bm, p, rodas, camada, ids, camada_mat)
+        if p.get("exceto_materiais"):
+            # Jabuti: o pisca âmbar desce 1 cm para dentro da caixa do para-choque e saía com ele (dentes escuros na borda); fica no corpo
+            fora_ = {idx[n] for n in p["exceto_materiais"] if n in idx}
+            faces = [f for f in faces if f.material_index not in fora_]
         if not faces:
             rel["avisos"].append("peça %s: nenhuma face (ficou no corpo)" % p["name"])
             continue

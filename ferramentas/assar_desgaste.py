@@ -9,7 +9,7 @@ sujeira embaixo, variação leve), não a geometria. Este passo:
    para-choques e atrás das rodas) x ruído fino; grava <id>_desgaste.png (2048 px) e a põe como textura de cor dos materiais
    pintados, do plástico preto e das lentes.
 
-    python -I ferramentas/assar_desgaste.py -- <corte>.glb <saida>.glb [--tamanho 2048] [--amostras 32] [--sujeira 0.35]
+    python -I ferramentas/assar_desgaste.py -- <corte>.glb <saida>.glb [--tamanho 2048] [--amostras 32] [--sujeira 0.35] [--uv-smart]
 
 No jogo (glb_texturas.py -> T_<Modelo>_C) a tinta multiplica essa textura: a cor trocável continua, com o desgaste por cima.
 A prévia com a textura: montagem2 sem LISO, passando o PNG como a tinta.
@@ -32,12 +32,25 @@ TAM = opt("--tamanho", 2048)
 AMOSTRAS = opt("--amostras", 32)
 ESTADO = opt("--estado", "novo")   # novo: carro de concessionária (só a sombra das frestas); usado: sujeira embaixo e grão
 SUJEIRA = opt("--sujeira", 0.16 if ESTADO == "usado" else 0.03)
+# --uv-smart (Jabuti, 30/10): modelo liso e denso (chapa arredondada, muitas peças): a projeção em caixa por eixo partia a casca em
+# 88 mil cartas minúsculas (74 texels por metro). As ilhas saem do Smart UV do Blender (60°), em metros, no mesmo empacotador; a
+# altura de cada texel (sujeira) vem de um bake da posição, porque a carta não tem mais eixo
+UV_SMART = "--uv-smart" in args
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
+# com --uv-smart os vértices do glb (separados em cada normal de canto) são soldados logo depois: senão cada triângulo é uma ilha
 bpy.ops.import_scene.gltf(filepath=ent)
 sc = bpy.context.scene
 objs = [o for o in bpy.data.objects if o.type == "MESH"]
 casca = [o for o in objs if not o.name.startswith(("wheel_", "hubcap_", "glass_"))]
+if UV_SMART:
+    for o in casca:
+        bm_ = bmesh.new()
+        bm_.from_mesh(o.data)
+        bmesh.ops.remove_doubles(bm_, verts=bm_.verts, dist=1e-5)
+        bm_.to_mesh(o.data)
+        bm_.free()
+        o.data.update()
 print("[assar_desgaste] peças na textura:", len(casca))
 
 # 0. faces viradas (algumas da chapa de fora têm a normal para dentro e assavam escuras, em manchas): a face cuja normal entra
@@ -106,7 +119,7 @@ for o in casca:
 # fora do editor com várias peças)
 EIXOS = {0: ((1, 2), (1, 1)), 1: ((0, 2), (1, 1)), 2: ((0, 1), (1, 1))}
 cartas = []
-for o in casca:
+for o in ([] if UV_SMART else casca):
     me = o.data
     mw = o.matrix_world
     while len(me.uv_layers) > 1:
@@ -166,6 +179,74 @@ for o in casca:
                 zs = co[[me.loops[li].vertex_index for li, _, _ in pts], 2]
                 cartas.append({"obj": o, "loops": [li for li, _, _ in pts], "uv": arr - mn, "tam": mx - mn, "eixo": ax,
                                "z0": float(mn[1]) if ax != 2 else float(zs.mean()), "dentro": lado_dentro})
+if UV_SMART:
+    import math as _mm
+    for o in objs:
+        o.select_set(o in casca)
+    for o in casca:
+        while len(o.data.uv_layers) > 1:
+            o.data.uv_layers.remove(o.data.uv_layers[-1])
+        if not o.data.uv_layers:
+            o.data.uv_layers.new(name="UVMap")
+    bpy.context.view_layer.objects.active = casca[0]
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.smart_project(angle_limit=_mm.radians(60), island_margin=0.0, area_weight=0.0, correct_aspect=True, scale_to_bounds=False)
+    bpy.ops.object.mode_set(mode="OBJECT")
+    ilhas_uv, a3, auv = [], 0.0, 0.0
+    for o in casca:
+        me = o.data
+        mw = o.matrix_world
+        uvd = me.uv_layers[0].data
+        uv = np.array([list(l.uv) for l in uvd], np.float64)
+        # ilhas: faces vizinhas por aresta com o mesmo UV nos dois lados da aresta
+        dono = {}
+        for p in me.polygons:
+            ls = list(p.loop_indices)
+            for k in range(len(ls)):
+                la, lb = ls[k], ls[(k + 1) % len(ls)]
+                va, vb = me.loops[la].vertex_index, me.loops[lb].vertex_index
+                chave = (min(va, vb), max(va, vb))
+                uvs = {va: tuple(np.round(uv[la], 6)), vb: tuple(np.round(uv[lb], 6))}
+                dono.setdefault(chave, []).append((p.index, uvs))
+        viz = {}
+        for lst in dono.values():
+            if len(lst) == 2 and lst[0][1] == lst[1][1]:
+                viz.setdefault(lst[0][0], []).append(lst[1][0])
+                viz.setdefault(lst[1][0], []).append(lst[0][0])
+        cen = np.array([list(mw @ p.center) for p in me.polygons], np.float32)
+        nrm = np.array([list(mw.to_3x3() @ p.normal) for p in me.polygons], np.float32)
+        meio = np.array([np.clip(cen[:, 0], -1.2, 1.2), np.zeros(len(cen)), np.full(len(cen), 0.6)], np.float32).T
+        rel_ = cen - meio
+        dentro = np.einsum("ij,ij->i", nrm, rel_) < -0.35 * np.linalg.norm(rel_, axis=1)
+        visto = set()
+        for p0 in range(len(me.polygons)):
+            if p0 in visto:
+                continue
+            pilha, ilha = [p0], []
+            visto.add(p0)
+            while pilha:
+                i = pilha.pop()
+                ilha.append(i)
+                for j in viz.get(i, ()):
+                    if j not in visto:
+                        visto.add(j)
+                        pilha.append(j)
+            loops = [li for i in ilha for li in me.polygons[i].loop_indices]
+            ilhas_uv.append((o, ilha, loops, bool(dentro[ilha].mean() > 0.5)))
+            a3 += sum(me.polygons[i].area for i in ilha)
+            for i in ilha:
+                ls = list(me.polygons[i].loop_indices)
+                for k in range(1, len(ls) - 1):
+                    d1, d2 = uv[ls[k]] - uv[ls[0]], uv[ls[k + 1]] - uv[ls[0]]
+                    auv += abs(d1[0] * d2[1] - d1[1] * d2[0]) / 2
+    metros = _mm.sqrt(a3 / max(auv, 1e-12))       # metros por unidade de UV do Smart UV (a mesma escala em todas as peças)
+    for o, ilha, loops, den in ilhas_uv:
+        uvd = o.data.uv_layers[0].data
+        arr = np.array([list(uvd[li].uv) for li in loops], np.float32) * metros
+        mn, mx = arr.min(0), arr.max(0)
+        cartas.append({"obj": o, "loops": loops, "uv": arr - mn, "tam": np.maximum(mx - mn, 1e-4), "eixo": -1, "z0": 0.0, "dentro": den})
+    print("[assar_desgaste] Smart UV: %d ilhas, %.1f m² de casca" % (len(cartas), a3))
 # prateleiras: cartas por altura decrescente; escala única para caber no quadrado
 area = sum(float(c["tam"][0] * c["tam"][1]) for c in cartas)
 escala = 0.80 / np.sqrt(area)                     # 80% de ocupação, o resto é margem
@@ -251,6 +332,43 @@ print("[assar_desgaste] oclusão assada; média nos texels usados %.3f, percenti
     float(ao[ao > 0.001].mean()), np.percentile(ao[ao > 0.001], [10, 50, 90]).round(3).tolist()))
 # altura de cada texel pela carta (nas cartas de lado e de frente, v é z; nas de cima e de baixo, a média da carta)
 z = np.full((TAM, TAM), 1.0, np.float32)
+if UV_SMART:
+    # bake da posição: um material só de emissão (z / 2 em cinza) em todos os slots, e os materiais voltam depois
+    pos = bpy.data.materials.new("_pos")
+    pos.use_nodes = True
+    nt = pos.node_tree
+    for n in list(nt.nodes):
+        nt.nodes.remove(n)
+    geo, sep, emi, saida = (nt.nodes.new(t) for t in ("ShaderNodeNewGeometry", "ShaderNodeSeparateXYZ", "ShaderNodeEmission", "ShaderNodeOutputMaterial"))
+    mul = nt.nodes.new("ShaderNodeMath")
+    mul.operation = "MULTIPLY"
+    mul.inputs[1].default_value = 0.5
+    nt.links.new(geo.outputs["Position"], sep.inputs[0])
+    nt.links.new(sep.outputs["Z"], mul.inputs[0])
+    nt.links.new(mul.outputs[0], emi.inputs["Color"])
+    nt.links.new(emi.outputs[0], saida.inputs["Surface"])
+    img_z = bpy.data.images.new("bake_z", TAM, TAM, alpha=False, float_buffer=True)
+    img_z.colorspace_settings.name = "Non-Color"
+    nz = nt.nodes.new("ShaderNodeTexImage")
+    nz.image = img_z
+    nt.nodes.active = nz
+    guardados = {o.name: [sl.material for sl in o.material_slots] for o in casca}
+    for o in casca:
+        for sl in o.material_slots:
+            sl.material = pos
+    chao.hide_render = True
+    for o in casca:
+        for q in objs:
+            q.select_set(q is o)
+        bpy.context.view_layer.objects.active = o
+        with bpy.context.temp_override(selected_objects=[o], selected_editable_objects=[o], active_object=o, object=o):
+            bpy.ops.object.bake(type="EMIT", margin=6, use_clear=False)
+    z = np.array(img_z.pixels[:], dtype=np.float32).reshape(TAM, TAM, 4)[:, :, 0] * 2.0
+    z = np.where(z <= 0.0, 1.0, z)
+    for o in casca:
+        for sl, m in zip(o.material_slots, guardados[o.name]):
+            sl.material = m
+    chao.hide_render = False
 dentro_tx = np.zeros((TAM, TAM), bool)
 vv = np.arange(TAM, dtype=np.float32)[:, None]
 for c in cartas:
@@ -258,7 +376,9 @@ for c in cartas:
     w_, h_ = c["tam"][0] * escala, c["tam"][1] * escala
     i0, i1 = max(int(v0 * TAM) - 2, 0), int((v0 + h_) * TAM) + 3
     j0, j1 = max(int(u0 * TAM) - 2, 0), int((u0 + w_) * TAM) + 3
-    if c["eixo"] != 2:
+    if c["eixo"] == -1:
+        pass                                  # --uv-smart: z do bake da posição
+    elif c["eixo"] != 2:
         z[i0:i1, j0:j1] = c["z0"] + (vv[i0:i1] / TAM - v0) / escala
     else:
         z[i0:i1, j0:j1] = c["z0"]
