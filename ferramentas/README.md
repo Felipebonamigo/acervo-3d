@@ -661,6 +661,60 @@ grade dele tem as 7 fendas verticais de uma marca: ela sai e entra uma grade de 
   entrada `jipe-capota` no `carro_completo_dados.json`, sem as correções do modelo do Meshy).
 - **Pendente:** a prévia fiel ao jogo (`previa_carro.py` precisa do Detonauto ao lado) e a cadeia de conferência do Detonauto: o
   repositório do Detonauto não pôde ser anexado na sessão de 30/10.
+## Caipora do Sketchfab (30/10/2026)
+
+O Caipora (hatch arredondado de 3 portas dos anos 90, nº 3 da ficha do Speed Tchê) deixou o Meshy pelo mesmo caminho do Gol. Entre 4
+candidatos (CC BY, feitos por gente) o Felipe escolheu `veiculos/sketchfab/hatch-arredondado-jigglesticks__773b1c83b4a240f2ac415c351d3a65c6.glb`
+(JiggleSticks, CC BY 4.0, crédito em `CREDITOS.md`): ~12 mil triângulos, 9 objetos separados por material, sem textura. Os três
+Corsas detalhados do Sketchfab ficaram de fora por origem duvidosa (placa "HUMSTER3D", de loja de modelos pagos; uma cópia com o
+mesmo número de triângulos; placas de mod de jogo).
+
+    S=<pasta do download>/scene.gltf; P=<pasta>
+    python -I ferramentas/sketchfab_preparar.py -- $S $P/caipora.glb "Car_Main Color_0,Car_Glass_0,Car Tires_Ruber Tires_0,Car Tires_Chrome_0,Car_Plastic Parts_0,Car_Lights Front_0,Car_Lights Back_0,Car_Lights Indicators Back_0" \
+        3.669 1.39 0.06 45 0 --soldar 0.0005 --rodas-no-chao --remapear-z "-1.85,-1.64,-0.09,0.09,0.75,0.95=0.835,0.925" \
+        --normais-da-original --mat "Glass=vidro,Plastic_Parts=chassi,Lights_Front=luz,Lights_Back=luz,material_0=luz,Chrome=pneu"
+    python -I ferramentas/carro_quebravel.py -- --entrada $P/caipora.glb --out $C --id caipora --portas 2 --sem-rotulos --manter-normais \
+        --materiais-do-arquivo --mapa veiculos/sketchfab/quebravel/caipora/caipora_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- $C/caipora.glb $C/caipora.glb
+    python -I ferramentas/detalhes_na_casca.py -- $C/caipora.glb $C/caipora.glb --sem-arco-redondo --sem-face-para-choque --sem-friso \
+        --sem-faixa --sem-quebra-vento --antena -1.0,0.12 --z-placa-tras 0.695 --y-placa-tras -0.10 --farol-do-modelo \
+        --lanterna-do-modelo "ambar=0.645,0.76,0.67,0.735;branca=0.585,0.633,0.736,0.784" --retrovisor-do-modelo --grade-do-modelo --placa-pela-face
+    python -I ferramentas/assar_desgaste.py -- $C/caipora.glb $C/caipora.glb --tamanho 2048 --amostras 32 --manter-normais
+    python -I ferramentas/carro_completo.py -- --corte $C --id caipora --out veiculos/sketchfab/completo/caipora --epoca 90 --puxar-para-dentro
+
+O que este modelo pediu, tudo como **opção nova** (sem ela o Gol sai igual: a cadeia dele foi refeita com as ferramentas antigas e as
+novas sobre a mesma entrada e deu a mesma malha, as mesmas normais e a mesma textura, pixel a pixel):
+
+- **`sketchfab_preparar.py`:** `--mat` leva cada objeto do arquivo para um dos nossos materiais pelo nome do material (o modelo já vem
+  separado: plástico preto, lentes, rodas); `--soldar` junta os vértices (o sombreado chapado vinha com cada face solta e toda ilha
+  era uma face), recalcula as normais para fora (a frente vinha virada para dentro: o filtro de normal do corte não achava grade nem
+  placa) e tira a barbatana que o autor deixou no plano de simetria do para-brisa e do vidro traseiro; `--rodas-no-chao` desce a roda
+  que flutua (a da frente, 2,5 cm: o corte não achava o contato e o carro ficava de nariz empinado); `--remapear-z` muda a altura de
+  uma ilha (a fechadura da tampa descia até onde vai a placa brasileira de 13 cm; no carro real ela fica acima da placa);
+  `--normais-da-original` dá a cada canto da malha adensada a normal lisa do triângulo de antes, por interpolação: os triângulos finos
+  do adensamento faziam a lataria arredondada refletir enrugada (a transferência pela face mais perto errava nas dobras).
+  Comprimento 3,669 m de lataria para 3,73 m com os para-choques (o do carro real); entre-eixos 2,413 m (real 2,443), bitola 1,375 m.
+- **`carro_quebravel.py`:** nada novo: a `--materiais-do-arquivo` (da sessão do Furgãozinho) mantém o material que veio no arquivo em
+  cada face, não só nas do `take: material` (sem ela, para-choques e molduras viravam pintura).
+- **`borracha_vidro.py`:** o contorno é o laço de borda mais comprido (um furo de uma face no vidro de quarta esquerdo começava o laço
+  e o vidro ficava sem borracha). No Gol o laço é o mesmo.
+- **`detalhes_na_casca.py`:** `--farol-do-modelo`, `--lanterna-do-modelo` (regiões de |y| e z para a seta e a ré), `--retrovisor-do-modelo`
+  e `--grade-do-modelo` mantêm a forma do modelo e só trocam os materiais pelos do jogo (refeitos em caixa, como no Gol quadrado,
+  tiravam a cara de carro redondo); `--antena x,y` (no teto, como no carro real); `--z-placa-tras` e `--y-placa-tras` (a placa de trás na
+  tampa, um pouco à direita); `--placa-pela-face` (a tampa abaulada passava pela placa); a placa ignora o raio que atravessa o vão da
+  placa antiga e bate do outro lado do carro (dava 2,5 m). Caixas de roda, face do para-choque, friso, faixa e quebra-vento são do Gol
+  e ficam desligados: neste modelo o plástico preto dos arcos e os frisos já existem.
+- **`assar_desgaste.py`:** `--manter-normais`: a face virada só inverte as próprias normais, em vez de a peça inteira voltar às normais
+  por ângulo (as facetas voltavam ao capô).
+- **`carro_completo.py`:** `--puxar-para-dentro`: a recolha na casca inclui o vão da porta e o motor, alcança 10 cm, só conta a face da
+  casca que olha para fora (a de trás do para-brisa enganava) e baixa a cabine e o motor à frente do para-brisa para baixo da chapa. Sem isso as
+  colunas do vão furavam o teto arredondado nos cantos, a frente do painel aparecia por cima do capô e a travessa do radiador pela
+  fresta do capô.
+- **No Detonauto:** `Tools/Unreal/montar-cuiabano-completo.ps1 -Id caipora -Modelo Caipora` (parâmetros novos `-Modelo`, `-Row` e
+  `-BoneZ`, com o Cuiabano de padrão); linhas `caipora-*` em `Data/CarWheels.csv`, `CarAttach.csv`, `CarParts.csv` e `CarGlass.csv`
+  (as mesmas peças e vidros do Cuiabano); o jogo abre o Caipora com `-DNModel=Caipora`.
+- **Saída:** `veiculos/sketchfab/quebravel/caipora/` (32 peças, ~189 mil triângulos, textura de desgaste 2K) e
+  `veiculos/sketchfab/completo/caipora/` (kit época 90, 79 peças). Prévias em `veiculos/sketchfab/previas/caipora/`.
 
 ## Receita: um carro do Sketchfab até o Detonauto (o caminho do Gol Quadrado, 29/10/2026)
 
