@@ -1224,3 +1224,55 @@ fica em `veiculos/sketchfab/besouro-matej-ondra__3d166ec739cb440984cbcd17608675e
   `veiculos/sketchfab/previas/besouro/` (4 vistas, detalhes, as 14 cores de `Data/Paints.csv` e os 5 acabamentos). A cadeia de
   conferência do Detonauto (`make_crush_channels.py`, `kit_to_detonauto.py`, `glb_texturas.py`, `kit_completo_to_detonauto.py`,
   `rodas_to_detonauto.py`) passa: 21 malhas com esqueleto e 8 do kit.
+
+## Gaúcho V8 do Sketchfab: cupê hardtop em peças do autor (30/10/2026)
+
+O Gaúcho V8 (nº 9 da ficha, muscle) passou do Meshy (que saiu sedã de 4 portas; a referência é um cupê de 2 portas sem coluna do
+meio) a um modelo feito por gente, escolhido pelo Felipe em 30/10 entre 4 candidatos: **"Opala" por Chamicall fire / ClrModels
+(Sketchfab, CC BY 4.0)**, `veiculos/sketchfab/gaucho-v8-clrmodels__94c57c65e64546f2ae5fd179e8580c11.glb` (16,2 MB, 98 objetos,
+materiais lisos com o nome do papel, interior do autor). Como o Jabuti, vem em peças soltas (capô, tampa, as duas portas, para-choques
+cromados, faróis redondos com aro, lanternas, molduras cromadas das janelas, retrovisores, maçanetas, palhetas), então segue o modo
+por preparo.
+
+    python -I ferramentas/sketchfab_preparar.py -- veiculos/sketchfab/gaucho-v8-clrmodels__<uid>.glb <tmp>/gaucho-v8.glb \
+        veiculos/sketchfab/quebravel/gaucho-v8/gaucho-v8_preparo.json 4.47 1.38 0.10 30 0 0.00001
+    python -I ferramentas/carro_quebravel.py -- --entrada <tmp>/gaucho-v8.glb --out <corte> --id gaucho-v8 --portas 2 --sem-rotulos \
+        --manter-normais --manter-materiais --mapa veiculos/sketchfab/quebravel/gaucho-v8/gaucho-v8_mapa.json --sem-fbx
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/gaucho-v8.glb <corte>/gaucho-v8.glb --sem-luzes --sem-retrovisor \
+        --manter-grade --sem-macaneta --sem-limpador --sem-friso --sem-faixa --para-choque-pintado --sem-quebra-vento --sem-sinaleira \
+        --sem-arco-redondo --sem-tampa-tanque --z-placa 0.315 --z-placa-tras 0.68 --placa-na-propria-peca \
+        --mapa veiculos/sketchfab/quebravel/gaucho-v8/gaucho-v8_mapa.json
+    python -I ferramentas/assar_desgaste.py -- <corte>/gaucho-v8.glb <corte>/gaucho-v8.glb --tamanho 2048 --amostras 32 --uv-smart
+    python -I ferramentas/carro_completo.py -- --corte veiculos/sketchfab/quebravel/gaucho-v8 --id gaucho-v8 \
+        --out veiculos/sketchfab/completo/gaucho-v8 --epoca 70 --aparar-abaixo --z-aparar-abaixo 0.12 --aparar-mais 0.2 0.2 \
+        --aparar-frente-abaixo 0.36
+    RODAS=aro_liga14,pneu_p185_70, ... python -I ferramentas/previa_carro.py -- ...      (prévias; liga 14 sem calota)
+
+O comprimento passado (4,47) é o da lataria do autor: os para-choques cromados passam dela e o carro inteiro fica com os 4,60 m da
+ficha (4,60 x 1,81 x 1,38 m, entre-eixos 2,65 m, roda 32 cm). As proporções do autor já batiam com a ficha: a altura quase não estica.
+
+- **Preparo:** fora o interior do autor (bancos, forros, painel, volante, botões e maçanetas de dentro) e um retalho de 2 triângulos no
+  teto. O teto de vinil preto vai para `chassi` (o cupê da referência tem o teto escuro); o cromo de verdade (para-choques, frisos,
+  molduras, retrovisores, maçanetas) para `cromo`; os faróis redondos para `lente_farol`, piscas `luz_ambar`, lanternas `luz_vermelha`.
+  Com as luzes já no material do jogo, o `detalhes_na_casca.py` não refaz nada: só as placas 40 x 13 (a da frente pendurada sob o
+  para-choque, a de trás no painel cromado entre as lanternas) e a antena no para-lama.
+- **Corte:** portas, capô e tampa por `take: "ilha"` (o painel solto do autor vai inteiro, com a moldura cromada da janela na porta e
+  a fresta na do modelo); o vidro da porta e o quebra-vento vão com a porta, o de quarta fica na carroceria. O pneu é só pelo material
+  `pneu` (com a caixa de raio ele levava o friso cromado do arco e um anel da caixa de roda).
+- **`rodas_kit.py`:** pneu 185/70 R14 (30,7 cm de raio), o do cupê da referência, gerado com `--so p185_70`; os outros itens não foram
+  regravados.
+- **`carro_completo.py`, opções novas (sem elas, nada muda):** `--aparar-frente-abaixo Z` corta no plano z o vão do motor à frente da
+  roda dianteira e tira o que fica embaixo (a chapa da frente acaba a 34 cm e o para-lama interno e a travessa apareciam como dois
+  postes laranja sob o para-choque; a face alta do para-lama interno tinha o centro acima de z, por isso o corte no plano);
+  `--z-aparar-abaixo Z` dá a altura do `--aparar-abaixo` (padrão: o topo da saia; aqui 12 cm: a chapa acaba no friso cromado a 30 cm e
+  o forro e a soleira da porta passavam embaixo dela). E a peça que um aparo esvazia inteira sai do kit (as longarinas ficavam à frente
+  da chapa baixa; o bake de oclusão parava com "No faces found").
+- **Gol inalterado (conferido em 30/10):** o kit do Gol com o `carro_completo.py` novo sai com as mesmas 79 peças e os mesmos 241.941 /
+  72.499 triângulos; as opções novas só agem quando passadas, e o kit do Gol não tem peça vazia.
+- **Saída (30/10):** `veiculos/sketchfab/quebravel/gaucho-v8/` (31 peças, ~393 mil triângulos, 107 mil deles nos pneus do autor, que o
+  jogo troca pelas rodas de kit) e `veiculos/sketchfab/completo/gaucho-v8/` (kit época 70, V8 longitudinal e tração traseira pela
+  entrada `gaucho-v8` do `carro_completo_dados.json`, 77 peças, LOD0 ~208 mil). Prévias com o HDRI da rua em
+  `veiculos/sketchfab/previas/gaucho-v8/`.
+- **Falta / conhecido:** embaixo da porta, de perto e de baixo, ainda aparece a borda escura do assoalho e da saia do kit (lê como
+  o fundo do carro); o para-lama dianteiro sai pela face lateral e a borda de cima dele fica serrilhada quando ele solta; o aparo do
+  vão do motor fatiou dois reservatórios e a bateria (só se vê com o capô aberto).
