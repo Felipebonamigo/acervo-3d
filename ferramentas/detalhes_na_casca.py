@@ -679,6 +679,58 @@ def recolorir(o, de, para, regiao=None):
     return n
 
 
+def cortar_lente_em_y(o, mat, y_abs):
+    """Corta as faces do material `mat` no plano |y| = y_abs (a borda da seta sai reta, não em dente pelos triângulos). As faces de
+    outro material guardam as normais de canto; as cortadas tomam a do triângulo original que contém o canto (baricêntrica)."""
+    from mathutils.bvhtree import BVHTree
+    from mathutils.geometry import barycentric_transform
+    me = o.data
+    nomes = mat_names(o)
+    if mat not in nomes:
+        return
+    mi = nomes.index(mat)
+    me.calc_loop_triangles()
+    tris, nrm = [], []
+    for t in me.loop_triangles:
+        if t.material_index == mi:
+            tris.append([me.vertices[v].co.copy() for v in t.vertices])
+            nrm.append([me.corner_normals[l].vector.copy() for l in t.loops])
+    if not tris:
+        return
+    arv = BVHTree.FromPolygons([v for tr in tris for v in tr], [(3 * i, 3 * i + 1, 3 * i + 2) for i in range(len(tris))])
+    cn = [me.corner_normals[l].vector.copy() for l in range(len(me.loops))]
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    lay = bm.loops.layers.int.new("_canto")
+    for f in bm.faces:
+        for l in f.loops:
+            l[lay] = l.index
+    inv = o.matrix_world.inverted()
+    for s_ in (1, -1):
+        fs = [f for f in bm.faces if f.material_index == mi]
+        geom = fs + list({e for f in fs for e in f.edges}) + list({v for f in fs for v in f.verts})
+        bmesh.ops.bisect_plane(bm, geom=geom, dist=1e-6, plane_co=inv @ Vector((0.0, s_ * y_abs, 0.0)),
+                               plane_no=(inv.to_3x3() @ Vector((0.0, 1.0, 0.0))).normalized())
+    origem = [None if f.material_index == mi else l[lay] for f in bm.faces for l in f.loops]
+    bm.loops.layers.int.remove(lay)
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
+    res = []
+    for p in me.polygons:
+        for l in p.loop_indices:
+            if origem[l] is not None:
+                res.append(cn[origem[l]])
+                continue
+            v = me.vertices[me.loops[l].vertex_index].co
+            _, _, k, _ = arv.find_nearest(v)
+            a, b, c = tris[k]
+            w = barycentric_transform(v, a, b, c, Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1)))
+            res.append((nrm[k][0] * w[0] + nrm[k][1] * w[1] + nrm[k][2] * w[2]).normalized())
+    me.normals_split_custom_set([tuple(v) for v in res])
+    me.update()
+
+
 # ------------------------------------------------------------------------------------------------------- faróis e lanternas
 # --farol-do-modelo e --lanterna-do-modelo "ambar=y0,y1,z0,z1;branca=y0,y1,z0,z1" (30/10, Caipora): o modelo já traz faróis ovais e
 # lanternas arredondadas com relevo; refazê-los em caixa (o caminho do Gol quadrado) tirava a cara do carro. Só os materiais mudam:
@@ -1048,7 +1100,11 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
     if sinal > 0 and FAROL_DO_MODELO:
         # --seta-no-farol "|y|0,|y|1,z0,z1" (Caipora, 30/10): a seta da frente é a ponta de fora do farol, como no carro real, no lugar
         # do pisca no para-choque (use com --sem-sinaleira)
-        n_seta = recolorir(o, "luz", "luz_ambar", [float(t) for t in opt("--seta-no-farol", "").split(",")]) if "--seta-no-farol" in args else 0
+        n_seta = 0
+        if "--seta-no-farol" in args:
+            reg_ = [float(t) for t in opt("--seta-no-farol", "").split(",")]
+            cortar_lente_em_y(o, "luz", reg_[0])
+            n_seta = recolorir(o, "luz", "luz_ambar", reg_)
         relatorio.append("%s: lente do modelo, %d faces em lente_farol, %d de seta" % (nome, recolorir(o, "luz", "lente_farol"), n_seta))
         continue
     if sinal < 0 and LANTERNA_DO_MODELO:
