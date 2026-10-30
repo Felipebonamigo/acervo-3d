@@ -45,6 +45,23 @@
    "arquivo": "aro_aco14.glb"
   },
   {
+   "id": "aro_aco15",
+   "tipo": "aro",
+   "material": "aro_aco",
+   "nome": "Aço estampado 15\" (8 furos redondos)",
+   "polegadas": 15,
+   "largura_aro_pol": 5.5,
+   "raio_externo_cm": 20.97,
+   "largura_cm": 15.99,
+   "triangulos_lod0": 4952,
+   "triangulos_lod1": 1980,
+   "objetos": [
+    "aro_aco15",
+    "aro_aco15_LOD1"
+   ],
+   "arquivo": "aro_aco15.glb"
+  },
+  {
    "id": "aro_liga13",
    "tipo": "aro",
    "material": "aro_liga",
@@ -107,6 +124,21 @@
     "calota14_LOD1"
    ],
    "arquivo": "calota14.glb"
+  },
+  {
+   "id": "calota15",
+   "tipo": "calota",
+   "material": "calota",
+   "polegadas": 15,
+   "raio_externo_cm": 19.65,
+   "largura_cm": 2.22,
+   "triangulos_lod0": 880,
+   "triangulos_lod1": 364,
+   "objetos": [
+    "calota15",
+    "calota15_LOD1"
+   ],
+   "arquivo": "calota15.glb"
   },
   {
    "id": "pneu_p165_70",
@@ -215,6 +247,42 @@
     "pneu_p185_60_Torn_LOD1"
    ],
    "arquivo": "pneu_p185_60.glb"
+  },
+  {
+   "id": "pneu_p165_95",
+   "tipo": "pneu",
+   "material": "pneu",
+   "medida": "165/95 R15",
+   "polegadas": 15,
+   "largura_mm": 165,
+   "perfil_pct": 95,
+   "raio_externo_cm": 34.71,
+   "raio_nominal_cm": 34.73,
+   "largura_cm": 16.5,
+   "raio_contato_cm": {
+    "Ok": 34.71,
+    "Flat": 28.72,
+    "Torn": 22.61
+   },
+   "triangulos_lod0": 14168,
+   "triangulos_lod1": 5666,
+   "triangulos_por_objeto": {
+    "pneu_p165_95_Ok": 2816,
+    "pneu_p165_95_Flat": 2816,
+    "pneu_p165_95_Torn": 8536,
+    "pneu_p165_95_Ok_LOD1": 1126,
+    "pneu_p165_95_Flat_LOD1": 1126,
+    "pneu_p165_95_Torn_LOD1": 3414
+   },
+   "objetos": [
+    "pneu_p165_95_Ok",
+    "pneu_p165_95_Flat",
+    "pneu_p165_95_Torn",
+    "pneu_p165_95_Ok_LOD1",
+    "pneu_p165_95_Flat_LOD1",
+    "pneu_p165_95_Torn_LOD1"
+   ],
+   "arquivo": "pneu_p165_95.glb"
   }
  ],
  "rodas_completas": [
@@ -240,6 +308,13 @@
    "dentro_do_orcamento": true
   },
   {
+   "aro": "aro_aco15",
+   "pneu": "pneu_p165_95_Ok",
+   "calota": "calota15",
+   "triangulos_lod0": 8648,
+   "dentro_do_orcamento": true
+  },
+  {
    "aro": "aro_liga13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
@@ -260,6 +335,5 @@
    "triangulos_lod0": 8776,
    "dentro_do_orcamento": true
   }
- ],
- "previa": "rodas_kit_previa.jpg"
+ ]
 }

@@ -262,6 +262,10 @@ def medidas(corte, cfg=None):
     # caixas onde a casca escura do corte (MI_DNVao) sai quando o kit entra
     vaos = {"cabine": [M["x_encosto_t"] - 0.30, M["x_corta_fogo"] + 0.03, -W - 0.06, W + 0.06, M["z_saia"] - 0.03, H + 0.05]}
     vaos["traseira"] = [M["x_tras"] - 0.05, M["x_encosto_t"] - 0.30, -W - 0.06, W + 0.06, M["z_mala"] - 0.05, H + 0.05]
+    if "y_vao_traseira" in D:
+        # furgão de motor atrás (Pão de Forma, 30/10/2026): a lateral de trás tem venezianas rebaixadas, e as aletas que olham para
+        # dentro saíam com o vão (buraco escuro na lateral); a caixa fica por dentro da chapa
+        vaos["traseira"][2], vaos["traseira"][3] = -D["y_vao_traseira"], D["y_vao_traseira"]
     if carroc == "picape":
         # a caçamba é chapa de verdade, a céu aberto: nada dela sai; a cabine vai até a parede de trás
         del vaos["traseira"]
@@ -1359,6 +1363,8 @@ class Kit:
         self.acabamentos()
         if carroc in ("furgao", "cabine_avancada"):
             self.area_de_carga()
+            if self.cfg.get("passageiros"):
+                self.bancos_passageiros()
         if carroc == "jipe":
             self.santantonio()
         if carroc == "picape":
@@ -1569,10 +1575,21 @@ class Kit:
         p.caixa("vermelho", Mf @ T(0.012, 0, 0.022), 0.012, 0.022, 0.016, 0.003)
         p.caixa("metal_preto", Mf @ T(0, 0, 0.041), 0.022, 0.006, 0.004, 0.001)
 
-    def banco_traseiro(self):
+    def bancos_passageiros(self):
+        """Furgão de passageiros (Pão de Forma, 30/10/2026, dado "passageiros"): fileiras do banco de trás entre a cabine e o deque do
+        motor, a cada 0,85 m; pelas janelas da lateral se via a grade da divisória da versão de carga."""
+        M = self.M
+        x_fim = (M["x_tras"] + 0.80 + 0.10) if M["carroceria"] == "cabine_avancada" else M["x_tras"] + 0.30
+        xb, k = M["x_encosto_d"] - 0.95, 0
+        while xb - 0.10 > x_fim:
+            self.banco_traseiro(xb, "interior_banco_passageiros_%d" % (k + 1))
+            xb -= 0.85
+            k += 1
+
+    def banco_traseiro(self, xb=None, nome="interior_banco_traseiro"):
         M, e = self.M, self.e
-        p = self.nova("interior_banco_traseiro", "habitaculo")
-        xb = M["x_encosto_t"]
+        p = self.nova(nome, "habitaculo")
+        xb = M["x_encosto_t"] if xb is None else xb
         larg = 2 * (M["meia_interna"] - 0.07)
         comp = 0.46
         zb = M["z_piso"] + 0.10
@@ -2212,25 +2229,27 @@ class Kit:
                 p.grade("pintura_interna", 16, 1, lambda u, v, s=s, xr=xr, R=R, yw0=yw0: V(xr - R * math.cos(math.pi * u), s * yw0,
                                                                                       zc + (M["R"] + R * 0.9 * math.sin(math.pi * u) - zc) * v),
                         0.01, normal_fn=lambda u, v, s=s: (0, -s, 0))
-        # divisória atrás dos bancos
-        q = self.nova("interior_divisoria", "habitaculo", nota="divisória entre a cabine e a carga")
-        z0 = self.z_carpete(xp, 0.3)
-        zt = self.teto_em(xp, 0.0) - 0.04
-        yy = M["meia_interna"] - 0.02
-        if cab:   # chapa até a cintura e grade em cima
-            q.caixa("pintura_interna", T(xp, 0, (z0 + M["z_cintura"]) / 2), 0.012, 2 * yy, M["z_cintura"] - z0, 0.004)
-            zb = M["z_cintura"]
-        else:
-            zb = z0
-        q.tubo("metal_preto", [(xp, -yy, zb), (xp, -yy, zt - 0.05), (xp, -yy + 0.05, zt), (xp, yy - 0.05, zt), (xp, yy, zt - 0.05),
-                               (xp, yy, zb)], 0.012, seg=10)
-        q.tubo("metal_preto", [(xp, -yy, zb + 0.01), (xp, yy, zb + 0.01)], 0.010, seg=8, sub=1)
-        nb = int(2 * yy / 0.07)
-        for k in range(1, nb):
-            y = -yy + 2 * yy * k / nb
-            q.tubo("metal_preto", [(xp, y, zb + 0.01), (xp, y, zt - 0.005)], 0.0035, seg=6, sub=1)
-        for z in (zb + (zt - zb) * 0.33, zb + (zt - zb) * 0.66):
-            q.tubo("metal_preto", [(xp - 0.006, -yy, z), (xp - 0.006, yy, z)], 0.0035, seg=6, sub=1)
+        # divisória atrás dos bancos (a versão de passageiros, dado "passageiros", não tem: bancos em fileiras no lugar)
+        q = p
+        if not self.cfg.get("passageiros"):
+            q = self.nova("interior_divisoria", "habitaculo", nota="divisória entre a cabine e a carga")
+            z0 = self.z_carpete(xp, 0.3)
+            zt = self.teto_em(xp, 0.0) - 0.04
+            yy = M["meia_interna"] - 0.02
+            if cab:   # chapa até a cintura e grade em cima
+                q.caixa("pintura_interna", T(xp, 0, (z0 + M["z_cintura"]) / 2), 0.012, 2 * yy, M["z_cintura"] - z0, 0.004)
+                zb = M["z_cintura"]
+            else:
+                zb = z0
+            q.tubo("metal_preto", [(xp, -yy, zb), (xp, -yy, zt - 0.05), (xp, -yy + 0.05, zt), (xp, yy - 0.05, zt), (xp, yy, zt - 0.05),
+                                   (xp, yy, zb)], 0.012, seg=10)
+            q.tubo("metal_preto", [(xp, -yy, zb + 0.01), (xp, yy, zb + 0.01)], 0.010, seg=8, sub=1)
+            nb = int(2 * yy / 0.07)
+            for k in range(1, nb):
+                y = -yy + 2 * yy * k / nb
+                q.tubo("metal_preto", [(xp, y, zb + 0.01), (xp, y, zt - 0.005)], 0.0035, seg=6, sub=1)
+            for z in (zb + (zt - zb) * 0.33, zb + (zt - zb) * 0.66):
+                q.tubo("metal_preto", [(xp - 0.006, -yy, z), (xp - 0.006, yy, z)], 0.0035, seg=6, sub=1)
         # luz da carga
         xl = (x0 + xp) / 2
         q.almofada("plastico_claro", T(xl, 0, self.teto_em(xl, 0.0) - 0.02), 0.16, 0.06, 0.025, 0.3, 0.3)
@@ -2753,7 +2772,8 @@ class Kit:
         e = self.nova("interior_portamalas_estepe", "porta_malas")
         Rs = M["R"] * 0.96
         x = self.x_particao() - 0.12
-        y = -(M["meia_interna"] - 0.18)
+        # o pneu fica em pé atravessado: com a roda do furgão (raio de 0,37 m no Pão de Forma) ele saía pela lateral
+        y = -min(M["meia_interna"] - 0.18, M["meia_interna"] - 0.03 - Rs)
         z = (M["z_mala"] if M["carroceria"] == "furgao" else M["z_piso"]) + Rs + 0.02
         Me = T(x, y, z) @ Ry(math.pi / 2)
         self._roda_estepe(e, Me, Rs)

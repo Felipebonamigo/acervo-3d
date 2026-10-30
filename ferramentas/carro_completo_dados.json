@@ -170,10 +170,19 @@
       "epoca": "70",
       "motor": "boxer_traseiro",
       "tracao": "traseira",
-      "estepe": "carga",
+      "estepe": "vao_motor",
       "tanque": "atras",
       "carroceria": "cabine_avancada",
-      "nota": "Pão de Forma do Sketchfab (30/10/2026): mesmo carro da linha pao-de-forma, sem a correção do piso (no corte deste modelo o topo da saia do mapa já é a borda de baixo da porta, 0,48 m)"
+      "nota": "Pão de Forma do Sketchfab (30/10/2026): mesmo carro da linha pao-de-forma, sem a correção do piso (no corte deste modelo o topo da saia do mapa já é a borda de baixo da porta, 0,48 m); versão de passageiros (janelas em toda a volta): fileiras de bancos no lugar da divisória e o estepe no vão do motor",
+      "corrigir": {
+        "derivadas": {
+          "x_frente": 2.15,
+          "x_corta_fogo": 1.97,
+          "y_vao_traseira": 0.78
+        },
+        "nota": "o para-choque sai 20 cm à frente do nariz: a frente da cabine é a chapa (x 2,15) e o corta-fogo fica 18 cm atrás dela, onde o nariz arredondado ainda cobre os cantos (o painel e os acabamentos de pé saíam pela frente); a caixa do vão de trás fica a 0,78 m do meio, por dentro das venezianas da lateral"
+      },
+      "passageiros": true
     },
     "trilheiro": {
       "nome": "Trilheiro",
