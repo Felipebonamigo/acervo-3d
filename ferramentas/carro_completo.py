@@ -2786,9 +2786,11 @@ class Kit:
         zfundo = max(0.16, M["R"] * 0.70)
         zcap_t = self.capo_em(xf + 0.06, 0)
         zcap_f = self.capo_em(xr - 0.05, 0)
-        if getattr(self, "capo_pelas_pontas", False):
-            # capô que cai nas pontas (o hatch de 5 portas): a travessa fica sob a borda mais baixa, senão aparece acima da grade
-            zcap_f = min([zcap_f] + [self.capo_em(xr - 0.05, s * (yb - 0.05)) for s in (1, -1)])
+        if getattr(self, "capo_pelas_pontas", False) or self.cfg.get("capo_pelas_pontas"):
+            # capô que cai nas pontas (o hatch de 5 portas): a travessa fica sob a borda mais baixa, senão aparece acima da grade.
+            # Pela tabela (Lambari, 30/10/2026) mede também 3 cm à frente do radiador: lá a travessa passava o capô perto do farol
+            xs_ = [xr - 0.05] + ([xr + 0.03] if self.cfg.get("capo_pelas_pontas") else [])
+            zcap_f = min([zcap_f] + [self.capo_em(x_, s * (yb - 0.05)) for x_ in xs_ for s in (1, -1)])
 
         def zcap(x):
             t = _limitar((x - xf) / max(0.1, xr - xf), 0, 1)
@@ -3921,11 +3923,13 @@ def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habi
     return andou
 
 
-def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", "porta")):
+def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", "porta"), por_vertice=False):
     """
     Acima da cintura a cabine é fechada (teto, vidros, colunas, portas): uma face do kit de onde um raio escapa para fora sem
     bater na casca está do lado de fora (o acabamento da coluna A e as colunas do vão apareciam pelo lado de fora do Gol do
     Sketchfab, cuja coluna A é mais estreita do que a medida pela janela). Some com ela. Devolve quantas faces saíram, por peça.
+    por_vertice (opção do carro "aparar_por_vertice"): testa também cada canto da face, 1 cm para o centro. No Lambari a fita da coluna A
+    do vão tem o centro dentro da casca e as pontas para fora da coluna A estreita (abas cor do carro em volta do para-brisa).
     """
     import bpy
     import bmesh
@@ -3960,13 +3964,21 @@ def aparar_expostos(objs, corte_objs, z_min, grupos=("habitaculo", "vao_porta", 
             c = M @ f.calc_center_median()
             if c.z < z_min:
                 continue
-            escapes = 0
-            for d in dirs:
-                if arv.ray_cast(c + d * 0.002, d, 3.0)[0] is None:
-                    escapes += 1
-                    if escapes >= 2:      # dois raios livres: não é uma fresta entre painéis
-                        fora.append(f)
-                        break
+            pontos = [c]
+            if por_vertice:
+                pontos += [p + (c - p).normalized() * min(0.01, (c - p).length) for p in (M @ v.co for v in f.verts)]
+            for pt in pontos:
+                if pt.z < z_min:
+                    continue
+                escapes = 0
+                for d in dirs:
+                    if arv.ray_cast(pt + d * 0.002, d, 3.0)[0] is None:
+                        escapes += 1
+                        if escapes >= 2:      # dois raios livres: não é uma fresta entre painéis
+                            break
+                if escapes >= 2:
+                    fora.append(f)
+                    break
         if fora:
             bmesh.ops.delete(b, geom=fora, context="FACES")
             b.to_mesh(ob.data)
@@ -4553,7 +4565,12 @@ def principal(argv):
     if corte_objs:
         andou = recolher_na_casca(objs, corte_objs, lentes=a.aparar_mais is not None)
         print("dentro da casca (vértices recolhidos):", andou)
-        tirou = aparar_expostos(objs, corte_objs, kit.M["z_cintura"] - 0.01)
+        # "aparar_desde_a_saia" (Lambari): testa também abaixo da cintura; a coluna do vão aparecia entre o para-lama e a porta
+        # (3 cm acima da saia: a soleira, que fica rente à saia, sai inteira; aparada, sobrava só a caixa pintada dela, saltada)
+        z_ap = kit.M["z_saia"] + 0.03 if kit.cfg.get("aparar_desde_a_saia") else kit.M["z_cintura"] - 0.01
+        # "aparar_motor" (Lambari): o vão do motor também (o para-lama interno passava o capô que cai nos cantos)
+        grupos_ap = ("habitaculo", "vao_porta", "porta") + (("motor",) if kit.cfg.get("aparar_motor") else ())
+        tirou = aparar_expostos(objs, corte_objs, z_ap, grupos_ap, por_vertice=bool(kit.cfg.get("aparar_por_vertice")))
         print("fora da casca acima da cintura (faces tiradas):", tirou)
         if a.aparar_mais is not None:
             # carro de capô baixo na frente e lanterna que dobra para a lateral (o hatch de 5 portas): a travessa do painel dianteiro

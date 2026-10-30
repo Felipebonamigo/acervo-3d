@@ -201,7 +201,15 @@
       "estepe": "poco",
       "tanque": "sob_porta_malas",
       "carroceria": "sedan",
-      "nota": "sedã de 2 portas dos anos 70, tração traseira"
+      "aparar_por_vertice": true,
+      "aparar_desde_a_saia": true,
+      "capo_pelas_pontas": true,
+      "aparar_motor": true,
+      "corrigir": {
+        "topo_da_saia": 0.31,
+        "nota": "Lambari do Sketchfab (30/10/2026): a lateral embaixo da porta vai de 0,23 a 0,35 m; com 0,28 o raio da soleira passava por baixo dela e a soleira saía 4 cm para fora, cor de pintura interna"
+      },
+      "nota": "sedã de 2 portas dos anos 70, tração traseira; aparar por vértice e desde a saia (30/10/2026, o Lambari do Sketchfab): a fita da coluna A do vão saía em abas cor do carro pela coluna A estreita, e a coluna do vão aparecia entre o para-lama e a porta; capô pelas pontas: a travessa da frente passava o capô que cai nos cantos; aparar o motor: o para-lama interno também"
     },
     "jabuti": {
       "nome": "Jabuti",
