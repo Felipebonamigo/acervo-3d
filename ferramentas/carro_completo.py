@@ -3867,7 +3867,8 @@ def triangulos(me):
     return len(me.loop_triangles)
 
 
-def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habitaculo", "porta", "porta_malas"), lentes=False):
+def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habitaculo", "porta", "porta_malas"), lentes=False,
+                      so_de_fora=False):
     """
     Peças de dentro que encostam ou passam da chapa (o teto e o para-lama do Meshy têm calombos de 1 a 2 cm, e o forro, o quebra-sol e o
     painel apareciam por fora em manchas): cada vértice a menos de `alcance` da face de fora da casca (tinta e vidro) e a menos de
@@ -3894,6 +3895,16 @@ def recolher_na_casca(objs, corte_objs, folga=0.006, alcance=0.06, grupos=("habi
             return (mn.startswith(("pintura", "vidro")) or (mn == "chassi" and f.calc_center_median().z > 0.9)
                     or (lentes and mn.startswith(("luz", "lente"))))
         fora = [f for f in b.faces if not de_fora(f)]
+        if so_de_fora:
+            # --puxar-para-dentro (Caipora, 30/10): só a face que olha para fora do carro conta; a de trás do vidro (que o
+            # detalhes_na_casca.py passa a vidro) olha para a cabine e fazia o painel, à frente do para-brisa, parecer por dentro
+            def para_fora(f):
+                c = f.calc_center_median()
+                meio = c.copy()
+                meio.x, meio.y, meio.z = max(-1.2, min(1.2, c.x)), 0.0, 0.6
+                return f.normal.dot(c - meio) > 0
+            ja = set(fora)
+            fora += [f for f in b.faces if f not in ja and not para_fora(f)]
         bmesh.ops.delete(b, geom=fora, context="FACES")
         me = bpy.data.meshes.new("_casca_fora")
         b.to_mesh(me)
@@ -4507,6 +4518,8 @@ def parse_args(argv):
     p.add_argument("--sem-previa", action="store_true")
     p.add_argument("--aparar-mais", type=float, nargs="*", default=None, metavar="Z",
                    help="também tira as faces do motor (acima de z da frente) e do porta-malas (acima de z de trás) que saem da casca")
+    p.add_argument("--puxar-para-dentro", action="store_true",
+                   help="recolhe na casca também o vão da porta e o motor, só pela face de fora (o teto redondo, o para-brisa e a fresta do capô do Caipora)")
     p.add_argument("--sem-sujeira", action="store_true", help="não assa a oclusão nos vértices (mais rápido; cor sem encardido)")
     p.add_argument("--so-medidas", action="store_true")
     p.add_argument("--sufixo", default="", help="sufixo nos arquivos de saída (ex.: _2000 para testar outra época)")
@@ -4563,7 +4576,29 @@ def principal(argv):
         col.objects.link(ob)
         objs.append(ob)
     if corte_objs:
-        andou = recolher_na_casca(objs, corte_objs, lentes=a.aparar_mais is not None)
+        if a.puxar_para_dentro:
+            andou = recolher_na_casca(objs, corte_objs, alcance=0.10, grupos=("habitaculo", "porta", "porta_malas", "vao_porta", "motor"),
+                                      so_de_fora=True, lentes=a.aparar_mais is not None)
+            # à frente da base do para-brisa a cabine fica embaixo da chapa: no Caipora o capô passa por baixo do para-brisa e a
+            # frente do painel aparecia por cima dele
+            n_baixou = 0
+            for ob in objs:
+                if ob.get("grupo") != "habitaculo":
+                    continue
+                Mw, Mi = ob.matrix_world, ob.matrix_world.inverted()
+                for v in ob.data.vertices:
+                    w = Mw @ v.co
+                    if w.x < kit.M["ws"][1] - 0.08:
+                        continue
+                    zc_ = kit.z_casca(w.x, w.y)
+                    if zc_ is not None and w.z > zc_ - 0.012:
+                        w.z = zc_ - 0.012
+                        v.co = Mi @ w
+                        n_baixou += 1
+                ob.data.update()
+            andou["abaixo da chapa, à frente do para-brisa"] = n_baixou
+        else:
+            andou = recolher_na_casca(objs, corte_objs, lentes=a.aparar_mais is not None)
         print("dentro da casca (vértices recolhidos):", andou)
         # "aparar_desde_a_saia" (Lambari): testa também abaixo da cintura; a coluna do vão aparecia entre o para-lama e a porta
         # (3 cm acima da saia: a soleira, que fica rente à saia, sai inteira; aparada, sobrava só a caixa pintada dela, saltada)

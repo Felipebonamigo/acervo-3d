@@ -45,6 +45,7 @@ print("[assar_desgaste] peças na textura:", len(casca))
 # cabine, bate longe e fica como está. Depois, normais por ângulo de novo (30°, como no preparo)
 import math as _m
 from mathutils.bvhtree import BVHTree
+MANTER_NORMAIS = "--manter-normais" in args
 for o in casca:
     me = o.data
     bm = bmesh.new()
@@ -61,7 +62,25 @@ for o in casca:
             h2 = arv.ray_cast(c - f.normal * 0.0015, -f.normal, 0.025)
             if h2[0] is None:
                 virar.append(f)
-    if virar:
+    if virar and MANTER_NORMAIS:
+        # --manter-normais (Caipora, 30/10): as normais de canto que vieram do preparo (lisas, tiradas da malha antes do adensamento)
+        # ficam; a face virada só inverte as dela. Recalcular por ângulo devolvia as facetas do baixo polígono ao capô e à lateral
+        cn = me.corner_normals
+        antes = [{me.loops[li].vertex_index: Vector(cn[li].vector) for li in p_.loop_indices} for p_ in me.polygons]
+        idx_v = {f.index for f in virar}
+        bmesh.ops.reverse_faces(bm, faces=virar)
+        bm.transform(o.matrix_world.inverted())
+        bm.to_mesh(me)
+        me.update()
+        novas = [None] * len(me.loops)
+        for p_ in me.polygons:
+            for li in p_.loop_indices:
+                n_ = antes[p_.index][me.loops[li].vertex_index]
+                novas[li] = (-n_ if p_.index in idx_v else n_)[:]
+        me.normals_split_custom_set(novas)
+        me.update()
+        print("[assar_desgaste] %s: %d faces viradas corrigidas (normais mantidas)" % (o.name, len(virar)))
+    elif virar:
         bmesh.ops.reverse_faces(bm, faces=virar)
         bm.transform(o.matrix_world.inverted())
         bm.to_mesh(me)

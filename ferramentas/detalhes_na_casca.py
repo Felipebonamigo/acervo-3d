@@ -620,7 +620,32 @@ for nome, o in objs.items():
         n_trocas += len(trocar)
         relatorio.append("%s: %d faces de trás do vidro passaram de chassi a vidro" % (nome, len(trocar)))
 
+def recolorir(o, de, para, regiao=None):
+    """Faces do material `de` (ou de qualquer um da lista) da peça viram `para`; com `regiao` (|y|0, |y|1, z0, z1), só as de centro nela."""
+    de = [de] if isinstance(de, str) else de
+    nomes = mat_names(o)
+    alvo = slot(o, para)
+    mw = o.matrix_world
+    n = 0
+    for p in o.data.polygons:
+        if nomes[p.material_index] not in de if p.material_index < len(nomes) else True:
+            continue
+        if regiao is not None:
+            c = mw @ p.center
+            if not (regiao[0] <= abs(c.y) <= regiao[1] and regiao[2] <= c.z <= regiao[3]):
+                continue
+        p.material_index = alvo
+        n += 1
+    o.data.update()
+    return n
+
+
 # ------------------------------------------------------------------------------------------------------- faróis e lanternas
+# --farol-do-modelo e --lanterna-do-modelo "ambar=y0,y1,z0,z1;branca=y0,y1,z0,z1" (30/10, Caipora): o modelo já traz faróis ovais e
+# lanternas arredondadas com relevo; refazê-los em caixa (o caminho do Gol quadrado) tirava a cara do carro. Só os materiais mudam:
+# a lente do farol vira `lente_farol` e a lanterna `luz_vermelha`, com a seta e a ré nas regiões dadas (|y| e z, metros)
+FAROL_DO_MODELO = "--farol-do-modelo" in args
+LANTERNA_DO_MODELO = "--lanterna-do-modelo" in args
 def lanterna(w, sinal, box, m_preto, m_lente, segmentos=None, prof=0.03, e=0.008, frisos="vertical", m_refletor=None, m_lampada=None):
     """Moldura preta de `e` na boca do bolso, lente 4 mm à frente (segmentos em y com divisórias, cada um com o seu material),
     frisos de 1,5 mm na lente (a lente do jogo é opaca e brilhante: o relevo é o que lê como farol) e paredes para trás."""
@@ -831,6 +856,18 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
         continue
     if sinal < 0 and "--sem-lanternas" in args:
         continue                              # Pão de Forma: a lanterna redonda pequena do modelo fica (a de 3 segmentos não cabe)
+    if sinal > 0 and FAROL_DO_MODELO:
+        relatorio.append("%s: lente do modelo, %d faces em lente_farol" % (nome, recolorir(o, "luz", "lente_farol")))
+        continue
+    if sinal < 0 and LANTERNA_DO_MODELO:
+        n_ = {}
+        for item in opt("--lanterna-do-modelo", "").split(";"):
+            if "=" in item:
+                cor, reg = item.split("=")
+                n_[cor] = recolorir(o, "luz", "luz_" + cor, [float(t) for t in reg.split(",")])
+        n_["vermelha"] = recolorir(o, "luz", "luz_vermelha")
+        relatorio.append("%s: lanterna do modelo, faces %s" % (nome, n_))
+        continue
     box = caixas_luz.get(nome)
     if box is None:
         continue
@@ -906,7 +943,9 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
 
 # ------------------------------------------------------------------------------------------------------------------- grade
 o = objs.get("grille")
-if o and "--manter-grade" not in args:
+if o and "--grade-do-modelo" in args:
+    relatorio.append("grade do modelo mantida")
+elif o and "--manter-grade" not in args:
     box, nrm = faces_de(o, "pintura")
     if box is None:
         box, nrm = faces_de(o, "luz")
@@ -1095,6 +1134,10 @@ for nome, s in (("mirror_left", 1), ("mirror_right", -1)):
             o.data.update()
         relatorio.append("%s: forma do modelo, capa preta" % nome)
         continue
+    if "--retrovisor-do-modelo" in args:
+        # o do modelo (Caipora) já tem a forma certa: só o espelho, que veio vidro, passa ao material do espelho refeito (`luz`)
+        relatorio.append("%s: o do modelo, %d faces de espelho" % (nome, recolorir(o, "vidro", "luz")))
+        continue
     box, _ = faces_de(o, "pintura")
     if box is None or (box[1] - box[0]) * (box[5] - box[4]) < 0.004:
         # retrovisor de plástico preto (jipe, com --manter-chassi no corte): a caixa sai das faces chassi
@@ -1126,10 +1169,12 @@ if "body" in objs and "--sem-miudezas" not in args:
     # antena no para-lama esquerdo, junto da base do para-brisa
     # antena no para-lama esquerdo, atrás da caixa de roda (nunca no capô)
     h = None
-    for xa in (1.05, 0.95, 0.85):
+    # --antena x,y: outro lugar, achado de cima para baixo (Caipora: no teto, atrás e um pouco à esquerda, como no carro real)
+    pontos_antena = [tuple(float(t) for t in opt("--antena", "").split(","))] if "--antena" in args else [(xa, 0.63) for xa in (1.05, 0.95, 0.85)]
+    for xa, ya in pontos_antena:
         if "--antena-teto" in args:
             break
-        h = raio(["fender_front_left", "body"], (xa, 0.63, 2.0), (0, 0, -1), 3.0)
+        h = raio(["fender_front_left", "body", "trunk"], (xa, ya, 2.0), (0, 0, -1), 3.0)
         if h and h[1].z > 0.7:
             break
         h = None
@@ -1159,15 +1204,15 @@ PLACA_L, PLACA_A, PLACA_Z0 = 0.40, 0.13, opt("--z-placa", 0.355)
 placas_novas = {}
 
 
-def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra):
+def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra, yc=0.0):
     """Placa brasileira de PLACA_L x PLACA_A em branco, centrada em y, de z0p para cima, 0,8 cm para fora da face `alvos` medida em
     (ys_barra, z_barra); suporte preto da face até ela, tapando o rebaixo da placa antiga (a caixa da peça antiga); moldura e parafusos."""
     o = objs[nome]
-    yc, z1p = 0.0, z0p + PLACA_A
+    z1p = z0p + PLACA_A
     Pp = np.array([list(o.matrix_world @ v.co) for v in o.data.vertices])
     reb = (Pp[:, 1].min(), Pp[:, 1].max(), Pp[:, 2].min(), Pp[:, 2].max())
     xs_face, xs_barra = [], []
-    for yy in (-0.15, 0.0, 0.15):
+    for yy in (yc - 0.15, yc, yc + 0.15):
         for zz in np.arange(z0p, z1p + 0.001, 0.01):
             h = raio(alvos, (sinal * 3.0, yy, zz), (-sinal, 0, 0), 4.0)
             if h:
@@ -1179,8 +1224,15 @@ def refazer_placa(nome, sinal, alvos, z0p, ys_barra, z_barra):
     if not (xs_face and xs_barra):
         return None
     # o mais fundo da face atrás da placa e o mais para fora da face em volta dela
-    x_atras = min(xs_face) if sinal > 0 else max(xs_face)
     x_fora = max(xs_barra) if sinal > 0 else min(xs_barra)
+    # --placa-pela-face: a face atrás da placa mais saliente que a barra em volta (a tampa abaulada do Caipora, no meio) também
+    # empurra a placa
+    perto = [x for x in xs_face if abs(x - x_fora) < 0.25] if "--placa-pela-face" in args else []
+    if perto:
+        x_fora = max([x_fora] + perto) if sinal > 0 else min([x_fora] + perto)
+    # o raio que passa pelo vão da placa antiga e bate do outro lado do carro não é o fundo (Caipora: dava 2,5 m)
+    xs_face = [x for x in xs_face if abs(x - x_fora) < 0.25] or [x_fora]
+    x_atras = min(xs_face) if sinal > 0 else max(xs_face)
     xp = x_fora + sinal * 0.008
     w = Escritor(o, refazer=set(mat_names(o)))
     m_preto, mi_placa = slot(o, "chassi"), slot(o, "placa")
@@ -1272,7 +1324,9 @@ if "plate_rear" in objs and "--placa-original" not in args and "--placa-tras-ori
     zc_t = 0.5 * (Pt[:, 2].min() + Pt[:, 2].max())
     # --placa-tras-no-para-choque (Sagui): a placa de trás fica no rebaixo do para-choque, não na tampa
     alvos_t = ("bumper_rear", "body") if "--placa-tras-no-para-choque" in args else ("trunk", "body")
-    r = refazer_placa("plate_rear", -1, [n for n in alvos_t if n in objs], zc_t - PLACA_A / 2, (-0.3, -0.26, 0.26, 0.3), zc_t)
+    z0_t = opt("--z-placa-tras", zc_t - PLACA_A / 2)
+    yc_t = opt("--y-placa-tras", 0.0)
+    r = refazer_placa("plate_rear", -1, [n for n in alvos_t if n in objs], z0_t, (-0.3, -0.26, 0.26, 0.3), z0_t + PLACA_A / 2, yc_t)
     if r:
         placas_novas["plate_rear"] = r
 placa_frente = placas_novas.get("plate_front")
