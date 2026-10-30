@@ -1046,7 +1046,10 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
     if sinal < 0 and "--sem-lanternas" in args:
         continue                              # Pão de Forma: a lanterna redonda pequena do modelo fica (a de 3 segmentos não cabe)
     if sinal > 0 and FAROL_DO_MODELO:
-        relatorio.append("%s: lente do modelo, %d faces em lente_farol" % (nome, recolorir(o, "luz", "lente_farol")))
+        # --seta-no-farol "|y|0,|y|1,z0,z1" (Caipora, 30/10): a seta da frente é a ponta de fora do farol, como no carro real, no lugar
+        # do pisca no para-choque (use com --sem-sinaleira)
+        n_seta = recolorir(o, "luz", "luz_ambar", [float(t) for t in opt("--seta-no-farol", "").split(",")]) if "--seta-no-farol" in args else 0
+        relatorio.append("%s: lente do modelo, %d faces em lente_farol, %d de seta" % (nome, recolorir(o, "luz", "lente_farol"), n_seta))
         continue
     if sinal < 0 and LANTERNA_DO_MODELO:
         n_ = {}
