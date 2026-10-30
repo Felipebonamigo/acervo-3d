@@ -19,7 +19,7 @@
     "frente já em +X (retrovisores em x = 0.41 m)"
   ],
   "solda": {
-    "vertices_antes": 113086,
+    "vertices_antes": 113116,
     "vertices_depois": 52900,
     "arestas_de_borda": 4652
   },
@@ -32,7 +32,7 @@
     ],
     "pintura_sat": 0.0,
     "pintura_val": 0.5,
-    "cercado_pela_borracha": 11407,
+    "cercado_pela_borracha": 11409,
     "portas": 4,
     "janelas_por_lado": {
       "l": [
@@ -58,7 +58,7 @@
     }
   },
   "faces_por_classe": {
-    "vidro": 6316,
+    "vidro": 6310,
     "farol": 0,
     "lanterna": 0,
     "placa": 0,
@@ -319,7 +319,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 76143,
+      "triangulos": 76144,
       "materiais": [
         "pintura",
         "vidro",
@@ -331,11 +331,11 @@
         "malha única: o que sobrou, com os vãos e as caixas de roda"
       ],
       "malha": {
-        "faces_degeneradas_tiradas": 1,
+        "faces_degeneradas_tiradas": 0,
         "vertices_soltos_tirados": 19957,
         "vertices_nan": 0,
         "cantos_contra_face": 0.003,
-        "area_para_fora": 0.762,
+        "area_para_fora": 0.763,
         "virada": null
       },
       "fbx": "furgaozinho_pecas/body.fbx"
@@ -424,7 +424,7 @@
       "detonauto": "DoorLeft",
       "caixa_m": [
         -0.3192,
-        0.723,
+        0.7231,
         0.5386,
         0.7715,
         0.2322,
@@ -453,7 +453,7 @@
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.509,
+        "area_para_fora": 0.51,
         "virada": null
       },
       "fbx": "furgaozinho_pecas/door_fl.fbx"
@@ -493,7 +493,7 @@
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.508,
+        "area_para_fora": 0.509,
         "virada": null
       },
       "fbx": "furgaozinho_pecas/door_fr.fbx"
@@ -600,7 +600,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 4115,
+      "triangulos": 4116,
       "materiais": [
         "pintura",
         "chassi"
@@ -609,7 +609,7 @@
         "malha única, faces: 1826 faces"
       ],
       "malha": {
-        "faces_degeneradas_tiradas": 1,
+        "faces_degeneradas_tiradas": 0,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
@@ -653,7 +653,7 @@
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.502,
+        "area_para_fora": 0.503,
         "virada": null
       },
       "fbx": "furgaozinho_pecas/fender_front_right.fbx"
@@ -1354,7 +1354,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 9520,
+      "triangulos": 9519,
       "materiais": [
         "pintura",
         "chassi"
@@ -1363,7 +1363,7 @@
         "malha única, ilha: 4548 faces"
       ],
       "malha": {
-        "faces_degeneradas_tiradas": 0,
+        "faces_degeneradas_tiradas": 1,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
@@ -1484,7 +1484,7 @@
         "vertices_soltos_tirados": 2915,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.595,
+        "area_para_fora": 0.596,
         "virada": "faces (ordem dos vértices contra a normal do arquivo)"
       },
       "fbx": "furgaozinho_pecas/wheel_fr_rim.fbx"

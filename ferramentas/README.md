@@ -771,12 +771,13 @@ materiais lisos, 5 portas, bagageiro de teto). Diferente do Gol (3 objetos), ele
 preparo e o corte passou a usar as juntas que o autor modelou.
 
     python -I ferramentas/sketchfab_juntar.py -- <original>.glb <tmp>/juntado.glb veiculos/sketchfab/quebravel/furgaozinho/furgaozinho_grupos.json
-    python -I ferramentas/sketchfab_preparar.py -- <tmp>/juntado.glb <tmp>/furgaozinho.glb "carroceria,vidros,rodas" 3.64 1.56 0.06 30 0 1
+    python -I ferramentas/sketchfab_preparar.py -- <tmp>/juntado.glb <tmp>/furgaozinho.glb "carroceria,vidros,rodas" 3.64 1.56 0.06 30 0 \
+        --manter-materiais --sem-pca --meio-pela-caixa
     python -I ferramentas/carro_quebravel.py -- --entrada <tmp>/furgaozinho.glb --out <corte> --id furgaozinho --portas 4 --sem-rotulos \
         --manter-normais --materiais-do-arquivo --mapa veiculos/sketchfab/quebravel/furgaozinho/furgaozinho_mapa.json --sem-fbx
     python -I ferramentas/detalhes_na_casca.py -- <corte>/furgaozinho.glb <tmp>/det.glb --sem-arco-redondo --sem-face-para-choque \
-        --grade-como-veio --sem-macaneta --sem-friso --sem-faixa --sem-quebra-vento --sem-sinaleira --sem-tampa-tanque \
-        --luzes-do-modelo --manter-chapa-dos-vidros --z-placa 0.36 --placa-tras-em bumper_rear
+        --manter-grade --sem-macaneta --sem-friso --sem-faixa --sem-quebra-vento --sem-sinaleira --sem-tampa-tanque \
+        --luzes-do-modelo --manter-chapa-dos-vidros --z-placa 0.36 --placa-tras-no-para-choque
     python -I ferramentas/assar_desgaste.py -- <tmp>/det.glb veiculos/sketchfab/quebravel/furgaozinho/furgaozinho.glb --tamanho 2048 --amostras 32
     python -I ferramentas/carro_completo.py -- --corte veiculos/sketchfab/quebravel/furgaozinho --id furgaozinho \
         --out veiculos/sketchfab/completo/furgaozinho --epoca 90
@@ -785,18 +786,20 @@ preparo e o corte passou a usar as juntas que o autor modelou.
   material de cada peça escolhido à mão num `_grupos.json` (regex no nome do objeto ou do pai -> pintura, vidro, pneu, chassi, luz,
   cromado) e a lista do que sai (o símbolo de marca da grade, a escada do autor). Peça sem grupo para o script com erro. Também vira as
   normais para fora: o teto do autor tinha as faces para dentro (material de duas faces, não aparece no Sketchfab) e o
-  `carro_completo.py` empurrava o forro do teto para fora da chapa.
-- **`sketchfab_preparar.py`:** 9º argumento `1` mantém os materiais do arquivo em vez de pintar por ilha, e deixa de girar pelo PCA
-  (as peças assimétricas, bocal e escape, giravam o carro ~1 grau; o juntar já deixa o comprimento num eixo). Sem o argumento, nada muda.
+  `carro_completo.py` empurrava o forro do teto para fora da chapa. Deixa o comprimento em x. É o par do `sketchfab_montar.py` (do
+  Sagui), que separa por material; o juntar separa por objeto.
+- **`sketchfab_preparar.py`:** usa o `--manter-materiais` e o `--sem-pca` do Sagui, e ganhou `--meio-pela-caixa`: o meio em y vem da
+  caixa da carroceria, não da média dos vértices (o bocal e o escape de um lado só puxavam o carro 1,3 cm; o centro pelas janelas não
+  acontece quando elas não passam nas regras do Gol). Sem a opção, nada muda.
 - **`carro_quebravel.py`:** `take: "ilha"` no mapa (cada ilha ligada vai inteira para a caixa que tem a maior parte da área dela,
   com filtro opcional de material e de normal): portas, capô, tampa, para-choques, faróis, lanternas, grade e bagageiro saem na fresta
   do autor, não num plano reto. `--materiais-do-arquivo`: o plástico preto, as luzes e as calotas ficam com o material do arquivo (sem
   ela, tudo que não é vidro, luz ou roda vira pintura, como no Gol).
 - **`detalhes_na_casca.py`:** opções novas, todas desligadas por padrão: `--luzes-do-modelo` (faróis e lanternas que dão a volta no
-  canto ficam com a forma do autor; farol em `lente_farol`, lanterna em faixas de freio, seta e ré de cima para baixo, divisas cortadas
-  na malha; `--faixas-lanterna 0.45,0.25`), `--grade-como-veio`, `--sem-tampa-tanque` (o modelo já tem a dele), `--manter-chapa-dos-vidros`
-  (a moldura do autor fica a menos de 1,5 cm do vidro e saía com furos) e `--placa-tras-em <peça>` (a placa de trás fica no rebaixo do
-  para-choque).
+  canto ficam com a forma do autor; farol em `lente_farol`, lanterna em três faixas, freio, seta e ré, de cima para baixo, com as divisas
+  cortadas na malha; `--faixas-lanterna 0.45,0.25`; o `--manter-luzes` do Tupiniquim faz duas faixas), `--sem-tampa-tanque` (o modelo
+  já tem a dele) e `--manter-chapa-dos-vidros` (a moldura do autor fica a menos de 1,5 cm do vidro e saía com furos). A grade e a placa
+  de trás usam o `--manter-grade` e o `--placa-tras-no-para-choque` das outras sessões.
 - **Gol inalterado (conferido em 30/10):** a cadeia do Gol rodada com as ferramentas de antes (`git archive HEAD ferramentas`) e as de
   agora: o preparo sai idêntico (hash dos vértices); no corte, os vidros, as rodas e os materiais de todas as peças saem idênticos, e
   as outras peças variam algumas dezenas de vértices, a mesma variação de duas rodadas seguidas do código antigo (o corte e a

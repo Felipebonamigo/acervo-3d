@@ -8,7 +8,10 @@ a = sys.argv[sys.argv.index("--") + 1:]
 MANTER = "--manter-materiais" in a
 # --sem-pca: o arquivo já vem com o comprimento em x (o sketchfab_montar.py alinha); a PCA da carroceria torcia 0,2 grau
 SEM_PCA = "--sem-pca" in a
-a = [x for x in a if x not in ("--manter-materiais", "--sem-pca")]
+# --meio-pela-caixa (Furgãozinho, 30/10/2026): o meio em y é o da caixa da carroceria, não a média dos vértices (o bocal e o escape
+# de um lado só puxavam o carro 1,3 cm, e o centro pelas janelas não acontece quando elas não passam nas regras do Gol)
+MEIO_CAIXA = "--meio-pela-caixa" in a
+a = [x for x in a if x not in ("--manter-materiais", "--sem-pca", "--meio-pela-caixa")]
 PAPEIS_EXTRA = ("luz", "cromado", "luz_vermelha", "luz_ambar", "luz_branca", "lente_farol", "refletor")
 # --juntar <config.json> (Pão de Forma, 30/10/2026): modelo de muitos objetos, cada um com seus materiais. O JSON diz o material
 # nosso de cada material do arquivo ("materiais": pintura|vidro|pneu|chassi|luz|cromado|fora), quais objetos são rodas ("rodas":
@@ -282,6 +285,8 @@ def pts(o):
 P = pts(body)
 c = P.mean(0)
 Q = P[:, :2] - c[:2]
+if MEIO_CAIXA:
+    c[1] = 0.5 * (P[:, 1].min() + P[:, 1].max())
 w, vec = np.linalg.eigh(Q.T @ Q)
 ax = vec[:, 1] if not SEM_PCA else np.array([1.0, 0.0])
 R = Matrix.Rotation(-np.arctan2(ax[1], ax[0]), 4, "Z")

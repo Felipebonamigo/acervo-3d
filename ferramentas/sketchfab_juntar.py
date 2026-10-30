@@ -5,8 +5,9 @@ de cada peça escolhido à mão (pintura, vidro, pneu, chassi, luz, cromado) e a
 
 grupos.json: {"tirar": [regex...], "carroceria": {regex: material}, "vidros": {regex: material}, "rodas": {regex: material}}.
 Cada regex casa com o nome do objeto ou do pai dele (no GLB do Sketchfab a malha se chama Object_N e o nome do autor fica no pai).
-Peça que não casa com nada para o script com erro: tudo tem dono. Depois rode o sketchfab_preparar.py com os objetos
-"carroceria,vidros,rodas" e o 9º argumento 1 (manter os materiais daqui)."""
+Peça que não casa com nada para o script com erro: tudo tem dono. O comprimento sai em x. Depois rode o sketchfab_preparar.py com
+os objetos "carroceria,vidros,rodas" e --manter-materiais --sem-pca (o material de cada face tem o nome do papel, como no
+sketchfab_montar.py, que faz o mesmo para modelos que se separam por material)."""
 import bpy, bmesh, sys, json, re
 from mathutils import Matrix, Vector
 
@@ -73,6 +74,14 @@ lo = Vector([min(p[i] for p in pts) for i in range(3)])
 hi = Vector([max(p[i] for p in pts) for i in range(3)])
 centro = (lo + hi) / 2
 lateral = 0 if (hi.x - lo.x) < (hi.y - lo.y) else 1      # o eixo horizontal mais curto
+if lateral == 0:
+    # comprimento em x, como o sketchfab_preparar.py --sem-pca espera (a frente ele acha sozinho)
+    giro = Matrix.Rotation(-1.5707963267948966, 4, "Z")
+    for objs_ in destino.values():
+        for o in objs_:
+            o.data.transform(giro)
+    centro = giro @ centro
+    lateral = 1
 viradas = 0
 for g, objs in destino.items():
     for o in objs:
