@@ -1,0 +1,6 @@
+{
+ "front_axle_cm": 167.24,
+ "rear_axle_cm": -167.24,
+ "wheel_radius_cm": 35.63,
+ "nota": "espaço do carro do zoeira_quebravel (frente +X, pivô entre os eixos); formato de Tools/Unreal/damage_body.py"
+}

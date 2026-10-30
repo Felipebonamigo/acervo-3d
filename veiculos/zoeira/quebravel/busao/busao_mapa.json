@@ -1,0 +1,180 @@
+{
+ "car": "busao",
+ "notes": "Gerado por ferramentas/zoeira_quebravel.py a partir de busao_config.json (veículo de zoeira; peças por objeto do autor e por caixa). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
+ "medidas": {
+  "comprimento": 12.0,
+  "meia_largura": 1.4619,
+  "altura": 2.9693,
+  "eixo_dianteiro": 2.7802,
+  "eixo_traseiro": -2.7802,
+  "raio_roda": 0.5321,
+  "linha_de_cintura": 1.6331,
+  "topo_da_saia": 0.6321,
+  "portas": 0,
+  "van": false
+ },
+ "parts": [
+  {
+   "name": "body",
+   "box": [
+    -6.425,
+    5.575,
+    -1.462,
+    1.462,
+    0.3,
+    2.969
+   ]
+  },
+  {
+   "name": "glass_door_fl",
+   "box": [
+    -6.074,
+    5.452,
+    -0.927,
+    1.231,
+    0.758,
+    2.537
+   ]
+  },
+  {
+   "name": "glass_door_fr",
+   "box": [
+    -6.032,
+    5.486,
+    -1.215,
+    1.24,
+    0.641,
+    2.579
+   ]
+  },
+  {
+   "name": "glass_windshield",
+   "box": [
+    5.365,
+    5.365,
+    -0.494,
+    0.518,
+    2.621,
+    2.861
+   ]
+  },
+  {
+   "name": "wheel_fl_rim",
+   "box": [
+    2.386,
+    3.174,
+    0.86,
+    1.205,
+    0.138,
+    0.926
+   ]
+  },
+  {
+   "name": "wheel_fl_tire",
+   "box": [
+    2.248,
+    3.312,
+    0.86,
+    1.164,
+    0.0,
+    1.064
+   ]
+  },
+  {
+   "name": "wheel_fr_rim",
+   "box": [
+    2.386,
+    3.174,
+    -1.18,
+    -0.836,
+    0.138,
+    0.926
+   ]
+  },
+  {
+   "name": "wheel_fr_tire",
+   "box": [
+    2.248,
+    3.312,
+    -1.14,
+    -0.836,
+    0.0,
+    1.064
+   ]
+  },
+  {
+   "name": "wheel_rl_rim",
+   "box": [
+    -3.174,
+    -2.387,
+    0.602,
+    1.233,
+    0.138,
+    0.925
+   ]
+  },
+  {
+   "name": "wheel_rl_tire",
+   "box": [
+    -3.312,
+    -2.248,
+    0.602,
+    1.233,
+    0.0,
+    1.064
+   ]
+  },
+  {
+   "name": "wheel_rr_rim",
+   "box": [
+    -3.174,
+    -2.387,
+    -1.209,
+    -0.578,
+    0.138,
+    0.925
+   ]
+  },
+  {
+   "name": "wheel_rr_tire",
+   "box": [
+    -3.312,
+    -2.248,
+    -1.209,
+    -0.578,
+    0.0,
+    1.064
+   ]
+  }
+ ],
+ "rodas": [
+  {
+   "nome": "fl",
+   "lado": 1,
+   "cx": 2.7802,
+   "cz": 0.5324,
+   "raio": 0.5321
+  },
+  {
+   "nome": "fr",
+   "lado": -1,
+   "cx": 2.7802,
+   "cz": 0.5324,
+   "raio": 0.5321
+  },
+  {
+   "nome": "rl",
+   "lado": 1,
+   "cx": -2.7802,
+   "cz": 0.5318,
+   "raio": 0.5318
+  },
+  {
+   "nome": "rr",
+   "lado": -1,
+   "cx": -2.7802,
+   "cz": 0.5318,
+   "raio": 0.5318
+  }
+ ]
+}

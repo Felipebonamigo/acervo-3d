@@ -1,0 +1,28 @@
+{
+ "id": "ceifa-tudo",
+ "fonte": "veiculos/zoeira/fontes/colheitadeira-rogueengineer__c2343544b81842e68e5544792a1ff9ee.glb",
+ "frente": "-y",
+ "escala": 0.85,
+ "rodas": "Wheel_Wheel",
+ "pecas": [
+  {
+   "nome": "hood",
+   "objetos": "^Harvesting Blades"
+  },
+  {
+   "nome": "bumper_front",
+   "objetos": "^Harvesting Sledge"
+  }
+ ],
+ "vidros": [],
+ "materiais": {
+  "^Wheel": "pneu",
+  "Transparent": "cromado"
+ },
+ "pintura_rgb": [
+  0.86,
+  0.37,
+  0.12
+ ],
+ "notas": "Ceifa-Tudo, a colheitadeira do Detonauto (docs/veiculos-zoeira.md). \"Crop Harvestor\" por ROGUEENGINEER (Sketchfab, CC BY 4.0). A plataforma de corte é o para-choque da frente (cai inteira) e o molinete é o capô (sai voando); a cabine e o vidro estão na carroceria (o autor pintou o vidro na textura). Escala 0,85: 10 m de comprimento e a plataforma com 5,6 m."
+}

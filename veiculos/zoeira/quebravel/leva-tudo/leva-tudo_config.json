@@ -1,0 +1,22 @@
+{
+ "id": "leva-tudo",
+ "fonte": "veiculos/sketchfab/caminhao-bau-lct3000-07__3be03b6a43aa41898c9ca806b8787052.glb",
+ "frente": "+x",
+ "escala": 1.0,
+ "tirar_materiais": "Carbadges|Numberplates",
+ "rodas": "WheelStock",
+ "pecas": [
+  {"nome": "bumper_front", "objetos": "BUMPER_FRONT"},
+  {"nome": "bumper_rear", "objetos": "Bumper_rear"},
+  {"nome": "trunk", "objetos": "Reardoor_"}
+ ],
+ "vidros": [
+  {"nome": "glass_windshield", "objetos": "Windshield"},
+  {"nome": "glass_door_fl", "objetos": "Glass_Driver"},
+  {"nome": "glass_door_fr", "de": "glass_door_fl", "caixa": [-99, 99, -99, 0, -99, 99]},
+  {"nome": "headlight_left", "objetos": "Headlight_Glass"},
+  {"nome": "headlight_right", "de": "headlight_left", "caixa": [-99, 99, -99, 0, -99, 99]}
+ ],
+ "materiais": {"UCB_BOTTOM|Interiors": "chassi", "Lights_and_Glass": "luz", "Tire": "pneu"},
+ "notas": "Leva-Tudo, o caminhão de mudança do Detonauto (docs/veiculos-zoeira.md). \"LCT 3000 '07 - Low poly model\" por Daniel Zhabotinsky (Sketchfab, CC BY 4.0), marca fictícia, sem os emblemas e as placas do autor. As duas portas do baú são a tampa traseira (soltam juntas e a mudança cai); a carga é do jogo."
+}

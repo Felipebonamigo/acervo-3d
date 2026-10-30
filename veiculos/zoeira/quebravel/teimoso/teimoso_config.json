@@ -1,0 +1,16 @@
+{
+ "id": "teimoso",
+ "fonte": "veiculos/zoeira/fontes/cortador-grama.glb",
+ "frente": "+x",
+ "escala": 1.0,
+ "rodas": "^roda_",
+ "pecas": [
+  {"nome": "hood", "objetos": "^cort_capo"},
+  {"nome": "bumper_front", "objetos": "^cort_parachoque"},
+  {"nome": "trunk", "objetos": "^cort_plataforma"}
+ ],
+ "vidros": [],
+ "materiais": {"^cort_(preto|cinza|banco)": "chassi", "^cort_luz": "luz", "^cort_aro": "cromado", "^cort_pneu": "pneu"},
+ "pintura_rgb": [0.76, 0.2, 0.17],
+ "notas": "Teimoso, o cortador de grama de sentar do Detonauto (docs/veiculos-zoeira.md), feito por Tools/Blender/make_cortador_grama.py do Detonauto (CC0 do estúdio, sem marca). O capô e o para-choque soltam; a plataforma de corte é a tampa traseira (a lâmina sai girando)."
+}

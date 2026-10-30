@@ -1,0 +1,180 @@
+{
+ "car": "teimoso",
+ "notes": "Gerado por ferramentas/zoeira_quebravel.py a partir de teimoso_config.json (veículo de zoeira; peças por objeto do autor e por caixa). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
+ "medidas": {
+  "comprimento": 1.7853,
+  "meia_largura": 0.5725,
+  "altura": 1.034,
+  "eixo_dianteiro": 0.575,
+  "eixo_traseiro": -0.575,
+  "raio_roda": 0.184,
+  "linha_de_cintura": 0.5687,
+  "topo_da_saia": 0.284,
+  "portas": 0,
+  "van": false
+ },
+ "parts": [
+  {
+   "name": "body",
+   "box": [
+    -0.83,
+    0.725,
+    -0.438,
+    0.572,
+    0.224,
+    1.034
+   ]
+  },
+  {
+   "name": "bumper_front",
+   "box": [
+    0.85,
+    0.955,
+    -0.213,
+    0.347,
+    0.239,
+    0.289
+   ]
+  },
+  {
+   "name": "hood",
+   "box": [
+    0.27,
+    0.875,
+    -0.192,
+    0.327,
+    0.334,
+    0.693
+   ]
+  },
+  {
+   "name": "trunk",
+   "box": [
+    -0.25,
+    0.35,
+    -0.572,
+    0.488,
+    0.075,
+    0.219
+   ]
+  },
+  {
+   "name": "wheel_fl_rim",
+   "box": [
+    0.409,
+    0.741,
+    0.392,
+    0.558,
+    0.018,
+    0.35
+   ]
+  },
+  {
+   "name": "wheel_fl_tire",
+   "box": [
+    0.391,
+    0.759,
+    0.392,
+    0.543,
+    0.0,
+    0.368
+   ]
+  },
+  {
+   "name": "wheel_fr_rim",
+   "box": [
+    0.409,
+    0.741,
+    -0.424,
+    -0.257,
+    0.018,
+    0.35
+   ]
+  },
+  {
+   "name": "wheel_fr_tire",
+   "box": [
+    0.391,
+    0.759,
+    -0.408,
+    -0.257,
+    0.0,
+    0.368
+   ]
+  },
+  {
+   "name": "wheel_rl_rim",
+   "box": [
+    -0.741,
+    -0.409,
+    0.392,
+    0.558,
+    0.018,
+    0.35
+   ]
+  },
+  {
+   "name": "wheel_rl_tire",
+   "box": [
+    -0.759,
+    -0.391,
+    0.392,
+    0.543,
+    0.0,
+    0.368
+   ]
+  },
+  {
+   "name": "wheel_rr_rim",
+   "box": [
+    -0.741,
+    -0.409,
+    -0.424,
+    -0.257,
+    0.018,
+    0.35
+   ]
+  },
+  {
+   "name": "wheel_rr_tire",
+   "box": [
+    -0.759,
+    -0.391,
+    -0.408,
+    -0.257,
+    0.0,
+    0.368
+   ]
+  }
+ ],
+ "rodas": [
+  {
+   "nome": "fl",
+   "lado": 1,
+   "cx": 0.575,
+   "cz": 0.184,
+   "raio": 0.184
+  },
+  {
+   "nome": "fr",
+   "lado": -1,
+   "cx": 0.575,
+   "cz": 0.184,
+   "raio": 0.184
+  },
+  {
+   "nome": "rl",
+   "lado": 1,
+   "cx": -0.575,
+   "cz": 0.184,
+   "raio": 0.184
+  },
+  {
+   "nome": "rr",
+   "lado": -1,
+   "cx": -0.575,
+   "cz": 0.184,
+   "raio": 0.184
+  }
+ ]
+}

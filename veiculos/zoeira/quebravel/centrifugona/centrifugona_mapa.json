@@ -1,0 +1,169 @@
+{
+ "car": "centrifugona",
+ "notes": "Gerado por ferramentas/zoeira_quebravel.py a partir de centrifugona_config.json (veículo de zoeira; peças por objeto do autor e por caixa). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
+ "medidas": {
+  "comprimento": 1.42,
+  "meia_largura": 0.4856,
+  "altura": 1.4142,
+  "eixo_dianteiro": 0.36,
+  "eixo_traseiro": -0.36,
+  "raio_roda": 0.13,
+  "linha_de_cintura": 0.7778,
+  "topo_da_saia": 0.23,
+  "portas": 0,
+  "van": false
+ },
+ "parts": [
+  {
+   "name": "body",
+   "box": [
+    -0.71,
+    0.449,
+    -0.486,
+    0.486,
+    0.137,
+    1.414
+   ]
+  },
+  {
+   "name": "hood",
+   "box": [
+    -0.247,
+    0.71,
+    -0.3,
+    0.26,
+    0.411,
+    0.979
+   ]
+  },
+  {
+   "name": "trunk",
+   "box": [
+    -0.513,
+    0.368,
+    -0.423,
+    0.403,
+    0.12,
+    0.146
+   ]
+  },
+  {
+   "name": "wheel_fl_rim",
+   "box": [
+    0.289,
+    0.432,
+    0.311,
+    0.409,
+    0.058,
+    0.201
+   ]
+  },
+  {
+   "name": "wheel_fl_tire",
+   "box": [
+    0.23,
+    0.49,
+    0.315,
+    0.405,
+    0.0,
+    0.26
+   ]
+  },
+  {
+   "name": "wheel_fr_rim",
+   "box": [
+    0.289,
+    0.432,
+    -0.409,
+    -0.311,
+    0.058,
+    0.201
+   ]
+  },
+  {
+   "name": "wheel_fr_tire",
+   "box": [
+    0.23,
+    0.49,
+    -0.405,
+    -0.315,
+    0.0,
+    0.26
+   ]
+  },
+  {
+   "name": "wheel_rl_rim",
+   "box": [
+    -0.432,
+    -0.289,
+    0.311,
+    0.409,
+    0.058,
+    0.201
+   ]
+  },
+  {
+   "name": "wheel_rl_tire",
+   "box": [
+    -0.49,
+    -0.23,
+    0.315,
+    0.405,
+    0.0,
+    0.26
+   ]
+  },
+  {
+   "name": "wheel_rr_rim",
+   "box": [
+    -0.432,
+    -0.289,
+    -0.409,
+    -0.311,
+    0.058,
+    0.201
+   ]
+  },
+  {
+   "name": "wheel_rr_tire",
+   "box": [
+    -0.49,
+    -0.23,
+    -0.405,
+    -0.315,
+    0.0,
+    0.26
+   ]
+  }
+ ],
+ "rodas": [
+  {
+   "nome": "fl",
+   "lado": 1,
+   "cx": 0.36,
+   "cz": 0.13,
+   "raio": 0.13
+  },
+  {
+   "nome": "fr",
+   "lado": -1,
+   "cx": 0.36,
+   "cz": 0.13,
+   "raio": 0.13
+  },
+  {
+   "nome": "rl",
+   "lado": 1,
+   "cx": -0.36,
+   "cz": 0.13,
+   "raio": 0.13
+  },
+  {
+   "nome": "rr",
+   "lado": -1,
+   "cx": -0.36,
+   "cz": 0.13,
+   "raio": 0.13
+  }
+ ]
+}

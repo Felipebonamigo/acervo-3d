@@ -1,0 +1,43 @@
+{
+ "id": "busao",
+ "fonte": "veiculos/sketchfab/onibus-urbano-generico__14fe03d792914d51b6c6250b393c44fd.glb",
+ "frente": "+x",
+ "comprimento": 12.0,
+ "rodas": "^Object_1[0-5]$",
+ "pecas": [],
+ "vidros": [
+  {
+   "nome": "glass_windshield",
+   "objetos": "^Object_3$"
+  },
+  {
+   "nome": "glass_door_fl",
+   "objetos": "^Object_16$"
+  },
+  {
+   "nome": "glass_door_fr",
+   "de": "glass_door_fl",
+   "caixa": [
+    -99,
+    99,
+    -99,
+    0,
+    -99,
+    99
+   ]
+  }
+ ],
+ "materiais": {
+  "^(black|metall|rezina|standard1|material_7)$": "chassi",
+  "^light$": "luz",
+  "^chrome$": "cromado",
+  "^(material|material_4)$": "pneu",
+  "^(standard111|standard1111|standard2|standard21)$": "luz"
+ },
+ "pintura_rgb": [
+  0.86,
+  0.86,
+  0.86
+ ],
+ "notas": "Busão Lotado, o ônibus do Detonauto (docs/veiculos-zoeira.md). \"Generic Town Bus\" por own.guest (Sketchfab, CC BY 4.0), com 12 m. Os para-choques são da carroceria (o autor os fundiu); o para-brisa e as janelas laterais (esquerda e direita separadas) são vidros que estouram. Os passageiros que sacodem entram depois, no kit."
+}

@@ -1,0 +1,248 @@
+{
+ "id": "ceifa-tudo",
+ "entrada": "veiculos/zoeira/fontes/colheitadeira-rogueengineer__c2343544b81842e68e5544792a1ff9ee.glb",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  10.0461,
+  5.6373,
+  3.6063
+ ],
+ "escala": 0.85,
+ "textura": {
+  "pintura_rgb": [
+   0.86,
+   0.37,
+   0.12
+  ],
+  "pintura_sat": 0.8605,
+  "pintura_val": 0.86,
+  "atlas": "ceifa-tudo_atlas.png",
+  "tamanho": 2048
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -3.865,
+    3.976,
+    -1.656,
+    1.631,
+    0.194,
+    3.606
+   ],
+   "triangulos": 4809,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    3.339,
+    6.181,
+    -2.819,
+    2.819,
+    -0.078,
+    0.854
+   ],
+   "triangulos": 534,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    4.493,
+    5.448,
+    -2.624,
+    2.61,
+    0.046,
+    0.944
+   ],
+   "triangulos": 156,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.27,
+    2.023,
+    1.148,
+    1.487,
+    0.3,
+    1.045
+   ],
+   "triangulos": 40,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.6466,
+    1.3176,
+    0.6725
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    0.967,
+    2.326,
+    1.002,
+    1.633,
+    0.0,
+    1.345
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.6466,
+    1.3176,
+    0.6725
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.27,
+    2.023,
+    -1.509,
+    -1.171,
+    0.3,
+    1.045
+   ],
+   "triangulos": 40,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.6466,
+    -1.3403,
+    0.6725
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    0.967,
+    2.326,
+    -1.656,
+    -1.025,
+    0.0,
+    1.345
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.6466,
+    -1.3403,
+    0.6725
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -2.023,
+    -1.27,
+    1.148,
+    1.487,
+    0.3,
+    1.045
+   ],
+   "triangulos": 40,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.6466,
+    1.3176,
+    0.6725
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -2.326,
+    -0.967,
+    1.002,
+    1.633,
+    0.0,
+    1.345
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.6466,
+    1.3176,
+    0.6725
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -2.023,
+    -1.27,
+    -1.509,
+    -1.171,
+    0.3,
+    1.045
+   ],
+   "triangulos": 40,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.6466,
+    -1.3403,
+    0.6725
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -2.326,
+    -0.967,
+    -1.656,
+    -1.025,
+    0.0,
+    1.345
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.6466,
+    -1.3403,
+    0.6725
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Ceifa-Tudo, a colheitadeira do Detonauto (docs/veiculos-zoeira.md). \"Crop Harvestor\" por ROGUEENGINEER (Sketchfab, CC BY 4.0). A plataforma de corte é o para-choque da frente (cai inteira) e o molinete é o capô (sai voando); a cabine e o vidro estão na carroceria (o autor pintou o vidro na textura). Escala 0,85: 10 m de comprimento e a plataforma com 5,6 m."
+}

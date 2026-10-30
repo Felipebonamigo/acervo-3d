@@ -1,0 +1,42 @@
+{
+ "id": "centrifugona",
+ "fonte": "veiculos/zoeira/fontes/lavadora-zlat__a27aa928a6664473a0ebfbe2c7f72b23.glb",
+ "frente": "-x",
+ "escala": 0.71,
+ "rodas_geradas": {
+  "raio": 0.13,
+  "largura": 0.09,
+  "x": 0.36,
+  "y": 0.36,
+  "elevar": 0.12
+ },
+ "rodas": "^dn_roda_",
+ "pecas": [
+  {
+   "nome": "hood",
+   "objetos": "^defaultMaterial\\.(004|006|010)$"
+  },
+  {
+   "nome": "trunk",
+   "objetos": "^defaultMaterial\\.003$"
+  }
+ ],
+ "vidros": [],
+ "apagar_vermelho": {
+  "caixa": [
+   0.2,
+   0.9,
+   -0.6,
+   0.6,
+   1.05,
+   1.5
+  ],
+  "limiar": 1.3
+ },
+ "pintura_rgb": [
+  0.8,
+  0.79,
+  0.75
+ ],
+ "notas": "Centrifugona, a máquina de lavar do Detonauto (docs/veiculos-zoeira.md). \"Washing Machine\" por Zlat (Sketchfab, CC BY 4.0), escala 0,71 (1,3 m de altura, uma lavadora gigante), com 4 rodízios feitos pelo script. A porta redonda é o capô (sai voando) e o tampo é a tampa traseira; o letreiro vermelho do painel foi apagado da textura."
+}

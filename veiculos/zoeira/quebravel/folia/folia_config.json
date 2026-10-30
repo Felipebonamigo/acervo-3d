@@ -1,0 +1,24 @@
+{
+ "id": "folia",
+ "fonte": "veiculos/sketchfab/caminhao-plataforma-lightbody-90__39195e554c7a41a2884186c10d5079c0.glb",
+ "frente": "+x",
+ "escala": 1.0,
+ "tirar_materiais": "Carbadges|Numberplates",
+ "rodas": "WheelStock",
+ "anexos": ["veiculos/zoeira/fontes/trio-palco.glb"],
+ "pecas": [
+  {"nome": "hood", "objetos": "_Hood_"},
+  {"nome": "bumper_front", "objetos": "Bumper_Front_UTL|Bumper_front_inner"},
+  {"nome": "bumper_rear", "objetos": "Bumper_rear"},
+  {"nome": "trunk", "objetos": "^trio_caixas"}
+ ],
+ "vidros": [
+  {"nome": "glass_windshield", "objetos": "Windshield"},
+  {"nome": "glass_rear", "objetos": "Glass_Rear"},
+  {"nome": "glass_door_fl", "objetos": "Glass_Driver"},
+  {"nome": "glass_door_fr", "objetos": "Glass_Passenger"}
+ ],
+ "materiais": {"UCB_BOTTOM|Interiors|^trio_preto|^trio_cone": "chassi", "Lights_and_Glass|^trio_led": "luz", "Tire": "pneu", "^trio_metal": "cromado"},
+ "pintura_rgb": [0.36, 0.0, 0.0],
+ "notas": "Folia, o trio elétrico do Detonauto (docs/veiculos-zoeira.md): \"Lightbody '90 MD Flatbed - Low poly model\" por Daniel Zhabotinsky (Sketchfab, CC BY 4.0), marca fictícia, sem emblemas e placas, com o palco feito por Tools/Blender/make_trio_eletrico.py do Detonauto (CC0 do estúdio): paredes de caixas de som (soltam como a tampa traseira), deque com guarda-corpo, treliça com refletores e fitas de LED."
+}

@@ -1,0 +1,271 @@
+{
+ "id": "teimoso",
+ "entrada": "veiculos/zoeira/fontes/cortador-grama.glb",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  1.7853,
+  1.145,
+  1.034
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.76,
+   0.2,
+   0.17
+  ],
+  "pintura_sat": 0.7763,
+  "pintura_val": 0.76,
+  "atlas": "teimoso_atlas.png",
+  "tamanho": 2048
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -0.83,
+    0.725,
+    -0.438,
+    0.572,
+    0.224,
+    1.034
+   ],
+   "triangulos": 1700,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    0.85,
+    0.955,
+    -0.213,
+    0.347,
+    0.239,
+    0.289
+   ],
+   "triangulos": 120,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    0.27,
+    0.875,
+    -0.192,
+    0.327,
+    0.334,
+    0.693
+   ],
+   "triangulos": 336,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -0.25,
+    0.35,
+    -0.572,
+    0.488,
+    0.075,
+    0.219
+   ],
+   "triangulos": 472,
+   "materiais": [
+    "chassi",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    0.409,
+    0.741,
+    0.392,
+    0.558,
+    0.018,
+    0.35
+   ],
+   "triangulos": 140,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    0.575,
+    0.4755,
+    0.184
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    0.391,
+    0.759,
+    0.392,
+    0.543,
+    0.0,
+    0.368
+   ],
+   "triangulos": 384,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    0.575,
+    0.4755,
+    0.184
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    0.409,
+    0.741,
+    -0.424,
+    -0.257,
+    0.018,
+    0.35
+   ],
+   "triangulos": 140,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    0.575,
+    -0.3405,
+    0.184
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    0.391,
+    0.759,
+    -0.408,
+    -0.257,
+    0.0,
+    0.368
+   ],
+   "triangulos": 384,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    0.575,
+    -0.3405,
+    0.184
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -0.741,
+    -0.409,
+    0.392,
+    0.558,
+    0.018,
+    0.35
+   ],
+   "triangulos": 140,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -0.575,
+    0.4755,
+    0.184
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -0.759,
+    -0.391,
+    0.392,
+    0.543,
+    0.0,
+    0.368
+   ],
+   "triangulos": 384,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -0.575,
+    0.4755,
+    0.184
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -0.741,
+    -0.409,
+    -0.424,
+    -0.257,
+    0.018,
+    0.35
+   ],
+   "triangulos": 140,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -0.575,
+    -0.3405,
+    0.184
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -0.759,
+    -0.391,
+    -0.408,
+    -0.257,
+    0.0,
+    0.368
+   ],
+   "triangulos": 384,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -0.575,
+    -0.3405,
+    0.184
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Teimoso, o cortador de grama de sentar do Detonauto (docs/veiculos-zoeira.md), feito por Tools/Blender/make_cortador_grama.py do Detonauto (CC0 do estúdio, sem marca). O capô e o para-choque soltam; a plataforma de corte é a tampa traseira (a lâmina sai girando)."
+}

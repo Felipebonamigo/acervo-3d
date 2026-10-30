@@ -1,0 +1,270 @@
+{
+ "id": "busao",
+ "entrada": "veiculos/sketchfab/onibus-urbano-generico__14fe03d792914d51b6c6250b393c44fd.glb",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  12.0,
+  2.9239,
+  2.9693
+ ],
+ "escala": 0.09176687215355156,
+ "textura": {
+  "pintura_rgb": [
+   0.86,
+   0.86,
+   0.86
+  ],
+  "pintura_sat": 0.0,
+  "pintura_val": 0.86,
+  "atlas": "busao_atlas.png",
+  "tamanho": 2048
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -6.425,
+    5.575,
+    -1.462,
+    1.462,
+    0.3,
+    2.969
+   ],
+   "triangulos": 19268,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "luz",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_door_fl",
+   "caixa_m": [
+    -6.074,
+    5.452,
+    -0.927,
+    1.231,
+    0.758,
+    2.537
+   ],
+   "triangulos": 145,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_door_fr",
+   "caixa_m": [
+    -6.032,
+    5.486,
+    -1.215,
+    1.24,
+    0.641,
+    2.579
+   ],
+   "triangulos": 222,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    5.365,
+    5.365,
+    -0.494,
+    0.518,
+    2.621,
+    2.861
+   ],
+   "triangulos": 16,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    2.386,
+    3.174,
+    0.86,
+    1.205,
+    0.138,
+    0.926
+   ],
+   "triangulos": 2344,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    2.7802,
+    1.0321,
+    0.5324
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    2.248,
+    3.312,
+    0.86,
+    1.164,
+    0.0,
+    1.064
+   ],
+   "triangulos": 4160,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    2.7802,
+    1.0321,
+    0.5324
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    2.386,
+    3.174,
+    -1.18,
+    -0.836,
+    0.138,
+    0.926
+   ],
+   "triangulos": 2344,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    2.7802,
+    -1.008,
+    0.5324
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    2.248,
+    3.312,
+    -1.14,
+    -0.836,
+    0.0,
+    1.064
+   ],
+   "triangulos": 4160,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    2.7802,
+    -1.008,
+    0.5324
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -3.174,
+    -2.387,
+    0.602,
+    1.233,
+    0.138,
+    0.925
+   ],
+   "triangulos": 2592,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -2.7802,
+    0.9177,
+    0.5318
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -3.312,
+    -2.248,
+    0.602,
+    1.233,
+    0.0,
+    1.064
+   ],
+   "triangulos": 8320,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -2.7802,
+    0.9177,
+    0.5318
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -3.174,
+    -2.387,
+    -1.209,
+    -0.578,
+    0.138,
+    0.925
+   ],
+   "triangulos": 2592,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -2.7802,
+    -0.8936,
+    0.5318
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -3.312,
+    -2.248,
+    -1.209,
+    -0.578,
+    0.0,
+    1.064
+   ],
+   "triangulos": 8320,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -2.7802,
+    -0.8936,
+    0.5318
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Busão Lotado, o ônibus do Detonauto (docs/veiculos-zoeira.md). \"Generic Town Bus\" por own.guest (Sketchfab, CC BY 4.0), com 12 m. Os para-choques são da carroceria (o autor os fundiu); o para-brisa e as janelas laterais (esquerda e direita separadas) são vidros que estouram. Os passageiros que sacodem entram depois, no kit."
+}

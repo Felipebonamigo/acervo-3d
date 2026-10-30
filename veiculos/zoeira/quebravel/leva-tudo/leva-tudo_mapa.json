@@ -1,0 +1,235 @@
+{
+ "car": "leva-tudo",
+ "notes": "Gerado por ferramentas/zoeira_quebravel.py a partir de leva-tudo_config.json (veículo de zoeira; peças por objeto do autor e por caixa). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
+ "medidas": {
+  "comprimento": 5.8575,
+  "meia_largura": 1.2165,
+  "altura": 2.8381,
+  "eixo_dianteiro": 1.6724,
+  "eixo_traseiro": -1.6724,
+  "raio_roda": 0.3563,
+  "linha_de_cintura": 1.561,
+  "topo_da_saia": 0.4563,
+  "portas": 0,
+  "van": false
+ },
+ "parts": [
+  {
+   "name": "body",
+   "box": [
+    -3.129,
+    2.638,
+    -1.217,
+    1.217,
+    0.193,
+    2.838
+   ]
+  },
+  {
+   "name": "bumper_front",
+   "box": [
+    2.136,
+    2.729,
+    -1.002,
+    1.002,
+    0.284,
+    0.664
+   ]
+  },
+  {
+   "name": "bumper_rear",
+   "box": [
+    -3.01,
+    -2.912,
+    -1.0,
+    0.989,
+    0.478,
+    0.702
+   ]
+  },
+  {
+   "name": "glass_door_fl",
+   "box": [
+    1.292,
+    2.404,
+    0.881,
+    0.957,
+    1.28,
+    2.011
+   ]
+  },
+  {
+   "name": "glass_door_fr",
+   "box": [
+    1.292,
+    2.404,
+    -0.957,
+    -0.881,
+    1.28,
+    2.011
+   ]
+  },
+  {
+   "name": "glass_windshield",
+   "box": [
+    2.373,
+    2.579,
+    -0.922,
+    0.922,
+    1.372,
+    2.093
+   ]
+  },
+  {
+   "name": "headlight_left",
+   "box": [
+    2.584,
+    2.617,
+    0.67,
+    0.925,
+    0.786,
+    1.041
+   ]
+  },
+  {
+   "name": "headlight_right",
+   "box": [
+    2.584,
+    2.617,
+    -0.925,
+    -0.67,
+    0.786,
+    1.041
+   ]
+  },
+  {
+   "name": "trunk",
+   "box": [
+    -3.101,
+    -3.023,
+    -1.006,
+    0.995,
+    0.885,
+    2.728
+   ]
+  },
+  {
+   "name": "wheel_fl_rim",
+   "box": [
+    1.436,
+    1.909,
+    0.774,
+    1.024,
+    0.125,
+    0.587
+   ]
+  },
+  {
+   "name": "wheel_fl_tire",
+   "box": [
+    1.316,
+    2.029,
+    0.774,
+    0.991,
+    0.0,
+    0.713
+   ]
+  },
+  {
+   "name": "wheel_fr_rim",
+   "box": [
+    1.436,
+    1.909,
+    -1.035,
+    -0.784,
+    0.125,
+    0.587
+   ]
+  },
+  {
+   "name": "wheel_fr_tire",
+   "box": [
+    1.316,
+    2.029,
+    -1.002,
+    -0.784,
+    0.0,
+    0.713
+   ]
+  },
+  {
+   "name": "wheel_rl_rim",
+   "box": [
+    -1.901,
+    -1.444,
+    0.66,
+    1.092,
+    0.123,
+    0.59
+   ]
+  },
+  {
+   "name": "wheel_rl_tire",
+   "box": [
+    -2.029,
+    -1.316,
+    0.658,
+    1.094,
+    0.0,
+    0.713
+   ]
+  },
+  {
+   "name": "wheel_rr_rim",
+   "box": [
+    -1.901,
+    -1.444,
+    -1.103,
+    -0.67,
+    0.122,
+    0.59
+   ]
+  },
+  {
+   "name": "wheel_rr_tire",
+   "box": [
+    -2.029,
+    -1.316,
+    -1.104,
+    -0.669,
+    0.0,
+    0.713
+   ]
+  }
+ ],
+ "rodas": [
+  {
+   "nome": "fl",
+   "lado": 1,
+   "cx": 1.6724,
+   "cz": 0.3563,
+   "raio": 0.3563
+  },
+  {
+   "nome": "fr",
+   "lado": -1,
+   "cx": 1.6724,
+   "cz": 0.3563,
+   "raio": 0.3563
+  },
+  {
+   "nome": "rl",
+   "lado": 1,
+   "cx": -1.6724,
+   "cz": 0.3563,
+   "raio": 0.3563
+  },
+  {
+   "nome": "rr",
+   "lado": -1,
+   "cx": -1.6724,
+   "cz": 0.3563,
+   "raio": 0.3563
+  }
+ ]
+}

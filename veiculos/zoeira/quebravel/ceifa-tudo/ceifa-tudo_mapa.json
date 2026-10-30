@@ -1,0 +1,169 @@
+{
+ "car": "ceifa-tudo",
+ "notes": "Gerado por ferramentas/zoeira_quebravel.py a partir de ceifa-tudo_config.json (veículo de zoeira; peças por objeto do autor e por caixa). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
+ "medidas": {
+  "comprimento": 10.0461,
+  "meia_largura": 2.8186,
+  "altura": 3.6063,
+  "eixo_dianteiro": 1.6466,
+  "eixo_traseiro": -1.6466,
+  "raio_roda": 0.6725,
+  "linha_de_cintura": 1.9835,
+  "topo_da_saia": 0.7725,
+  "portas": 0,
+  "van": false
+ },
+ "parts": [
+  {
+   "name": "body",
+   "box": [
+    -3.865,
+    3.976,
+    -1.656,
+    1.631,
+    0.194,
+    3.606
+   ]
+  },
+  {
+   "name": "bumper_front",
+   "box": [
+    3.339,
+    6.181,
+    -2.819,
+    2.819,
+    -0.078,
+    0.854
+   ]
+  },
+  {
+   "name": "hood",
+   "box": [
+    4.493,
+    5.448,
+    -2.624,
+    2.61,
+    0.046,
+    0.944
+   ]
+  },
+  {
+   "name": "wheel_fl_rim",
+   "box": [
+    1.27,
+    2.023,
+    1.148,
+    1.487,
+    0.3,
+    1.045
+   ]
+  },
+  {
+   "name": "wheel_fl_tire",
+   "box": [
+    0.967,
+    2.326,
+    1.002,
+    1.633,
+    0.0,
+    1.345
+   ]
+  },
+  {
+   "name": "wheel_fr_rim",
+   "box": [
+    1.27,
+    2.023,
+    -1.509,
+    -1.171,
+    0.3,
+    1.045
+   ]
+  },
+  {
+   "name": "wheel_fr_tire",
+   "box": [
+    0.967,
+    2.326,
+    -1.656,
+    -1.025,
+    0.0,
+    1.345
+   ]
+  },
+  {
+   "name": "wheel_rl_rim",
+   "box": [
+    -2.023,
+    -1.27,
+    1.148,
+    1.487,
+    0.3,
+    1.045
+   ]
+  },
+  {
+   "name": "wheel_rl_tire",
+   "box": [
+    -2.326,
+    -0.967,
+    1.002,
+    1.633,
+    0.0,
+    1.345
+   ]
+  },
+  {
+   "name": "wheel_rr_rim",
+   "box": [
+    -2.023,
+    -1.27,
+    -1.509,
+    -1.171,
+    0.3,
+    1.045
+   ]
+  },
+  {
+   "name": "wheel_rr_tire",
+   "box": [
+    -2.326,
+    -0.967,
+    -1.656,
+    -1.025,
+    0.0,
+    1.345
+   ]
+  }
+ ],
+ "rodas": [
+  {
+   "nome": "fl",
+   "lado": 1,
+   "cx": 1.6466,
+   "cz": 0.6725,
+   "raio": 0.6725
+  },
+  {
+   "nome": "fr",
+   "lado": -1,
+   "cx": 1.6466,
+   "cz": 0.6725,
+   "raio": 0.6725
+  },
+  {
+   "nome": "rl",
+   "lado": 1,
+   "cx": -1.6466,
+   "cz": 0.6725,
+   "raio": 0.6725
+  },
+  {
+   "nome": "rr",
+   "lado": -1,
+   "cx": -1.6466,
+   "cz": 0.6725,
+   "raio": 0.6725
+  }
+ ]
+}
