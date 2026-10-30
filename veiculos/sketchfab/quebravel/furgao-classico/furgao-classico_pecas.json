@@ -329,7 +329,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 304681,
+      "triangulos": 304049,
       "materiais": [
         "pintura",
         "chassi",
@@ -340,7 +340,7 @@
       ],
       "malha": {
         "faces_degeneradas_tiradas": 54,
-        "vertices_soltos_tirados": 13949,
+        "vertices_soltos_tirados": 13808,
         "vertices_nan": 0,
         "cantos_contra_face": 0.008,
         "area_para_fora": 0.557,
@@ -410,13 +410,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 6172,
+      "triangulos": 5904,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 2820 faces"
+        "malha única, faces: 2757 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 3,
@@ -450,13 +450,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 18459,
+      "triangulos": 18375,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, ilha: 9109 faces"
+        "malha única, ilha: 9084 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 1,
@@ -475,14 +475,14 @@
       "caixa_m": [
         0.8265,
         1.9329,
-        -0.8437,
+        -0.85,
         -0.57,
         0.4821,
         1.7069
       ],
       "centro": [
         1.3797,
-        -0.7069,
+        -0.71,
         1.0945
       ],
       "pivo_m": [
@@ -490,13 +490,13 @@
         0.0,
         0.0
       ],
-      "triangulos": 18384,
+      "triangulos": 19192,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, ilha: 9084 faces"
+        "malha única, ilha: 9391 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -1274,36 +1274,36 @@
       "detonauto": null,
       "caixa_m": [
         -2.0088,
-        -1.9884,
+        -1.9951,
         -0.2,
         0.2,
-        0.52,
-        0.6612
+        0.58,
+        0.7606
       ],
       "centro": [
-        -1.9986,
+        -2.0019,
         0.0,
-        0.5906
+        0.6703
       ],
       "pivo_m": [
         0.0,
         0.0,
         0.0
       ],
-      "triangulos": 484,
+      "triangulos": 756,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 140 faces"
+        "malha única, faces: 238 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.484,
+        "area_para_fora": 0.498,
         "virada": null
       },
       "fbx": "furgao-classico_pecas/plate_rear.fbx"
@@ -1410,20 +1410,20 @@
         0.0,
         0.0
       ],
-      "triangulos": 3572,
+      "triangulos": 3388,
       "materiais": [
         "pintura",
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 1180 faces"
+        "malha única, faces: 1076 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.492,
+        "area_para_fora": 0.485,
         "virada": null
       },
       "fbx": "furgao-classico_pecas/trunk.fbx"
@@ -1754,7 +1754,7 @@
       "frente+esquerda": 0.0,
       "traseira+direita+teto": 0.0
     },
-    "vertices_na_costura": 2180,
+    "vertices_na_costura": 2363,
     "zonas": "make_damage_morphs.displacement do Detonauto, semente 17"
   }
 }

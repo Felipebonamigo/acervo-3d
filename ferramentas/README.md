@@ -1011,7 +1011,8 @@ original traz o emblema da marca modelado: ele não entra no acervo; o que fica 
   costuras e o teto é um leque de triângulos finos: o preparo solda as costuras e, no fim, devolve as normais do arquivo (projetadas
   pela normal; o teto tem forro por dentro a 1 cm). Sem a opção o Gol sai idêntico (posições, materiais e normais conferidos).
 - **Corte:** as portas da cabine vão pela ilha do modelo (`take: "ilha"`): a roda da frente fica embaixo da porta, e o recorte por
-  caixa deixava dentes no arco. O pneu do mapa vai até 37,2 cm do cubo e |y| 0,81: com 40 cm ele levava a borda do arco junto. Sem
+  caixa deixava dentes no arco; a caixa da porta começa em 0,80 m (acima do arco), senão o forro da porta do kit descia até a soleira
+  e aparecia pelo arco como uma prateleira na cor do carro. A placa de trás fica em 0,61-0,74 m, acima da faixa preta do para-choque. O pneu do mapa vai até 37,2 cm do cubo e |y| 0,81: com 40 cm ele levava a borda do arco junto. Sem
   para-lamas e sem capô (cabine avançada); a `trunk` é a tampa do motor.
 - **`borracha_vidro.py --dona vidro=peça`:** o vidro de trás fica na carroceria (a tampa de trás é a do motor, abaixo da janela).
 - **`detalhes_na_casca.py`:** `--sem-lanternas` (as lanternas redondas pequenas do modelo ficam; a de 3 segmentos não cabe) e

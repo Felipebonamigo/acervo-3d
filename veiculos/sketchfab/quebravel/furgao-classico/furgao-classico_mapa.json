@@ -535,8 +535,8 @@
     -1.95,
     -0.2,
     0.2,
-    0.52,
-    0.66
+    0.58,
+    0.76
    ],
    "thickness": 0.004,
    "pocket": 0.0,
@@ -604,13 +604,13 @@
    "name": "door_fl",
    "papel": "door",
    "take": "ilha",
-   "fracao_na_caixa": 0.6,
+   "fracao_na_caixa": 0.5,
    "box": [
     0.82,
     1.8,
     0.55,
     1.1,
-    0.4,
+    0.8,
     1.82
    ],
    "thickness": 0.015,
@@ -621,13 +621,13 @@
    "name": "door_fr",
    "papel": "door",
    "take": "ilha",
-   "fracao_na_caixa": 0.6,
+   "fracao_na_caixa": 0.5,
    "box": [
     0.82,
     1.8,
     -1.1,
     -0.55,
-    0.4,
+    0.8,
     1.82
    ],
    "thickness": 0.015,
