@@ -1331,8 +1331,10 @@ borda dos vidros). Ficou a reserva, com o "siga" do Felipe: o **"Hatchback" de M
   a caixa do porta-malas atrás dela saía pela coluna, como uma aleta preta.
 - **Saída:** `veiculos/sketchfab/quebravel/hatch-redondo-5p/` (34 peças, ~245 mil triângulos; 3,835 x 1,69 x 1,43 m, entre-eixos
   2,411 m, roda 30,1 cm) e `completo/hatch-redondo-5p/` (kit época 2000, 93 peças). Prévias em `veiculos/sketchfab/previas/hatch-redondo-5p/`
-  (4 vistas, detalhes, 6 cores e os 5 acabamentos). A cadeia de conferência do Detonauto (`make_crush_channels.py`,
+  (4 vistas, detalhes, as 14 cores de `Data/Paints.csv` e os 5 acabamentos). A cadeia de conferência do Detonauto (`make_crush_channels.py`,
   `kit_to_detonauto.py`, `glb_texturas.py`, `kit_completo_to_detonauto.py`) passa: 19 peças e a roda, 11 malhas do kit.
+- **Falta / conhecido:** de perto, atrás do arco da roda da frente, ainda aparece uma lasca clara pequena (a ponta da soleira do kit
+  junto do arco).
 - **Fica para decidir:** o carro é um hatch redondo genérico, não o desenho da referência (farol "garra" alongado); a semelhança é de
   arquétipo. A volta para algo mais próximo seria outro modelo ou o Meshy, com o Felipe.
 
