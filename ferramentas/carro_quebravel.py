@@ -163,6 +163,9 @@ def parse_args(argv):
     # arquivo ficam na carroceria e nas peças, em vez de tudo virar pintura
     p.add_argument("--materiais-do-arquivo", action="store_true",
                    help="malha única: cada face fica com o material do arquivo (vidro, pneu, chassi, luz, cromado; o resto pintura)")
+    # malha única já com os materiais do acervo por face (sketchfab_preparar_materiais.py, o Lambari de 30/10/2026: cromado, lentes e
+    # lanternas do próprio modelo): cada face fica com o material que veio, em vez de virar 'pintura' e o papel da peça decidir
+    p.add_argument("--manter-materiais", action="store_true", help="malha única: mantém o material de cada face como veio no arquivo")
     return p.parse_args(argv)
 
 
@@ -2023,10 +2026,12 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
         s = p["lado"]
         r0, r1 = p["raio"]
         y0, y1 = p["y"]
+        # "material": só as faces desse material (o friso cromado do arco do Lambari passa perto do pneu)
+        so = {"vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}.get(p.get("material")) if camada_mat is not None else None
         for f in bm.faces:
             c = f.calc_center_median()
             d = _m.hypot(c.x - cx, c.z - cz)
-            if r0 <= d < r1 and y0 <= c.y * s <= y1:
+            if r0 <= d < r1 and y0 <= c.y * s <= y1 and (so is None or f[camada_mat] == so):
                 out.append(f)
         return out
     if take == "ilha":
@@ -2067,12 +2072,45 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
             if f[camada_peca] == alvo and _na_caixa(f.calc_center_median(), b):
                 out.append(f)
         return out
+    so_idx = p.get("_so_idx")
+    if p.get("ilhas"):
+        # modelo feito por gente, com cada chapa numa ilha (o Lambari do Sketchfab, 30/10/2026): cada ilha ligada do mesmo material
+        # vai inteira para a peça se a maior parte dela cai na caixa; nada é cortado pelo plano da caixa
+        minimo = p.get("fracao_na_caixa", 0.5)
+        # a ilha do arquivo antes da solda (atributo _ilha do sketchfab_preparar_materiais.py), se veio: a chapa não se junta à vizinha
+        cam_ilha = bm.verts.layers.float.get("_ilha") or bm.verts.layers.float.get("_ILHA")   # o importador do glTF põe em maiúsculas
+        def ilha_de(g):
+            if cam_ilha is None:
+                return 0
+            vs = [round(v[cam_ilha]) for v in g.verts]
+            return max(set(vs), key=vs.count)
+        visto = set()
+        for f0 in bm.faces:
+            if f0 in visto or (so_idx is not None and f0.material_index not in so_idx):
+                continue
+            i0 = ilha_de(f0)
+            pilha, ilha = [f0], []
+            visto.add(f0)
+            while pilha:
+                g = pilha.pop()
+                ilha.append(g)
+                for e in g.edges:
+                    for h in e.link_faces:
+                        if h not in visto and h.material_index == f0.material_index and ilha_de(h) == i0:
+                            visto.add(h)
+                            pilha.append(h)
+            dentro = sum(1 for g in ilha if _na_caixa(g.calc_center_median(), b))
+            if dentro > 0 and dentro >= minimo * len(ilha):
+                out.extend(ilha)
+        return out
     _cortar_caixa(bm, b)
     nv = Vector(p["normal"][:3]).normalized() if p.get("normal") else None
     cand = set()
     for f in bm.faces:
         c = f.calc_center_median()
         if not _na_caixa(c, b):
+            continue
+        if so_idx is not None and f.material_index not in so_idx:
             continue
         if f[camada_peca] > 0 and not p.get("ignorar_rotulos"):
             continue  # face de peça da textura que ficou de fora da caixa dela: não vai para a lataria
@@ -2205,7 +2243,7 @@ def _caixa_de_roda(bm, r, escuro):
         f.material_index = escuro
 
 
-def _executar_mapa(obj, mapa, rodas, rel):
+def _executar_mapa(obj, mapa, rodas, rel, manter_materiais=False):
     """Tira as peças da carroceria na ordem do mapa. Devolve {nome: (objeto, papel, origem)} e a carroceria."""
     import bmesh
     import bpy
@@ -2215,6 +2253,8 @@ def _executar_mapa(obj, mapa, rodas, rel):
     escuro, vao = idx[MAT_ESCURO], idx[MAT_VAO]
     mat_papel = {"glass_windshield": idx["vidro"], "glass_rear": idx["vidro"], "glass_door": idx["vidro"], "headlight": idx["luz"],
                  "taillight": idx["luz"], "wheel": idx["pneu"], "rim": idx["cromado"], "hubcap": idx["cromado"]}
+    if manter_materiais:
+        mat_papel = {}
     nucleo = _Nucleo(min(v.co.x for v in me.vertices), max(v.co.x for v in me.vertices), max(v.co.z for v in me.vertices))
     bm = bmesh.new()
     bm.from_mesh(me)
@@ -2224,6 +2264,9 @@ def _executar_mapa(obj, mapa, rodas, rel):
     vaos = []
     pecas = {}
     for p in mapa["parts"]:
+        if p.get("materiais"):
+            # só as faces desses materiais (os nomes dos materiais da malha; com --manter-materiais, os do arquivo)
+            p = dict(p, _so_idx={i for i, m in enumerate(mats) if m.name.split(".")[0] in p["materiais"]})
         faces = _escolher(bm, p, rodas, camada, ids, camada_mat)
         if not faces:
             rel["avisos"].append("peça %s: nenhuma face (ficou no corpo)" % p["name"])
@@ -2529,6 +2572,13 @@ def principal_unica(args, meshes, cid, out, rel):
     # o material de cada face como veio no arquivo (vidro, pneu, chassi...), para o take 'material' do mapa
     nomes_mat = [(m.name.split(".")[0] if m else "") for m in me.materials]
     cod = CQ_COD if getattr(args, "cores_do_arquivo", False) else {k: v for k, v in CQ_COD.items() if v <= 5}
+    manter = getattr(args, "manter_materiais", False)
+    if manter:
+        # o nome de cada material de entrada (luz_vermelha, lente_farol...) volta depois de _materiais_unica
+        nomes_orig = sorted({n for n in nomes_mat if n})
+        orig_face = [nomes_orig.index(nomes_mat[pg.material_index]) if pg.material_index < len(nomes_mat) and nomes_mat[pg.material_index]
+                     else -1 for pg in me.polygons]
+        mats_orig = {n: next(m for m in me.materials if m and m.name.split(".")[0] == n) for n in nomes_orig}
     if "cq_mat" in me.attributes:
         me.attributes.remove(me.attributes["cq_mat"])
     me.attributes.new("cq_mat", "INT", "FACE").data.foreach_set("value", [cod.get(nomes_mat[pg.material_index], 0) if pg.material_index < len(nomes_mat) else 0 for pg in me.polygons])
@@ -2587,7 +2637,18 @@ def principal_unica(args, meshes, cid, out, rel):
             if c in alvo:
                 pg.material_index = alvo[c]
         rel["avisos"].append("--materiais-do-arquivo: %d faces com o material do arquivo" % sum(1 for c in cods if c in alvo))
-    pecas = _executar_mapa(obj, mapa, rodas, rel)
+    if manter:
+        idx_m = {m.name: i for i, m in enumerate(me.materials)}
+        for n in nomes_orig:
+            if n not in idx_m:
+                m = mats_orig[n]
+                m.name = n
+                me.materials.append(m)
+                idx_m[n] = len(me.materials) - 1
+        mi = np.array([idx_m[nomes_orig[k]] if k >= 0 else 0 for k in orig_face], np.int32)
+        me.polygons.foreach_set("material_index", mi)
+        rel["avisos"].append("--manter-materiais: %s" % ", ".join(nomes_orig))
+    pecas = _executar_mapa(obj, mapa, rodas, rel, manter)
     obj.name = obj.data.name = "body"
     for nome_attr in ("cq_peca", "cq_mat"):
         if nome_attr in me.attributes:
