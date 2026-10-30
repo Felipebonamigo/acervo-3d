@@ -12,7 +12,7 @@ Uso (o módulo bpy num venv, ou o Blender):
 
 Saída em --out (padrão veiculos/proprios/rodas/):
     aro_aco13.glb, aro_aco14.glb, aro_aco15.glb, aro_liga13.glb, aro_liga14.glb, aro_liga15.glb   aro com o cubo, 4 parafusos e o bico; objeto aro_<id> e aro_<id>_LOD1
-    pneu_p165_70.glb, pneu_p175_70.glb, pneu_p185_60.glb, pneu_p165_95.glb, pneu_p205_60.glb    pneu_<id>_Ok, _Flat, _Torn e os _LOD1 de cada um
+    pneu_p165_70.glb, pneu_p175_70.glb, pneu_p185_60.glb, pneu_p165_95.glb, pneu_p205_60.glb, pneu_p165_80.glb, pneu_p215_75.glb  pneu_<id>_Ok, _Flat, _Torn e os _LOD1 de cada um
     calota13.glb, calota14.glb, calota15.glb                        calota<pol> e calota<pol>_LOD1
     pneu_sulcos_normal.png      normal map dos sulcos da banda (também vai dentro dos GLB dos pneus)
     rodas_kit.json              por item: id, tipo, polegadas, raio externo e largura em cm, triângulos LOD0/LOD1, objetos
@@ -56,7 +56,8 @@ AROS = {
 }
 PNEUS = {"p165_70": (165, 70, 13), "p175_70": (175, 70, 13), "p185_60": (185, 60, 14),
          "p165_95": (165, 95, 15), "p205_60": (205, 60, 15),   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
-         "p165_80": (165, 80, 15)}   # o 5.60-15 do clássico de motor atrás (Besouro, 30/10/2026): 32,2 cm de raio
+         "p165_80": (165, 80, 15),   # o 5.60-15 do clássico de motor atrás (Besouro, 30/10/2026): 32,2 cm de raio
+         "p215_75": (215, 75, 15)}   # o de uso misto do jipe (Trilheiro, 30/10/2026): 35,2 cm de raio, 21,5 cm de largura
 CALOTAS = {"calota13": 13, "calota14": 14, "calota15": 15}
 ESTADOS = ("Ok", "Flat", "Torn")
 

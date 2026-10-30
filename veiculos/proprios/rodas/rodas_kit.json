@@ -372,6 +372,42 @@
     "pneu_p165_80_Torn_LOD1"
    ],
    "arquivo": "pneu_p165_80.glb"
+  },
+  {
+   "id": "pneu_p215_75",
+   "tipo": "pneu",
+   "material": "pneu",
+   "medida": "215/75 R15",
+   "polegadas": 15,
+   "largura_mm": 215,
+   "perfil_pct": 75,
+   "raio_externo_cm": 35.16,
+   "raio_nominal_cm": 35.17,
+   "largura_cm": 21.5,
+   "raio_contato_cm": {
+    "Ok": 35.16,
+    "Flat": 29.17,
+    "Torn": 22.61
+   },
+   "triangulos_lod0": 14168,
+   "triangulos_lod1": 5666,
+   "triangulos_por_objeto": {
+    "pneu_p215_75_Ok": 2816,
+    "pneu_p215_75_Flat": 2816,
+    "pneu_p215_75_Torn": 8536,
+    "pneu_p215_75_Ok_LOD1": 1126,
+    "pneu_p215_75_Flat_LOD1": 1126,
+    "pneu_p215_75_Torn_LOD1": 3414
+   },
+   "objetos": [
+    "pneu_p215_75_Ok",
+    "pneu_p215_75_Flat",
+    "pneu_p215_75_Torn",
+    "pneu_p215_75_Ok_LOD1",
+    "pneu_p215_75_Flat_LOD1",
+    "pneu_p215_75_Torn_LOD1"
+   ],
+   "arquivo": "pneu_p215_75.glb"
   }
  ],
  "rodas_completas": [
@@ -418,6 +454,13 @@
    "dentro_do_orcamento": true
   },
   {
+   "aro": "aro_aco15",
+   "pneu": "pneu_p215_75_Ok",
+   "calota": "calota15",
+   "triangulos_lod0": 8648,
+   "dentro_do_orcamento": true
+  },
+  {
    "aro": "aro_liga13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
@@ -455,6 +498,13 @@
   {
    "aro": "aro_liga15",
    "pneu": "pneu_p165_80_Ok",
+   "calota": null,
+   "triangulos_lod0": 8032,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p215_75_Ok",
    "calota": null,
    "triangulos_lod0": 8032,
    "dentro_do_orcamento": true

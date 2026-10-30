@@ -4,6 +4,7 @@
  "escuro_max": 0.25, "escuro": "rodas", "claro": "carroceria",
  "caixas": [
   {"nome": "cabine", "box": [-110, 110, -228, 68, -45, 112.5], "classe": "apagar"},
-  {"nome": "estepe", "box": [-56, 56, -276, -238, -37, 76], "classe": "rodas"}
+  {"nome": "estepe", "box": [-56, 56, -276, -238, -37, 76], "classe": "rodas"},
+  {"nome": "faróis de neblina do para-choque (claros: sem a regra saíam na cor do carro, como ganchos)", "box": [-75, 75, 250, 266, -30, -14], "classe": "rodas"}
  ]
 }
