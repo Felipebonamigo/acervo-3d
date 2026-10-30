@@ -11,8 +11,8 @@ Uso (o módulo bpy num venv, ou o Blender):
     python -I ferramentas/test_rodas_kit.py      # confere o que saiu (redondeza, murcho, pivô, orçamento, JSON x GLB)
 
 Saída em --out (padrão veiculos/proprios/rodas/):
-    aro_aco13.glb, aro_aco14.glb, aro_aco15.glb, aro_liga13.glb, aro_liga14.glb   aro com o cubo, 4 parafusos e o bico; objeto aro_<id> e aro_<id>_LOD1
-    pneu_p165_70.glb, pneu_p175_70.glb, pneu_p185_60.glb, pneu_p165_95.glb    pneu_<id>_Ok, _Flat, _Torn e os _LOD1 de cada um
+    aro_aco13.glb, aro_aco14.glb, aro_aco15.glb, aro_liga13.glb, aro_liga14.glb, aro_liga15.glb   aro com o cubo, 4 parafusos e o bico; objeto aro_<id> e aro_<id>_LOD1
+    pneu_p165_70.glb, pneu_p175_70.glb, pneu_p185_60.glb, pneu_p165_95.glb, pneu_p205_60.glb    pneu_<id>_Ok, _Flat, _Torn e os _LOD1 de cada um
     calota13.glb, calota14.glb, calota15.glb                        calota<pol> e calota<pol>_LOD1
     pneu_sulcos_normal.png      normal map dos sulcos da banda (também vai dentro dos GLB dos pneus)
     rodas_kit.json              por item: id, tipo, polegadas, raio externo e largura em cm, triângulos LOD0/LOD1, objetos
@@ -51,9 +51,11 @@ AROS = {
     "aco15": {"tipo": "aco", "pol": 15, "furos": 8, "nome": "Aço estampado 15\" (8 furos redondos)"},
     "liga13": {"tipo": "liga", "pol": 13, "desenho": "ovais", "furos": 8, "nome": "Liga leve 13\" (8 furos ovais)"},
     "liga14": {"tipo": "liga", "pol": 14, "desenho": "raios", "furos": 10, "nome": "Liga leve 14\" (10 raios retos)"},
+    # picape aventureira dos anos 2000 (Tropeiro, 30/10/2026): liga 15 com o pneu 205/60, mais alto que o 185/60 do hatch
+    "liga15": {"tipo": "liga", "pol": 15, "desenho": "ovais", "furos": 8, "nome": "Liga leve 15\" (8 furos ovais)"},
 }
 PNEUS = {"p165_70": (165, 70, 13), "p175_70": (175, 70, 13), "p185_60": (185, 60, 14),
-         "p165_95": (165, 95, 15)}   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
+         "p165_95": (165, 95, 15), "p205_60": (205, 60, 15)}   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
 CALOTAS = {"calota13": 13, "calota14": 14, "calota15": 15}
 ESTADOS = ("Ok", "Flat", "Torn")
 
