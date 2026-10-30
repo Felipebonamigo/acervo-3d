@@ -901,7 +901,7 @@ preparo e o corte passou a usar as juntas que o autor modelou.
   (`docs/pedido-pc-furgaozinho-completo.md`, `-Modelo Furgaozinho -Row furgaozinho-da-firma`).
 - **Pendente:** a soleira do kit sob as portas (o modelo não tem chapa ali) sai na cor do carro sem a textura de desgaste, um tom mais
   claro que a lataria, no jogo e na prévia. A escada entra no jogo pelo kit (Detonauto: `kit_completo_to_detonauto.py --escada`,
-  `SM_Furgaozinho_Kit_Escada` presa à carroceria), mas ainda não balança nem cai.
+  `SM_Furgaozinho_Kit_Escada`) como carga solta: balança nas curvas e cai na batida forte ou no nitro (C++ no Detonauto, a compilar no PC).
 
 ## Sagui do Sketchfab: carro "de jogo" montado por receita (30/10/2026)
 
