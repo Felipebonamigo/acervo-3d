@@ -33,7 +33,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
         Tropeiro (picape aventureira, 30/10/2026): [--protecoes] [--largura-alargador 0.07] [--z-protecao 0.36] [--z-saia 0.29]
         alargador preto em volta de cada caixa de roda e protetor na soleira, como geometria (tira de 4 mm sobre a chapa)
         Barão (sedã de 4 portas, 30/10/2026): [--luz-reta 0.02] (com --luz-na-casca: lente reta, a borda serrilhada da peça volta a
-        ser pintura) [--faixas-lanterna-y 0.16,0.34] [--friso-tampa 0.9,0.3] (friso cromado na tampa do porta-malas, material `cromo`)
+        ser pintura) [--faixas-lanterna-y 0.16,0.34] [--luz-reta-raio-lanterna 0.05] [--friso-tampa 0.9,0.3] (friso cromado na tampa do porta-malas, material `cromo`)
         Jabuti (hatch de 2 portas, 30/10/2026): [--lanternas-como-vieram] (lanternas do modelo em segmentos; a chapa pintada da
         caixa vira moldura) [--z-placa 0.215 --z-barra-frente 0.42 --suporte-max 0.04] (placa pendurada embaixo do para-choque, sem
         chapa atrás) [--placa-na-propria-peca] (a placa de trás mede o fundo na chapa que a peça da placa levou)
@@ -951,12 +951,25 @@ def luz_reta(o, bm, L, box, sinal, mats, m_preto):
         L = {f for f in L | {g for g in r["geom"] if isinstance(g, bmesh.types.BMFace)} if f.is_valid}
     m_pint = slot(o, "pintura")
     a0, a1 = ay0 + m + mol, ay1 - m - mol
+    # --luz-reta-raio-lanterna r (Barão): cantos arredondados de raio r na lanterna (a do sedã da referência é redonda nos cantos);
+    # os cantos saem pelas faces (sem plano que os corte), em degraus do tamanho da malha
+    raio = opt("--luz-reta-raio-lanterna", 0.0) if sinal < 0 else 0.0
+
+    def dentro(ay, z, y0, y1, za, zb, r):
+        if not (y0 <= ay <= y1 and za <= z <= zb):
+            return False
+        r = min(r, (y1 - y0) / 2, (zb - za) / 2)
+        if r <= 0:
+            return True
+        cy, cz = min(max(ay, y0 + r), y1 - r), min(max(z, za + r), zb - r)
+        return (ay - cy) ** 2 + (z - cz) ** 2 <= r * r
+
     for f in L:
         c = o.matrix_world @ f.calc_center_median()
         ay, z = abs(c.y), c.z
-        if not (ay0 + m <= ay <= ay1 - m and z0 + m <= z <= z1 - m):
+        if not dentro(ay, z, ay0 + m, ay1 - m, z0 + m, z1 - m, raio):
             f.material_index = m_pint
-        elif not (a0 <= ay <= a1 and z0 + m + mol <= z <= z1 - m - mol):
+        elif not dentro(ay, z, a0, a1, z0 + m + mol, z1 - m - mol, max(raio - mol, 0.0)):
             f.material_index = m_preto
         else:
             u = (ay - a0) / max(a1 - a0, 1e-6)
