@@ -141,6 +141,16 @@
         "nota": "medido na vista lateral de 27/10/2026: o bagageiro levava a altura a 1,70 m e o mapa não tinha para-brisa"
       }
     },
+    "furgaozinho": {
+      "nome": "Furgãozinho da Firma",
+      "epoca": "90",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "vao_motor",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "furgao",
+      "nota": "Furgãozinho do Sketchfab (30/10/2026, 5 portas): furgão compacto: cabine de 2 lugares, divisória de grade e área de carga no lugar do banco de trás; estepe no vão do motor, como nos micros da época; as portas de trás abrem para a área de carga"
+    },
     "pao-de-forma": {
       "nome": "Pão de Forma",
       "epoca": "70",

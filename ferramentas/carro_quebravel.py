@@ -159,6 +159,10 @@ def parse_args(argv):
     p.add_argument("--cores-do-arquivo", action="store_true", help="malha única: cada face fica com o material do papel que veio no "
                    "arquivo (chassi, cromado, vidro, pneu, luzes); o papel da peça não o troca")
     p.add_argument("--sem-rotulos", action="store_true", help="malha única: ignora a classificação pela textura (rótulos só do mapa)")
+    # carro do Sketchfab com materiais escolhidos por peça (sketchfab_juntar.py, 30/10/2026): o plástico preto, as luzes e o cromo do
+    # arquivo ficam na carroceria e nas peças, em vez de tudo virar pintura
+    p.add_argument("--materiais-do-arquivo", action="store_true",
+                   help="malha única: cada face fica com o material do arquivo (vidro, pneu, chassi, luz, cromado; o resto pintura)")
     return p.parse_args(argv)
 
 
@@ -2025,6 +2029,38 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
             if r0 <= d < r1 and y0 <= c.y * s <= y1:
                 out.append(f)
         return out
+    if take == "ilha":
+        # carro do Sketchfab com as peças do autor (sketchfab_juntar.py): cada ilha ligada (uma porta, o capô, a tampa) vai inteira
+        # para a caixa que contém a maior parte dela, e a junta da peça sai na fresta que o autor modelou, não num plano reto
+        minimo = p.get("fracao_na_caixa", 0.6)
+        cod = {"pintura": 0, "vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}.get(p.get("material")) if p.get("material") else None
+        nv = Vector(p["normal"][:3]).normalized() if p.get("normal") else None
+        visto = set()
+        for f0 in bm.faces:
+            if f0 in visto:
+                continue
+            pilha, ilha = [f0], []
+            visto.add(f0)
+            while pilha:
+                g = pilha.pop()
+                ilha.append(g)
+                for e in g.edges:
+                    for h in e.link_faces:
+                        if h not in visto:
+                            visto.add(h)
+                            pilha.append(h)
+            if cod is not None and camada_mat is not None and sum(1 for g in ilha if g[camada_mat] == cod) < 0.5 * len(ilha):
+                continue
+            area = sum(g.calc_area() for g in ilha)
+            dentro = sum(g.calc_area() for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
+            if area <= 0 or dentro < minimo * area:
+                continue
+            if nv is not None:
+                nm = sum((g.normal * g.calc_area() for g in ilha), Vector())
+                if nm.length < 1e-9 or nm.normalized().dot(nv) < p["normal"][3]:
+                    continue
+            out.extend(ilha)
+        return out
     if take == "textura":
         alvo = ids_peca[p["name"]]
         for f in bm.faces:
@@ -2542,6 +2578,15 @@ def principal_unica(args, meshes, cid, out, rel):
         me.polygons.foreach_set("material_index", mi)
         me.update()
         rel["avisos"].append("--manter-chassi: %d faces continuam chassi" % int((cqm == 3).sum()))
+    if getattr(args, "materiais_do_arquivo", False) and "cq_mat" in me.attributes:
+        idx_m = {m.name: i for i, m in enumerate(me.materials)}
+        alvo = {1: idx_m["vidro"], 2: idx_m["pneu"], 3: idx_m[MAT_ESCURO], 4: idx_m["luz"], 5: idx_m["cromado"]}
+        cods = [0] * len(me.polygons)
+        me.attributes["cq_mat"].data.foreach_get("value", cods)
+        for pg, c in zip(me.polygons, cods):
+            if c in alvo:
+                pg.material_index = alvo[c]
+        rel["avisos"].append("--materiais-do-arquivo: %d faces com o material do arquivo" % sum(1 for c in cods if c in alvo))
     pecas = _executar_mapa(obj, mapa, rodas, rel)
     obj.name = obj.data.name = "body"
     for nome_attr in ("cq_peca", "cq_mat"):

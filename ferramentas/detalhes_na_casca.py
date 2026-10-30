@@ -26,6 +26,8 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
     --antena-teto 0.05     antena no teto, no x dado, em vez do para-lama
     --limpadores y1,c1,y2,c2  base em y e comprimento de cada palheta do limpador (padrão 0.22,0.50,-0.30,0.46, o do Gol)
     --placa-nova           placas novas de 40 x 13 cm no rebaixo (o modelo não traz placa): frente em --z-placa, trás em --z-placa-tras
+        Furgãozinho (5 portas, 30/10/2026): [--luzes-do-modelo] [--faixas-lanterna 0.45,0.25] [--sem-tampa-tanque]
+        [--manter-chapa-dos-vidros]
 
 Materiais só os do corte (`chassi` = plástico preto, `luz` = lente): o kit_names.py do Detonauto já sabe o que fazer com eles.
 As normais de canto das peças que só ganham geometria ficam; faróis, lanternas e grade são refeitos e recebem normais por ângulo.
@@ -536,7 +538,7 @@ if "--sem-face-para-choque" not in args and "bumper_front" in objs:
 # a janela saía vermelha. Some toda face pintada que fica a menos de 1,5 cm de um vidro, em cima dele (a reta até o vidro segue a
 # normal do vidro: a chapa em volta da borda, que é a moldura, fica)
 vidros = [o for n, o in objs.items() if n.startswith("glass_")]
-if vidros:
+if vidros and "--manter-chapa-dos-vidros" not in args:   # no Furgãozinho a moldura do autor fica a menos de 1,5 cm do vidro
     bmv = bmesh.new()
     for g in vidros:
         b = bmesh.new()
@@ -836,6 +838,41 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
         luz_na_casca(o, nome, sinal)
         continue
     xm_luz = x_da_face(o, "luz")
+    if "--luzes-do-modelo" in args:
+        # faróis e lanternas que o autor modelou dando a volta no canto (Furgãozinho): a forma fica, só os materiais mudam. Farol:
+        # `lente_farol` (a lente clara do Gol, que no jogo não sai preta). Lanterna em faixas de cima para baixo: freio (vermelha),
+        # seta (âmbar), ré (branca), nas proporções de --faixas-lanterna (padrão 0.45,0.25)
+        mi_luz = mat_names(o).index("luz") if "luz" in mat_names(o) else None
+        if mi_luz is None:
+            continue
+        mw = o.matrix_world
+        if sinal > 0:
+            mi = slot(o, "lente_farol")
+            for p in o.data.polygons:
+                if p.material_index == mi_luz:
+                    p.material_index = mi
+            relatorio.append("%s: lente do modelo em lente_farol" % nome)
+        else:
+            f_ver, f_amb = [float(v) for v in opt("--faixas-lanterna", "0.45,0.25").split(",")]
+            m_ver, m_amb, m_bra = slot(o, "luz_vermelha"), slot(o, "luz_ambar"), slot(o, "luz_branca")
+            z0_, z1_ = box[4], box[5]
+            # corta a malha nas alturas das divisas: sem isso a divisa segue os triângulos e sai serrilhada
+            bmt = bmesh.new()
+            bmt.from_mesh(o.data)
+            for t_ in (f_ver, f_ver + f_amb):
+                zc_ = (mw.inverted() @ Vector((0, 0, z1_ - t_ * (z1_ - z0_)))).z
+                geom = bmt.verts[:] + bmt.edges[:] + bmt.faces[:]
+                bmesh.ops.bisect_plane(bmt, geom=geom, dist=1e-6, plane_co=Vector((0, 0, zc_)), plane_no=Vector((0, 0, 1)))
+            bmt.to_mesh(o.data)
+            bmt.free()
+            for p in o.data.polygons:
+                if p.material_index != mi_luz:
+                    continue
+                t = (z1_ - (mw @ p.center).z) / max(z1_ - z0_, 1e-6)
+                p.material_index = m_ver if t < f_ver else (m_amb if t < f_ver + f_amb else m_bra)
+            relatorio.append("%s: lente do modelo em faixas (freio, seta, ré) de cima para baixo" % nome)
+        o.data.update()
+        continue
     w = Escritor(o, refazer=("luz", "pintura", "cromado"))
     m_preto, m_lente = slot(o, "chassi"), slot(o, "luz")
     m_ref = slot(o, "refletor")
@@ -1074,8 +1111,8 @@ for nome, s in (("mirror_left", 1), ("mirror_right", -1)):
 if "body" in objs and "--sem-miudezas" not in args:
     w = Escritor(objs["body"])
     m_preto, m_crom = slot(objs["body"], "chassi"), slot(objs["body"], "cromado")
-    # tampa do tanque na quarta traseira direita (lado do carona no Brasil)
-    h = raio(["body"], (-1.40, -1.5, 0.78), (0, 1, 0), 2.0)
+    # tampa do tanque na quarta traseira direita (lado do carona no Brasil); --sem-tampa-tanque quando o modelo já tem a dele
+    h = raio(["body"], (-1.40, -1.5, 0.78), (0, 1, 0), 2.0) if "--sem-tampa-tanque" not in args else None
     if h and abs(h[1].y) > 0.6:
         c = Vector(h[0])
         w.ref = c + Vector((0, 0.5, 0))
