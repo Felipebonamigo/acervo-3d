@@ -1330,3 +1330,52 @@ borda dos vidros). Ficou a reserva, com o "siga" do Felipe: o **"Hatchback" de M
   `kit_to_detonauto.py`, `glb_texturas.py`, `kit_completo_to_detonauto.py`) passa: 19 peças e a roda, 11 malhas do kit.
 - **Fica para decidir:** o carro é um hatch redondo genérico, não o desenho da referência (farol "garra" alongado); a semelhança é de
   arquétipo. A volta para algo mais próximo seria outro modelo ou o Meshy, com o Felipe.
+
+## Barão do Sketchfab: casca de impressão completada (30/10/2026)
+
+O Barão (nº 5 da ficha, sedã) passou do Meshy a um modelo feito por gente, escolhido pelo Felipe entre 5 candidatos ("siga" na
+recomendação): **o sedã de FreshCanidae1571 (Sketchfab, CC BY 4.0; o título do autor está no crédito)**,
+`veiculos/sketchfab/barao-freshcanidae__0383ac51df544ef5ab97559f7a97a811.glb`. É o único com a forma da referência (entre-eixos
+2,54 m e altura 1,41 m medidos batem), mas é um STL de impressão: uma malha só, lataria maciça de 3 cm, janelas e caixas de roda
+furadas, sem vidro, roda, interior, material nem UV. O resto dos candidatos: um muito tosco, um genérico de outro desenho, uma perua
+e um caricato. O do Meshy (`meshy-conta/barao__01a16960.glb`) fica no acervo.
+
+    python -I ferramentas/casca_impressao.py -- --entrada <scene.gltf> --out <tmp>/barao_casca.glb --comp 4.39
+    VIDRO_TODO=1 python -I ferramentas/sketchfab_preparar.py -- <tmp>/barao_casca.glb <tmp>/barao.glb "carroceria,vidros,rodas" \
+        4.39 1.415 0.06 30 0 --sem-pca --meio-pela-caixa --soldar 0.0001 --manter-materiais
+    python -I ferramentas/decimar.py -- <tmp>/barao.glb <tmp>/barao_red.glb 130000
+    python -I ferramentas/carro_quebravel.py -- --entrada <tmp>/barao_red.glb --out <corte> --id barao --portas 4 --sem-rotulos \
+        --manter-normais --mapa veiculos/sketchfab/quebravel/barao/barao_mapa.json --sem-fbx
+    python -I ferramentas/borracha_vidro.py -- <corte>/barao.glb <corte>/barao.glb --dona glass_rear=body
+    python -I ferramentas/detalhes_na_casca.py -- <corte>/barao.glb <corte>/barao.glb --mapa veiculos/sketchfab/quebravel/barao/barao_mapa.json \
+        --sem-quebra-vento --sem-sinaleira --sem-face-para-choque --manter-chapa-dos-vidros --para-choque-pintado --sem-macaneta \
+        --sem-retrovisor --z-friso 0.465 --z-faixa 0.47 --placa-nova --z-placa 0.30 --z-placa-tras 0.705 \
+        --limpadores 0.25,0.55,-0.32,0.52 --sem-arco-redondo --luz-na-casca --luz-reta 0.02 --faixas-lanterna-y 0.10,0.22 \
+        --friso-tampa 0.905,0.30 --manter-grade --grade-preta
+    python -I ferramentas/assar_desgaste.py -- <corte>/barao.glb <corte>/barao.glb --tamanho 2048 --amostras 32 --uv-smart
+    python -I ferramentas/carro_completo.py -- --corte <corte> --id barao --out <kit> --aparar-mais 0.55 0.6
+
+- **Casca:** `casca_impressao.py` (seção acima): vidros por raios (3 por lado, para-brisa e traseiro), rodas liga 14 com 185/60 do
+  kit, assoalho, só a pele de fora e a parede da caixa de roda em `chassi`.
+- **Mapa à mão** pelas emendas da própria casca (resíduo do campo de profundidade de lado, de frente e de trás): portas de 0,83 a
+  -0,21 e a -0,98 m (a de trás para no arco: o forro do kit é um retângulo e entrava na caixa de roda), cintura 0,92 m, saia 0,31 m;
+  vidros e luzes com `papel` (`glass_door`, `headlight`, `taillight`: sem ele o corte não trocava o material), `manter_abas` nos
+  vidros das portas de trás (o fixo de quarta vai com a porta); `grille` é a entrada de ar de baixo, em plástico preto.
+- **`detalhes_na_casca.py`:** faróis e lanternas com `--luz-na-casca` (a lente segue a chapa; os faróis do autor são recuados nos
+  cantos) e `--luz-reta` (a borda da peça é a do corte, em serrote: a lente fica num retângulo cortado por planos dentro da caixa,
+  com moldura de 8 mm, e a sobra volta a pintura; as caixas do mapa crescem 2 cm); lanterna quase toda vermelha com a ré e a seta por
+  dentro (`--faixas-lanterna-y`); friso cromado (`cromo`, o `MI_DNCromoCoupe` do jogo) de lado a lado na tampa, entre as lanternas
+  (`--friso-tampa`); o friso lateral vai também nas portas de trás (antes só olhava as da frente). A grade de cima fica a do autor
+  (as fendas); a reconstruída em caixa deixava blocos acima do para-choque. A `--luz-na-casca` tinha saído do arquivo num commit
+  do Pampeiro (a função e a chamada sumiram sem menção): voltou.
+- **Kit:** `fundo_farol_rente` e `x_radiador` 1,82 (a travessa do painel em `x_frente - 0,20` furava a lente do farol) e
+  `--aparar-mais 0.55 0.6` (o carpete do porta-malas saía pelos cantos da traseira).
+- **O Gol não muda (conferido em 30/10):** corte e detalhes do Gol com o código de `main` e com o daqui dão as mesmas 32 peças a 0 mm.
+- **Saída (30/10):** `veiculos/sketchfab/quebravel/barao/` (38 peças, ~320 mil triângulos, 4,39 x 2,00 com retrovisores x 1,415 m,
+  entre-eixos 2,539 m, roda 28,9 cm) e `veiculos/sketchfab/completo/barao/` (kit época 2000 de sedã, 93 peças). Prévias em
+  `veiculos/sketchfab/previas/barao/`, com o HDRI da rua e as rodas do kit.
+- **Comparado com fotos reais do sedã da referência:** silhueta, porta-malas alto, faróis finos com as fendas da grade no meio,
+  entrada de ar preta embaixo da placa, faixa preta nos para-choques e friso lateral fino batem; a lanterna real é redonda nos
+  cantos, a daqui é um retângulo na própria chapa com o friso cromado entre elas (o traço próprio da ficha).
+- **Defeitos conhecidos:** a chapa do autor tem ondas leves na lateral traseira (de perto, com sol baixo); o vidro fixo de quarta não
+  tem borracha; o retrovisor é o do autor, sem espelho.
