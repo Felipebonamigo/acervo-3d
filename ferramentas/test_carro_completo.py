@@ -157,10 +157,6 @@ class TestDados(unittest.TestCase):
             self.assertEqual(set(dados["epocas"][ep]) - {"nota"}, chaves - {"nota"}, ep)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
-
 class TestPicape(unittest.TestCase):
     """Carroceria picape (Tropeiro, 30/10/2026): cabine simples sem banco de trás e a caçamba fora dos vãos que saem do corte."""
 
@@ -198,3 +194,7 @@ class TestPicape(unittest.TestCase):
         M = cc.medidas(cc.ler_corte(os.path.join(QUEBRAVEL, "caipora"), "caipora"), cfg)
         self.assertNotIn("x_cabine_tras", M)
         self.assertIn("traseira", M["vaos"])
+
+
+if __name__ == "__main__":
+    unittest.main()
