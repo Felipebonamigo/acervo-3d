@@ -1,0 +1,108 @@
+{
+ "_nota": "Config do sketchfab_reagrupar.py para 'VW Beetle 1969' de Matej Ondra (unidades do arquivo; frente em -y). Object050 e Object060 são o interior de fábrica. 'apagar': o emblema do capô e o logotipo das 4 calotas.",
+ "tirar_objetos": [
+  "Object050",
+  "Object060"
+ ],
+ "vidro_transmissao": [
+  0.85,
+  "textures/vw_beetle_1969_mo_{conjunto}_transmission.png"
+ ],
+ "vidro_fora": [
+  [
+   -25,
+   -15,
+   -80.5,
+   -77,
+   20,
+   29.5
+  ],
+  [
+   15,
+   25.5,
+   -80.5,
+   -77,
+   20,
+   29.5
+  ]
+ ],
+ "rodas": [
+  [
+   26.05,
+   -61.6,
+   13.9,
+   14.3,
+   5.0
+  ],
+  [
+   -25.5,
+   -61.6,
+   13.9,
+   14.3,
+   5.0
+  ],
+  [
+   26.05,
+   33.7,
+   13.9,
+   14.3,
+   5.0
+  ],
+  [
+   -25.5,
+   33.7,
+   13.9,
+   14.3,
+   5.0
+  ]
+ ],
+ "assoalho_z": 14.5,
+ "apagar": [
+  [
+   -2.5,
+   3.0,
+   -50.7,
+   -45.4,
+   42.7,
+   43.8
+  ],
+  [
+   29.3,
+   29.8,
+   -63.4,
+   -59.800000000000004,
+   12.2,
+   15.6
+  ],
+  [
+   -29.3,
+   -28.6,
+   -63.4,
+   -59.800000000000004,
+   12.2,
+   15.6
+  ],
+  [
+   29.3,
+   29.8,
+   31.900000000000002,
+   35.5,
+   12.2,
+   15.6
+  ],
+  [
+   -29.3,
+   -28.6,
+   31.900000000000002,
+   35.5,
+   12.2,
+   15.6
+  ]
+ ],
+ "classes": {
+  "cor": "textures/vw_beetle_1969_mo_{conjunto}_baseColor.png",
+  "metal": "textures/vw_beetle_1969_mo_{conjunto}_metallicRoughness.png",
+  "metal_min": 0.5,
+  "escuro_max": 0.16
+ }
+}
