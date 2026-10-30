@@ -19,9 +19,9 @@
     "frente já em +X (retrovisores em x = 0.53 m)"
   ],
   "solda": {
-    "vertices_antes": 97878,
-    "vertices_depois": 65528,
-    "arestas_de_borda": 3408
+    "vertices_antes": 93552,
+    "vertices_depois": 62596,
+    "arestas_de_borda": 2728
   },
   "mapa": "sagui_mapa.json (lido de veiculos/sketchfab/quebravel/sagui/sagui_mapa.json)",
   "textura": {
@@ -32,7 +32,7 @@
     ],
     "pintura_sat": 0.0,
     "pintura_val": 0.5,
-    "cercado_pela_borracha": 8704,
+    "cercado_pela_borracha": 8705,
     "portas": 2,
     "janelas_por_lado": {
       "l": [
@@ -50,7 +50,7 @@
     }
   },
   "faces_por_classe": {
-    "vidro": 6846,
+    "vidro": 6848,
     "farol": 0,
     "lanterna": 0,
     "placa": 0,
@@ -301,7 +301,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 127838,
+      "triangulos": 122673,
       "materiais": [
         "pintura",
         "cromado",
@@ -313,11 +313,11 @@
         "malha única: o que sobrou, com os vãos e as caixas de roda"
       ],
       "malha": {
-        "faces_degeneradas_tiradas": 3,
-        "vertices_soltos_tirados": 27557,
+        "faces_degeneradas_tiradas": 7,
+        "vertices_soltos_tirados": 26443,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
-        "area_para_fora": 0.615,
+        "area_para_fora": 0.614,
         "virada": null
       },
       "fbx": "sagui_pecas/body.fbx"
@@ -344,14 +344,14 @@
         0.0,
         0.0
       ],
-      "triangulos": 26452,
+      "triangulos": 22136,
       "materiais": [
         "pintura",
         "chassi",
         "lente_farol"
       ],
       "origem": [
-        "malha única, faces: 12049 faces"
+        "malha única, faces: 9875 faces"
       ],
       "malha": {
         "faces_degeneradas_tiradas": 0,
@@ -391,10 +391,10 @@
         "chassi"
       ],
       "origem": [
-        "malha única, faces: 8608 faces"
+        "malha única, faces: 8609 faces"
       ],
       "malha": {
-        "faces_degeneradas_tiradas": 4,
+        "faces_degeneradas_tiradas": 7,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
@@ -582,7 +582,7 @@
       "centro": [
         0.1474,
         0.6413,
-        1.1069
+        1.1068
       ],
       "pivo_m": [
         0.0,
@@ -622,7 +622,7 @@
       "centro": [
         0.1474,
         -0.6413,
-        1.1068
+        1.1069
       ],
       "pivo_m": [
         0.0,
@@ -1199,7 +1199,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 18664,
+      "triangulos": 18722,
       "materiais": [
         "pintura",
         "chassi",
@@ -1209,7 +1209,7 @@
         "malha única, faces: 7676 faces"
       ],
       "malha": {
-        "faces_degeneradas_tiradas": 0,
+        "faces_degeneradas_tiradas": 1,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
         "cantos_contra_face": 0.0,
@@ -1544,7 +1544,7 @@
       "frente+esquerda": 0.0,
       "traseira+direita+teto": 0.0
     },
-    "vertices_na_costura": 6404,
+    "vertices_na_costura": 6452,
     "zonas": "make_damage_morphs.displacement do Detonauto, semente 17"
   }
 }

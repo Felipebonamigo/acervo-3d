@@ -1,5 +1,5 @@
 {
- "notas": "Receita do sketchfab_montar.py para o Sagui (\"Ford Ka MK2 2008-2016\" por DEMON_SCARY1235, Sketchfab, CC BY 4.0), 30/10/2026. O arquivo vem de jogo: comprimento em y com a frente em -y, roda solta no centro, cores de molde. Medidas do carro de referência: 3,836 m de comprimento, 2,452 m de entre-eixos, 1,42 m de altura.",
+ "notas": "Receita do sketchfab_montar.py para o Sagui (\"Ford Ka MK2 2008-2016\" por DEMON_SCARY1235, Sketchfab, CC BY 4.0), 30/10/2026. O arquivo vem de jogo: comprimento em y com a frente em -y, roda solta no centro, cores de molde. Medidas do carro de referência: 3,836 m de comprimento, 2,452 m de entre-eixos, 1,42 m de altura. Rosto (30/10, noite): a colmeia trapezoidal vira duas barras lisas sobre fundo preto e os ovais dos emblemas são achatados (ficha do Sagui: grade de duas barras lisas, sem emblema).",
  "comprimento_no_eixo": "y",
  "frente": -1,
  "remover_objetos": [
@@ -17,7 +17,7 @@
   "am5eunew1_raceparts": "chassi",
   "am5eunew1_raceparts_light": "chassi",
   "am5eunew1_chrome": "cromado",
-  "am5eunew1_badges": "pintura",
+  "am5eunew1_badges": "achatar_pintura",
   "am5eunew1_glass": "vidro",
   "am5eunew1_grey": "cromado",
   "am5eunew1_mirror": "chassi",
@@ -74,6 +74,61 @@
   "topo": 1.588
  },
  "regras": [
+  {
+   "nota": "oval da frente: o rebaixo em volta do emblema sai e vira chapa nova presa à lataria em volta",
+   "objeto": "fmka_bumper_F",
+   "material": "am5eunew1",
+   "caixa": [
+    -0.125,
+    0.125,
+    -2.2,
+    -1.95,
+    0.695,
+    0.82
+   ],
+   "papel": "pintura",
+   "refazer": true
+  },
+  {
+   "nota": "emblema da frente sai (o furo é tapado no plano do para-choque)",
+   "objeto": "fmka_bumper_F",
+   "material": "am5eunew1_badges",
+   "papel": "remover"
+  },
+  {
+   "nota": "colmeia trapezoidal da grade sai (desenho da marca); entram duas barras lisas",
+   "objeto": "fmka_bumper_F",
+   "material": "am5eunew1_raceparts_light",
+   "caixa": [
+    -0.6,
+    0.6,
+    -2.3,
+    -1.9,
+    0.0,
+    0.495
+   ],
+   "papel": "remover"
+  },
+  {
+   "nota": "miolo escuro da grade antiga sai (ficava na frente das barras)",
+   "objeto": "fmka_bumper_F",
+   "material": "am5eunew1_raceparts",
+   "caixa": [
+    -0.6,
+    0.6,
+    -2.3,
+    -1.9,
+    0.0,
+    0.495
+   ],
+   "papel": "remover"
+  },
+  {
+   "nota": "oval da maçaneta da tampa: achatado e preto",
+   "objeto": "fmka_body",
+   "material": "am5eunew1_badges",
+   "papel": "achatar_chassi"
+  },
   {
    "nota": "maçaneta da tampa: plástico preto liso (o cromado tinha o desenho da marca)",
    "objeto": "fmka_body",
@@ -145,6 +200,50 @@
   {
    "nota": "parafusos e miolo da roda: cromado (vão com o aro)",
    "objeto": "fmka_wheels",
+   "papel": "cromado"
+  }
+ ],
+ "caixas": [
+  {
+   "nota": "fundo preto atrás da grade nova",
+   "centro": [
+    0.0,
+    -1.96,
+    0.415
+   ],
+   "tamanho": [
+    0.97,
+    0.012,
+    0.18
+   ],
+   "papel": "chassi"
+  },
+  {
+   "nota": "barra lisa de cima da grade",
+   "centro": [
+    0.0,
+    -2.025,
+    0.455
+   ],
+   "tamanho": [
+    0.86,
+    0.02,
+    0.028
+   ],
+   "papel": "cromado"
+  },
+  {
+   "nota": "barra lisa de baixo da grade",
+   "centro": [
+    0.0,
+    -2.025,
+    0.39
+   ],
+   "tamanho": [
+    0.74,
+    0.02,
+    0.028
+   ],
    "papel": "cromado"
   }
  ]

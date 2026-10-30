@@ -11,6 +11,12 @@ Receita (exemplo em veiculos/sketchfab/quebravel/sagui/sagui_montagem.json):
   luz_vermelha, luz_ambar, luz_branca, lente_farol, refletor, "remover". Material sem papel na lista vira pintura (e é avisado).
 - "regras": [{"objeto": prefixo, "material": nome, "caixa": [x0, x1, y0, y1, z0, z1] no arquivo, "papel": ..., "nota": ...}]: valem
   antes do papel do material, a primeira que pega a face manda (a lente da frente e a de trás têm o mesmo material, por exemplo)
+- papel "achatar_<papel>" (Sagui): a ilha é achatada sobre a base e fica com <papel> (o relevo do emblema vira chapa lisa)
+- papel "alisar_<papel>" (Sagui): a região vai para o plano ajustado pela borda dela (some o rebaixo em volta do emblema); com
+  "plano": nome na regra, todas as regiões do nome usam um plano só, ajustado pela borda de fora das que têm "plano_borda": true, e
+  "afastar": metros põe à frente dele a ilha que vai inteira; "tapar": true fecha com chapa no plano o furo que fica dentro da região
+- regra com "refazer": true e "caixa": as faces da caixa saem e o furo vira uma chapa nova presa à borda de fora (oval do Sagui)
+- "caixas": [{"centro", "tamanho", "papel", "nota"}] no referencial do arquivo: geometria nova na carroceria (as barras lisas da grade)
 - "vidros": objetos (prefixo) que são os vidros das janelas (vão para o objeto de vidro)
 - "roda": {"objetos": [...], "eixos": [eixo da frente, eixo de trás] no eixo do comprimento do arquivo, "z": z do cubo, "y_fora":
   meia-largura da face de fora das rodas montadas, "face_de_fora": 1 | -1 (lado da face de fora na roda solta, no eixo lateral do
@@ -97,6 +103,61 @@ for nome, cor in CORES.items():
     mats[nome] = m
 sem_papel = set()
 vivos = []
+Rinv = R.inverted()
+
+
+def papel_da_face(f, dono, origem, papel_slot):
+    """O papel do material, ou o da primeira regra que pega a face (objeto, material e caixa no referencial do arquivo); e a regra."""
+    p = papel_slot[f.material_index] if f.material_index < len(papel_slot) else "pintura"
+    nm = origem[f.material_index] if f.material_index < len(origem) else ""
+    for regra in rec.get("regras", []):
+        if regra.get("objeto") and not dono.startswith(regra["objeto"]):
+            continue
+        if regra.get("material") and regra["material"] != nm:
+            continue
+        if regra.get("caixa"):
+            c = Rinv @ f.center
+            x0, x1, y0, y1, z0, z1 = regra["caixa"]
+            if not (x0 <= c.x <= x1 and y0 <= c.y <= y1 and z0 <= c.z <= z1):
+                continue
+        return regra["papel"], regra
+    return p, None
+
+
+# planos compartilhados do "alisar" (regra com "plano": nome): ajustados pela borda de fora das regiões marcadas com "plano_borda"
+# (os vértices delas que tocam faces de fora da região, na chapa de verdade); todas as regiões do mesmo nome vão para ele. No Sagui, o
+# rebaixo em anel do para-choque e o emblema, que são malhas separadas, num plano só (em dois, as superfícies brigavam no render)
+pontos_plano = {}
+tudo_c = np.concatenate([np.array([v.co[:] for v in o.data.vertices]) for o, _ in pecas if len(o.data.vertices)])
+centro_carro = 0.5 * (tudo_c.min(0) + tudo_c.max(0))
+for o, dono in pecas:
+    me = o.data
+    origem_ = [mat_base(m) for m in me.materials]
+    slot_ = [papeis.get(nm, "pintura") for nm in origem_]
+    marca = {}
+    for f in me.polygons:
+        _, rg = papel_da_face(f, dono, origem_, slot_)
+        if rg and rg.get("plano") and rg.get("plano_borda"):
+            marca[f.index] = rg["plano"]
+    if not marca:
+        continue
+    vf = {}
+    for f in me.polygons:
+        for vi in f.vertices:
+            vf.setdefault(vi, []).append(f.index)
+    for vi, fs in vf.items():
+        planos_v = {marca[i] for i in fs if i in marca}
+        if planos_v and any(i not in marca for i in fs):
+            for pl in planos_v:
+                pontos_plano.setdefault(pl, []).append(me.vertices[vi].co[:])
+planos = {}
+for pl, pts in pontos_plano.items():
+    B = np.array(pts)
+    c0 = B.mean(0)
+    n = np.linalg.svd(B - c0)[2][-1]
+    if (c0 - centro_carro) @ n < 0:
+        n = -n
+    planos[pl] = (c0, n)
 for o, dono in pecas:
     if comeca(dono, rec.get("remover_objetos", [])):
         rel["removidos"][dono] = rel["removidos"].get(dono, 0) + len(o.data.polygons)
@@ -112,29 +173,97 @@ for o, dono in pecas:
             p = "pintura"
         papel_slot.append(p)
     # papel por face: o do material, ou o da primeira regra que pega a face (objeto, material e caixa no referencial do arquivo)
-    Rinv = R.inverted()
-    papel_face = []
+    papel_face, regra_face = [], []
     for f in me.polygons:
-        p = papel_slot[f.material_index] if f.material_index < len(papel_slot) else "pintura"
-        nm = origem[f.material_index] if f.material_index < len(origem) else ""
-        for regra in rec.get("regras", []):
-            if regra.get("objeto") and not dono.startswith(regra["objeto"]):
-                continue
-            if regra.get("material") and regra["material"] != nm:
-                continue
-            if regra.get("caixa"):
-                c = Rinv @ f.center
-                x0, x1, y0, y1, z0, z1 = regra["caixa"]
-                if not (x0 <= c.x <= x1 and y0 <= c.y <= y1 and z0 <= c.z <= z1):
-                    continue
-            p = regra["papel"]
+        p, regra = papel_da_face(f, dono, origem, papel_slot)
+        if regra:
             nota = regra.get("nota", regra["papel"])
             rel.setdefault("regras", {})[nota] = rel.get("regras", {}).get(nota, 0) + 1
-            break
         papel_face.append(p)
+        regra_face.append(regra)
     bm = bmesh.new()
     bm.from_mesh(me)
     bm.faces.ensure_lookup_table()
+    # papel "achatar_<papel>": cada ilha dessas faces é achatada sobre a própria base (o plano mais fundo na normal média dela) e
+    # fica com <papel>; o relevo do emblema vira chapa lisa sem abrir buraco no para-choque
+    achatar = [f for f in bm.faces if papel_face[f.index].startswith("achatar_")]
+    visto = set()
+    for f0 in achatar:
+        if f0 in visto:
+            continue
+        ilha, pilha = [], [f0]
+        visto.add(f0)
+        while pilha:
+            g = pilha.pop()
+            ilha.append(g)
+            for e in g.edges:
+                for h in e.link_faces:
+                    if h not in visto and papel_face[h.index].startswith("achatar_"):
+                        visto.add(h)
+                        pilha.append(h)
+        n = sum((g.normal * g.calc_area() for g in ilha), __import__("mathutils").Vector())
+        if n.length < 1e-9:
+            continue
+        n.normalize()
+        vs = {v for g in ilha for v in g.verts}
+        base = min(v.co.dot(n) for v in vs)
+        for v in vs:
+            v.co -= n * (v.co.dot(n) - base)
+        rel.setdefault("achatadas", 0)
+        rel["achatadas"] += 1
+    # papel "alisar_<papel>": a região é projetada no plano ajustado pela borda dela (os vértices que tocam faces de fora da região
+    # ou a borda da malha); o rebaixo em anel em volta do emblema do Sagui some, a chapa fica lisa
+    alisar = {f for f in bm.faces if papel_face[f.index].startswith("alisar_")}
+    visto = set()
+    for f0 in alisar:
+        if f0 in visto:
+            continue
+        ilha, pilha = [], [f0]
+        visto.add(f0)
+        while pilha:
+            g = pilha.pop()
+            ilha.append(g)
+            for e in g.edges:
+                for h in e.link_faces:
+                    if h not in visto and h in alisar:
+                        visto.add(h)
+                        pilha.append(h)
+        vs = {v for g in ilha for v in g.verts}
+        rg = regra_face[ilha[0].index] or {}
+        if rg.get("plano") in planos:
+            # plano compartilhado: só os vértices na chapa de fora ficam; a ilha sem eles (o emblema) vai inteira, "afastar" metros à frente
+            c0, n = planos[rg["plano"]]
+            borda = {v for v in vs if any(h not in alisar for h in v.link_faces)}
+            afastar = float(rg.get("afastar", 0.0))
+        else:
+            borda = {v for v in vs if v.is_boundary or any(h not in alisar for h in v.link_faces)}
+            if len(borda) < 3:
+                continue
+            B = np.array([v.co[:] for v in borda])
+            c0 = B.mean(0)
+            n = np.linalg.svd(B - c0)[2][-1]
+            afastar = 0.0
+        for v in vs:
+            if v in borda:
+                continue
+            q = np.array(v.co[:])
+            v.co = q - n * (float((q - c0) @ n) - afastar)
+        if rg.get("tapar"):
+            # "tapar": o furo que o emblema cobria (borda da malha dentro da região) vira chapa no mesmo plano
+            aberta = [e for e in bm.edges if e.is_boundary and all(v in vs for v in e.verts) and not all(v in borda for v in e.verts)]
+            novas = bmesh.ops.holes_fill(bm, edges=aberta, sides=0)["faces"] if aberta else []
+            bm.faces.index_update()
+            bm.faces.ensure_lookup_table()
+            for g in novas:
+                g.material_index = ilha[0].material_index
+            papel_face += [papel_face[ilha[0].index]] * len(novas)
+            regra_face += [rg] * len(novas)
+            rel.setdefault("tapadas", 0)
+            rel["tapadas"] += len(novas)
+        rel.setdefault("alisadas", 0)
+        rel["alisadas"] += 1
+    papel_face = [p[len("alisar_"):] if p.startswith("alisar_") else p for p in papel_face]
+    papel_face = [p[len("achatar_"):] if p.startswith("achatar_") else p for p in papel_face]
     fora = [f for f in bm.faces if papel_face[f.index] == "remover"]
     if fora:
         rel["removidos"]["faces " + dono] = rel["removidos"].get("faces " + dono, 0) + len(fora)
@@ -152,9 +281,56 @@ for o, dono in pecas:
         me.materials.append(mats[nome])
     me.polygons.foreach_set("material_index", novo)
     me.update()
+    # regra com "refazer": true (Sagui): as faces da caixa dela saem e o furo é fechado por uma chapa nova presa à borda de fora (que
+    # está na lataria de verdade). Achatar o rebaixo do emblema deixava triângulos sem área e virados, que a sombra assada pintava de escuro
+    for rg in rec.get("regras", []):
+        if not rg.get("refazer") or (rg.get("objeto") and not dono.startswith(rg["objeto"])):
+            continue
+        x0, x1, y0, y1, z0, z1 = rg["caixa"]
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        regiao = [f for f in bm.faces if (lambda c: x0 <= c.x <= x1 and y0 <= c.y <= y1 and z0 <= c.z <= z1)(Rinv @ f.calc_center_median())]
+        if not regiao:
+            bm.free()
+            continue
+        mi = regiao[0].material_index
+        conj = set(regiao)
+        borda = [e for e in {e for f in regiao for e in f.edges} if any(h not in conj for h in e.link_faces)]
+        bmesh.ops.delete(bm, geom=regiao, context="FACES_ONLY")
+        bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+        borda = [e for e in borda if e.is_valid]
+        novas = bmesh.ops.holes_fill(bm, edges=borda, sides=0)["faces"]
+        if novas:
+            tri = bmesh.ops.triangulate(bm, faces=novas, quad_method="BEAUTY", ngon_method="BEAUTY")["faces"]
+            for g in tri:
+                g.material_index = mi
+        bm.to_mesh(me)
+        bm.free()
+        me.update()
+        rel.setdefault("refeitas", {})[rg.get("nota", "refazer")] = len(regiao)
     vivos.append((o, dono))
 if sem_papel:
     rel["avisos"].append("materiais sem papel na receita (viraram pintura): %s" % sorted(sem_papel))
+
+# 3b. caixas novas (no referencial do arquivo): "caixas": [{"centro": [x, y, z], "tamanho": [dx, dy, dz], "papel": ..., "nota": ...}];
+# entram na carroceria (Sagui: as duas barras lisas da grade e o fundo preto atrás delas, no lugar da colmeia da marca)
+for k, cx in enumerate(rec.get("caixas", [])):
+    me = bpy.data.meshes.new("caixa_%d" % k)
+    bm = bmesh.new()
+    bmesh.ops.create_cube(bm, size=1.0)
+    bmesh.ops.scale(bm, vec=cx["tamanho"], verts=bm.verts)
+    bmesh.ops.translate(bm, vec=cx["centro"], verts=bm.verts)
+    bm.to_mesh(me)
+    bm.free()
+    me.transform(R)
+    ordem = list(CORES)
+    for nome in ordem:
+        me.materials.append(mats[nome])
+    me.polygons.foreach_set("material_index", [ordem.index(cx["papel"])] * len(me.polygons))
+    o = bpy.data.objects.new("caixa_%d" % k, me)
+    bpy.context.scene.collection.objects.link(o)
+    vivos.append((o, "caixa_%d" % k))
+    rel.setdefault("caixas", []).append(cx.get("nota", cx["papel"]))
 
 # 4. rodas: a roda solta (no centro do arquivo) vai para os 4 cantos
 r = rec.get("roda")

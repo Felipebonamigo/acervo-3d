@@ -932,6 +932,13 @@ metades, a carroceria em 15 objetos e 29 materiais de molde, com cores trocadas 
   o meio estica até o entre-eixos e os balanços até o comprimento da referência (de 3,62 para 3,836 m; entre-eixos de 2,30 para
   2,452 m). **Baixar:** o que fica acima do topo dos arcos encolhe até o teto ficar a 1,42 m do chão. Grava sem UV e sem normais
   (o exportador duplicava os vértices nas costuras e o preparo não achava o pneu).
+- **Rosto do Sagui (30/10, noite):** a ficha do carro pede "grade de duas barras lisas, sem emblema", e a colmeia trapezoidal do
+  modelo é desenho de assinatura da marca. A montagem tira a colmeia e o miolo dela, põe um fundo preto e duas barras lisas
+  (`caixas` da receita, recuadas atrás da curva do para-choque). O emblema da frente sai e o rebaixo em anel em volta dele é refeito:
+  as faces da caixa da regra saem e o furo vira uma chapa nova presa à borda de fora, que está na lataria de verdade (`"refazer":
+  true`). Alisar ou achatar o rebaixo deixava paredes em triângulos sem área e virados, que a sombra assada pintava em rabiscos
+  escuros (`alisar_`, `tapar` e o plano compartilhado ficam na ferramenta para outros casos). O oval da maçaneta da tampa é achatado
+  e preto (`achatar_chassi`).
 - **`carro_completo_dados.json` (Sagui):** saiu a correção de altura de 1,54 m, que era do Sagui do Meshy (o mapa novo já mede
   1,42 m), e entrou `soleira_preta`: o modelo não tem chapa embaixo da porta e a caixa da soleira, em pintura interna sem verniz,
   lia como uma faixa mais clara que a lataria; agora é plástico preto (`carro_completo.py`, opção do carro).
