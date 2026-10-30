@@ -1385,3 +1385,7 @@ e um caricato. O do Meshy (`meshy-conta/barao__01a16960.glb`) fica no acervo.
 - **Táxi (30/10/2026):** `taxi_do_corte.py` faz o táxi de tráfego do corte: malha estática branca com a textura de desgaste,
   vidros escuros opacos, caixa de teto lisa sem texto, ~90 mil triângulos (o do Meshy tinha ~79 mil),
   `veiculos/sketchfab/taxi-barao__0383ac51df544ef5ab97559f7a97a811.glb`; prévia em `previas/barao/barao-taxi.jpg`.
+- **Beira dos arcos, saia e fundo (30/10):** a borda virada do alargador antigo tinha faces pretas que, achatadas, apareciam em
+  serrote acima do arco: na beira do arco, na pele de fora, a chapa vira pintada. A saia sob os para-choques (`carro_completo.py`) tem
+  7,5 cm em vez de descer até o piso (pendia como um queixo preto), e o que é pintura do kit abaixo dela, até 40 cm da frente e de
+  trás (travessa, para-lama interno), vira a graxa escura do fundo: aparecia vermelho sob o para-choque.

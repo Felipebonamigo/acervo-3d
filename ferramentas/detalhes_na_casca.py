@@ -453,6 +453,30 @@ if "--sem-arco-redondo" not in args:
         return d
     if arcos:
         relatorio.append("caixas de roda redondas: %d vértices movidos" % deformar(campo_arco))
+        # a borda virada do alargador antigo tinha faces pretas; achatada, ela aparece em serrote na beira do arco (30/10). Na beira do
+        # arco, na pele de fora, a chapa é da cor do carro
+        n_borda = 0
+        for n, o in objs.items():
+            if n.startswith(("wheel_", "hubcap_", "glass_")):
+                continue
+            nomes_o = mat_names(o)
+            if "chassi" not in nomes_o:
+                continue
+            mi_c, mi_p = nomes_o.index("chassi"), slot(o, "pintura")
+            mw = o.matrix_world
+            for pg in o.data.polygons:
+                if pg.material_index != mi_c:
+                    continue
+                c = mw @ pg.center
+                for cx, cz, s, re_, sal, ylado in arcos:
+                    r = math.hypot(c.x - cx, c.z - cz)
+                    th = math.degrees(math.atan2(c.z - cz, c.x - cx))
+                    if c.y * s > 0.60 and R_ARCO - 0.02 < r < R_ARCO + 0.05 and 5 < th < 175:
+                        pg.material_index = mi_p
+                        n_borda += 1
+                        break
+            o.data.update()
+        relatorio.append("beira dos arcos: %d faces pretas viram chapa pintada" % n_borda)
 
 # ------------------------------------------------------------------------------------- face do para-choque da frente
 # a barra do para-choque do Gol do Sketchfab tem 8 cm de altura e, embaixo dela, a chapa foge 11 cm para trás em rampa: de lado lia como

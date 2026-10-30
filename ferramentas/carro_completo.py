@@ -3889,9 +3889,12 @@ class Kit:
             # para-choque aparecia como um bloco preto
             return
         p = self.nova("under_saias", "embaixo", nota="saias escuras sob os para-choques e a soleira fora das portas")
+        # 7,5 cm de altura (30/10): até o piso ela pendia 13 cm sob o para-choque como um queixo preto; o que fica atrás dela é o
+        # escuro do fundo de qualquer jeito
+        z0 = max(z0, zs - 0.06)
         alt = zs + 0.015 - z0
         zc = (zs + 0.015 + z0) / 2
-        self.saia = {"zs": zs, "xf": None, "xt": None, "y_lat": {}}
+        self.saia = {"zs": zs, "xf": None, "xt": None, "y_lat": {}, "z0": z0}
         # frente e trás: a borda de baixo do para-choque (raio horizontal a 1,5 cm acima da saia) diz onde a chapa fica
         for sinal, nomes in ((1, ["bumper_front", "body", "grille", "plate_front"]), (-1, ["bumper_rear", "body", "plate_rear"])):
             xs = []
@@ -4365,9 +4368,36 @@ def aparar_sob_a_saia(objs, saia, rodas, R, grupos=("embaixo", "motor", "porta_m
                     break
         if fora:
             bmesh.ops.delete(b, geom=fora, context="FACES")
+        # abaixo da borda de baixo da saia (que tem só 7,5 cm desde 30/10), a travessa e o para-lama interno pintados apareciam
+        # vermelhos sob o para-choque: perto da frente e de trás, o que é pintura e fica abaixo da saia vira a graxa escura do fundo
+        z0s = saia.get("z0")
+        escuras = 0
+        if z0s is not None and grupo in ("motor", "embaixo", "porta_malas"):
+            import bpy
+            nomes_m = [m.name.split(".")[0] if m else "" for m in ob.data.materials]
+            idx_p = [i for i, n in enumerate(nomes_m) if n.startswith("pintura")]
+            gm = bpy.data.materials.get("chassi_graxa")
+            if idx_p and gm is not None:
+                if "chassi_graxa" not in nomes_m:
+                    ob.data.materials.append(gm)
+                    nomes_m.append("chassi_graxa")
+                mi_g = nomes_m.index("chassi_graxa")
+                for f in b.faces:
+                    if f.material_index not in idx_p:
+                        continue
+                    vs = [M @ v.co for v in f.verts]
+                    # pelo centro: a face da travessa vai de 19 a 30 cm num quadrilátero só
+                    if sum(v.z for v in vs) / len(vs) > z0s + 0.03 and min(v.z for v in vs) > z0s - 0.01:
+                        continue
+                    perto = (saia["xf"] is not None and max(v.x for v in vs) > saia["xf"] - 0.40) or \
+                            (saia["xt"] is not None and min(v.x for v in vs) < saia["xt"] + 0.40)
+                    if perto:
+                        f.material_index = mi_g
+                        escuras += 1
+        if fora or escuras:
             b.to_mesh(ob.data)
             ob.data.update()
-            tirou[ob.name] = len(fora)
+            tirou[ob.name] = len(fora) + escuras
         b.free()
     return tirou
 
