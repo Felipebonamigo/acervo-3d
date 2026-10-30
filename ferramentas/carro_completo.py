@@ -2605,7 +2605,10 @@ class Kit:
         ys = self.lado_em((x0 + x1) / 2, zs - 0.05, s, folga=0.0)
         # abaixo da porta a casca pode nem existir (o Gol do Sketchfab acaba na saia): a soleira fica rente à chapa logo acima
         ys = min(ys, self.lado_em((x0 + x1) / 2, zs + 0.02, s, folga=0.0), W - 0.005)
-        p.caixa("pintura_interna", T((x0 + x1) / 2, s * (ys - 0.05), zs - 0.045), x1 - x0 + 0.02, 0.10, 0.09, 0.012)
+        # soleira_preta (Sagui, 30/10/2026): a caixa abaixo da porta sai em plástico preto; pintada, sem verniz, ela lia como uma faixa
+        # mais clara que a lataria embaixo das portas
+        p.caixa("plastico" if self.cfg.get("soleira_preta") else "pintura_interna", T((x0 + x1) / 2, s * (ys - 0.05), zs - 0.045),
+                x1 - x0 + 0.02, 0.10, 0.09, 0.012)
         p.caixa("plastico", T((x0 + x1) / 2 - 0.02, s * (ys - 0.112), zs - 0.035), x1 - x0 + 0.06, 0.03, 0.11, 0.01)
         p.caixa("plastico" if self.cfg["epoca"] != "70" else "aluminio", T((x0 + x1) / 2, s * (ys - 0.075), zs + 0.004),
                 x1 - x0 - 0.04, 0.10, 0.008, 0.004)

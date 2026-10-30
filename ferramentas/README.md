@@ -901,6 +901,9 @@ metades, a carroceria em 15 objetos e 29 materiais de molde, com cores trocadas 
   o meio estica até o entre-eixos e os balanços até o comprimento da referência (de 3,62 para 3,836 m; entre-eixos de 2,30 para
   2,452 m). **Baixar:** o que fica acima do topo dos arcos encolhe até o teto ficar a 1,42 m do chão. Grava sem UV e sem normais
   (o exportador duplicava os vértices nas costuras e o preparo não achava o pneu).
+- **`carro_completo_dados.json` (Sagui):** saiu a correção de altura de 1,54 m, que era do Sagui do Meshy (o mapa novo já mede
+  1,42 m), e entrou `soleira_preta`: o modelo não tem chapa embaixo da porta e a caixa da soleira, em pintura interna sem verniz,
+  lia como uma faixa mais clara que a lataria; agora é plástico preto (`carro_completo.py`, opção do carro).
 - **`sketchfab_preparar.py`:** `--manter-materiais` (a face com material de nome igual a um papel fica com ele; sem textura, cada
   papel herda a cor de entrada) e `--sem-pca` (a PCA torcia o carro já alinhado em 0,2°). A renomeação dos materiais de entrada
   passou a iterar sobre uma cópia da lista (iterando a coleção, o `cromado` saía `entrada_entrada_cromado` e virava pintura).
@@ -920,8 +923,7 @@ metades, a carroceria em 15 objetos e 29 materiais de molde, com cores trocadas 
   de vértices entre duas rodadas).
 - **Saída:** `veiculos/sketchfab/quebravel/sagui/` (31 peças, ~297 mil triângulos) e `veiculos/sketchfab/completo/sagui/` (kit
   época 2000, 81 peças, com freios e forros das caixas de roda). Prévias em `veiculos/sketchfab/previas/sagui/`.
-- **Falta melhorar:** as vistas internas do kit (porta solta, cabine) têm lascas, como as do Gol; a saia do kit sob as portas
-  sai um tom mais clara que a lataria; o modelo é a versão europeia, de
+- **Falta melhorar:** as vistas internas do kit (porta solta, cabine) têm lascas, como as do Gol; o modelo é a versão europeia, de
   rosto parecido mas não igual ao carro de referência; a calota do kit lê branca de longe.
 
 ## Lambari do Sketchfab: modelo com vários materiais texturizados (30/10/2026)

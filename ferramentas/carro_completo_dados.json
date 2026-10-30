@@ -242,11 +242,8 @@
       "estepe": "poco",
       "tanque": "sob_banco_traseiro",
       "carroceria": "hatch",
-      "nota": "hatch pequeno dos anos 2000",
-      "corrigir": {
-        "altura": 1.54,
-        "nota": "a antena levava a altura a 1,80 m (vista lateral de 27/10/2026)"
-      }
+      "nota": "hatch pequeno dos anos 2000; desde 30/10/2026 o Sagui do Sketchfab (veiculos/sketchfab/quebravel/sagui/), que já mede 1,42 m no mapa (a correção de altura do Meshy saiu); soleira preta: o modelo não tem chapa embaixo da porta e a caixa pintada lia como uma faixa clara",
+      "soleira_preta": true
     },
     "jipe-capota": {
       "nome": "Trilheiro",
