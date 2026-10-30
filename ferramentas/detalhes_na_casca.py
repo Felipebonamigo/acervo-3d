@@ -28,6 +28,8 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
     --placa-nova           placas novas de 40 x 13 cm no rebaixo (o modelo não traz placa): frente em --z-placa, trás em --z-placa-tras
         Furgãozinho (5 portas, 30/10/2026): [--luzes-do-modelo] [--faixas-lanterna 0.45,0.25] [--sem-tampa-tanque]
         [--manter-chapa-dos-vidros]
+        Tropeiro (picape aventureira, 30/10/2026): [--protecoes] [--largura-alargador 0.07] [--z-protecao 0.36] [--z-saia 0.29]
+        alargador preto em volta de cada caixa de roda e protetor na soleira, como geometria (tira de 4 mm sobre a chapa)
 
 Materiais só os do corte (`chassi` = plástico preto, `luz` = lente): o kit_names.py do Detonauto já sabe o que fazer com eles.
 As normais de canto das peças que só ganham geometria ficam; faróis, lanternas e grade são refeitos e recebem normais por ângulo.
@@ -943,6 +945,25 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
 
 # ------------------------------------------------------------------------------------------------------------------- grade
 o = objs.get("grille")
+if o and "--manter-grade" in args and "--grade-preta" in args:
+    # --grade-preta (Tropeiro): a grade do modelo fica, mas em plástico preto; as palhetas que o autor modelou na chapa do corpo (o
+    # corte as deixa na carroceria) também, se a face inteira cabe na caixa exata da grade (com folga, a borda do capô saía preta)
+    gb = [min((o.matrix_world @ v.co)[i] for v in o.data.vertices) for i in range(3)] + \
+         [max((o.matrix_world @ v.co)[i] for v in o.data.vertices) for i in range(3)]
+    k = 0
+    for n_ in ("grille", "body"):
+        ob_ = objs.get(n_)
+        if not ob_ or "pintura" not in mat_names(ob_):
+            continue
+        mi_p, mi_c = mat_names(ob_).index("pintura"), slot(ob_, "chassi")
+        mw_ = ob_.matrix_world
+        for p in ob_.data.polygons:
+            if p.material_index == mi_p and all((lambda q: all(gb[i] - 0.002 <= q[i] <= gb[i + 3] + 0.002 for i in range(3)))(
+                    mw_ @ ob_.data.vertices[vi].co) for vi in p.vertices):
+                p.material_index = mi_c
+                k += 1
+        ob_.data.update()
+    relatorio.append("grade do modelo em plástico preto: %d faces (--grade-preta)" % k)
 if o and "--grade-do-modelo" in args:
     relatorio.append("grade do modelo mantida")
 elif o and "--manter-grade" not in args:
@@ -1413,6 +1434,104 @@ if "--para-choque-pintado" not in args:
                 body.data.update()
                 if k:
                     relatorio.append("  + %d faces da carroceria dentro do %s" % (k, nome))
+
+# ------------------------------------------------------------------------------------ protetores pretos (aventureira)
+# picape ou hatch de versão aventureira: alargador de plástico preto em volta de cada caixa de roda e protetor na soleira. É geometria
+# nova (uma tira de 4 mm sobre a chapa, com paredes até ela), não faces repintadas: num modelo de malha grossa a troca de material
+# saía em serrote. A borda do arco é medida por raios de lado (onde a chapa acaba, acima do cubo); o alargador vai dela até LARGURA
+# para fora. A soleira vai do arco da frente ao de trás, de Z_SAIA a Z_PROT. Cada trecho vai para a peça onde a chapa está (a porta
+# leva o seu)
+if "--protecoes" in args:
+    LARG_AL, Z_PROT, Z_SAIA = opt("--largura-alargador", 0.07), opt("--z-protecao", 0.36), opt("--z-saia", 0.29)
+    ALT_TIRA = 0.004
+    lado_p = [n for n in objs if n == "body" or n.startswith(("door_", "fender_", "side_skirt_", "bumper_"))]
+    cubos_p = []
+    for n, o in objs.items():
+        if n.startswith("wheel_") and n.endswith("_tire"):
+            P = np.array([list(o.matrix_world @ v.co) for v in o.data.vertices])
+            cubos_p.append((0.5 * (P[:, 0].min() + P[:, 0].max()), 0.5 * (P[:, 2].min() + P[:, 2].max()), 1 if P[:, 1].mean() > 0 else -1))
+
+    y_pele = max(abs(v) for n in lado_p if n.startswith(("door_", "fender_")) for v in (faces_de(objs[n], "pintura")[0] or [0, 0, 0, 0])[2:4]) - 0.12
+
+    def bate(x, z, s):
+        h = raio(lado_p, (x, s * 1.5, z), (0, -s, 0), 2.0)
+        if h and abs(h[1].y) > 0.35 and abs(h[0].y) > y_pele:
+            return h
+        return None
+
+    def tiras(amostras, s, rotulo):
+        """amostras: [(nome, [pontos de dentro para fora])] em sequência; uma tira por trecho seguido na mesma peça. Várias fileiras
+        por amostra: a tira acompanha a curva da chapa (com só duas, a parte do meio entrava na porta, que fecha para dentro embaixo)."""
+        trechos, atual = {}, None
+        for a in amostras:
+            if a is None:
+                atual = None
+                continue
+            if atual is None or atual[0] != a[0]:
+                atual = (a[0], [])
+                trechos.setdefault(a[0], []).append(atual[1])
+            atual[1].append(a)
+        for nome, listas in trechos.items():
+            o = objs[nome]
+            w = Escritor(o)
+            mi = slot(o, "chassi")
+            for L in listas:
+                if len(L) < 2:
+                    continue
+                cima = [[p + Vector((0, s * ALT_TIRA, 0)) for p in a[1]] for a in L]
+                base = [[p - Vector((0, s * 0.002, 0)) for p in a[1]] for a in L]
+                w.ref = sum((a[1][0] for a in L), Vector()) / len(L) - Vector((0, s * 0.3, 0))
+                n = len(L[0][1])
+                for k in range(len(L) - 1):
+                    for j in range(n - 1):
+                        w.quad([cima[k][j], cima[k + 1][j], cima[k + 1][j + 1], cima[k][j + 1]], mi, suave=False)
+                    w.quad([base[k][0], base[k + 1][0], cima[k + 1][0], cima[k][0]], mi)
+                    w.quad([base[k][-1], cima[k][-1], cima[k + 1][-1], base[k + 1][-1]], mi)
+                for kk in (0, -1):
+                    for j in range(n - 1):
+                        w.quad([base[kk][j], cima[kk][j], cima[kk][j + 1], base[kk][j + 1]], mi)
+            w.fechar()
+            relatorio.append("%s em %s: %d trecho(s)" % (rotulo, nome, len(listas)))
+
+    bordas = {}
+    for cx, cz, s in cubos_p:
+        # borda do arco: para cada ângulo, o menor raio em que a chapa de lado aparece (de 5 em 5 mm)
+        amostras, rs = [], []
+        for ang in np.radians(np.arange(-12, 193, 6)):
+            r_b = None
+            for r in np.arange(0.28, 0.55, 0.005):
+                x, z = cx + r * math.cos(ang), cz + r * math.sin(ang)
+                if z < 0.08:
+                    break
+                if bate(x, z, s):
+                    r_b = r
+                    break
+            if r_b is None:
+                amostras.append(None)
+                continue
+            rs.append(r_b)
+            pts = []
+            for r in np.linspace(r_b + 0.004, r_b + LARG_AL, 4):
+                x, z = cx + r * math.cos(ang), cz + r * math.sin(ang)
+                pts.append(bate(x, z, s))
+            if not all(pts) or len({h[2] for h in pts}) > 1:
+                amostras.append(None)
+                continue
+            amostras.append((pts[0][2], [Vector(h[0]) for h in pts]))
+        if rs:
+            bordas[(cx, s)] = float(np.median(rs))
+        tiras(amostras, s, "alargador da roda x=%.2f %s (borda r=%.3f)" % (cx, "esq" if s > 0 else "dir", bordas.get((cx, s), 0)))
+    for s in (1, -1):
+        xs_ = sorted(cx for cx, _, ss in cubos_p if ss == s)
+        if len(xs_) < 2:
+            continue
+        r_tr, r_fr = bordas.get((xs_[0], s), 0.33), bordas.get((xs_[-1], s), 0.33)
+        x0, x1 = xs_[0] + r_tr + LARG_AL - 0.01, xs_[-1] - r_fr - LARG_AL + 0.01
+        amostras = []
+        for x in np.arange(x0, x1 + 1e-6, 0.03):
+            hs = [bate(x, z, s) for z in np.linspace(Z_PROT, Z_SAIA, 6)]
+            amostras.append((hs[0][2], [Vector(h[0]) for h in hs]) if all(hs) and len({h[2] for h in hs}) == 1 else None)
+        tiras(amostras, s, "protetor da soleira %s" % ("esq" if s > 0 else "dir"))
 
 # ----------------------------------------------------------------------------------------------- faixa dos para-choques
 if "--sem-faixa" not in args:
