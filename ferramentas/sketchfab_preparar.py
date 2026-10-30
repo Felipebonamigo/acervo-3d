@@ -58,6 +58,13 @@ if RODAS_NO_CHAO:
     a.remove("--rodas-no-chao")
 # --remapear-z "x0,x1,y0,y1,z0,z1=za,zb" (metros, já no nosso referencial): cada ilha inteira dentro da caixa passa a ocupar za a zb em
 # altura. No Caipora, a fechadura da tampa descia até onde vai a placa brasileira de 13 cm; no carro real ela fica logo acima da placa
+# --ilha-maior "Plastic_Parts=pintura": a maior ilha do objeto desse material do arquivo vai para o nosso material (o resto fica no
+# do --mat). No Caipora, para-choques, arcos e saias são uma peça só de plástico preto; no carro da referência do Felipe, na cor do carro
+ILHA_MAIOR = {}
+if "--ilha-maior" in a:
+    i = a.index("--ilha-maior")
+    ILHA_MAIOR = dict(par.split("=") for par in a[i + 1].split(","))
+    del a[i:i + 2]
 REMAPEAR_Z = []
 while "--remapear-z" in a:
     i = a.index("--remapear-z")
@@ -247,6 +254,8 @@ for o in list(bpy.data.objects):
         bpy.data.objects.remove(o)
 mat_do_obj = {n: MAT_ENTRADA.get(bpy.data.objects[n].material_slots[0].material.name.split(".")[0])
               if bpy.data.objects[n].material_slots and bpy.data.objects[n].material_slots[0].material else None for n in todos}
+mat_nome_obj = {n: bpy.data.objects[n].material_slots[0].material.name.split(".")[0]
+                if bpy.data.objects[n].material_slots and bpy.data.objects[n].material_slots[0].material else None for n in todos}
 for o in [bpy.data.objects[n] for n in todos]:
     M = o.matrix_world.copy()
     o.parent = None
@@ -654,6 +663,35 @@ for i, o in enumerate(objs if CFG is None else ()):
     if mat_do_obj.get(o.name) and not rod:
         for p in me.polygons:
             p.material_index = ordem.index(mat_do_obj[o.name])
+    if mat_nome_obj.get(o.name) in ILHA_MAIOR:
+        bm = bmesh.new()
+        bm.from_mesh(me)
+        bm.faces.ensure_lookup_table()
+        visto, maior = set(), []
+        for f0 in bm.faces:
+            if f0.index in visto:
+                continue
+            pilha, ilha = [f0], []
+            visto.add(f0.index)
+            while pilha:
+                f = pilha.pop()
+                ilha.append(f.index)
+                for v in f.verts:
+                    for g in v.link_faces:
+                        if g.index not in visto:
+                            visto.add(g.index)
+                            pilha.append(g)
+            if len(ilha) > len(maior):
+                maior = ilha
+        bm.free()
+        destino = ILHA_MAIOR[mat_nome_obj[o.name]]
+        if destino not in ordem:
+            mats[destino] = mats.get(destino) or bpy.data.materials.new(destino)
+            me.materials.append(mats[destino])
+            ordem.append(destino)
+        for fi in maior:
+            me.polygons[fi].material_index = ordem.index(destino)
+        print(f"{o.name}: maior ilha ({len(maior)} faces) em {destino}")
 bpy.ops.object.select_all(action="DESELECT")
 for o in objs:
     o.select_set(True)

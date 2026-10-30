@@ -907,6 +907,7 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
                 n_[cor] = recolorir(o, "luz", "luz_" + cor, [float(t) for t in reg.split(",")])
         n_["vermelha"] = recolorir(o, "luz", "luz_vermelha")
         relatorio.append("%s: lanterna do modelo, faces %s" % (nome, n_))
+        continue
     if sinal < 0 and "--lanternas-como-vieram" in args:
         # o modelo já traz a lanterna em segmentos com os materiais do jogo (Jabuti: vermelha em cima, âmbar e ré embaixo); a chapa
         # pintada que veio junto na caixa vira a moldura preta
