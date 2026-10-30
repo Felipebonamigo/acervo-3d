@@ -1,55 +1,38 @@
 # Tropeiro (picape aventureira): pedido para a sessão local do PC (30/10/2026)
 
-Texto pronto para o Felipe colar na sessão local do Claude no PC, que tem o Detonauto, o Unreal e o compilador. A sessão da nuvem
-fez o carro no acervo, mas não conseguiu anexar o repositório do Detonauto. Por isso o que mexe nele ficou para cá.
+Texto pronto para o Felipe colar na sessão local do Claude no PC, que tem o Unreal e o compilador. A sessão da nuvem já fez o carro
+no acervo e os dados, o C++ e os testes no Detonauto (no `main` dos dois). Falta o que só o PC faz.
 
 ---
 
-Faça o carro novo **Tropeiro** (picape de cabine simples, versão aventureira) entrar no Detonauto. O carro já está pronto no
-acervo-3d (`git pull` no acervo ao lado do Detonauto):
+Monte o carro novo **Tropeiro** (picape de cabine simples, versão aventureira, classe nova `picape`) no Detonauto e jogue com ele.
+Siga `docs/pedido-pc-tropeiro-completo.md` do Detonauto:
 
-- corte quebrável: `veiculos/sketchfab/quebravel/tropeiro/` (34 peças, `tropeiro.glb`, mapa, `_wheels.json`, textura de desgaste);
-- kit completo: `veiculos/sketchfab/completo/tropeiro/` (81 peças, carroceria `picape`, grupo novo `cacamba` com
-  `cargo_protetor`, `cargo_ganchos` e `cargo_santantonio`);
-- modelo de origem: `veiculos/sketchfab/picape-cabine-simples-ramon__2b5c1ffec3b545168ab5280296cd5ffa.glb`, CC BY 4.0. Crédito:
-  `This work is based on "Saveiro G3" (https://sketchfab.com/3d-models/saveiro-g3-2b5c1ffec3b545168ab5280296cd5ffa) by
-  Ramon.Dos.Santos (https://sketchfab.com/Ramon.Dos.Santos) licensed under CC-BY-4.0`. No jogo o carro só se chama Tropeiro.
-
-Passos:
-
-1. **Registro:** acrescente o crédito acima no `docs/licencas.csv` e no `Data/Credits.csv`, sem apagar as linhas das outras
-   sessões.
-2. **Classe `picape`:** se `FDNGarageClass::All()` não tem `picape`, acrescente-a, com o teste de automação ao lado dos que já
-   existem para as outras classes, e compile.
-3. **`Data/Garage.csv`:** uma linha nova para o Tropeiro, copiando as colunas da linha do Cuiabano. Valores:
-   - classe `picape`, carro de 2 portas, época 2000;
-   - rodas: aro de liga de 14" (`aro_liga14`) com pneu 185/60 (`pneu_p185_60`), raio físico 30,8 cm;
-   - entre-eixos 253,4 cm;
-   - centro do cubo: `hub_y_cm` pelo `tropeiro_wheels.json`.
-
-   Para dirigir, a picape é mais alta e mais leve atrás que o Cuiabano: comece com a massa uns 10% acima e o centro de massa uns
-   4 cm mais alto, e ajuste jogando.
-4. **Cadeia de conferência:** `make_crush_channels.py`, `kit_to_detonauto.py`, `glb_texturas.py` e `kit_completo_to_detonauto.py`
-   com o id `tropeiro`. Confira se o grupo novo `cacamba` do kit é aceito. Ele segue a carroceria (sem `segue`) e fica fora de
-   portas e tampas; se o conversor só conhece os grupos antigos, trate `cacamba` como `porta_malas`, sem recolher na casca.
-5. **Prévias fiéis ao jogo:** `previa_carro.py` com `ID=tropeiro CORTE=.../quebravel/tropeiro/ KIT=.../completo/tropeiro/`, nas
-   cores de `Data/Paints.csv` e nos acabamentos de `Data/PaintFinishes.csv`. Grave em `veiculos/sketchfab/previas/tropeiro/`
-   (as de lá hoje são de trabalho, com materiais aproximados). Olhe cada imagem antes de dizer que ficou bom.
-6. **Importar e montar no Unreal:** `Tools/Unreal/montar-cuiabano-completo.ps1 -Id tropeiro -Fonte sketchfab`. Esse script já
-   aceita `-Id` e `-Fonte`; se faltar algo para a picape, generalize por parâmetro sem mudar o caminho do Cuiabano.
-7. **Compilar e jogar:** dirija o Tropeiro na pista de sempre, bata de frente, de lado e de ré.
-8. **Capturas no jogo, para o Felipe:**
-   - 3/4 da frente e 3/4 de trás, parado;
-   - de lado;
-   - close da frente: grade preta, faróis, faróis de milha e placa;
-   - close da traseira: lanternas em três faixas e placa no para-choque;
+1. Atualize os dois repositórios: `git -C ..\acervo-3d pull` e `git pull`.
+2. Feche o editor e rode:
+   ```powershell
+   .\Tools\Unreal\montar-cuiabano-completo.ps1 -Uproject .\Detonauto.uproject -Id tropeiro -Modelo Tropeiro
+   ```
+   O C++ mudou: `FDNGarageClass::All()` ganhou `picape`, e os testes contam o Tropeiro e o Besouro. O conferidor não achou erro, mas
+   é preciso compilar com o editor fechado. Se um teste de `Detonauto.Dados` ou `Detonauto.Garagem` falhar, mande a linha.
+3. Confira as capturas em `docs/img/carro-completo/tropeiro/` com a tabela do pedido e com fotos da picape real de referência
+   (rotina `aprovar-visual`). Compare também com as prévias do Blender em `acervo-3d/veiculos/sketchfab/previas/tropeiro/`.
+4. Jogue:
+   ```powershell
+   .\Tools\Unreal\vehicle-probe.ps1 -Uproject .\Detonauto.uproject -Row tropeiro -Play -ExtraArgs '-DNWheelProbe','-DNModel=Tropeiro'
+   ```
+   Bata de frente, de lado e de ré. A física é um ponto de partida (1080 kg, centro de massa 12 cm, traseira 0,92).
+5. Capturas no jogo, para o Felipe:
+   - 3/4 da frente e 3/4 de trás, parado, e de lado;
+   - close da frente (grade preta, faróis, faróis de milha, placa) e da traseira (lanternas em três faixas, placa no para-choque);
    - a caçamba de cima, com protetor, ganchos e santo-antônio;
    - a porta arrancada, para ver o vão e o forro;
+   - a tampa da caçamba depois de uma batida de ré: ela solta inteira, porque não há dobradiça de baixo;
    - o carro amassado depois de uma batida forte.
-
-   Compare com fotos da picape real de referência: o veredito visual é a captura do jogo, não a prévia.
+6. Anote o desempenho com 40 de tráfego (rotina `fechar-lote`): a casca tem ~281 mil triângulos e o kit ~223 mil.
 
 O que pode aparecer e onde mexer, no acervo:
 - o santo-antônio atravessando o vidro de trás ou o teto: `carro_completo.py`, método `cacamba`;
 - o alargador ou o protetor descolado da chapa: `detalhes_na_casca.py --protecoes`;
-- a caçamba escura por dentro: o vão da lateral da caçamba (`pocket` do `fender_rear_*` no `tropeiro_mapa.json`).
+- a caçamba escura por dentro: o `nao_virar` do `tropeiro_grupos.json` (as paredes da caçamba olham para dentro de propósito);
+- algo pintado sob o para-choque da frente: `fundo_cofre_visivel` do Tropeiro em `carro_completo_dados.json`.

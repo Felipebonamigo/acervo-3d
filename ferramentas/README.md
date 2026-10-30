@@ -1127,22 +1127,25 @@ os símbolos, sem as texturas de placa, de logo e de um panfleto e sem o chão d
   achado nas laterais da caçamba, que o `z_casca` não olhava); o estepe pendurado sob a caçamba atrás do eixo; na picape a saia de
   trás sobe o raio até o para-choque (passava por baixo dele e ia parar 60 cm para dentro, cortando o estepe). Nos dados do Tropeiro: `aparar_desde_a_saia`, `aparar_motor` e a chave nova `fundo_farol_rente` (o fundo dos faróis e a travessa
   de cima do painel dianteiro param abaixo do topo dos faróis: o capô da picape fica alguns cm acima deles e a ponta da travessa
-  aparecia na fresta, sobre o canto de dentro de cada farol).
+  aparecia na fresta, sobre o canto de dentro de cada farol) e `fundo_cofre_visivel: 0.28` (o para-lama interno e a travessa
+  começam no fundo do para-choque: na picape erguida o para-choque fica 6 cm acima do fundo do cofre, e as colunas pintadas da
+  travessa apareciam por baixo dele na cor do carro; motor e longarinas ficam onde estavam).
 - **O Gol não muda (conferido em 30/10):** com as mesmas entradas, o `detalhes_na_casca.py` e o `carro_completo.py` de `main` e os
   daqui dão as mesmas 32 peças do corte e os mesmos 158 objetos do kit, a 0 mm (comparação por ponto mais perto, que não depende da
   ordem dos vértices; o corte do próprio código antigo muda a ordem e a solda de uma rodada para outra).
 - **Saída (30/10):** `veiculos/sketchfab/quebravel/tropeiro/` (34 peças, ~281 mil triângulos, 4,38 x 1,70 x 1,42 m sem retrovisores,
   entre-eixos 2,534 m, roda 30,8 cm) e `veiculos/sketchfab/completo/tropeiro/` (kit época 2000 de picape, 81 peças, ~224 mil
-  triângulos). Prévias em `veiculos/sketchfab/previas/tropeiro/`, com as rodas do kit (liga 14 e pneu 185/60) no lugar das de tuning.
+  triângulos). Rodas do kit novas para ele: liga 15 de 8 furos ovais e pneu 205/60 R15 (`rodas_kit.py`), no lugar das de tuning.
+  Prévias em `veiculos/sketchfab/previas/tropeiro/`, pelo `previa_carro.py` com os materiais e valores do jogo (cores de
+  `Data/Paints.csv`, acabamentos de `Data/PaintFinishes.csv`, `RODAS=aro_liga15,pneu_p205_60,`: calota vazia, roda de liga).
 - **Diferenças para a referência:** a referência (4,49 x 1,71 x 1,50 m, entre-eixos 2,75 m) é da geração seguinte; a largura bate, o
   comprimento e a altura ficam 11 e 8 cm menores, e a frente (faróis, grade) é a da geração de 2000. Esticar a casca para as medidas
   de 2010 deformaria as rodas e as portas; se o Felipe quiser a frente de 2010, só o Meshy (com custo) ou outro modelo.
 - **Defeitos conhecidos:** reflexo ondulado na tampa da caçamba (malha do autor); borda serrilhada no quadro da janela atrás da
   porta; com o kit, uma haste clara na fresta da frente da porta e a saia escura aparecendo sob o para-choque de trás.
-- **Pendente:** as prévias com os materiais do jogo (`previa_carro.py`), a cadeia de conferência do Detonauto, a classe `picape` em
-  `FDNGarageClass::All()` e a linha do `Data/Garage.csv`: o repositório do Detonauto não pôde ser anexado nesta sessão. As prévias de
-  `previas/tropeiro/` usam materiais aproximados e cores e acabamentos aproximados (os valores de `Data/Paints.csv` e
-  `Data/PaintFinishes.csv` estão no Detonauto); o veredito visual é a captura do jogo.
+- **No Detonauto (30/10):** classe `picape` em `FDNGarageClass::All()`, linhas do Tropeiro nos dados, grupo `cacamba` no
+  `kit_completo_to_detonauto.py` e a cadeia do Blender conferida na nuvem. Falta o PC: `docs/pedido-pc-tropeiro-completo.md` do
+  Detonauto (montar, compilar, testar, capturar e jogar). O veredito visual é a captura do jogo.
 ## Besouro do Sketchfab: clássico de motor atrás, separado pela textura (30/10/2026)
 
 O Besouro do Detonauto deixou o Meshy pelo caminho do Cuiabano. Modelo escolhido pelo Felipe entre 5 candidatos: o de Matej Ondra
