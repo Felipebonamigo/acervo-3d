@@ -76,6 +76,8 @@ for pos, cx, cz, s, ys in cantos:
         # RODAS="aro,pneu,calota" (os de Data/CarWheels.csv do carro; Sagui: aro_aco14,pneu_p185_60,calota14); padrão o do Cuiabano
         aro_, pneu_, calota_ = os.environ.get('RODAS', 'aro_aco13,pneu_p175_70,calota13').split(',')
         for nome, obj in ((aro_, aro_), (pneu_, pneu_ + '_' + estado), (calota_, calota_)):
+            if not nome:
+                continue        # roda de liga sem calota (Tropeiro: RODAS=aro_liga15,pneu_p205_60,)
             o = rodaglb(nome, obj)
             o.location = (cx, y, cz)
             o.rotation_mode = 'XYZ'; o.rotation_euler = (0, 0, 0 if s > 0 else math.pi)
