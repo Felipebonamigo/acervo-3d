@@ -1379,3 +1379,6 @@ e um caricato. O do Meshy (`meshy-conta/barao__01a16960.glb`) fica no acervo.
   cantos, a daqui é um retângulo na própria chapa com o friso cromado entre elas (o traço próprio da ficha).
 - **Defeitos conhecidos:** a chapa do autor tem ondas leves na lateral traseira (de perto, com sol baixo); o vidro fixo de quarta não
   tem borracha; o retrovisor é o do autor, sem espelho.
+- **Táxi (30/10/2026):** `taxi_do_corte.py` faz o táxi de tráfego do corte: malha estática branca com a textura de desgaste,
+  vidros escuros opacos, caixa de teto lisa sem texto, ~90 mil triângulos (o do Meshy tinha ~79 mil),
+  `veiculos/sketchfab/taxi-barao__0383ac51df544ef5ab97559f7a97a811.glb`; prévia em `previas/barao/barao-taxi.jpg`.
