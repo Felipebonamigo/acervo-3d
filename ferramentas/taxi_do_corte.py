@@ -1,7 +1,7 @@
 """Táxi de tráfego a partir do corte quebrável de um carro do acervo (Barão, 30/10/2026): uma malha estática só, branca (a pintura
 fica com a textura de desgaste do corte, branco-tinta x oclusão), vidros escuros opacos (o material do acervo no jogo é opaco),
 rodas do corte, a antena, e uma caixa de teto lisa de 62 x 22 x 13 cm sem texto no meio do teto (medido só na área do teto: o ponto
-mais alto do carro é a ponta da antena). Reduz peça por peça até o alvo (no carro inteiro o colapso ligava peças soltas).
+mais alto do carro é a ponta da antena). Reduz peça por peça até o alvo (no carro inteiro o colapso ligava peças soltas) e tira a face que o colapso joga para fora da caixa do carro.
 
     python -I ferramentas/taxi_do_corte.py -- veiculos/sketchfab/quebravel/barao/barao.glb \
         veiculos/sketchfab/taxi-barao__0383ac51df544ef5ab97559f7a97a811.glb 90000
@@ -33,11 +33,19 @@ for m in bpy.data.materials:
             b.inputs["Roughness"].default_value=0.1 if base in ("vidro","cromo","cromado") else 0.5
 # reduz peça por peça (no carro inteiro o colapso ligava peças soltas e deixava lâminas compridas no chão)
 total=sum(len(o.data.polygons) for o in obs); razao=min(1.0,alvo/total)
+caixa=np.concatenate([np.array([v.co for v in o.data.vertices]) for o in obs]); cmin,cmax=caixa.min(0)-0.05,caixa.max(0)+0.05
 for o in obs:
     if len(o.data.polygons)<200: continue
     bpy.context.view_layer.objects.active=o
     md=o.modifiers.new("d","DECIMATE"); md.ratio=razao; md.use_collapse_triangulate=True
     bpy.ops.object.modifier_apply(modifier="d")
+    # o colapso em peça não-variedade às vezes joga um vértice longe (12 m, lâminas no chão): a face sai
+    bm=bmesh.new(); bm.from_mesh(o.data)
+    fora=[f for f in bm.faces if any(not (np.all(np.array(v.co)>=cmin) and np.all(np.array(v.co)<=cmax)) for v in f.verts)]
+    if fora:
+        print(o.name, len(fora), "faces fora do carro tiradas")
+        bmesh.ops.delete(bm,geom=fora,context="FACES")
+    bm.to_mesh(o.data); bm.free()
 bpy.ops.object.select_all(action="DESELECT")
 for o in obs: o.select_set(True)
 bpy.context.view_layer.objects.active=obs[0]; bpy.ops.object.join()
