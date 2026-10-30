@@ -21,6 +21,7 @@ lanternas como placas lisas. Este passo refaz essas peças com os detalhes da ca
                            (--faixa-branca 0.35 = fração da altura); nada é refeito em caixa
     --manter-grade         a grade do modelo fica como veio
     --grade-recuo 0.03     a grade refeita recua isso (m) atrás da frente da caixa dela
+    --friso-lente          com --manter-luzes: moldura preta varrida rente à borda da lente do farol e da lanterna
     --grade-chassi         a grade veio preta (chassi): é refeita com palhetas na caixa dela
     --manter-retrovisores  a forma fica; a capa pintada vira plástico preto
     (as portas de trás ganham maçaneta quando existem, na altura de --z-macaneta)
@@ -924,6 +925,71 @@ def luz_na_casca(o, nome, sinal):
     relatorio.append("%s: lente na própria chapa (%d faces, moldura de %d)" % (nome, len(L) - len(anel), len(anel)))
 
 
+def friso_na_borda(o, faces, larg=0.012, alt=0.004, passo=0.01):
+    """--friso-lente (Tupiniquim, 30/10): moldura preta rente à borda da lente do modelo. O contorno vem das arestas da lente que só
+    uma face dela usa (o maior laço), reamostrado a cada `passo` e suavizado (a lente é triangulada: pintar as faces da borda saía em
+    dente de serra); o perfil de `larg` x `alt` é varrido para dentro da lente, na normal da face mais perto."""
+    mw = o.matrix_world
+    uso = {}
+    for pg in faces:
+        for k in pg.edge_keys:
+            uso[k] = uso.get(k, 0) + 1
+    viz = {}
+    for (i, j), n in uso.items():
+        if n == 1:
+            viz.setdefault(i, []).append(j)
+            viz.setdefault(j, []).append(i)
+    lacos, visto = [], set()
+    for v0 in viz:
+        if v0 in visto:
+            continue
+        laco, ant, v = [v0], None, v0
+        visto.add(v0)
+        while True:
+            prox = [u for u in viz[v] if u != ant and u not in visto]
+            if not prox:
+                break
+            ant, v = v, prox[0]
+            visto.add(v)
+            laco.append(v)
+        lacos.append(laco)
+    if not lacos:
+        return "sem borda"
+    laco = max(lacos, key=len)
+    P = np.array([list(mw @ o.data.vertices[i].co) for i in laco] + [list(mw @ o.data.vertices[laco[0]].co)])
+    seg = np.linalg.norm(np.diff(P, axis=0), axis=1)
+    acum = np.concatenate([[0.0], np.cumsum(seg)])
+    n = max(8, int(acum[-1] / passo))
+    t = np.linspace(0, acum[-1], n, endpoint=False)
+    R = np.array([np.interp(t, acum, P[:, k]) for k in range(3)]).T
+    for _ in range(3):                                   # média móvel circular: tira o serrilhado dos triângulos
+        R = (np.roll(R, 1, 0) + 2 * R + np.roll(R, -1, 0)) / 4
+    cs = np.array([list(mw @ pg.center) for pg in faces])
+    ns = np.array([list((mw.to_3x3() @ pg.normal).normalized()) for pg in faces])
+    c = cs.mean(0)
+    w = Escritor(o)
+    mp = slot(o, "chassi")
+    aneis, eixos = [], []
+    for p in R:
+        k = int(np.argmin(((cs - p) ** 2).sum(1)))
+        nn = Vector(ns[k])
+        dentro = Vector(c - p)
+        dentro = (dentro - nn * dentro.dot(nn))
+        if dentro.length < 1e-6:
+            continue
+        dentro.normalize()
+        base = Vector(p)
+        aneis.append([base + dentro * sx + nn * ty for sx, ty in ((-0.002, -0.001), (larg, -0.001), (larg, alt), (-0.002, alt))])
+        eixos.append(base + dentro * (0.5 * larg - 0.001) + nn * (0.5 * alt - 0.0005))
+    for i in range(len(aneis)):
+        a, b_ = aneis[i], aneis[(i + 1) % len(aneis)]
+        meio = (eixos[i] + eixos[(i + 1) % len(eixos)]) / 2      # cada face olha para fora do eixo do friso
+        for j in range(4):
+            w.quad([a[j], b_[j], b_[(j + 1) % 4], a[(j + 1) % 4]], mp, ref=meio)
+    w.fechar()
+    return "friso de %.0f cm na borda da lente (%d pontos)" % (100 * acum[-1], len(aneis))
+
+
 MANTER_LUZES = "--manter-luzes" in args
 FAIXA_BRANCA = opt("--faixa-branca", 0.35)
 for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_left", -1), ("taillight_right", -1)):
@@ -950,6 +1016,8 @@ for nome, sinal in (("headlight_left", 1), ("headlight_right", 1), ("taillight_l
                 pg.material_index = mb if pg.center.z < z0 + FAIXA_BRANCA * (z1 - z0) else mv
         o.data.update()
         relatorio.append("%s: lente do modelo mantida (%d faces)" % (nome, len(fl)))
+        if "--friso-lente" in args:
+            relatorio.append("%s: %s" % (nome, friso_na_borda(o, fl)))
         continue
     if sinal < 0 and "--sem-lanternas" in args:
         continue                              # Pão de Forma: a lanterna redonda pequena do modelo fica (a de 3 segmentos não cabe)

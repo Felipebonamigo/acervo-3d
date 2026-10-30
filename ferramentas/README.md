@@ -809,7 +809,7 @@ misturados num objeto, e a malha é uma sopa de triângulos soltos. A cadeia gan
     python -I ferramentas/detalhes_na_casca.py -- <corte>/<id>.glb <corte>/<id>.glb --manter-luzes --grade-chassi --manter-retrovisores \
         --sem-friso --sem-faixa --sem-face-para-choque --sem-arco-redondo --para-choque-pintado --sem-sinaleira --sem-quebra-vento \
         --placa-nova --z-placa 0.365 --z-placa-tras 0.742 --z-macaneta 0.84 --antena-teto 0.05 --limpadores 0.30,0.50,-0.16,0.44 \
-        --grade-recuo 0.03
+        --grade-recuo 0.03 --friso-lente
     python -I ferramentas/assar_desgaste.py -- <corte>/<id>.glb <corte>/<id>.glb --tamanho 2048 --amostras 32
     python -I ferramentas/carro_completo.py -- --corte <corte> --id <id> --out <kit> --epoca 2000 --aparar-mais 0.62 0.75 \
         --sem-saia-para-choque
@@ -838,7 +838,8 @@ misturados num objeto, e a malha é uma sopa de triângulos soltos. A cadeia gan
 - **Segunda rodada (30/10, noite):** `--grade-recuo` (a grade refeita recua atrás da borda do capô em vez de saltar como uma caixa) e
   `--sem-saia-para-choque` no kit (o para-choque deste carro desce até o piso e sobe nas pontas, e a chapa da saia aparecia por baixo
   da ponta como aba preta; o plano dela continua aparando o kit). Testada e descartada: moldura e refletor por faces na lente do farol
-  (a lente é triangulada e a borda saía em dente de serra). As lascas pretas nas colunas A da prévia do kit são da própria prévia, que
+  (a lente é triangulada e a borda saía em dente de serra); no lugar, `--friso-lente` varre uma moldura preta de 12 x 4 mm rente ao
+  contorno da lente (as arestas que só uma face dela usa, reamostradas a cada 1 cm e suavizadas): o farol passou a ler como farol. As lascas pretas nas colunas A da prévia do kit são da própria prévia, que
   tira o para-brisa e a chapa em volta; com o vidro, de dentro, a coluna é inteira.
 - **Resultado (30/10):** 34 peças, ~125 mil triângulos, 3,83 m, entre-eixos de 2,39 m, roda de 29,6 cm; kit época 2000. As portas de
   trás e os para-lamas traseiros ficam na carroceria no jogo (uma porta por lado no contrato do Detonauto; o para-lama traseiro de
