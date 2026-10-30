@@ -880,6 +880,11 @@ preparo e o corte passou a usar as juntas que o autor modelou.
   com filtro opcional de material e de normal): portas, capô, tampa, para-choques, faróis, lanternas, grade e bagageiro saem na fresta
   do autor, não num plano reto. `--materiais-do-arquivo`: o plástico preto, as luzes e as calotas ficam com o material do arquivo (sem
   ela, tudo que não é vidro, luz ou roda vira pintura, como no Gol).
+  *Correção (30/10):* havia dois blocos `take: "ilha"` no script e só o primeiro rodava (fração por número de faces, padrão 0,5, sem
+  filtro de normal). Ficou um bloco só, com esse comportamento; `normal` [nx, ny, nz, mínimo] agora vale de fato (normal média da
+  ilha, pesada pela área) e `"fracao_por": "area"` mede a fração por área. Furgãozinho, Gaúcho V8, Pão de Forma e Tropeiro saem
+  iguais (faces por material e área por peça; só a solda muda, como entre duas rodadas do código antigo): no Tropeiro as duas ilhas
+  que passam na caixa da tampa já olham para trás, e a parede de dentro é da mesma ilha, então o `normal` dela não tira nada.
 - **`detalhes_na_casca.py`:** opções novas, todas desligadas por padrão: `--luzes-do-modelo` (faróis e lanternas que dão a volta no
   canto ficam com a forma do autor; farol em `lente_farol`, lanterna em três faixas, freio, seta e ré, de cima para baixo, com as divisas
   cortadas na malha; `--faixas-lanterna 0.45,0.25`; o `--manter-luzes` do Tupiniquim faz duas faixas), `--sem-tampa-tanque` (o modelo

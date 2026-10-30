@@ -2009,9 +2009,13 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
         return [g for il in out for g in il]
     if take == "ilha":
         # painel que o modelo já traz solto (porta, capô, tampa com fresta de verdade): cada ilha ligada com a maior parte na caixa
-        # vai inteira, e a borda da peça segue o vinco do modelo em vez do corte reto da caixa; "material" (opcional) restringe
+        # vai inteira, e a borda da peça segue o vinco do modelo em vez do corte reto da caixa; "material" (opcional) restringe.
+        # A fração na caixa conta faces; "fracao_por": "area" conta área. "normal" [nx, ny, nz, mínimo] (opcional): a normal média
+        # da ilha, pesada pela área, tem de olhar para esse lado (a tampa da caçamba do Tropeiro, sem a parede de dentro dela)
         cod = {"pintura": 0, "vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}.get(p.get("material"))
         minimo = p.get("fracao_na_caixa", 0.5)
+        por_area = p.get("fracao_por", "faces") == "area"
+        nv = Vector(p["normal"][:3]).normalized() if p.get("normal") else None
         visto = set()
         for f0 in bm.faces:
             if f0 in visto or (cod is not None and camada_mat is not None and f0[camada_mat] != cod):
@@ -2026,9 +2030,19 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
                         if h not in visto and (cod is None or camada_mat is None or h[camada_mat] == cod):
                             visto.add(h)
                             pilha.append(h)
-            dentro = sum(1 for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
-            if dentro >= minimo * len(ilha) and dentro > 0:
-                out.extend(ilha)
+            if por_area:
+                total = sum(g.calc_area() for g in ilha)
+                dentro = sum(g.calc_area() for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
+            else:
+                total = len(ilha)
+                dentro = sum(1 for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
+            if dentro < minimo * total or dentro <= 0:
+                continue
+            if nv is not None:
+                nm = sum((g.normal * g.calc_area() for g in ilha), Vector())
+                if nm.length < 1e-9 or nm.normalized().dot(nv) < p["normal"][3]:
+                    continue
+            out.extend(ilha)
         return out
     if take == "ilhas":
         # ilhas ligadas inteiras (o Besouro do Sketchfab traz cada peça modelada à parte: porta, para-lama, tampa): vai a ilha com
@@ -2092,38 +2106,6 @@ def _escolher(bm, p, rodas, camada_peca, ids_peca, camada_mat=None):
                                 pilha.append(h)
                 if sum(1 for g in ilha if g in sel) >= 0.9 * len(ilha):
                     out.extend(g for g in ilha if g in sel)
-        return out
-    if take == "ilha":
-        # carro do Sketchfab com as peças do autor (sketchfab_juntar.py): cada ilha ligada (uma porta, o capô, a tampa) vai inteira
-        # para a caixa que contém a maior parte dela, e a junta da peça sai na fresta que o autor modelou, não num plano reto
-        minimo = p.get("fracao_na_caixa", 0.6)
-        cod = {"pintura": 0, "vidro": 1, "pneu": 2, "chassi": 3, "luz": 4, "cromado": 5}.get(p.get("material")) if p.get("material") else None
-        nv = Vector(p["normal"][:3]).normalized() if p.get("normal") else None
-        visto = set()
-        for f0 in bm.faces:
-            if f0 in visto:
-                continue
-            pilha, ilha = [f0], []
-            visto.add(f0)
-            while pilha:
-                g = pilha.pop()
-                ilha.append(g)
-                for e in g.edges:
-                    for h in e.link_faces:
-                        if h not in visto:
-                            visto.add(h)
-                            pilha.append(h)
-            if cod is not None and camada_mat is not None and sum(1 for g in ilha if g[camada_mat] == cod) < 0.5 * len(ilha):
-                continue
-            area = sum(g.calc_area() for g in ilha)
-            dentro = sum(g.calc_area() for g in ilha if _na_caixa(g.calc_center_median(), b, 0.01))
-            if area <= 0 or dentro < minimo * area:
-                continue
-            if nv is not None:
-                nm = sum((g.normal * g.calc_area() for g in ilha), Vector())
-                if nm.length < 1e-9 or nm.normalized().dot(nv) < p["normal"][3]:
-                    continue
-            out.extend(ilha)
         return out
     if take == "textura":
         alvo = ids_peca[p["name"]]
