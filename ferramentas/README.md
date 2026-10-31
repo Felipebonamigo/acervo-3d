@@ -1212,7 +1212,7 @@ fica em `veiculos/sketchfab/besouro-matej-ondra__3d166ec739cb440984cbcd17608675e
         --sem-arco-redondo --sem-face-para-choque --sem-limpador --sem-macaneta --sem-friso --sem-miudezas --para-choque-pintado \
         --sem-faixa --sem-quebra-vento --sem-sinaleira --luzes-modeladas --retrovisores-como-vieram \
         --piscas 1.15,1.28,0.54,0.62,0.835,0.89 --z-placa 0.32 --z-barra-frente 0.41 --placa-tras-colada
-    python -I ferramentas/assar_desgaste.py -- <corte>/besouro.glb <corte>/besouro.glb --tamanho 2048 --amostras 32 --virar-so-para-dentro
+    python -I ferramentas/assar_desgaste.py -- <corte>/besouro.glb <corte>/besouro.glb --tamanho 2048 --amostras 32 --virar-so-para-dentro --cromado-como-cromo
     python -I ferramentas/carro_completo.py -- --corte <corte> --id besouro --out <kit>
     python -I ferramentas/rodas_kit.py -- --so p165_80          (só o pneu novo; os outros GLBs ficam)
 
@@ -1237,6 +1237,9 @@ fica em `veiculos/sketchfab/besouro-matej-ondra__3d166ec739cb440984cbcd17608675e
 - **`assar_desgaste.py --virar-so-para-dentro`:** a chapa simples sob o friso bate perto pela normal e sai livre para dentro; era
   "desvirada" e depois o `hidden_paint_faces` do Detonauto a apagava (dentes pretos sob o friso cromado). Só vira o que olha para o
   meio do carro.
+- **`assar_desgaste.py --cromado-como-cromo` (31/10):** no jogo o para-choque, os frisos e os aros saíram brancos foscos: o
+  material `cromado` é o cromo pintado na textura do Meshy (`MI_DNPeca`). A opção troca para `cromo` (`MI_DNCromoCoupe`, o do Lambari);
+  só o nome do material muda, a textura sai igual byte a byte.
 - **`carro_completo.py`:** a sonda da saia só aceita o que fica além da roda (a lâmina alta deixava o raio bater no tubo do eixo
   traseiro, e a saia de trás caía no entre-eixos apagando o motor e o escapamento); por carro nos dados: `estepe_recuo` e
   `estepe_inclinacao` (o estepe da frente furava o bico da tampa), `saias: false` (a saia preta sob a lâmina aparecia como bloco) e o

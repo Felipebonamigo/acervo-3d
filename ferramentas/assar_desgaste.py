@@ -11,6 +11,7 @@ sujeira embaixo, variação leve), não a geometria. Este passo:
 
     python -I ferramentas/assar_desgaste.py -- <corte>.glb <saida>.glb [--tamanho 2048] [--amostras 32] [--sujeira 0.35] [--uv-smart]
         [--virar-so-para-dentro]   (chapa simples, como o Besouro do Sketchfab: a chapa sob os frisos não é desvirada)
+        [--cromado-como-cromo]     (os cromados do arquivo viram o cromo do jogo, MI_DNCromoCoupe)
 
 No jogo (glb_texturas.py -> T_<Modelo>_C) a tinta multiplica essa textura: a cor trocável continua, com o desgaste por cima.
 A prévia com a textura: montagem2 sem LISO, passando o PNG como a tinta.
@@ -38,10 +39,17 @@ SUJEIRA = opt("--sujeira", 0.16 if ESTADO == "usado" else 0.03)
 # altura de cada texel (sujeira) vem de um bake da posição, porque a carta não tem mais eixo
 UV_SMART = "--uv-smart" in args
 SO_PARA_DENTRO = "--virar-so-para-dentro" in args   # chapa simples: só desvira face que olha para o meio do carro
+# --cromado-como-cromo (Besouro, 31/10): os cromados que vieram da textura do Sketchfab (para-choques, frisos, aros) passam a "cromo",
+# o cromo do jogo (MI_DNCromoCoupe); "cromado" é o cromo pintado na textura do Meshy (MI_DNPeca) e no jogo saía branco fosco
+CROMADO_COMO_CROMO = "--cromado-como-cromo" in args
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 # com --uv-smart os vértices do glb (separados em cada normal de canto) são soldados logo depois: senão cada triângulo é uma ilha
 bpy.ops.import_scene.gltf(filepath=ent)
+if CROMADO_COMO_CROMO:
+    for m in bpy.data.materials:
+        if m.name.split(".")[0] == "cromado":
+            m.name = "cromo" + m.name[len("cromado"):]
 sc = bpy.context.scene
 objs = [o for o in bpy.data.objects if o.type == "MESH"]
 casca = [o for o in objs if not o.name.startswith(("wheel_", "hubcap_", "glass_"))]
