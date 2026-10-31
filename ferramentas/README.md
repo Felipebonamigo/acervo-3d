@@ -1347,7 +1347,7 @@ borda dos vidros). Ficou a reserva, com o "siga" do Felipe: o **"Hatchback" de M
         --manter-luzes --manter-grade --manter-retrovisores --sem-macaneta --placa-nova --z-placa 0.43 --z-placa-tras 0.66 \
         --antena-teto -0.9 --sem-quebra-vento --sem-sinaleira --sem-face-para-choque --sem-arco-redondo --para-choque-pintado \
         --z-friso 0.52 --sem-faixa
-    python -I ferramentas/assar_desgaste.py -- <corte>/hatch-redondo-5p.glb <corte>/hatch-redondo-5p.glb --tamanho 2048 --amostras 32
+    python -I ferramentas/assar_desgaste.py -- <corte>/hatch-redondo-5p.glb <corte>/hatch-redondo-5p.glb --tamanho 2048 --amostras 32 --uv-smart
     python -I ferramentas/carro_completo.py -- --corte <corte> --id hatch-redondo-5p --out <kit>
 
 - **`sketchfab_preparar.py`:** a caixa de `fora_caixas` do `--juntar` aceita um 7º elemento, o material do arquivo: só as ilhas dele
@@ -1369,6 +1369,10 @@ borda dos vidros). Ficou a reserva, com o "siga" do Felipe: o **"Hatchback" de M
   2,411 m, roda 30,1 cm) e `completo/hatch-redondo-5p/` (kit época 2000, 93 peças). Prévias em `veiculos/sketchfab/previas/hatch-redondo-5p/`
   (4 vistas, detalhes, as 14 cores de `Data/Paints.csv` e os 5 acabamentos). A cadeia de conferência do Detonauto (`make_crush_channels.py`,
   `kit_to_detonauto.py`, `glb_texturas.py`, `kit_completo_to_detonauto.py`) passa: 19 peças e a roda, 11 malhas do kit.
+- **Tinta granulada no jogo (30/10, noite):** a projeção em caixa partia o carro em ~36 mil cartas minúsculas; no Unreal os
+  mipmaps misturam cartas vizinhas de partes diferentes do carro e a pintura saía salpicada de longe (a pior da fila, viu a central).
+  O assado passou a ser com `--uv-smart` (4,7 mil cartas, 174 texels por metro), como o Jabuti, o Gaúcho V8 e o Barão; a textura
+  reduzida a 256 px (o mip do jogo de longe) fica limpa na prévia.
 - **Caixa de roda fechada (`caixa_roda_fechada`, dado novo do `carro_completo.py`):** a frente da porta passa da borda de trás do arco
   da roda da frente, e pelo vão do arco via-se o forro de alumínio da porta e o carpete (uma lasca clara de perto). Com o dado, o forro
   da caixa de roda ganha parede do lado de dentro e sai do forro da porta, do vão da porta e do carpete da cabine toda face com um

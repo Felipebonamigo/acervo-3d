@@ -23,7 +23,7 @@
     "vertices_depois": 59037,
     "arestas_de_borda": 500
   },
-  "mapa": "hatch-redondo-5p_mapa.json (lido de /tmp/claude-0/-home-user-acervo-3d/66828abe-c514-5958-86a6-a5db22c8a6fa/scratchpad/c6/hatch-redondo-5p_mapa.json)",
+  "mapa": "hatch-redondo-5p_mapa.json (lido de /home/user/acervo-3d/veiculos/sketchfab/quebravel/hatch-redondo-5p/hatch-redondo-5p_mapa.json)",
   "textura": {
     "pintura_rgb": [
       0.5,
@@ -1065,7 +1065,7 @@
         "faces_degeneradas_tiradas": 0,
         "vertices_soltos_tirados": 0,
         "vertices_nan": 0,
-        "cantos_contra_face": 0.023,
+        "cantos_contra_face": 0.024,
         "area_para_fora": 0.499,
         "virada": null
       },
