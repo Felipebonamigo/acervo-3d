@@ -224,7 +224,8 @@
   "faces_removidas": {},
   "avisos": [
     "--sem-rotulos: nada classificado pela textura; vidros e peças só pelo mapa",
-    "--manter-materiais: chassi, cromado, cromo, lente_farol, luz_ambar, luz_vermelha, pintura, pneu, vidro"
+    "--manter-materiais: chassi, cromado, cromo, lente_farol, luz_ambar, luz_vermelha, pintura, pneu, vidro",
+    "prévia amassada: não achei /home/user/acervo-3d/ferramentas/../../Detonauto/Tools/Blender/make_damage_morphs.py (use --detonauto)"
   ],
   "rodas_cm": {
     "front_axle_cm": 132.66,
@@ -1550,20 +1551,5 @@
       "fbx": "gaucho-v8_pecas/wheel_rr_tire.fbx"
     }
   ],
-  "amassada": {
-    "determinante_minimo": {
-      "DN_Front": 0.418,
-      "DN_Rear": 0.163,
-      "DN_Left": 0.534,
-      "DN_Right": 0.575,
-      "DN_Roof": 0.703
-    },
-    "fresta_maxima_mm": {
-      "intacto": 0.0,
-      "frente+esquerda": 0.0,
-      "traseira+direita+teto": 0.0
-    },
-    "vertices_na_costura": 3498,
-    "zonas": "make_damage_morphs.displacement do Detonauto, semente 17"
-  }
+  "amassada": null
 }

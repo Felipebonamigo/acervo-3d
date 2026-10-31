@@ -1275,7 +1275,7 @@ por preparo.
         --manter-normais --manter-materiais --mapa veiculos/sketchfab/quebravel/gaucho-v8/gaucho-v8_mapa.json --sem-fbx
     python -I ferramentas/detalhes_na_casca.py -- <corte>/gaucho-v8.glb <corte>/gaucho-v8.glb --sem-luzes --sem-retrovisor \
         --manter-grade --sem-macaneta --sem-limpador --sem-friso --sem-faixa --para-choque-pintado --sem-quebra-vento --sem-sinaleira \
-        --sem-arco-redondo --sem-tampa-tanque --z-placa 0.315 --z-placa-tras 0.68 --placa-na-propria-peca \
+        --sem-arco-redondo --sem-tampa-tanque --z-placa 0.315 --z-placa-tras 0.68 --placa-na-propria-peca --antena 1.2,0.72 \
         --mapa veiculos/sketchfab/quebravel/gaucho-v8/gaucho-v8_mapa.json
     python -I ferramentas/assar_desgaste.py -- <corte>/gaucho-v8.glb <corte>/gaucho-v8.glb --tamanho 2048 --amostras 32 --uv-smart
     python -I ferramentas/carro_completo.py -- --corte veiculos/sketchfab/quebravel/gaucho-v8 --id gaucho-v8 \
@@ -1314,6 +1314,9 @@ ficha (4,60 x 1,81 x 1,38 m, entre-eixos 2,65 m, roda 32 cm). As proporções do
   do `gaucho-v8` em `carro_completo_dados.json` (sem eles nada muda nos outros carros): `assoalho_recuo` 0,15 (o assoalho fica 15 cm
   para dentro, na sombra do fundo) e `soleira_pintada` (a caixa de ar abaixo das portas, de roda a roda e também sob a porta, sai
   na cor do carro, como no cupê de verdade); a época do dado passou a 70, a usada desde o começo.
+- **Antena (31/10, vista pela central nas capturas do PC):** o ponto padrão (x 1,05, y 0,63) caía na borda do capô largo do cupê:
+  o raio não olha o capô, passava por ele e achava a aba da carroceria embaixo. `--antena 1.2,0.72` põe a antena no para-lama
+  esquerdo, por fora do capô (|y| até 0,65). Corte, assado e kit refeitos.
 - **Falta / conhecido:** o para-lama dianteiro sai pela face lateral e a borda de cima dele fica serrilhada quando ele solta; o aparo do
   vão do motor fatiou dois reservatórios e a bateria (só se vê com o capô aberto).
 
