@@ -634,7 +634,7 @@ grade dele tem as 7 fendas verticais de uma marca: ela sai e entra uma grade de 
     python -I ferramentas/borracha_vidro.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb
     python -I ferramentas/detalhes_na_casca.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb --sem-arco-redondo \
         --sem-face-para-choque --sem-quebra-vento --sem-friso --sem-faixa --sem-sinaleira --sem-macaneta --z-placa 0.40 \
-        --farol-redondo --grade-limpa --avental-preto 1.45 0.665
+        --farol-redondo --grade-limpa --avental-preto 1.45 0.665 --sem-miudezas
     python -I ferramentas/assar_desgaste.py -- <corte>/jipe-capota.glb <corte>/jipe-capota.glb --tamanho 2048 --amostras 32
     python -I ferramentas/carro_completo.py -- --corte <corte> --id jipe-capota --out <kit> --epoca 2000 --aparar-mais --aparar-alto 0.12
 
@@ -675,6 +675,10 @@ grade dele tem as 7 fendas verticais de uma marca: ela sai e entra uma grade de 
   no avental entre o para-choque e os faróis. Agora o `--farol-redondo` faz a moldura em plástico preto e o `--avental-preto X Z`
   (novo) põe em `chassi` a pintura da carroceria e dos para-lamas à frente de X e abaixo de Z. As rodas saem escuras no jogo em
   todos os carros de aro de aço (o Besouro também): é o material do aro no jogo, não deste carro.
+- **Antena (31/10):** a antena do `detalhes_na_casca.py` vai "no para-lama esquerdo" em y 0,63, mas no jipe o capô cobre a largura
+  toda: ela nascia do capô e, de 3/4, ficava na frente do para-brisa. Sai com `--sem-miudezas` (a tampa do tanque já não cabia).
+  O capô "mais claro" das capturas é a luz (ele e o topo dos para-lamas olham para o céu; as laterais ficam na sombra do sol baixo):
+  a textura do capô (0,99) é a mesma das portas (0,95).
 - **Detonauto (30/10):** cadeia de conferência passou (`make_crush_channels.py`, `kit_to_detonauto.py`, `glb_texturas.py`,
   `kit_completo_to_detonauto.py` com `--modelo Trilheiro`); dados, specs e o pedido para o PC (`docs/pedido-pc-trilheiro.md`) lá.
 ## Caipora do Sketchfab (30/10/2026)
