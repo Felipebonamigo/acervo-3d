@@ -701,6 +701,7 @@ mesmo número de triângulos; placas de mod de jogo).
         --lanterna-do-modelo "ambar=0.645,0.76,0.67,0.735;branca=0.585,0.633,0.736,0.784" --retrovisor-do-modelo --grade-do-modelo --placa-pela-face --para-choque-pintado \
         --sem-sinaleira --seta-no-farol 0.615,0.69,0.55,0.74
     python -I ferramentas/assar_desgaste.py -- $C/caipora.glb $C/caipora.glb --tamanho 2048 --amostras 32 --manter-normais
+    python -I ferramentas/alisar_normais.py -- $C/caipora.glb $C/caipora.glb --pecas hood,door_fl,door_fr,trunk,body,fender_front_left,fender_front_right
     python -I ferramentas/carro_completo.py -- --corte $C --id caipora --out veiculos/sketchfab/completo/caipora --epoca 90 --puxar-para-dentro
 
 O que este modelo pediu, tudo como **opção nova** (sem ela o Gol sai igual: a cadeia dele foi refeita com as ferramentas antigas e as
@@ -734,6 +735,10 @@ novas sobre a mesma entrada e deu a mesma malha, as mesmas normais e a mesma tex
   fresta do capô. As lentes também contam como casca: o para-lama interno do cofre furava o farol oval (um triângulo azul na lente).
 - **`detalhes_na_casca.py`:** `--seta-no-farol |y|0,|y|1,z0,z1`: a seta da frente vai para a ponta de fora do farol, como no carro real (com
   `--sem-sinaleira`, sem o pisca no para-choque); a lente é cortada num plano reto antes, para a borda da seta não sair em dente.
+- **`alisar_normais.py`** (ferramenta nova, 31/10): o capô e a porta saíam com reflexo enrugado no jogo, porque as normais suaves do
+  modelo de poucos polígonos dobram em cada aresta do triângulo original. Ela alisa as normais da pintura num raio de 30 cm, sem
+  atravessar vinco de mais de 60° e sem afastar a normal mais de 45° da face; só nas chapas grandes (`--pecas`), porque na grade, nos
+  para-choques e nos retrovisores, estreitos, o alisamento largo entortava a luz. A malha não muda.
 - **No Detonauto:** `Tools/Unreal/montar-cuiabano-completo.ps1 -Id caipora -Modelo Caipora` (parâmetros novos `-Modelo`, `-Row` e
   `-BoneZ`, com o Cuiabano de padrão); linhas `caipora-*` em `Data/CarWheels.csv`, `CarAttach.csv`, `CarParts.csv` e `CarGlass.csv`
   (as mesmas peças e vidros do Cuiabano); o jogo abre o Caipora com `-DNModel=Caipora`.
