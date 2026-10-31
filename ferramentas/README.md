@@ -1441,7 +1441,8 @@ um `<id>_config.json` escrito à mão e entrega o mesmo formato que a cadeia do 
   jogo usa uma roda só.
 - **Textura:** tudo menos os vidros vai a uma malha, ganha a UV nova (Smart UV + empacotar) e a cor difusa do autor é assada no Cycles num
   atlas de 2048, embutido no GLB; os nós de cor do autor (as máscaras de cor do Zhabotinsky) entram no bake. `"apagar_vermelho"` limpa o
-  letreiro vermelho dentro de uma caixa (o painel da lavadora). `"anexos"` traz GLB feito por script, já no espaço final (o palco do trio).
+  letreiro vermelho dentro de uma caixa (o painel da lavadora). `"anexos"` traz GLB feito por script, já no espaço final (o palco do trio). A `fonte` pode ser um `.blend` (31/10, o Teimoso): a cor procedural (ruído e
+  sujeira nos nós) não sobrevive ao glTF, e o bake lê os nós do arquivo do Blender.
 - **Saída:** `<id>.glb`, `<id>_mapa.json` (as medidas), `<id>_wheels.json`, `<id>_pecas.json` (peças, caixas e `textura.pintura_rgb`) e
   `<id>_previa.png`. ~20 s por veículo na CPU.
 
@@ -1451,8 +1452,9 @@ um `<id>_config.json` escrito à mão e entrega o mesmo formato que a cadeia do 
 | `ceifa-tudo` (Ceifa-Tudo) | `veiculos/zoeira/fontes/colheitadeira-rogueengineer__*.glb` (ROGUEENGINEER, CC BY), escala 0,85 | 10,05 x 5,64 x 3,61 m, roda 67 cm | 11; plataforma e molinete |
 | `centrifugona` (Centrifugona) | `veiculos/zoeira/fontes/lavadora-zlat__*.glb` (Zlat, CC BY), escala 0,71 | 1,42 x 0,97 x 1,41 m, rodízio 13 cm | 11; porta e tampo; letreiro apagado |
 | `leva-tudo` (Leva-Tudo) | `veiculos/sketchfab/caminhao-bau-lct3000-07__*.glb` (Zhabotinsky, CC BY) | 5,86 x 2,43 x 2,84 m, roda 36 cm | 17; portas do baú, para-choques, vidros e faróis |
-| `teimoso` (Teimoso) | `veiculos/zoeira/fontes/cortador-grama.glb` (script do Detonauto, CC0) | 1,79 x 1,14 x 1,03 m, roda 18 cm | 12; capô, para-choque e plataforma |
+| `teimoso` (Teimoso) | `veiculos/zoeira/fontes/cortador-grama.blend` (script do Detonauto, CC0; v2 de 31/10) | 2,03 x 1,12 x 1,18 m, roda 19,5 cm | 12; capô, para-choque e plataforma |
 | `folia` (Folia) | `veiculos/sketchfab/caminhao-plataforma-lightbody-90__*.glb` (Zhabotinsky, CC BY) + `fontes/trio-palco.glb` (CC0) | 5,27 x 2,00 x 4,18 m, roda 36 cm | 17; paredes de som, capô, para-choques e 4 vidros |
 
 Pendentes: o "TOWN BUS" do autor na lateral do ônibus (texto genérico, a trocar por letreiro nosso); as rodas duplas de trás do ônibus
-viram simples no jogo (uma roda só); o cortador é o mais simples dos seis e pede a captura do jogo antes de aprovar.
+viram simples no jogo (uma roda só); o cortador ganhou a v2 em 31/10 (capô esculpido, para-lamas curvos, pneus com garras em V, cor com sujeira) e a
+captura do jogo decide se basta.
