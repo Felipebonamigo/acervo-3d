@@ -1405,7 +1405,7 @@ e um caricato. O do Meshy (`meshy-conta/barao__01a16960.glb`) fica no acervo.
 - **Kit:** `fundo_farol_rente` e `x_radiador` 1,82 (a travessa do painel em `x_frente - 0,20` furava a lente do farol) e
   `--aparar-mais 0.55 0.6` (o carpete do porta-malas saía pelos cantos da traseira).
 - **O Gol não muda (conferido em 30/10):** corte e detalhes do Gol com o código de `main` e com o daqui dão as mesmas 32 peças a 0 mm.
-- **Saída (30/10):** `veiculos/sketchfab/quebravel/barao/` (38 peças, ~320 mil triângulos, 4,39 x 2,00 com retrovisores x 1,415 m,
+- **Saída (30/10):** `veiculos/sketchfab/quebravel/barao/` (36 peças desde 31/10, sem para-lama traseiro solto, ~320 mil triângulos, 4,39 x 2,00 com retrovisores x 1,415 m,
   entre-eixos 2,539 m, roda 28,9 cm) e `veiculos/sketchfab/completo/barao/` (kit época 2000 de sedã, 93 peças). Prévias em
   `veiculos/sketchfab/previas/barao/`, com o HDRI da rua e as rodas do kit.
 - **Comparado com fotos reais do sedã da referência:** silhueta, porta-malas alto, faróis finos com as fendas da grade no meio,

@@ -1,6 +1,6 @@
 {
  "car": "barao",
- "notes": "Mapa escrito à mão (30/10/2026) para o sedã do FreshCanidae1571 (Sketchfab, CC BY), uma casca maciça de impressão completada pelo casca_impressao.py (vidros por raios, rodas do rodas_kit, assoalho): vidros pelo material 'vidro' (take: material), o resto por caixas medidas nas emendas da própria casca (resíduo do campo de profundidade de lado, de frente e de trás). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
+ "notes": "Mapa escrito à mão (30/10/2026) para o sedã do FreshCanidae1571 (Sketchfab, CC BY), uma casca maciça de impressão completada pelo casca_impressao.py (vidros por raios, rodas do rodas_kit, assoalho): vidros pelo material 'vidro' (take: material), o resto por caixas medidas nas emendas da própria casca (resíduo do campo de profundidade de lado, de frente e de trás). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos. Sem fender_rear (31/10/2026): a lateral traseira fica na carroceria, como no Pampeiro; peça solta sem linha em Data/CarParts.csv saía preta no jogo.",
  "medidas": {
   "comprimento": 4.39,
   "meia_largura": 0.87,
@@ -620,27 +620,6 @@
   },
   {
    "take": "faces",
-   "name": "fender_rear_left",
-   "box": [
-    -1.6,
-    -0.98,
-    0.44,
-    0.95,
-    0.05,
-    0.95
-   ],
-   "thickness": 0.012,
-   "pocket": 0.1,
-   "fora_das_rodas": true,
-   "normal": [
-    0.0,
-    1.0,
-    0.0,
-    -0.2
-   ]
-  },
-  {
-   "take": "faces",
    "name": "side_skirt_right",
    "box": [
     -0.95,
@@ -708,27 +687,6 @@
    "box": [
     0.83,
     1.62,
-    -0.95,
-    -0.44,
-    0.05,
-    0.95
-   ],
-   "thickness": 0.012,
-   "pocket": 0.1,
-   "fora_das_rodas": true,
-   "normal": [
-    0.0,
-    -1.0,
-    0.0,
-    -0.2
-   ]
-  },
-  {
-   "take": "faces",
-   "name": "fender_rear_right",
-   "box": [
-    -1.6,
-    -0.98,
     -0.95,
     -0.44,
     0.05,

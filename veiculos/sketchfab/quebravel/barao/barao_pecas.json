@@ -113,14 +113,6 @@
       "chassi",
       "pintura"
     ],
-    "fender_rear_left": [
-      "chassi",
-      "pintura"
-    ],
-    "fender_rear_right": [
-      "chassi",
-      "pintura"
-    ],
     "glass_door": [
       "chassi",
       "vidro"
@@ -211,12 +203,6 @@
     ],
     "fender_front_right": [
       "fender_front_right"
-    ],
-    "fender_rear_left": [
-      "fender_rear_left"
-    ],
-    "fender_rear_right": [
-      "fender_rear_right"
     ],
     "glass_door": [
       "glass_door_fl",
@@ -386,7 +372,7 @@
         0.0,
         0.0
       ],
-      "triangulos": 135972,
+      "triangulos": 133559,
       "materiais": [
         "pintura",
         "chassi",
@@ -396,11 +382,11 @@
         "malha única: o que sobrou, com os vãos e as caixas de roda"
       ],
       "malha": {
-        "faces_degeneradas_tiradas": 77,
-        "vertices_soltos_tirados": 25131,
+        "faces_degeneradas_tiradas": 72,
+        "vertices_soltos_tirados": 24106,
         "vertices_nan": 0,
-        "cantos_contra_face": 0.015,
-        "area_para_fora": 0.521,
+        "cantos_contra_face": 0.016,
+        "area_para_fora": 0.522,
         "virada": null
       },
       "fbx": "barao_pecas/body.fbx"
@@ -724,86 +710,6 @@
         "virada": null
       },
       "fbx": "barao_pecas/fender_front_right.fbx"
-    },
-    {
-      "nome": "fender_rear_left",
-      "papel": "fender_rear_left",
-      "detonauto": "FenderRearLeft",
-      "caixa_m": [
-        -1.6,
-        -0.98,
-        0.7166,
-        0.8592,
-        0.3976,
-        0.95
-      ],
-      "centro": [
-        -1.29,
-        0.7879,
-        0.6738
-      ],
-      "pivo_m": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "triangulos": 3586,
-      "materiais": [
-        "pintura",
-        "chassi"
-      ],
-      "origem": [
-        "malha única, faces: 1285 faces"
-      ],
-      "malha": {
-        "faces_degeneradas_tiradas": 6,
-        "vertices_soltos_tirados": 0,
-        "vertices_nan": 0,
-        "cantos_contra_face": 0.017,
-        "area_para_fora": 0.5,
-        "virada": null
-      },
-      "fbx": "barao_pecas/fender_rear_left.fbx"
-    },
-    {
-      "nome": "fender_rear_right",
-      "papel": "fender_rear_right",
-      "detonauto": "FenderRearRight",
-      "caixa_m": [
-        -1.6,
-        -0.98,
-        -0.8592,
-        -0.7166,
-        0.411,
-        0.95
-      ],
-      "centro": [
-        -1.29,
-        -0.7879,
-        0.6805
-      ],
-      "pivo_m": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "triangulos": 3845,
-      "materiais": [
-        "pintura",
-        "chassi"
-      ],
-      "origem": [
-        "malha única, faces: 1368 faces"
-      ],
-      "malha": {
-        "faces_degeneradas_tiradas": 6,
-        "vertices_soltos_tirados": 0,
-        "vertices_nan": 0,
-        "cantos_contra_face": 0.018,
-        "area_para_fora": 0.502,
-        "virada": null
-      },
-      "fbx": "barao_pecas/fender_rear_right.fbx"
     },
     {
       "nome": "glass_door_fl",
@@ -1891,7 +1797,7 @@
       "frente+esquerda": 0.0,
       "traseira+direita+teto": 0.0
     },
-    "vertices_na_costura": 11757,
+    "vertices_na_costura": 10956,
     "zonas": "make_damage_morphs.displacement do Detonauto, semente 17"
   }
 }
