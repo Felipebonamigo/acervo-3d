@@ -53,7 +53,14 @@ os.makedirs(OUT, exist_ok=True)
 avisos = []
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
-bpy.ops.import_scene.gltf(filepath=os.path.join(RAIZ, cfg["fonte"]))
+if cfg["fonte"].endswith(".blend"):
+    # .blend (o Teimoso, 31/10/2026): a cor procedural (ruído, sujeira) não sobrevive ao glTF, então o modelo feito por script vem
+    # no arquivo do Blender e o bake abaixo lê os nós de cor
+    bpy.ops.wm.open_mainfile(filepath=os.path.join(RAIZ, cfg["fonte"]))
+    for o in [o for o in bpy.data.objects if o.type != "MESH"]:
+        bpy.data.objects.remove(o)
+else:
+    bpy.ops.import_scene.gltf(filepath=os.path.join(RAIZ, cfg["fonte"]))
 cena = bpy.context.scene
 
 

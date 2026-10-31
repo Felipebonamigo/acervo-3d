@@ -1,6 +1,6 @@
 {
  "id": "teimoso",
- "fonte": "veiculos/zoeira/fontes/cortador-grama.glb",
+ "fonte": "veiculos/zoeira/fontes/cortador-grama.blend",
  "frente": "+x",
  "escala": 1.0,
  "rodas": "^roda_",
