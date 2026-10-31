@@ -319,6 +319,7 @@ bordas, está na seção `cirurgia_bordas.py` abaixo.
   dela. Pedaço com mais de 1,2 m e desvio mediano acima de 6 mm (a diagonal do ombro juntava capô, para-lama e coluna) é refeito em
   faixas no comprimento. Pontos a mais de 10 mm da superfície (maçaneta, friso, borda da caixa de roda) ficam com a normal de antes.
   Os vértices não andam (`--max-mm 0`), porque deslocar a forma abria rachas entre as peças.
+  Desde 31/10/2026 as portas de trás (`door_rl`, `door_rr`) entram quando existem (hatch de 5 portas); o carro de 2 portas não muda.
 - **`vedacao_vidros.py`:** o corte separa o vidro pelos triângulos, e a borda saía em escada (dentes brancos de 2 a 4 cm). O script
   rasteriza a face de fora de cada vidro numa grade de 3 mm, alisa a máscara (disco de ~2 cm, corte em 0,3) e tira o contorno por
   raios. Alisa a curva, a normal da chapa e a altura ao longo dela, e faz por cima uma borracha preta de perfil arredondado (material

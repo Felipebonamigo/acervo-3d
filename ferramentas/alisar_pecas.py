@@ -114,7 +114,8 @@ def fit_panel(P, wts, d_hint, ROBUST=ROBUST):
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=ent)
-PIECES = ("door_fl", "door_fr", "hood", "trunk", "fender_front_left", "fender_front_right")
+# as portas de trás (hatch de 5 portas, Tupiniquim, 31/10/2026) entram quando existem; o carro de 2 portas não muda
+PIECES = ("door_fl", "door_fr", "door_rl", "door_rr", "hood", "trunk", "fender_front_left", "fender_front_right")
 
 
 r2 = 2 ** -0.5
