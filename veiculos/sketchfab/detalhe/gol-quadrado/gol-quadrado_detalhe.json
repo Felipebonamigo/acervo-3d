@@ -36,7 +36,10 @@
   "esguichos": 2,
   "luz_de_placa": 2
  },
- "pulados": [],
+ "pulados": [
+  "refletor headlight_left: já tem",
+  "refletor headlight_right: já tem"
+ ],
  "ponteira": {
   "x": -1.83,
   "y": -0.388,

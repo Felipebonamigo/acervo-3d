@@ -55,7 +55,8 @@ CARROS = {
     "gol-quadrado": dict(nome="Cuiabano", heroi=True, limpador=False, espelho=False, antena=False),
     "tupiniquim": dict(nome="Tupiniquim", corte="{detonauto}/Art/Carros/tupiniquim/quebravel/tupiniquim.glb",
                        kit="veiculos/meshy-conta/completo/tupiniquim/tupiniquim_completo.json", antena=True),
-    "caipora": dict(nome="Caipora"),   # já tem antena no fim do teto (prévia de 06/11)
+    # já tem antena no fim do teto (prévia de 06/11); para-choque pintado com a faixa de borracha da época (revisão da central, 06/11)
+    "caipora": dict(nome="Caipora", faixa=True),
     "hatch-redondo-5p": dict(nome="Pampeiro", antena="teto"),
     "barao": dict(nome="Barão", macaneta=True, friso=0.55),
     "furgaozinho": dict(nome="Furgãozinho da Firma", antena=True),
@@ -69,7 +70,8 @@ CARROS = {
 }
 
 M_PRETO, M_CROMO, M_PINTURA, M_LUZ, M_VIDRO = "chassi", "cromo", "pintura", "luz_branca", "vidro"
-COR_PREVIA = {M_PRETO: (0.028, 0.028, 0.03, 0.5, 0.0), M_CROMO: (0.62, 0.62, 0.64, 0.05, 1.0), M_PINTURA: (0.42, 0.025, 0.025, 0.25, 0.0),
+M_REFLETOR = "refletor"   # no jogo MI_DNRefletor<Modelo> (kit_names.py)
+COR_PREVIA = {M_REFLETOR: (0.80, 0.80, 0.80, 0.12, 1.0), M_PRETO: (0.028, 0.028, 0.03, 0.5, 0.0), M_CROMO: (0.62, 0.62, 0.64, 0.05, 1.0), M_PINTURA: (0.42, 0.025, 0.025, 0.25, 0.0),
               M_LUZ: (0.8, 0.8, 0.76, 0.1, 0.0), M_VIDRO: (0.1, 0.1, 0.1, 0.02, 0.0)}
 
 
@@ -154,6 +156,22 @@ class Geo:
         ez = (Vector(cima) - ex * ex.dot(cima)).normalized()
         ey = ez.cross(ex)
         self.caixa((a + b) / 2, ex, ey, ez, L / 2, larg / 2, alt / 2, mat)
+
+    def fita(self, pts, alto, saliencia, cima, mat):
+        """Fita contínua (frente, topo, base e as duas pontas) ao longo de pontos (p, normal) da chapa: sem as emendas das barras soltas."""
+        cima = Vector(cima)
+        secoes = []
+        for p, n in pts:
+            n = Vector(n).normalized()
+            up = (cima - n * n.dot(cima)).normalized()
+            p = Vector(p)
+            secoes.append((p + up * alto / 2, p + up * alto / 2 + n * saliencia, p - up * alto / 2 + n * saliencia, p - up * alto / 2))
+        for a, b in zip(secoes, secoes[1:]):
+            self.face([a[0], a[1], b[1], b[0]], mat)   # topo
+            self.face([a[1], a[2], b[2], b[1]], mat)   # frente
+            self.face([a[2], a[3], b[3], b[2]], mat)   # base
+        self.face(list(secoes[0]), mat)
+        self.face(list(reversed(secoes[-1])), mat)
 
     def cilindro(self, a, b, r, mat, seg=12, tampas=True, r2=None):
         a, b = Vector(a), Vector(b)
@@ -558,9 +576,7 @@ def friso(casca, med, z, partes, rel, alto=0.022, saliencia=0.006):
             if len(pts) < 3:
                 continue
             g = partes.setdefault(obj, Geo())
-            for (a, na), (b, nb) in zip(pts, pts[1:]):
-                n = (na + nb).normalized()
-                g.barra(a + n * saliencia / 2, b + n * saliencia / 2, saliencia, alto, Vector((0, 0, 1)), M_PRETO)
+            g.fita(pts, alto, saliencia, (0, 0, 1), M_PRETO)
             rel["friso"].setdefault(obj, 0)
             rel["friso"][obj] += len(pts) - 1
 
@@ -611,6 +627,101 @@ def heroi(casca, med, partes, rel):
             g.caixa(c + Vector((0, 0, -0.0095)), Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1)), 0.010, 0.020, 0.001, M_LUZ)
         rel["heroi"]["luz_de_placa"] = 2
     limpadores(casca, med, partes, rel, traseiro=True)
+
+
+def farol_interno(casca, partes, rel, folga=0.012, fundo=0.055):
+    """Refletor parabólico cromado e lâmpada atrás da lente de cada farol que não tem refletor (revisão da central, 06/11: o farol do
+    Caipora lia como mancha bege chapada). Lente larga (mais de 1,7 vez a altura) ganha dois refletores lado a lado, como os faróis duplos.
+    No jogo a lente é opaca e o refletor aparece pelo material (LampInterior do M_DNDentParent); esta geometria aparece com a lente
+    quebrada e nas prévias, onde a lente é vidro."""
+    for nome in ("headlight_left", "headlight_right"):
+        o = casca.objs.get(nome)
+        if o is None:
+            continue
+        me = o.data
+        mats = [m.name.split(".")[0] if m else "" for m in me.materials]
+        if "refletor" in mats:
+            rel["pulados"].append("refletor %s: já tem" % nome)
+            continue
+        mw = o.matrix_world
+        nm = mw.to_3x3().inverted().transposed()
+        lente = [p for p in me.polygons if mats and mats[p.material_index] in ("lente_farol", "luz")]
+        if not lente:
+            rel["pulados"].append("refletor %s: sem lente" % nome)
+            continue
+        area = sum(p.area for p in lente)
+        n = sum(((nm @ p.normal).normalized() * p.area for p in lente), Vector()) / area
+        n.normalize()
+        pts = [mw @ me.vertices[i].co for p in lente for i in p.vertices]
+        c = sum(pts, Vector()) / len(pts)
+        ex, ey, ez = base_na_face(n)
+        a = max(abs((q - c).dot(ex)) for q in pts) * 0.92
+        b = max(abs((q - c).dot(ey)) for q in pts) * 0.88
+        frente = min((q - c).dot(ez) for q in pts)          # a parte mais funda da lente curva
+        # a lente tem espessura (face de trás a ~4 mm) e logo atrás vem o bolso escuro da carroceria: o refletor cabe entre os dois
+        base = c + ez * (frente - 0.006)
+        bolso = casca.raio(base, -ez, lambda ob, m, nn: not ob.startswith("headlight_"), 0.2)
+        espaco = (bolso[0] - base).length - 0.003 if bolso else fundo
+        g = partes.setdefault(nome, Geo())
+        celulas = [(0.0, a)] if a < 1.7 * b else [(-a / 2, a / 2), (a / 2, a / 2)]
+        seg, an = 20, 6
+        for cx, ca in celulas:
+            ra, rb = ca * 0.95, b
+            centro = base + ex * cx
+            prof = max(0.010, min(fundo, espaco, 0.9 * min(ra, rb)))
+            anel = lambda t, r: centro + ex * (math.cos(t) * ra * r) + ey * (math.sin(t) * rb * r) - ez * (prof * (1 - r * r))
+            for i in range(an):
+                r0, r1 = i / an, (i + 1) / an
+                for j in range(seg):
+                    t0, t1 = 2 * math.pi * j / seg, 2 * math.pi * (j + 1) / seg
+                    g.face([anel(t0, r0), anel(t0, r1), anel(t1, r1), anel(t1, r0)], M_REFLETOR)
+            # lâmpada: o bulbo leitoso no fundo e a capinha que tapa o facho direto
+            fundo_p = centro - ez * prof
+            haste = min(0.028, prof * 0.7)
+            g.cilindro(fundo_p, fundo_p + ez * haste, 0.008, M_LUZ, seg=10)
+            g.cilindro(fundo_p + ez * haste, fundo_p + ez * (haste + 0.003), 0.007, M_CROMO, seg=10)
+        rel.setdefault("farol_interno", {})[nome] = {"refletores": len(celulas), "fundo_cm": round(100 * max(0.010, min(fundo, espaco)), 1)}
+
+
+def faixa_para_choque(casca, med, partes, rel, alto=0.045, saliencia=0.008):
+    """Faixa de borracha preta texturizada na face dos para-choques pintados (anos 90), à altura de mais saliência, desviando da placa."""
+    for nome, sx, x0 in (("bumper_front", -1.0, med["x_frente"] + 0.6), ("bumper_rear", 1.0, med["x_tras"] - 0.6)):
+        o = casca.objs.get(nome)
+        if o is None:
+            continue
+        zs = [v.co.z for v in o.data.vertices]
+        z0, z1 = min(zs), max(zs)
+        # a altura da faixa: onde o para-choque sai mais (raio no meio de cada altura, o primeiro a bater)
+        melhor = None
+        for k in range(1, 12):
+            z = z0 + (z1 - z0) * k / 12
+            h = casca.raio((x0, 0.35, z), (sx, 0, 0), lambda ob, m, nn: ob == nome, 2.0)
+            if h and (melhor is None or -sx * h[0].x > -sx * melhor[1]):
+                melhor = (z, h[0].x)
+        if melhor is None:
+            continue
+        z = melhor[0]
+        pts, trecho = [], []
+        y = -0.95
+        while y <= 0.95:
+            h = casca.raio((x0, y, z), (sx, 0, 0), None, 2.0)
+            ok = h is not None and h[2] == nome and h[3].startswith("pintura") and -sx * h[1].x > 0.25
+            if ok:
+                trecho.append((h[0], h[1]))
+            elif trecho:
+                pts.append(trecho)
+                trecho = []
+            y += 0.02
+        if trecho:
+            pts.append(trecho)
+        g = partes.setdefault(nome, Geo())
+        feitos = 0
+        for tr in pts:
+            if len(tr) < 4:
+                continue
+            g.fita(tr, alto, saliencia, (0, 0, 1), M_PRETO)
+            feitos += len(tr) - 1
+        rel.setdefault("faixa", {})[nome] = {"z": round(z, 3), "segmentos": feitos}
 
 
 def conferir_kit(kit, casca, rel):
@@ -701,6 +812,10 @@ def passe(args):
         macanetas(casca, med, portas, partes, rel)
     if args.get("friso"):
         friso(casca, med, float(args["friso"]), partes, rel)
+    if args.get("farol", True):
+        farol_interno(casca, partes, rel)
+    if args.get("faixa"):
+        faixa_para_choque(casca, med, partes, rel)
     if args.get("heroi"):
         heroi(casca, med, partes, rel)
     conferir_kit(kit, casca, rel)
@@ -734,6 +849,56 @@ def juntar(corte_glb, detalhe_glb, saida):
     corte = importar(corte_glb)
     det = importar(detalhe_glb)
     por_nome = {o.name: o for o in corte if o.type == 'MESH'}
+    # farol com refletor do passe: a face de trás da lente (chassi opaco a ~4 mm, virada para dentro) vira lente, senão tapa o refletor
+    for d in det:
+        alvo_nome = d.name[4:].split(".")[0]
+        if alvo_nome.startswith("headlight_") and alvo_nome in por_nome and any(
+                m and m.name.split(".")[0] == "refletor" for m in d.data.materials):
+            o = por_nome[alvo_nome]
+            mats = [m.name.split(".")[0] if m else "" for m in o.data.materials]
+            if "lente_farol" in mats and "chassi" in mats:
+                il, ic = mats.index("lente_farol"), mats.index("chassi")
+                lente = [p for p in o.data.polygons if p.material_index == il]
+                n = sum((p.normal * p.area for p in lente), Vector()).normalized()
+                lo = [min(o.data.vertices[i].co[k] for p in lente for i in p.vertices) for k in range(3)]
+                hi = [max(o.data.vertices[i].co[k] for p in lente for i in p.vertices) for k in range(3)]
+                trocadas = 0
+                for p in o.data.polygons:
+                    if p.material_index == ic and p.normal.dot(n) < -0.6 and all(lo[k] - 0.01 <= p.center[k] <= hi[k] + 0.01 for k in range(3)):
+                        p.material_index = il
+                        trocadas += 1
+                print("LENTE %s: %d faces de trás viraram lente" % (alvo_nome, trocadas))
+                # e o fundo do bolso da carroceria logo atrás da lente (MI_DNVao a ~2 cm) sai: o refletor do passe fecha o buraco
+                cl = sum((o.data.vertices[i].co for p in lente for i in p.vertices), Vector()) / sum(len(p.vertices) for p in lente)
+                ex = n.cross(Vector((0, 0, 1))).normalized()
+                ey = ex.cross(n)
+                pts = [o.data.vertices[i].co for p in lente for i in p.vertices]
+                ma = max(abs((q - cl).dot(ex)) for q in pts)
+                mb = max(abs((q - cl).dot(ey)) for q in pts)
+                tirar = 0
+                for nome_b in ("body",) + tuple(k for k in por_nome if k.startswith(("fender_front", "bumper_front"))):
+                    b_ = por_nome.get(nome_b)
+                    if b_ is None:
+                        continue
+                    bmats = [m.name.split(".")[0] if m else "" for m in b_.data.materials]
+                    if "MI_DNVao" not in bmats:
+                        continue
+                    iv = bmats.index("MI_DNVao")
+                    bm = bmesh.new()
+                    bm.from_mesh(b_.data)
+                    fora = []
+                    for f in bm.faces:
+                        if f.material_index != iv:
+                            continue
+                        v = f.calc_center_median() - cl
+                        if -0.08 < v.dot(n) < 0.005 and abs(v.dot(ex)) < ma * 0.95 and abs(v.dot(ey)) < mb * 0.9:
+                            fora.append(f)
+                    if fora:
+                        bmesh.ops.delete(bm, geom=fora, context="FACES")
+                        bm.to_mesh(b_.data)
+                        tirar += len(fora)
+                    bm.free()
+                print("BOLSO %s: %d faces do fundo escuro tiradas" % (alvo_nome, tirar))
     for d in det:
         if d.type != 'MESH':
             continue

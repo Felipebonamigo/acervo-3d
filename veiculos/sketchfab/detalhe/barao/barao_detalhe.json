@@ -80,6 +80,16 @@
   "y": -0.388,
   "z": 0.22
  },
+ "farol_interno": {
+  "headlight_left": {
+   "refletores": 2,
+   "fundo_cm": 5.5
+  },
+  "headlight_right": {
+   "refletores": 2,
+   "fundo_cm": 5.5
+  }
+ },
  "freios_do_kit": [
   "brake_fl_disco",
   "brake_fl_pinca",
@@ -98,7 +108,7 @@
   {
    "nome": "det_body",
    "segue": "body",
-   "triangulos": 852,
+   "triangulos": 784,
    "materiais": [
     "chassi",
     "cromo"
@@ -107,7 +117,7 @@
   {
    "nome": "det_bumper_front",
    "segue": "bumper_front",
-   "triangulos": 228,
+   "triangulos": 122,
    "materiais": [
     "chassi"
    ]
@@ -115,7 +125,7 @@
   {
    "nome": "det_bumper_rear",
    "segue": "bumper_rear",
-   "triangulos": 384,
+   "triangulos": 200,
    "materiais": [
     "chassi"
    ]
@@ -123,7 +133,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 902,
+   "triangulos": 708,
    "materiais": [
     "chassi",
     "cromo"
@@ -132,7 +142,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 934,
+   "triangulos": 734,
    "materiais": [
     "chassi",
     "cromo"
@@ -141,7 +151,7 @@
   {
    "nome": "det_door_rl",
    "segue": "door_rl",
-   "triangulos": 634,
+   "triangulos": 488,
    "materiais": [
     "chassi",
     "cromo"
@@ -150,7 +160,7 @@
   {
    "nome": "det_door_rr",
    "segue": "door_rr",
-   "triangulos": 634,
+   "triangulos": 494,
    "materiais": [
     "chassi",
     "cromo"
@@ -159,7 +169,7 @@
   {
    "nome": "det_fender_front_left",
    "segue": "fender_front_left",
-   "triangulos": 108,
+   "triangulos": 62,
    "materiais": [
     "chassi"
    ]
@@ -167,9 +177,29 @@
   {
    "nome": "det_fender_front_right",
    "segue": "fender_front_right",
-   "triangulos": 108,
+   "triangulos": 62,
    "materiais": [
     "chassi"
+   ]
+  },
+  {
+   "nome": "det_headlight_left",
+   "segue": "headlight_left",
+   "triangulos": 624,
+   "materiais": [
+    "cromo",
+    "luz_branca",
+    "refletor"
+   ]
+  },
+  {
+   "nome": "det_headlight_right",
+   "segue": "headlight_right",
+   "triangulos": 624,
+   "materiais": [
+    "cromo",
+    "luz_branca",
+    "refletor"
    ]
   },
   {
@@ -207,5 +237,5 @@
    ]
   }
  ],
- "triangulos": 5716
+ "triangulos": 5834
 }

@@ -40,7 +40,9 @@
  "friso": {},
  "heroi": {},
  "pulados": [
-  "limpador: a casca já tem algo no pé do para-brisa (4 de 5 raios)"
+  "limpador: a casca já tem algo no pé do para-brisa (4 de 5 raios)",
+  "refletor headlight_left: já tem",
+  "refletor headlight_right: já tem"
  ],
  "ponteira": {
   "x": -2.176,

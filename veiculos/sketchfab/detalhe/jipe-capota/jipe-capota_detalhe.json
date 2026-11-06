@@ -40,7 +40,10 @@
  "macaneta": {},
  "friso": {},
  "heroi": {},
- "pulados": [],
+ "pulados": [
+  "refletor headlight_left: já tem",
+  "refletor headlight_right: já tem"
+ ],
  "limpador": 2,
  "ponteira": {
   "x": -1.941,

@@ -47,6 +47,16 @@
    0.866
   ]
  },
+ "farol_interno": {
+  "headlight_left": {
+   "refletores": 1,
+   "fundo_cm": 4.0
+  },
+  "headlight_right": {
+   "refletores": 1,
+   "fundo_cm": 4.0
+  }
+ },
  "freios_do_kit": [
   "brake_fl_disco",
   "brake_fl_pinca",
@@ -94,6 +104,26 @@
    ]
   },
   {
+   "nome": "det_headlight_left",
+   "segue": "headlight_left",
+   "triangulos": 312,
+   "materiais": [
+    "cromo",
+    "luz_branca",
+    "refletor"
+   ]
+  },
+  {
+   "nome": "det_headlight_right",
+   "segue": "headlight_right",
+   "triangulos": 312,
+   "materiais": [
+    "cromo",
+    "luz_branca",
+    "refletor"
+   ]
+  },
+  {
    "nome": "det_hood",
    "segue": "hood",
    "triangulos": 188,
@@ -112,5 +142,5 @@
    ]
   }
  ],
- "triangulos": 690
+ "triangulos": 1314
 }

@@ -36,7 +36,7 @@ LARGURA_ARO = 5.5 * POL      # 5,5" entre as abas
 SEG = 64                     # segmentos na volta do aro, do pneu Ok/Flat e da calota (desvio < 0,4 mm)
 SEG_TORN = 96                # o estourado tem mais segmentos para os rasgos ficarem recortados
 LOD1_RAZAO = 0.4
-ORCAMENTO_RODA = 9000        # aro + pneu Ok + calota, LOD0
+ORCAMENTO_RODA = 10000       # aro + pneu Ok + calota, LOD0 (06/11: era 9000; +~900 da escrita do flanco, que o LOD1 leva junto)
 ANGULO_QUINA = 50            # acima disto a aresta fica dura (sulcos, abas, furos)
 QUEDA_FLAT = 0.06            # o murcho fica 6 cm mais baixo no ponto de contato
 NB_BLOCOS = 56               # blocos da banda na volta (o normal map repete NB_BLOCOS vezes)
@@ -816,7 +816,9 @@ def materiais(out):
     # da época é plástico pintado de prata e o aro é aço pintado: acetinados, pouco metal, claros por conta própria
     mats["aro_aco"], _ = principled("aro_aco", (0.60, 0.61, 0.62), 0.40, 0.35)
     mats["aro_liga"], _ = principled("aro_liga", (0.66, 0.66, 0.65), 0.60, 0.25)
-    mats["calota"], _ = principled("calota", (0.78, 0.79, 0.80), 0.35, 0.22)
+    # 06/11 (revisão da central: "calotas brancas lisas"): prata de plástico pintado mais escura e um pouco mais metálica; continua clara
+    # o bastante para não sair preta no jogo (a lição de 29/10)
+    mats["calota"], _ = principled("calota", (0.56, 0.57, 0.58), 0.55, 0.26)
     mats["calota"].use_backface_culling = False
     mats["parafuso"], _ = principled("parafuso", (0.55, 0.55, 0.53), 1.0, 0.35)
     mats["aro_polido"], _ = principled("aro_polido", (0.80, 0.80, 0.80), 1.0, 0.10)   # aba polida do aro fundo
@@ -873,6 +875,61 @@ def finalizar(m, mats):
 def tri(ob):
     ob.data.calc_loop_triangles()
     return len(ob.data.loop_triangles)
+
+
+def letreiro_flanco(ob, M, pid, altura=0.0150, relevo=0.0007):
+    """Escrita genérica em relevo no flanco de fora do pneu (06/11, revisão da central: "pneu com flanco e escrita"): a medida, um índice
+    de carga inventado de um lado e RADIAL TUBELESS do outro. Sem marca nem nome de modelo de pneu. Letras da fonte embutida do
+    Blender, curvadas no raio do meio do flanco e assentadas na curva do perfil."""
+    import bpy
+    larg, perf, pol = PNEUS[pid]
+    Rb, H, S = M["Rb"], M["H"], M["S"]
+    rc = Rb + 0.55 * H
+    textos = ["%d/%d R%d" % (larg, perf, pol), "RADIAL  TUBELESS"]
+    novos = []
+    for k, (txt, fase) in enumerate(((textos[0], 0.0), (textos[1], math.pi))):
+        cu = bpy.data.curves.new("letreiro%d" % k, "FONT")
+        cu.body = txt
+        cu.size = altura
+        cu.extrude = relevo / 2
+        cu.align_x = "CENTER"
+        cu.align_y = "CENTER"
+        cu.resolution_u = 1        # curvas da letra em poucos segmentos: o orçamento da roda é 10 mil triângulos
+        o = bpy.data.objects.new("letreiro%d" % k, cu)
+        bpy.context.scene.collection.objects.link(o)
+        bpy.context.view_layer.objects.active = o
+        bpy.ops.object.select_all(action="DESELECT")
+        o.select_set(True)
+        bpy.ops.object.convert(target="MESH")
+        me = o.data
+        for v in me.vertices:
+            x, y, z = v.co
+            ang = fase - x / rc                       # o texto corre ao longo da volta
+            rad = rc + y
+            t = (rad - (Rb + 0.55 * H)) / (0.27 * H)
+            ysup = S - 0.0045 * t * t                  # a curva do flanco no raio da letra
+            v.co = (rad * math.cos(ang), ysup + relevo / 2 + z, rad * math.sin(ang))
+        novos.append(o)
+    # material e UV da faixa do flanco (v ~ 0,12, a dos frisos finos do normal map)
+    for o in novos:
+        o.data.materials.clear()
+        for m in ob.data.materials:
+            o.data.materials.append(m)
+        i = [m.name.split(".")[0] for m in ob.data.materials].index("pneu")
+        for poly in o.data.polygons:
+            poly.material_index = i
+            poly.use_smooth = False
+        if not o.data.uv_layers:
+            o.data.uv_layers.new()
+        for d in o.data.uv_layers[0].data:
+            d.uv = (0.5, 0.12)
+    bpy.ops.object.select_all(action="DESELECT")
+    for o in novos:
+        o.select_set(True)
+    ob.select_set(True)
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.join()
+    return ob
 
 
 def fazer_lod1(ob, col, razao=LOD1_RAZAO):
@@ -1145,6 +1202,7 @@ def principal(argv):
             continue
         ok_m, M = pneu_ok(pid)
         objs = {"Ok": obj(ok_m), "Flat": obj(pneu_flat(pid, ok_m, M)), "Torn": obj(pneu_torn(pid, M))}
+        letreiro_flanco(objs["Ok"], M, pid)   # só o inteiro: no murcho e no estourado o flanco deforma e a letra boiaria
         lods = {e: fazer_lod1(o, col1) for e, o in objs.items()}
         iid = "pneu_" + pid
         exportar([objs[e] for e in ESTADOS] + [lods[e] for e in ESTADOS], os.path.join(a.out, iid + ".glb"))

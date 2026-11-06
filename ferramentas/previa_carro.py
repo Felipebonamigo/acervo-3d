@@ -143,6 +143,63 @@ for m in bpy.data.materials:
             for l in list(bb[0].inputs['Base Color'].links): m.node_tree.links.remove(l)
             bb[0].inputs['Base Color'].default_value = (0.62, 0.63, 0.64, 1)
             bb[0].inputs['Metallic'].default_value = 0.35; bb[0].inputs['Roughness'].default_value = 0.35
+# Bloco 4 do Detonauto (06/11/2026, docs/carros-materiais.md lá): o que o material novo do jogo faz, reproduzido aqui para a prévia contar a
+# verdade. BLOCO4=1 liga: a lente do farol vira vidro (no jogo a lente opaca mostra o refletor por interior mapping; aqui o refletor e a
+# lâmpada do passe_detalhe.py ficam de verdade atrás dela), o plástico preto ganha o granulado do Plastic012A (ambientCG, CC0; GRAO=<o
+# *_nor_dx_2k.jpg>, a 18 cm por ladrilho, projetado em caixa como no jogo) e a pintura e o plástico ganham a poeira por altura do jogo
+# (DirtHeightCm 38, DirtAmount 0,4 na pintura e no plástico: bege acinzentado que sobe do chão com borda irregular e tira o brilho)
+if os.environ.get('BLOCO4'):
+    def _sujeira(m, quanto, altura=0.38):
+        nt = m.node_tree; b = [n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED'][0]
+        geo = nt.nodes.new('ShaderNodeNewGeometry'); sep = nt.nodes.new('ShaderNodeSeparateXYZ'); nt.links.new(geo.outputs['Position'], sep.inputs[0])
+        ru = nt.nodes.new('ShaderNodeTexNoise'); ru.inputs['Scale'].default_value = 4.5; nt.links.new(geo.outputs['Position'], ru.inputs['Vector'])
+        alt = nt.nodes.new('ShaderNodeMath'); alt.operation = 'MULTIPLY_ADD'
+        nt.links.new(ru.outputs['Fac'], alt.inputs[0]); alt.inputs[1].default_value = altura * 0.6; alt.inputs[2].default_value = -altura * 0.3
+        z = nt.nodes.new('ShaderNodeMath'); z.operation = 'ADD'; nt.links.new(sep.outputs['Z'], z.inputs[0]); nt.links.new(alt.outputs[0], z.inputs[1])
+        mr = nt.nodes.new('ShaderNodeMapRange'); mr.inputs['From Min'].default_value = altura * 0.25; mr.inputs['From Max'].default_value = altura
+        mr.inputs['To Min'].default_value = quanto; mr.inputs['To Max'].default_value = 0.0; nt.links.new(z.outputs[0], mr.inputs['Value'])
+        fino = nt.nodes.new('ShaderNodeTexNoise'); fino.inputs['Scale'].default_value = 16.0; nt.links.new(geo.outputs['Position'], fino.inputs['Vector'])
+        f = nt.nodes.new('ShaderNodeMath'); f.operation = 'MULTIPLY'; nt.links.new(mr.outputs[0], f.inputs[0])
+        f2 = nt.nodes.new('ShaderNodeMath'); f2.operation = 'MULTIPLY_ADD'; nt.links.new(fino.outputs['Fac'], f2.inputs[0]); f2.inputs[1].default_value = 0.8; f2.inputs[2].default_value = 0.6
+        nt.links.new(f2.outputs[0], f.inputs[1])
+        mx = nt.nodes.new('ShaderNodeMix'); mx.data_type = 'RGBA'; nt.links.new(f.outputs[0], mx.inputs[0]); mx.inputs[7].default_value = (0.20, 0.17, 0.13, 1)
+        if b.inputs['Base Color'].links: nt.links.new(b.inputs['Base Color'].links[0].from_socket, mx.inputs[6])
+        else: mx.inputs[6].default_value = b.inputs['Base Color'].default_value
+        nt.links.new(mx.outputs[2], b.inputs['Base Color'])
+        r = nt.nodes.new('ShaderNodeMix'); r.data_type = 'FLOAT'; nt.links.new(f.outputs[0], r.inputs[0]); r.inputs[2].default_value = b.inputs['Roughness'].default_value
+        r.inputs[3].default_value = 0.75; nt.links.new(r.outputs[0], b.inputs['Roughness'])
+        cw = nt.nodes.new('ShaderNodeMix'); cw.data_type = 'FLOAT'; nt.links.new(f.outputs[0], cw.inputs[0]); cw.inputs[2].default_value = b.inputs['Coat Weight'].default_value
+        cw.inputs[3].default_value = 0.0; nt.links.new(cw.outputs[0], b.inputs['Coat Weight'])
+    grao = os.environ.get('GRAO')
+    for m in bpy.data.materials:
+        nome_ = m.name.split('.')[0]
+        if not m.node_tree or not [n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED']:
+            continue
+        b = [n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'][0]; nt = m.node_tree
+        if nome_ == 'lente_farol':
+            for l in list(b.inputs['Base Color'].links): nt.links.remove(l)
+            for l in list(b.inputs['Alpha'].links): nt.links.remove(l)
+            b.inputs['Base Color'].default_value = (0.9, 0.9, 0.92, 1); b.inputs['Metallic'].default_value = 0.0; b.inputs['Roughness'].default_value = 0.03
+            b.inputs['Alpha'].default_value = 0.10; b.inputs['Coat Weight'].default_value = 1.0; b.inputs['Coat Roughness'].default_value = 0.0
+        if nome_ == 'refletor':
+            # o refletor que a lente do jogo mostra (LampInterior: metal 1, aspereza 0,08, cromo claro); o prata acetinado de 29/10 lia
+            # como mancha cinza atrás da lente de vidro
+            for l in list(b.inputs['Base Color'].links): nt.links.remove(l)
+            b.inputs['Base Color'].default_value = (0.85, 0.85, 0.86, 1); b.inputs['Metallic'].default_value = 1.0; b.inputs['Roughness'].default_value = 0.08
+        if nome_ == 'luz_branca':
+            b.inputs['Emission Color'].default_value = (1.0, 0.97, 0.9, 1); b.inputs['Emission Strength'].default_value = 0.6
+        if nome_ == 'chassi' and grao and os.path.isfile(grao):
+            tc = nt.nodes.new('ShaderNodeTexCoord'); mp = nt.nodes.new('ShaderNodeMapping'); mp.inputs['Scale'].default_value = (1 / 0.18,) * 3
+            nt.links.new(tc.outputs['Object'], mp.inputs['Vector'])
+            ti = nt.nodes.new('ShaderNodeTexImage'); ti.image = bpy.data.images.load(grao, check_existing=True); ti.image.colorspace_settings.name = 'Non-Color'
+            ti.projection = 'BOX'; ti.projection_blend = 0.25; nt.links.new(mp.outputs[0], ti.inputs[0])
+            nmap = nt.nodes.new('ShaderNodeNormalMap'); nmap.inputs['Strength'].default_value = 0.8
+            nt.links.new(ti.outputs['Color'], nmap.inputs['Color']); nt.links.new(nmap.outputs['Normal'], b.inputs['Normal'])
+            for l in list(b.inputs['Base Color'].links): nt.links.remove(l)
+            b.inputs['Base Color'].default_value = (0.028, 0.028, 0.03, 1); b.inputs['Roughness'].default_value = 0.55
+            _sujeira(m, 0.40)
+        if nome_ == 'pintura':
+            _sujeira(m, 0.40)
 if os.environ.get('ESCADA'):
     # a escada de alumínio do jogo (veiculos/proprios/escada-aluminio.glb) no bagageiro, pela regra do montar_escada_no_teto.py do
     # Detonauto: piso do bagageiro = a faixa de 1 cm com mais vértices nos 20 cm de cima do carro, centrada nas barras, 25 cm à frente

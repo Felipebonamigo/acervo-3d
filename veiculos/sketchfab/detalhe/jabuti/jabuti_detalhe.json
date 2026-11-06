@@ -34,7 +34,9 @@
  "pulados": [
   "limpador: a casca já tem algo no pé do para-brisa (2 de 5 raios)",
   "espelho mirror_left: já tem",
-  "espelho mirror_right: já tem"
+  "espelho mirror_right: já tem",
+  "refletor headlight_left: já tem",
+  "refletor headlight_right: já tem"
  ],
  "ponteira": {
   "x": -1.84,
