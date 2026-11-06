@@ -1,0 +1,375 @@
+{
+ "id": "papa-tudo",
+ "entrada": "veiculos/sketchfab/caminhao-lct3000-95__663a0953c038434a918cb85725c88ffa.glb",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  6.5623,
+  2.614,
+  2.78
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.3,
+   0.53,
+   0.33
+  ],
+  "pintura_sat": 0.434,
+  "pintura_val": 0.53,
+  "atlas": "papa-tudo_atlas.png",
+  "tamanho": 2048
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -3.129,
+    2.74,
+    -1.307,
+    1.307,
+    0.196,
+    2.78
+   ],
+   "triangulos": 13345,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "luz",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    2.487,
+    2.892,
+    -1.075,
+    1.087,
+    0.394,
+    0.707
+   ],
+   "triangulos": 844,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -3.01,
+    -2.912,
+    -0.989,
+    1.002,
+    0.478,
+    0.717
+   ],
+   "triangulos": 284,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_door_fl",
+   "caixa_m": [
+    1.349,
+    2.314,
+    0.933,
+    1.02,
+    1.31,
+    2.019
+   ],
+   "triangulos": 40,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_door_fr",
+   "caixa_m": [
+    1.349,
+    2.314,
+    -1.017,
+    -0.94,
+    1.295,
+    2.005
+   ],
+   "triangulos": 40,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    2.357,
+    2.623,
+    -0.964,
+    0.965,
+    1.442,
+    2.094
+   ],
+   "triangulos": 64,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    2.505,
+    2.706,
+    0.476,
+    1.034,
+    0.742,
+    0.956
+   ],
+   "triangulos": 145,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    2.505,
+    2.706,
+    -1.025,
+    -0.468,
+    0.73,
+    0.942
+   ],
+   "triangulos": 145,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -3.67,
+    -2.57,
+    -1.244,
+    1.244,
+    0.655,
+    2.66
+   ],
+   "triangulos": 2378,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "luz",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.436,
+    1.909,
+    0.826,
+    1.08,
+    0.139,
+    0.601
+   ],
+   "triangulos": 462,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.6724,
+    0.9527,
+    0.3711
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    1.316,
+    2.029,
+    0.826,
+    1.047,
+    0.014,
+    0.728
+   ],
+   "triangulos": 364,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.6724,
+    0.9527,
+    0.3711
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.436,
+    1.909,
+    -1.062,
+    -0.809,
+    0.127,
+    0.589
+   ],
+   "triangulos": 462,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.6724,
+    -0.935,
+    0.3573
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    1.316,
+    2.029,
+    -1.03,
+    -0.808,
+    0.0,
+    0.714
+   ],
+   "triangulos": 364,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.6724,
+    -0.935,
+    0.3573
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.901,
+    -1.444,
+    0.672,
+    1.108,
+    0.135,
+    0.603
+   ],
+   "triangulos": 486,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.6724,
+    0.8899,
+    0.3707
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -2.029,
+    -1.316,
+    0.67,
+    1.11,
+    0.013,
+    0.728
+   ],
+   "triangulos": 544,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.6724,
+    0.8899,
+    0.3707
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.901,
+    -1.444,
+    -1.09,
+    -0.654,
+    0.125,
+    0.593
+   ],
+   "triangulos": 486,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.6724,
+    -0.8721,
+    0.3577
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -2.029,
+    -1.316,
+    -1.092,
+    -0.652,
+    0.0,
+    0.715
+   ],
+   "triangulos": 544,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.6724,
+    -0.8721,
+    0.3577
+   ]
+  }
+ ],
+ "avisos": [
+  "caixa tirada [-3.3, 1.0, -1.6, 1.6, 0.98, 3.2]: 1942 faces"
+ ],
+ "notas": "Papa-Tudo, o caminhão de lixo do Detonauto (docs/veiculos-zoeira.md): a cabine e o chassi do \"LCT 3000 '95 - Low poly model\" por Daniel Zhabotinsky (Sketchfab, CC BY 4.0), marca fictícia, sem o baú, os emblemas e as placas, com a caçamba compactadora feita por Tools/Blender/make_caminhao_lixo.py do Detonauto (CC0 do estúdio). A tampa traseira com a boca de carga é a tampa traseira do jogo (solta)."
+}

@@ -1,0 +1,78 @@
+{
+ "id": "papa-tudo",
+ "fonte": "veiculos/sketchfab/caminhao-lct3000-95__663a0953c038434a918cb85725c88ffa.glb",
+ "frente": "+x",
+ "escala": 1.0,
+ "tirar_objetos": "Reardoor_",
+ "tirar_materiais": "Carbadges|Numberplates",
+ "tirar_caixas": [
+  [
+   -3.3,
+   1.0,
+   -1.6,
+   1.6,
+   0.98,
+   3.2
+  ]
+ ],
+ "rodas": "WheelStock",
+ "pecas": [
+  {
+   "nome": "bumper_front",
+   "objetos": "Bumper_front"
+  },
+  {
+   "nome": "bumper_rear",
+   "objetos": "Bumper_rear"
+  },
+  {
+   "nome": "trunk",
+   "objetos": "^lixo_tampa"
+  }
+ ],
+ "vidros": [
+  {
+   "nome": "glass_windshield",
+   "objetos": "Windshield"
+  },
+  {
+   "nome": "glass_door_fl",
+   "objetos": "Glass_Driver"
+  },
+  {
+   "nome": "glass_door_fr",
+   "objetos": "Glass_Passenger"
+  },
+  {
+   "nome": "headlight_left",
+   "objetos": "Headlights_Glass"
+  },
+  {
+   "nome": "headlight_right",
+   "de": "headlight_left",
+   "caixa": [
+    -99,
+    99,
+    -99,
+    0,
+    -99,
+    99
+   ]
+  }
+ ],
+ "materiais": {
+  "UCB_BOTTOM|Interiors|^lixo_preto": "chassi",
+  "Lights_and_Glass|^lixo_luz": "luz",
+  "Tire": "pneu",
+  "^lixo_metal": "cromado"
+ },
+ "anexos": [
+  "veiculos/zoeira/fontes/lixo-cacamba.glb"
+ ],
+ "pintura_rgb": [
+  0.3,
+  0.53,
+  0.33
+ ],
+ "notas": "Papa-Tudo, o caminhão de lixo do Detonauto (docs/veiculos-zoeira.md): a cabine e o chassi do \"LCT 3000 '95 - Low poly model\" por Daniel Zhabotinsky (Sketchfab, CC BY 4.0), marca fictícia, sem o baú, os emblemas e as placas, com a caçamba compactadora feita por Tools/Blender/make_caminhao_lixo.py do Detonauto (CC0 do estúdio). A tampa traseira com a boca de carga é a tampa traseira do jogo (solta)."
+}

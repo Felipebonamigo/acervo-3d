@@ -1,0 +1,476 @@
+{
+ "id": "pastelzao",
+ "entrada": "veiculos/sketchfab/quebravel/furgao-classico/furgao-classico.glb",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  4.7595,
+  2.9105,
+  2.7324
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.5,
+   0.5,
+   0.5
+  ],
+  "pintura_sat": 0.0,
+  "pintura_val": 0.5,
+  "atlas": "pastelzao_atlas.png",
+  "tamanho": 2048
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -2.144,
+    2.304,
+    -1.938,
+    0.972,
+    0.202,
+    1.95
+   ],
+   "triangulos": 314756,
+   "materiais": [
+    "pintura.001",
+    "chassi.001",
+    "luz.001",
+    "cromado.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    2.156,
+    2.304,
+    -0.617,
+    0.622,
+    0.375,
+    0.676
+   ],
+   "triangulos": 8024,
+   "materiais": [
+    "pintura.001",
+    "chassi.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -2.455,
+    -2.021,
+    -0.845,
+    0.866,
+    0.375,
+    1.005
+   ],
+   "triangulos": 6280,
+   "materiais": [
+    "pintura.001",
+    "chassi.001",
+    "cromado.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    0.827,
+    1.933,
+    0.57,
+    0.845,
+    0.482,
+    1.707
+   ],
+   "triangulos": 17611,
+   "materiais": [
+    "pintura.001",
+    "chassi.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    0.822,
+    1.929,
+    -0.85,
+    -0.57,
+    0.482,
+    1.707
+   ],
+   "triangulos": 18425,
+   "materiais": [
+    "pintura.001",
+    "chassi.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_door_fl",
+   "caixa_m": [
+    0.895,
+    1.814,
+    0.651,
+    0.809,
+    1.307,
+    1.65
+   ],
+   "triangulos": 956,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_door_fr",
+   "caixa_m": [
+    0.89,
+    1.809,
+    -0.808,
+    -0.651,
+    1.307,
+    1.65
+   ],
+   "triangulos": 956,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -1.994,
+    -1.879,
+    -0.426,
+    0.45,
+    1.301,
+    1.691
+   ],
+   "triangulos": 11920,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    1.671,
+    2.019,
+    -0.674,
+    0.669,
+    1.293,
+    1.69
+   ],
+   "triangulos": 1728,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    2.034,
+    2.116,
+    0.404,
+    0.609,
+    0.717,
+    0.923
+   ],
+   "triangulos": 652,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    2.03,
+    2.113,
+    -0.609,
+    -0.404,
+    0.717,
+    0.923
+   ],
+   "triangulos": 652,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -2.041,
+    -2.031,
+    0.583,
+    0.655,
+    0.644,
+    0.71
+   ],
+   "triangulos": 60,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -2.044,
+    -2.035,
+    -0.63,
+    -0.558,
+    0.644,
+    0.71
+   ],
+   "triangulos": 60,
+   "materiais": [
+    "vidro.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -0.781,
+    0.681,
+    -0.6,
+    0.6,
+    1.96,
+    2.732
+   ],
+   "triangulos": 1277,
+   "materiais": [
+    "pintura.001",
+    "cromado.001"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.012,
+    1.496,
+    0.49,
+    0.792,
+    0.124,
+    0.615
+   ],
+   "triangulos": 2205,
+   "materiais": [
+    "cromado.001"
+   ],
+   "pivo_m": [
+    1.2552,
+    0.6507,
+    0.372
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    0.875,
+    1.635,
+    0.479,
+    0.822,
+    0.0,
+    0.744
+   ],
+   "triangulos": 3866,
+   "materiais": [
+    "pneu.001"
+   ],
+   "pivo_m": [
+    1.2552,
+    0.6507,
+    0.372
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.007,
+    1.491,
+    -0.825,
+    -0.487,
+    0.124,
+    0.615
+   ],
+   "triangulos": 1765,
+   "materiais": [
+    "cromado.001"
+   ],
+   "pivo_m": [
+    1.2564,
+    -0.6499,
+    0.372
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    0.873,
+    1.64,
+    -0.826,
+    -0.474,
+    0.0,
+    0.744
+   ],
+   "triangulos": 3793,
+   "materiais": [
+    "pneu.001"
+   ],
+   "pivo_m": [
+    1.2564,
+    -0.6499,
+    0.372
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.499,
+    -1.015,
+    0.492,
+    0.8,
+    0.124,
+    0.608
+   ],
+   "triangulos": 2281,
+   "materiais": [
+    "cromado.001"
+   ],
+   "pivo_m": [
+    -1.2539,
+    0.6581,
+    0.3706
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -1.639,
+    -0.869,
+    0.476,
+    0.841,
+    0.0,
+    0.741
+   ],
+   "triangulos": 3433,
+   "materiais": [
+    "pneu.001"
+   ],
+   "pivo_m": [
+    -1.2539,
+    0.6581,
+    0.3706
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.504,
+    -1.02,
+    -0.817,
+    -0.472,
+    0.124,
+    0.608
+   ],
+   "triangulos": 2195,
+   "materiais": [
+    "cromado.001"
+   ],
+   "pivo_m": [
+    -1.2576,
+    -0.6462,
+    0.3706
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -1.643,
+    -0.872,
+    -0.821,
+    -0.472,
+    0.0,
+    0.741
+   ],
+   "triangulos": 3400,
+   "materiais": [
+    "pneu.001"
+   ],
+   "pivo_m": [
+    -1.2576,
+    -0.6462,
+    0.3706
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Pastelzão, o furgão de pastel do Detonauto (docs/veiculos-zoeira.md): o Pão de Forma do acervo (\"VW T1 style bus (free)\" por Libau Media, Sketchfab, CC BY 4.0, cortado em quebravel/furgao-classico) com a banca feita por Tools/Blender/make_banca_pastel.py do Detonauto (CC0 do estúdio): toldo listrado, balcão com a estufa de pastéis, molhos, o pastelzão do teto (a tampa traseira do jogo: solta e sai voando) e o botijão no para-choque de trás. A tampa do motor original fica na carroceria. Nome no jogo sempre o nosso."
+}

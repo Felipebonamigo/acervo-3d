@@ -1,0 +1,85 @@
+{
+ "id": "pastelzao",
+ "fonte": "veiculos/sketchfab/quebravel/furgao-classico/furgao-classico.glb",
+ "frente": "+x",
+ "escala": 1.0,
+ "rodas": "^wheel_",
+ "anexos": [
+  "veiculos/zoeira/fontes/pastel-banca.glb"
+ ],
+ "pecas": [
+  {
+   "nome": "door_fl",
+   "objetos": "^door_fl$"
+  },
+  {
+   "nome": "door_fr",
+   "objetos": "^door_fr$"
+  },
+  {
+   "nome": "bumper_front",
+   "objetos": "^bumper_front$"
+  },
+  {
+   "nome": "bumper_rear",
+   "objetos": "^bumper_rear$|^pastel_botijao"
+  },
+  {
+   "nome": "trunk",
+   "objetos": "^pastel_teto"
+  }
+ ],
+ "vidros": [
+  {
+   "nome": "glass_windshield",
+   "objetos": "^glass_windshield$"
+  },
+  {
+   "nome": "glass_rear",
+   "objetos": "^glass_rear$"
+  },
+  {
+   "nome": "glass_door_fl",
+   "objetos": "^glass_door_fl$"
+  },
+  {
+   "nome": "glass_door_fr",
+   "objetos": "^glass_door_fr$"
+  },
+  {
+   "nome": "headlight_left",
+   "objetos": "^headlight_left$"
+  },
+  {
+   "nome": "headlight_right",
+   "objetos": "^headlight_right$"
+  },
+  {
+   "nome": "taillight_left",
+   "objetos": "^taillight_left$"
+  },
+  {
+   "nome": "taillight_right",
+   "objetos": "^taillight_right$"
+  }
+ ],
+ "materiais": {
+  "^chassi|^MI_DNVao|^pastel_preto": "chassi",
+  "^luz|^refletor|^placa|^pastel_vidro": "luz",
+  "^cromado|^pastel_metal": "cromado",
+  "^pneu": "pneu"
+ },
+ "pintura_rgb": [
+  0.5,
+  0.5,
+  0.5
+ ],
+ "cores": {
+  "^pneu": [
+   0.022,
+   0.022,
+   0.022
+  ]
+ },
+ "notas": "Pastelzão, o furgão de pastel do Detonauto (docs/veiculos-zoeira.md): o Pão de Forma do acervo (\"VW T1 style bus (free)\" por Libau Media, Sketchfab, CC BY 4.0, cortado em quebravel/furgao-classico) com a banca feita por Tools/Blender/make_banca_pastel.py do Detonauto (CC0 do estúdio): toldo listrado, balcão com a estufa de pastéis, molhos, o pastelzão do teto (a tampa traseira do jogo: solta e sai voando) e o botijão no para-choque de trás. A tampa do motor original fica na carroceria. Nome no jogo sempre o nosso."
+}
