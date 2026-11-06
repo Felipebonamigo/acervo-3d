@@ -23,7 +23,7 @@ A = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'veiculos')
 import os
 corte = os.environ.get('CORTE', A + '/meshy-conta/quebravel/hatch-quadrado-v2/')
 kitd = os.environ.get('KIT', A + '/meshy-conta/completo/hatch-quadrado-v2/')
-rod = A + '/proprios/rodas/'
+rod = os.environ.get('RODAS_DIR', A + '/proprios/rodas/')
 out = sys.argv[sys.argv.index('--') + 1]
 paint_png = sys.argv[sys.argv.index('--') + 2]
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -86,6 +86,14 @@ for pos, cx, cz, s, ys in cantos:
                 o.location.z = cz  # o pivô é o cubo
 # pintura: a tinta em branco vezes a cor
 cor = [float(x) for x in sys.argv[sys.argv.index('--') + 4].split(',')]
+# ACABRODA=<id de Data/RimFinishes.csv> (06/11/2026, docs/rodas-trocaveis.md): o acabamento no aro como o jogo faz (catalogo_rodas.vestir);
+# RODAS_DIR=<pasta> troca a pasta das rodas (a folha antes x depois usa as do histórico)
+if os.environ.get('ACABRODA'):
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import catalogo_rodas as cr
+    _acab = cr.acabamentos(DN).get(os.environ['ACABRODA'])
+    for _k, _o in enumerate([o for o in bpy.data.objects if o.type == 'MESH' and o.name.split('.')[0].startswith(('aro_', 'calota', 'tampinha', 'pneu_'))]):
+        cr.vestir(_o, _acab, cor, 900 + _k)
 img = bpy.data.images.load(paint_png)
 for m in bpy.data.materials:
     if m.name.startswith('pintura_interna') and m.node_tree:
@@ -228,7 +236,7 @@ if os.environ.get('MARCA'):
             if bb:
                 for l in list(bb[0].inputs['Base Color'].links): m.node_tree.links.remove(l)
                 bb[0].inputs['Base Color'].default_value = (0, 1, 0, 1)
-c.render.engine = 'CYCLES'; c.cycles.samples = 48; c.render.resolution_x = 1280; c.render.resolution_y = 760
+c.render.engine = 'CYCLES'; c.cycles.samples = int(os.environ.get('AMOSTRAS', '48')); c.render.resolution_x = int(os.environ.get('LARG', '1280')); c.render.resolution_y = int(os.environ.get('ALT', '760'))
 w = bpy.data.worlds.new('w'); c.world = w; w.use_nodes = True
 bg = w.node_tree.nodes['Background']; bg.inputs[0].default_value = (0.62, 0.66, 0.72, 1); bg.inputs[1].default_value = 0.9
 if os.environ.get('HDRI'):
