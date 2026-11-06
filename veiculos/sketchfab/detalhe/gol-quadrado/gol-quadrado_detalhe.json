@@ -101,7 +101,7 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 570,
+   "triangulos": 690,
    "materiais": [
     "chassi",
     "cromo",
@@ -109,5 +109,5 @@
    ]
   }
  ],
- "triangulos": 3322
+ "triangulos": 3442
 }

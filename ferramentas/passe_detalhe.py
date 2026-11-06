@@ -386,14 +386,16 @@ def limpadores(casca, med, partes, rel, traseiro=False):
             for y in ys:
                 h = casca.raio((x_ini, y, z), (dx, 0, 0), sobre_vidro, 5.0)
                 if h is not None:
-                    pts.append((h[0] + h[1] * 0.012, h[1]))
+                    pts.append((h[0] + h[1] * 0.006, h[1]))
             if len(pts) >= 8:
                 break
         if len(pts) < 5:
             rel["pulados"].append("limpador %s em y=%.2f: vidro não achado" % ("traseiro" if traseiro else "dianteiro", y_piv))
             continue
+        # palheta como a de verdade (foto do Commons, 06/11): a borracha rente ao vidro e a armação 1,5 cm acima, mais larga
         for (a, na), (b, nb) in zip(pts, pts[1:]):
-            g.barra(a, b, 0.016, 0.010, na, M_PRETO)          # palheta (borracha e armação)
+            g.barra(a, b, 0.006, 0.010, na, M_PRETO)                       # borracha
+            g.barra(a + na * 0.013, b + nb * 0.013, 0.016, 0.010, na, M_PRETO)  # armação
         meio_p, meio_n = pts[len(pts) // 2]
         # pivô 6 cm abaixo da ponta da palheta, descendo pelo vidro (na grade do capô ou na chapa sob o vidro de trás)
         p0, n0 = pts[0]
@@ -402,7 +404,7 @@ def limpadores(casca, med, partes, rel, traseiro=False):
         piv = p0 + desce * 0.06
         pivn = n0
         g.cilindro(piv - pivn * 0.008, piv + pivn * 0.018, 0.016, M_PRETO)
-        braco_fim = meio_p + meio_n * 0.010
+        braco_fim = meio_p + meio_n * 0.022
         g.barra(piv + pivn * 0.012, braco_fim, 0.012, 0.007, meio_n, M_PRETO)
         feitos += 1
     rel["limpador_traseiro" if traseiro else "limpador"] = feitos

@@ -73,7 +73,7 @@
   {
    "nome": "det_body",
    "segue": "body",
-   "triangulos": 528,
+   "triangulos": 768,
    "materiais": [
     "chassi",
     "cromo"
@@ -154,5 +154,5 @@
    ]
   }
  ],
- "triangulos": 2316
+ "triangulos": 2556
 }
