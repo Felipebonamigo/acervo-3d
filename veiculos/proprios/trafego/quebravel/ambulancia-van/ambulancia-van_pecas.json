@@ -1,0 +1,480 @@
+{
+ "id": "ambulancia-van",
+ "entrada": "veiculos/proprios/trafego/fontes/ambulancia-van.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  5.845,
+  2.44,
+  2.701
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.93,
+   0.93,
+   0.92
+  ],
+  "pintura_sat": 0.0108,
+  "pintura_val": 0.93,
+  "atlas": "ambulancia-van_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -2.816,
+    3.024,
+    -1.22,
+    1.22,
+    0.155,
+    2.701
+   ],
+   "triangulos": 6560,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    2.889,
+    3.029,
+    -0.995,
+    0.995,
+    0.229,
+    0.409
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -2.771,
+    -2.631,
+    -0.995,
+    0.995,
+    0.229,
+    0.409
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    0.045,
+    1.585,
+    1.012,
+    1.057,
+    0.299,
+    1.051
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    0.045,
+    1.585,
+    -1.057,
+    -1.012,
+    0.299,
+    1.051
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -2.669,
+    -2.607,
+    -0.905,
+    0.905,
+    1.112,
+    2.472
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    1.21,
+    1.652,
+    -0.905,
+    0.905,
+    1.116,
+    2.479
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    2.909,
+    2.959,
+    0.595,
+    0.895,
+    0.756,
+    0.886
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    2.909,
+    2.959,
+    -0.895,
+    -0.595,
+    0.756,
+    0.886
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    1.655,
+    2.789,
+    -0.935,
+    0.935,
+    0.892,
+    1.096
+   ],
+   "triangulos": 468,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -2.701,
+    -2.651,
+    0.615,
+    0.915,
+    0.881,
+    1.001
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -2.701,
+    -2.651,
+    -0.915,
+    -0.615,
+    0.881,
+    1.001
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -2.659,
+    -2.566,
+    -0.875,
+    0.875,
+    1.222,
+    2.45
+   ],
+   "triangulos": 120,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.5,
+    1.95,
+    0.815,
+    0.995,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.725,
+    0.905,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    1.364,
+    2.086,
+    0.801,
+    1.009,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.725,
+    0.905,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.5,
+    1.95,
+    -0.995,
+    -0.815,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.725,
+    -0.905,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    1.364,
+    2.086,
+    -1.009,
+    -0.801,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.725,
+    -0.905,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.95,
+    -1.5,
+    0.815,
+    0.995,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.725,
+    0.905,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -2.086,
+    -1.364,
+    0.801,
+    1.009,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.725,
+    0.905,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.95,
+    -1.5,
+    -0.995,
+    -0.815,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.725,
+    -0.905,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -2.086,
+    -1.364,
+    -1.009,
+    -0.801,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.725,
+    -0.905,
+    0.361
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Furgão ambulância genérico: branco, faixa vermelha e barra de luz, sem cruz nem símbolo. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'van'.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 2296,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "door_fl": 52,
+   "door_fr": 52,
+   "glass_rear": 4,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "hood": 162,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "trunk": 42,
+   "wheel_fl_rim": 280,
+   "wheel_fl_tire": 550,
+   "wheel_fr_rim": 280,
+   "wheel_fr_tire": 550,
+   "wheel_rl_rim": 280,
+   "wheel_rl_tire": 550,
+   "wheel_rr_rim": 280,
+   "wheel_rr_tire": 550
+  },
+  "total": 6202
+ }
+}

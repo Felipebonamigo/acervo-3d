@@ -1,0 +1,392 @@
+{
+ "id": "onibus-dois-andares",
+ "entrada": "veiculos/proprios/trafego/fontes/onibus-dois-andares.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  10.84,
+  3.44,
+  4.401
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.72,
+   0.04,
+   0.03
+  ],
+  "pintura_sat": 0.9583,
+  "pintura_val": 0.72,
+  "atlas": "onibus-dois-andares_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -5.72,
+    4.916,
+    -1.72,
+    1.72,
+    0.381,
+    4.401
+   ],
+   "triangulos": 6032,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    4.86,
+    5.02,
+    -1.2,
+    1.2,
+    0.391,
+    0.691
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -5.82,
+    -5.66,
+    -1.2,
+    1.2,
+    0.391,
+    0.691
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -5.718,
+    -5.706,
+    -1.05,
+    1.05,
+    3.051,
+    4.001
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    4.906,
+    4.918,
+    -1.09,
+    1.09,
+    1.051,
+    2.451
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    4.885,
+    4.935,
+    0.68,
+    1.02,
+    0.701,
+    0.901
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    4.885,
+    4.935,
+    -1.02,
+    -0.68,
+    0.701,
+    0.901
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -5.735,
+    -5.685,
+    0.84,
+    1.06,
+    0.791,
+    1.211
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -5.735,
+    -5.685,
+    -1.06,
+    -0.84,
+    0.791,
+    1.211
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    2.488,
+    3.112,
+    0.9,
+    1.16,
+    0.189,
+    0.813
+   ],
+   "triangulos": 996,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    2.8,
+    1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    2.299,
+    3.301,
+    0.886,
+    1.174,
+    0.0,
+    1.002
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    2.8,
+    1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    2.488,
+    3.112,
+    -1.16,
+    -0.9,
+    0.189,
+    0.813
+   ],
+   "triangulos": 996,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    2.8,
+    -1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    2.299,
+    3.301,
+    -1.174,
+    -0.886,
+    0.0,
+    1.002
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    2.8,
+    -1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -3.112,
+    -2.488,
+    0.753,
+    1.379,
+    0.189,
+    0.813
+   ],
+   "triangulos": 1068,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -2.8,
+    1.059,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -3.301,
+    -2.299,
+    0.739,
+    1.321,
+    0.0,
+    1.002
+   ],
+   "triangulos": 3024,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -2.8,
+    1.059,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -3.112,
+    -2.488,
+    -1.379,
+    -0.753,
+    0.189,
+    0.813
+   ],
+   "triangulos": 1068,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -2.8,
+    -1.059,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -3.301,
+    -2.299,
+    -1.321,
+    -0.739,
+    0.0,
+    1.002
+   ],
+   "triangulos": 3024,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -2.8,
+    -1.059,
+    0.501
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Ônibus vermelho de dois andares, porta à esquerda (Londres). Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'bus'; só em londres.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 2110,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "glass_rear": 2,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "wheel_fl_rim": 348,
+   "wheel_fl_tire": 528,
+   "wheel_fr_rim": 348,
+   "wheel_fr_tire": 528,
+   "wheel_rl_rim": 372,
+   "wheel_rl_tire": 1058,
+   "wheel_rr_rim": 372,
+   "wheel_rr_tire": 1058
+  },
+  "total": 6998
+ }
+}

@@ -1,0 +1,437 @@
+{
+ "id": "caminhao-basculante",
+ "entrada": "veiculos/proprios/trafego/fontes/caminhao-basculante.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  7.885,
+  3.29,
+  2.951
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.85,
+   0.42,
+   0.05
+  ],
+  "pintura_sat": 0.9412,
+  "pintura_val": 0.85,
+  "atlas": "caminhao-basculante_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -4.25,
+    3.505,
+    -1.645,
+    1.645,
+    0.201,
+    2.951
+   ],
+   "triangulos": 5208,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    3.31,
+    3.49,
+    -1.2,
+    1.2,
+    0.521,
+    0.881
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -4.34,
+    -4.24,
+    -1.075,
+    1.075,
+    0.501,
+    0.641
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    1.67,
+    2.93,
+    1.152,
+    1.197,
+    0.821,
+    1.751
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    1.67,
+    2.93,
+    -1.197,
+    -1.152,
+    0.821,
+    1.751
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    3.314,
+    3.386,
+    -0.985,
+    0.985,
+    1.703,
+    2.613
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    3.475,
+    3.525,
+    0.775,
+    1.075,
+    0.621,
+    0.781
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    3.475,
+    3.525,
+    -1.075,
+    -0.775,
+    0.621,
+    0.781
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -4.36,
+    -4.32,
+    0.785,
+    1.065,
+    0.511,
+    0.631
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -4.36,
+    -4.32,
+    -1.065,
+    -0.785,
+    0.511,
+    0.631
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -4.28,
+    -4.16,
+    -1.155,
+    1.155,
+    1.061,
+    2.061
+   ],
+   "triangulos": 196,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.788,
+    2.412,
+    0.855,
+    1.115,
+    0.189,
+    0.813
+   ],
+   "triangulos": 996,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    2.1,
+    0.985,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    1.599,
+    2.601,
+    0.841,
+    1.129,
+    0.0,
+    1.002
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    2.1,
+    0.985,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.788,
+    2.412,
+    -1.115,
+    -0.855,
+    0.189,
+    0.813
+   ],
+   "triangulos": 996,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    2.1,
+    -0.985,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    1.599,
+    2.601,
+    -1.129,
+    -0.841,
+    0.0,
+    1.002
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    2.1,
+    -0.985,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -2.412,
+    -1.788,
+    0.708,
+    1.334,
+    0.189,
+    0.813
+   ],
+   "triangulos": 1068,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -2.1,
+    1.014,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -2.601,
+    -1.599,
+    0.694,
+    1.276,
+    0.0,
+    1.002
+   ],
+   "triangulos": 3024,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -2.1,
+    1.014,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -2.412,
+    -1.788,
+    -1.334,
+    -0.708,
+    0.189,
+    0.813
+   ],
+   "triangulos": 1068,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -2.1,
+    -1.014,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -2.601,
+    -1.599,
+    -1.276,
+    -0.694,
+    0.0,
+    1.002
+   ],
+   "triangulos": 3024,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -2.1,
+    -1.014,
+    0.501
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Caminhão basculante de 2 eixos com a caçamba carregada de terra, laranja. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'truck'.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 1822,
+   "bumper_front": 64,
+   "bumper_rear": 36,
+   "door_fl": 52,
+   "door_fr": 52,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "trunk": 68,
+   "wheel_fl_rim": 348,
+   "wheel_fl_tire": 528,
+   "wheel_fr_rim": 348,
+   "wheel_fr_tire": 528,
+   "wheel_rl_rim": 372,
+   "wheel_rl_tire": 1058,
+   "wheel_rr_rim": 372,
+   "wheel_rr_tire": 1058
+  },
+  "total": 6852
+ }
+}

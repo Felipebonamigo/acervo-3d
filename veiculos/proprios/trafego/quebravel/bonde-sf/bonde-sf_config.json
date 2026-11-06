@@ -1,0 +1,57 @@
+{
+ "id": "bonde-sf",
+ "fonte": "veiculos/proprios/trafego/fontes/bonde-sf.blend",
+ "frente": "+x",
+ "escala": 1.0,
+ "rodas": "^roda_",
+ "pecas": [
+  {
+   "nome": "bumper_front",
+   "objetos": "^bumper_front$"
+  },
+  {
+   "nome": "bumper_rear",
+   "objetos": "^bumper_rear$"
+  },
+  {
+   "nome": "headlight_left",
+   "objetos": "^headlight_left$"
+  },
+  {
+   "nome": "taillight_left",
+   "objetos": "^taillight_left$"
+  },
+  {
+   "nome": "taillight_right",
+   "objetos": "^taillight_right$"
+  }
+ ],
+ "vidros": [
+  {
+   "nome": "glass_windshield",
+   "objetos": "^glass_windshield$"
+  },
+  {
+   "nome": "glass_rear",
+   "objetos": "^glass_rear$"
+  }
+ ],
+ "materiais": {
+  "^tv_(chassi|banco|painel|vidro_fixo|faixa|cacamba|bau|roupa|terra)": "chassi",
+  "^tv_luz": "luz",
+  "^tv_cromo": "cromado",
+  "^tv_pneu": "pneu"
+ },
+ "pintura_rgb": [
+  0.08,
+  0.32,
+  0.18
+ ],
+ "medidas": {
+  "portas": 0,
+  "linha_de_cintura": 1.5,
+  "topo_da_saia": 0.3,
+  "van": true
+ },
+ "notas": "Bonde urbano de um carro, verde e creme, com a vara do trole (São Francisco). Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'bus'; só em sao-francisco."
+}

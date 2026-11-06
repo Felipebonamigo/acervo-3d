@@ -1,0 +1,309 @@
+{
+ "id": "tuk-tuk",
+ "entrada": "veiculos/proprios/trafego/fontes/tuk-tuk.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  2.7262,
+  1.47,
+  1.771
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.08,
+   0.35,
+   0.12
+  ],
+  "pintura_sat": 0.7714,
+  "pintura_val": 0.35,
+  "atlas": "tuk-tuk_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -1.48,
+    1.246,
+    -0.735,
+    0.735,
+    0.139,
+    1.771
+   ],
+   "triangulos": 3448,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    0.504,
+    0.616,
+    -0.575,
+    0.575,
+    0.861,
+    1.673
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    1.095,
+    1.145,
+    -0.08,
+    0.08,
+    0.711,
+    0.851
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -1.48,
+    -1.44,
+    0.435,
+    0.555,
+    0.581,
+    0.681
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -1.48,
+    -1.44,
+    -0.555,
+    -0.435,
+    0.581,
+    0.681
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    0.88,
+    1.12,
+    0.0,
+    0.027,
+    0.081,
+    0.321
+   ],
+   "triangulos": 160,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.0,
+    0.025,
+    0.201
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    0.8,
+    1.2,
+    0.0,
+    0.05,
+    0.001,
+    0.401
+   ],
+   "triangulos": 288,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.0,
+    0.025,
+    0.201
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    0.88,
+    1.12,
+    -0.027,
+    0.0,
+    0.081,
+    0.321
+   ],
+   "triangulos": 160,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.0,
+    -0.025,
+    0.201
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    0.8,
+    1.2,
+    -0.05,
+    0.0,
+    0.001,
+    0.401
+   ],
+   "triangulos": 288,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.0,
+    -0.025,
+    0.201
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.122,
+    -0.878,
+    0.51,
+    0.617,
+    0.079,
+    0.323
+   ],
+   "triangulos": 864,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.0,
+    0.5565,
+    0.201
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -1.201,
+    -0.799,
+    0.496,
+    0.614,
+    0.0,
+    0.402
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.0,
+    0.5565,
+    0.201
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.122,
+    -0.878,
+    -0.617,
+    -0.51,
+    0.079,
+    0.323
+   ],
+   "triangulos": 864,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.0,
+    -0.5565,
+    0.201
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -1.201,
+    -0.799,
+    -0.614,
+    -0.496,
+    0.0,
+    0.402
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.0,
+    -0.5565,
+    0.201
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Autorriquixá de 3 rodas, cuba verde e capota amarela (Agra). Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'compact'; só em agra.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 1206,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "wheel_fl_rim": 56,
+   "wheel_fl_tire": 100,
+   "wheel_fr_rim": 56,
+   "wheel_fr_tire": 100,
+   "wheel_rl_rim": 301,
+   "wheel_rl_tire": 528,
+   "wheel_rr_rim": 301,
+   "wheel_rr_tire": 528
+  },
+  "total": 3286
+ }
+}

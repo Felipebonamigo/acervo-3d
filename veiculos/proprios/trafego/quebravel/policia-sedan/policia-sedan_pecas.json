@@ -1,0 +1,523 @@
+{
+ "id": "policia-sedan",
+ "entrada": "veiculos/proprios/trafego/fontes/policia-sedan.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  5.195,
+  2.27,
+  1.651
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.92,
+   0.92,
+   0.92
+  ],
+  "pintura_sat": 0.0,
+  "pintura_val": 0.92,
+  "atlas": "policia-sedan_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -2.62,
+    2.57,
+    -1.135,
+    1.135,
+    0.144,
+    1.651
+   ],
+   "triangulos": 5876,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    2.435,
+    2.575,
+    -0.91,
+    0.91,
+    0.218,
+    0.398
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -2.575,
+    -2.435,
+    -0.91,
+    0.91,
+    0.218,
+    0.398
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    -0.505,
+    1.135,
+    0.927,
+    0.972,
+    0.288,
+    0.901
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    -0.505,
+    1.135,
+    -0.972,
+    -0.927,
+    0.288,
+    0.901
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_rl",
+   "caixa_m": [
+    -1.095,
+    -0.545,
+    0.927,
+    0.972,
+    0.288,
+    0.901
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_rr",
+   "caixa_m": [
+    -1.095,
+    -0.545,
+    -0.972,
+    -0.927,
+    0.288,
+    0.901
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -1.792,
+    -1.205,
+    -0.79,
+    0.79,
+    0.974,
+    1.443
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    0.504,
+    1.191,
+    -0.79,
+    0.79,
+    0.974,
+    1.444
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    2.455,
+    2.505,
+    0.51,
+    0.81,
+    0.606,
+    0.736
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    2.455,
+    2.505,
+    -0.81,
+    -0.51,
+    0.606,
+    0.736
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    1.205,
+    2.335,
+    -0.85,
+    0.85,
+    0.761,
+    0.946
+   ],
+   "triangulos": 468,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -2.505,
+    -2.455,
+    0.53,
+    0.83,
+    0.731,
+    0.851
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -2.505,
+    -2.455,
+    -0.83,
+    -0.53,
+    0.731,
+    0.851
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -2.375,
+    -1.805,
+    -0.84,
+    0.84,
+    0.917,
+    0.969
+   ],
+   "triangulos": 208,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.212,
+    1.638,
+    0.73,
+    0.91,
+    0.128,
+    0.554
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.425,
+    0.82,
+    0.341
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    1.084,
+    1.766,
+    0.716,
+    0.924,
+    0.0,
+    0.682
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.425,
+    0.82,
+    0.341
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.212,
+    1.638,
+    -0.91,
+    -0.73,
+    0.128,
+    0.554
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.425,
+    -0.82,
+    0.341
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    1.084,
+    1.766,
+    -0.924,
+    -0.716,
+    0.0,
+    0.682
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.425,
+    -0.82,
+    0.341
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.638,
+    -1.212,
+    0.73,
+    0.91,
+    0.128,
+    0.554
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.425,
+    0.82,
+    0.341
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -1.766,
+    -1.084,
+    0.716,
+    0.924,
+    0.0,
+    0.682
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.425,
+    0.82,
+    0.341
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.638,
+    -1.212,
+    -0.91,
+    -0.73,
+    0.128,
+    0.554
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.425,
+    -0.82,
+    0.341
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -1.766,
+    -1.084,
+    -0.924,
+    -0.716,
+    0.0,
+    0.682
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.425,
+    -0.82,
+    0.341
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Sedã de polícia genérico: branco, faixa azul-escura e barra de luz vermelha e azul, sem brasão. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'sedan'.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 2056,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "door_fl": 52,
+   "door_fr": 52,
+   "door_rl": 52,
+   "door_rr": 52,
+   "glass_rear": 2,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "hood": 162,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "trunk": 72,
+   "wheel_fl_rim": 280,
+   "wheel_fl_tire": 550,
+   "wheel_fr_rim": 280,
+   "wheel_fr_tire": 550,
+   "wheel_rl_rim": 280,
+   "wheel_rl_tire": 550,
+   "wheel_rr_rim": 280,
+   "wheel_rr_tire": 550
+  },
+  "total": 6094
+ }
+}

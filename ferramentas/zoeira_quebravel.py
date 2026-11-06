@@ -4,7 +4,11 @@ padronizado que a cadeia do Detonauto lê (make_crush_channels.py, kit_to_detona
 passeio do carro_quebravel.py (portas, cintura, faróis pela cor). Tudo vem de um <id>_config.json escrito à mão:
 
     python -I ferramentas/zoeira_quebravel.py -- veiculos/zoeira/quebravel/<id>/<id>_config.json <pasta de saída> [--tamanho 2048]
-        [--amostras 1] [--sem-previa]
+        [--amostras 1] [--sem-previa] [--lod1 0.35]
+
+--lod1 <razão> (06/11/2026, veículos de tráfego): grava no mesmo GLB uma cópia simplificada de cada peça e roda (Decimate, essa fração
+dos triângulos) com o sufixo _LOD1, como o kit do carro_completo.py; quem lê o GLB para o jogo pula os _LOD1 (make_crush_channels.py,
+kit_to_detonauto.py) ou os importa como LOD1 (export_acervo.py do Detonauto).
 
 O config (caminhos relativos à raiz do acervo):
     {"id": "ceifa-tudo", "fonte": "veiculos/sketchfab/<arquivo>.glb", "frente": "+x|-x|+y|-y" (para onde a frente aponta no arquivo),
@@ -46,6 +50,7 @@ def opt(name, default):
 TAM = opt("--tamanho", 2048)
 AMOSTRAS = opt("--amostras", 1)
 PREVIA = "--sem-previa" not in args
+LOD1 = opt("--lod1", 0.0)
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 cfg = json.load(open(CFG_PATH, encoding="utf-8"))
 CID = cfg["id"]
@@ -525,11 +530,30 @@ json.dump({"front_axle_cm": round(cubo["fr"].x * 100, 2), "rear_axle_cm": round(
 for m in list(bpy.data.materials):
     if m.users == 0:
         bpy.data.materials.remove(m)
+lod1_tri = {}
+if LOD1 > 0:
+    # LOD1: cada peça e roda simplificada pelo Decimate, no mesmo GLB, com o sufixo _LOD1 e o mesmo pivô
+    for nome, o in sorted(final.items()):
+        c = o.copy(); c.data = o.data.copy(); c.name = nome + "_LOD1"; c.data.name = nome + "_LOD1"
+        cena.collection.objects.link(c)
+        mod = c.modifiers.new("lod1", "DECIMATE"); mod.ratio = LOD1
+        dg = bpy.context.evaluated_depsgraph_get()
+        me = bpy.data.meshes.new_from_object(c.evaluated_get(dg))
+        me.name = nome + "_LOD1"
+        velho = c.data
+        c.modifiers.clear(); c.data = me
+        bpy.data.meshes.remove(velho)
+        lod1_tri[nome] = sum(len(p.vertices) - 2 for p in me.polygons)
+    pecas_json["lod1"] = {"razao": LOD1, "sufixo": "_LOD1", "triangulos": lod1_tri, "total": sum(lod1_tri.values())}
+    json.dump(pecas_json, open(os.path.join(OUT, CID + "_pecas.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 bpy.ops.export_scene.gltf(filepath=os.path.join(OUT, CID + ".glb"), export_format="GLB", export_yup=True, export_apply=False,
                           export_attributes=False)
+for o in [o for o in bpy.data.objects if o.name.endswith("_LOD1")]:
+    o.hide_render = True   # a prévia mostra só o LOD0
 tri = sum(p["triangulos"] for p in info_pecas)
-print("[zoeira] %s: %.2f x %.2f x %.2f m, entre-eixos %.2f m, roda %.1f cm, %d peças, %d triângulos, pintura %s"
-      % (CID, med["comprimento"], mx.y - mn.y, med["altura"], cubo["fr"].x - cubo["rr"].x, R0 * 100, len(final), tri, pecas_json["textura"]["pintura_rgb"]))
+print("[zoeira] %s: %.2f x %.2f x %.2f m, entre-eixos %.2f m, roda %.1f cm, %d peças, %d triângulos%s, pintura %s"
+      % (CID, med["comprimento"], mx.y - mn.y, med["altura"], cubo["fr"].x - cubo["rr"].x, R0 * 100, len(final), tri,
+         (" (LOD1 %d)" % sum(lod1_tri.values())) if lod1_tri else "", pecas_json["textura"]["pintura_rgb"]))
 for a_ in avisos:
     print("[zoeira] aviso: " + a_)
 

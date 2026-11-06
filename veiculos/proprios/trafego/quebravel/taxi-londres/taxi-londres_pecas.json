@@ -1,0 +1,523 @@
+{
+ "id": "taxi-londres",
+ "entrada": "veiculos/proprios/trafego/fontes/taxi-londres.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  4.845,
+  2.29,
+  1.986
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.015,
+   0.015,
+   0.016
+  ],
+  "pintura_sat": 0.0625,
+  "pintura_val": 0.016,
+  "atlas": "taxi-londres_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -2.408,
+    2.432,
+    -1.145,
+    1.145,
+    0.133,
+    1.986
+   ],
+   "triangulos": 5412,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    2.297,
+    2.437,
+    -0.92,
+    0.92,
+    0.207,
+    0.387
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -2.363,
+    -2.223,
+    -0.92,
+    0.92,
+    0.207,
+    0.387
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    -0.055,
+    1.385,
+    0.937,
+    0.982,
+    0.277,
+    0.921
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    -0.055,
+    1.385,
+    -0.982,
+    -0.937,
+    0.277,
+    0.921
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_rl",
+   "caixa_m": [
+    -1.963,
+    -0.095,
+    0.937,
+    0.982,
+    0.277,
+    0.921
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_rr",
+   "caixa_m": [
+    -1.963,
+    -0.095,
+    -0.982,
+    -0.937,
+    0.277,
+    0.921
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -2.231,
+    -2.079,
+    -0.8,
+    0.8,
+    0.984,
+    1.726
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    0.958,
+    1.448,
+    -0.8,
+    0.8,
+    0.99,
+    1.736
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    2.317,
+    2.367,
+    0.52,
+    0.82,
+    0.586,
+    0.716
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    2.317,
+    2.367,
+    -0.82,
+    -0.52,
+    0.586,
+    0.716
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    1.455,
+    2.197,
+    -0.86,
+    0.86,
+    0.733,
+    0.963
+   ],
+   "triangulos": 260,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -2.293,
+    -2.243,
+    0.54,
+    0.84,
+    0.751,
+    0.871
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -2.293,
+    -2.243,
+    -0.84,
+    -0.54,
+    0.751,
+    0.871
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -2.193,
+    -2.055,
+    -0.77,
+    0.77,
+    1.096,
+    1.696
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.175,
+    1.575,
+    0.74,
+    0.92,
+    0.121,
+    0.521
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.375,
+    0.83,
+    0.321
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    1.054,
+    1.696,
+    0.726,
+    0.934,
+    0.0,
+    0.642
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.375,
+    0.83,
+    0.321
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.175,
+    1.575,
+    -0.92,
+    -0.74,
+    0.121,
+    0.521
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.375,
+    -0.83,
+    0.321
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    1.054,
+    1.696,
+    -0.934,
+    -0.726,
+    0.0,
+    0.642
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.375,
+    -0.83,
+    0.321
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.575,
+    -1.175,
+    0.74,
+    0.92,
+    0.121,
+    0.521
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.375,
+    0.83,
+    0.321
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -1.696,
+    -1.054,
+    0.726,
+    0.934,
+    0.0,
+    0.642
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.375,
+    0.83,
+    0.321
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.575,
+    -1.175,
+    -0.92,
+    -0.74,
+    0.121,
+    0.521
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.375,
+    -0.83,
+    0.321
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -1.696,
+    -1.054,
+    -0.934,
+    -0.726,
+    0.0,
+    0.642
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.375,
+    -0.83,
+    0.321
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Táxi preto de cabine alta com a luminária (Londres). Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'sedan'; só em londres.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 1894,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "door_fl": 52,
+   "door_fr": 52,
+   "door_rl": 52,
+   "door_rr": 52,
+   "glass_rear": 2,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "hood": 90,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "trunk": 36,
+   "wheel_fl_rim": 280,
+   "wheel_fl_tire": 551,
+   "wheel_fr_rim": 280,
+   "wheel_fr_tire": 550,
+   "wheel_rl_rim": 280,
+   "wheel_rl_tire": 551,
+   "wheel_rr_rim": 280,
+   "wheel_rr_tire": 550
+  },
+  "total": 5826
+ }
+}

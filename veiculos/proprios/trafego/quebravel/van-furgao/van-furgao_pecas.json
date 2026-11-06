@@ -1,0 +1,479 @@
+{
+ "id": "van-furgao",
+ "entrada": "veiculos/proprios/trafego/fontes/van-furgao.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  5.545,
+  2.39,
+  2.451
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.86,
+   0.86,
+   0.84
+  ],
+  "pintura_sat": 0.0233,
+  "pintura_val": 0.86,
+  "atlas": "van-furgao_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -2.675,
+    2.865,
+    -1.195,
+    1.195,
+    0.15,
+    2.451
+   ],
+   "triangulos": 5576,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    2.73,
+    2.87,
+    -0.97,
+    0.97,
+    0.223,
+    0.403
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -2.63,
+    -2.49,
+    -0.97,
+    0.97,
+    0.223,
+    0.403
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    -0.03,
+    1.51,
+    0.987,
+    1.032,
+    0.293,
+    1.021
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    -0.03,
+    1.51,
+    -1.032,
+    -0.987,
+    0.293,
+    1.021
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -2.528,
+    -2.466,
+    -0.88,
+    0.88,
+    1.082,
+    2.372
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    1.135,
+    1.577,
+    -0.88,
+    0.88,
+    1.086,
+    2.38
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    2.75,
+    2.8,
+    0.57,
+    0.87,
+    0.726,
+    0.856
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    2.75,
+    2.8,
+    -0.87,
+    -0.57,
+    0.726,
+    0.856
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    1.58,
+    2.63,
+    -0.91,
+    0.91,
+    0.862,
+    1.066
+   ],
+   "triangulos": 468,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -2.56,
+    -2.51,
+    0.59,
+    0.89,
+    0.851,
+    0.971
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -2.56,
+    -2.51,
+    -0.89,
+    -0.59,
+    0.851,
+    0.971
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -2.518,
+    -2.426,
+    -0.85,
+    0.85,
+    1.192,
+    2.35
+   ],
+   "triangulos": 120,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.431,
+    1.869,
+    0.79,
+    0.97,
+    0.132,
+    0.57
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.65,
+    0.88,
+    0.351
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    1.299,
+    2.001,
+    0.776,
+    0.984,
+    0.0,
+    0.702
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.65,
+    0.88,
+    0.351
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.431,
+    1.869,
+    -0.97,
+    -0.79,
+    0.132,
+    0.57
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.65,
+    -0.88,
+    0.351
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    1.299,
+    2.001,
+    -0.984,
+    -0.776,
+    0.0,
+    0.702
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.65,
+    -0.88,
+    0.351
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.869,
+    -1.431,
+    0.79,
+    0.97,
+    0.132,
+    0.57
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.65,
+    0.88,
+    0.351
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -2.001,
+    -1.299,
+    0.776,
+    0.984,
+    0.0,
+    0.702
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.65,
+    0.88,
+    0.351
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.869,
+    -1.431,
+    -0.97,
+    -0.79,
+    0.132,
+    0.57
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.65,
+    -0.88,
+    0.351
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -2.001,
+    -1.299,
+    -0.984,
+    -0.776,
+    0.0,
+    0.702
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.65,
+    -0.88,
+    0.351
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Furgão de teto alto e carga fechada, branco. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'van'.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 1950,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "door_fl": 52,
+   "door_fr": 52,
+   "glass_rear": 2,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "hood": 162,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "trunk": 42,
+   "wheel_fl_rim": 280,
+   "wheel_fl_tire": 550,
+   "wheel_fr_rim": 280,
+   "wheel_fr_tire": 550,
+   "wheel_rl_rim": 280,
+   "wheel_rl_tire": 550,
+   "wheel_rr_rim": 280,
+   "wheel_rr_tire": 550
+  },
+  "total": 5854
+ }
+}

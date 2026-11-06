@@ -1,0 +1,36 @@
+{
+ "id": "moto-urbana",
+ "fonte": "veiculos/proprios/trafego/fontes/moto-urbana.blend",
+ "frente": "+x",
+ "escala": 1.0,
+ "rodas": "^roda_",
+ "pecas": [
+  {
+   "nome": "headlight_left",
+   "objetos": "^headlight_left$"
+  },
+  {
+   "nome": "taillight_left",
+   "objetos": "^taillight_left$"
+  }
+ ],
+ "vidros": [],
+ "materiais": {
+  "^tv_(chassi|banco|painel|vidro_fixo|faixa|cacamba|bau|roupa|terra)": "chassi",
+  "^tv_luz": "luz",
+  "^tv_cromo": "cromado",
+  "^tv_pneu": "pneu"
+ },
+ "pintura_rgb": [
+  0.6,
+  0.05,
+  0.05
+ ],
+ "medidas": {
+  "portas": 0,
+  "linha_de_cintura": 0.8,
+  "topo_da_saia": 0.42,
+  "van": false
+ },
+ "notas": "Moto urbana de 150 cc com o motociclista (capacete branco), vermelha. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'moto'."
+}

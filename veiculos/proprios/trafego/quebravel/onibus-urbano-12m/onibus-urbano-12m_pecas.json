@@ -1,0 +1,392 @@
+{
+ "id": "onibus-urbano-12m",
+ "entrada": "veiculos/proprios/trafego/fontes/onibus-urbano-12m.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  12.24,
+  3.44,
+  3.251
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.8,
+   0.8,
+   0.78
+  ],
+  "pintura_sat": 0.025,
+  "pintura_val": 0.8,
+  "atlas": "onibus-urbano-12m_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -6.5,
+    5.525,
+    -1.72,
+    1.72,
+    0.381,
+    3.251
+   ],
+   "triangulos": 6608,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    5.48,
+    5.64,
+    -1.2,
+    1.2,
+    0.391,
+    0.691
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -6.6,
+    -6.44,
+    -1.2,
+    1.2,
+    0.391,
+    0.691
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -6.498,
+    -6.486,
+    -1.05,
+    1.05,
+    1.651,
+    2.751
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    5.526,
+    5.538,
+    -1.09,
+    1.09,
+    1.051,
+    2.701
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    5.505,
+    5.555,
+    0.68,
+    1.02,
+    0.701,
+    0.901
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    5.505,
+    5.555,
+    -1.02,
+    -0.68,
+    0.701,
+    0.901
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -6.515,
+    -6.465,
+    0.84,
+    1.06,
+    0.791,
+    1.211
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -6.515,
+    -6.465,
+    -1.06,
+    -0.84,
+    0.791,
+    1.211
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    2.688,
+    3.312,
+    0.9,
+    1.16,
+    0.189,
+    0.813
+   ],
+   "triangulos": 996,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    3.0,
+    1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    2.499,
+    3.501,
+    0.886,
+    1.174,
+    0.0,
+    1.002
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    3.0,
+    1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    2.688,
+    3.312,
+    -1.16,
+    -0.9,
+    0.189,
+    0.813
+   ],
+   "triangulos": 996,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    3.0,
+    -1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    2.499,
+    3.501,
+    -1.174,
+    -0.886,
+    0.0,
+    1.002
+   ],
+   "triangulos": 1512,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    3.0,
+    -1.03,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -3.312,
+    -2.688,
+    0.753,
+    1.379,
+    0.189,
+    0.813
+   ],
+   "triangulos": 1068,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -3.0,
+    1.059,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -3.501,
+    -2.499,
+    0.739,
+    1.321,
+    0.0,
+    1.002
+   ],
+   "triangulos": 3024,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -3.0,
+    1.059,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -3.312,
+    -2.688,
+    -1.379,
+    -0.753,
+    0.189,
+    0.813
+   ],
+   "triangulos": 1068,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -3.0,
+    -1.059,
+    0.501
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -3.501,
+    -2.499,
+    -1.321,
+    -0.739,
+    0.0,
+    1.002
+   ],
+   "triangulos": 3024,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -3.0,
+    -1.059,
+    0.501
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Ônibus urbano de 12 m, branco com faixa azul na cintura, porta à direita. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'bus'.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 2312,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "glass_rear": 2,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "wheel_fl_rim": 348,
+   "wheel_fl_tire": 528,
+   "wheel_fr_rim": 348,
+   "wheel_fr_tire": 528,
+   "wheel_rl_rim": 372,
+   "wheel_rl_tire": 1058,
+   "wheel_rr_rim": 372,
+   "wheel_rr_tire": 1058
+  },
+  "total": 7200
+ }
+}

@@ -1,0 +1,69 @@
+{
+ "id": "caminhao-bau",
+ "fonte": "veiculos/proprios/trafego/fontes/caminhao-bau.blend",
+ "frente": "+x",
+ "escala": 1.0,
+ "rodas": "^roda_",
+ "pecas": [
+  {
+   "nome": "door_fl",
+   "objetos": "^door_fl$"
+  },
+  {
+   "nome": "door_fr",
+   "objetos": "^door_fr$"
+  },
+  {
+   "nome": "bumper_front",
+   "objetos": "^bumper_front$"
+  },
+  {
+   "nome": "headlight_left",
+   "objetos": "^headlight_left$"
+  },
+  {
+   "nome": "headlight_right",
+   "objetos": "^headlight_right$"
+  },
+  {
+   "nome": "trunk",
+   "objetos": "^trunk$"
+  },
+  {
+   "nome": "bumper_rear",
+   "objetos": "^bumper_rear$"
+  },
+  {
+   "nome": "taillight_left",
+   "objetos": "^taillight_left$"
+  },
+  {
+   "nome": "taillight_right",
+   "objetos": "^taillight_right$"
+  }
+ ],
+ "vidros": [
+  {
+   "nome": "glass_windshield",
+   "objetos": "^glass_windshield$"
+  }
+ ],
+ "materiais": {
+  "^tv_(chassi|banco|painel|vidro_fixo|faixa|cacamba|bau|roupa|terra)": "chassi",
+  "^tv_luz": "luz",
+  "^tv_cromo": "cromado",
+  "^tv_pneu": "pneu"
+ },
+ "pintura_rgb": [
+  0.1,
+  0.22,
+  0.45
+ ],
+ "medidas": {
+  "portas": 2,
+  "linha_de_cintura": 1.75,
+  "topo_da_saia": 0.72,
+  "van": true
+ },
+ "notas": "Caminhão baú de 2 eixos e cabine avançada, 8,6 m, cabine azul e baú branco. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'truck'."
+}

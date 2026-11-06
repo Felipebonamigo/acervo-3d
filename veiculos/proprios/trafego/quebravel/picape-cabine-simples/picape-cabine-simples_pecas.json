@@ -1,0 +1,478 @@
+{
+ "id": "picape-cabine-simples",
+ "entrada": "veiculos/proprios/trafego/fontes/picape-cabine-simples.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  5.495,
+  2.29,
+  1.781
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.78,
+   0.78,
+   0.75
+  ],
+  "pintura_sat": 0.0385,
+  "pintura_val": 0.78,
+  "atlas": "picape-cabine-simples_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -2.814,
+    2.676,
+    -1.145,
+    1.145,
+    0.155,
+    1.781
+   ],
+   "triangulos": 4636,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    2.541,
+    2.681,
+    -0.92,
+    0.92,
+    0.229,
+    0.409
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -2.769,
+    -2.629,
+    -0.92,
+    0.92,
+    0.229,
+    0.409
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    -0.405,
+    1.235,
+    0.937,
+    0.982,
+    0.299,
+    0.968
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    -0.405,
+    1.235,
+    -0.982,
+    -0.937,
+    0.299,
+    0.968
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -0.803,
+    -0.751,
+    -0.8,
+    0.8,
+    1.029,
+    1.703
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    0.758,
+    1.297,
+    -0.8,
+    0.8,
+    1.038,
+    1.718
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    2.561,
+    2.611,
+    0.52,
+    0.82,
+    0.673,
+    0.803
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    2.561,
+    2.611,
+    -0.82,
+    -0.52,
+    0.673,
+    0.803
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    1.305,
+    2.441,
+    -0.86,
+    0.86,
+    0.855,
+    1.013
+   ],
+   "triangulos": 468,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -2.699,
+    -2.649,
+    0.54,
+    0.84,
+    0.798,
+    0.918
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -2.699,
+    -2.649,
+    -0.84,
+    -0.54,
+    0.798,
+    0.918
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -2.659,
+    -2.619,
+    -0.89,
+    0.89,
+    0.479,
+    0.978
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.3,
+    1.75,
+    0.74,
+    0.92,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.525,
+    0.83,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    1.164,
+    1.886,
+    0.726,
+    0.934,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.525,
+    0.83,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.3,
+    1.75,
+    -0.92,
+    -0.74,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.525,
+    -0.83,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    1.164,
+    1.886,
+    -0.934,
+    -0.726,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.525,
+    -0.83,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.75,
+    -1.3,
+    0.74,
+    0.92,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.525,
+    0.83,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -1.886,
+    -1.164,
+    0.726,
+    0.934,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.525,
+    0.83,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.75,
+    -1.3,
+    -0.92,
+    -0.74,
+    0.136,
+    0.586
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.525,
+    -0.83,
+    0.361
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -1.886,
+    -1.164,
+    -0.934,
+    -0.726,
+    0.0,
+    0.722
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.525,
+    -0.83,
+    0.361
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Picape de cabine simples com caçamba aberta, prata. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'pickup'.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 1622,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "door_fl": 52,
+   "door_fr": 52,
+   "glass_rear": 2,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "hood": 162,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "trunk": 36,
+   "wheel_fl_rim": 280,
+   "wheel_fl_tire": 550,
+   "wheel_fr_rim": 280,
+   "wheel_fr_tire": 550,
+   "wheel_rl_rim": 280,
+   "wheel_rl_tire": 550,
+   "wheel_rr_rim": 280,
+   "wheel_rr_tire": 550
+  },
+  "total": 5520
+ }
+}

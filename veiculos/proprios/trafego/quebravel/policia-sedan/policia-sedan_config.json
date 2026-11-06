@@ -1,0 +1,85 @@
+{
+ "id": "policia-sedan",
+ "fonte": "veiculos/proprios/trafego/fontes/policia-sedan.blend",
+ "frente": "+x",
+ "escala": 1.0,
+ "rodas": "^roda_",
+ "pecas": [
+  {
+   "nome": "hood",
+   "objetos": "^hood$"
+  },
+  {
+   "nome": "trunk",
+   "objetos": "^trunk$"
+  },
+  {
+   "nome": "door_fl",
+   "objetos": "^door_fl$"
+  },
+  {
+   "nome": "door_fr",
+   "objetos": "^door_fr$"
+  },
+  {
+   "nome": "door_rl",
+   "objetos": "^door_rl$"
+  },
+  {
+   "nome": "door_rr",
+   "objetos": "^door_rr$"
+  },
+  {
+   "nome": "bumper_front",
+   "objetos": "^bumper_front$"
+  },
+  {
+   "nome": "bumper_rear",
+   "objetos": "^bumper_rear$"
+  },
+  {
+   "nome": "headlight_left",
+   "objetos": "^headlight_left$"
+  },
+  {
+   "nome": "taillight_left",
+   "objetos": "^taillight_left$"
+  },
+  {
+   "nome": "headlight_right",
+   "objetos": "^headlight_right$"
+  },
+  {
+   "nome": "taillight_right",
+   "objetos": "^taillight_right$"
+  }
+ ],
+ "vidros": [
+  {
+   "nome": "glass_windshield",
+   "objetos": "^glass_windshield$"
+  },
+  {
+   "nome": "glass_rear",
+   "objetos": "^glass_rear$"
+  }
+ ],
+ "materiais": {
+  "^tv_(chassi|banco|painel|vidro_fixo|faixa|cacamba|bau|roupa|terra)": "chassi",
+  "^tv_luz": "luz",
+  "^tv_cromo": "cromado",
+  "^tv_pneu": "pneu"
+ },
+ "pintura_rgb": [
+  0.92,
+  0.92,
+  0.92
+ ],
+ "medidas": {
+  "portas": 4,
+  "linha_de_cintura": 0.93,
+  "topo_da_saia": 0.187,
+  "coluna_a": 0.475
+ },
+ "notas": "Sedã de polícia genérico: branco, faixa azul-escura e barra de luz vermelha e azul, sem brasão. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'sedan'."
+}

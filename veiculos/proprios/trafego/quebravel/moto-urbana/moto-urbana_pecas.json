@@ -1,0 +1,267 @@
+{
+ "id": "moto-urbana",
+ "entrada": "veiculos/proprios/trafego/fontes/moto-urbana.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  1.9631,
+  0.78,
+  1.59
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.6,
+   0.05,
+   0.05
+  ],
+  "pintura_sat": 0.9167,
+  "pintura_val": 0.6,
+  "atlas": "moto-urbana_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -0.958,
+    0.993,
+    -0.39,
+    0.39,
+    0.286,
+    1.59
+   ],
+   "triangulos": 2856,
+   "materiais": [
+    "pintura",
+    "chassi",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    0.635,
+    0.685,
+    -0.09,
+    0.09,
+    0.88,
+    1.04
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -0.97,
+    -0.93,
+    -0.08,
+    0.08,
+    0.75,
+    0.81
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    0.496,
+    0.884,
+    0.0,
+    0.02,
+    0.106,
+    0.494
+   ],
+   "triangulos": 96,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    0.69,
+    0.0325,
+    0.3
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    0.39,
+    0.99,
+    0.0,
+    0.065,
+    0.0,
+    0.6
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    0.69,
+    0.0325,
+    0.3
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    0.496,
+    0.884,
+    -0.02,
+    0.0,
+    0.106,
+    0.494
+   ],
+   "triangulos": 96,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    0.69,
+    -0.0325,
+    0.3
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    0.39,
+    0.99,
+    -0.065,
+    0.0,
+    0.0,
+    0.6
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    0.69,
+    -0.0325,
+    0.3
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -0.884,
+    -0.496,
+    0.0,
+    0.02,
+    0.106,
+    0.494
+   ],
+   "triangulos": 96,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -0.69,
+    0.0325,
+    0.3
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -0.99,
+    -0.39,
+    0.0,
+    0.065,
+    0.0,
+    0.6
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -0.69,
+    0.0325,
+    0.3
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -0.884,
+    -0.496,
+    -0.02,
+    0.0,
+    0.106,
+    0.494
+   ],
+   "triangulos": 96,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -0.69,
+    -0.0325,
+    0.3
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -0.99,
+    -0.39,
+    -0.065,
+    0.0,
+    0.0,
+    0.6
+   ],
+   "triangulos": 352,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -0.69,
+    -0.0325,
+    0.3
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Moto urbana de 150 cc com o motociclista (capacete branco), vermelha. Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'moto'.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 996,
+   "headlight_left": 36,
+   "taillight_left": 36,
+   "wheel_fl_rim": 33,
+   "wheel_fl_tire": 122,
+   "wheel_fr_rim": 33,
+   "wheel_fr_tire": 122,
+   "wheel_rl_rim": 33,
+   "wheel_rl_tire": 122,
+   "wheel_rr_rim": 33,
+   "wheel_rr_tire": 123
+  },
+  "total": 1689
+ }
+}

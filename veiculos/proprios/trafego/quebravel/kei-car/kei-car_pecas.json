@@ -1,0 +1,522 @@
+{
+ "id": "kei-car",
+ "entrada": "veiculos/proprios/trafego/fontes/kei-car.blend",
+ "gerado_por": "ferramentas/zoeira_quebravel.py",
+ "convencao": "metros, frente +X, esquerda +Y, cima +Z, chão em z = 0, origem entre os eixos; rodas com o pivô no cubo",
+ "dimensoes_m": [
+  3.645,
+  1.87,
+  1.661
+ ],
+ "escala": 1.0,
+ "textura": {
+  "pintura_rgb": [
+   0.78,
+   0.84,
+   0.88
+  ],
+  "pintura_sat": 0.1136,
+  "pintura_val": 0.88,
+  "atlas": "kei-car_atlas.png",
+  "tamanho": 1024
+ },
+ "pecas": [
+  {
+   "nome": "body",
+   "caixa_m": [
+    -1.788,
+    1.852,
+    -0.935,
+    0.935,
+    0.127,
+    1.661
+   ],
+   "triangulos": 4436,
+   "materiais": [
+    "pintura",
+    "chassi"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_front",
+   "caixa_m": [
+    1.717,
+    1.857,
+    -0.71,
+    0.71,
+    0.201,
+    0.381
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "bumper_rear",
+   "caixa_m": [
+    -1.743,
+    -1.603,
+    -0.71,
+    0.71,
+    0.201,
+    0.381
+   ],
+   "triangulos": 188,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fl",
+   "caixa_m": [
+    -0.605,
+    0.965,
+    0.727,
+    0.772,
+    0.271,
+    0.751
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_fr",
+   "caixa_m": [
+    -0.605,
+    0.965,
+    -0.772,
+    -0.727,
+    0.271,
+    0.751
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_rl",
+   "caixa_m": [
+    -1.343,
+    -0.645,
+    0.727,
+    0.772,
+    0.271,
+    0.751
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "door_rr",
+   "caixa_m": [
+    -1.343,
+    -0.645,
+    -0.772,
+    -0.727,
+    0.271,
+    0.751
+   ],
+   "triangulos": 152,
+   "materiais": [
+    "pintura",
+    "cromado"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_rear",
+   "caixa_m": [
+    -1.62,
+    -1.459,
+    -0.59,
+    0.59,
+    0.814,
+    1.586
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "glass_windshield",
+   "caixa_m": [
+    0.408,
+    1.027,
+    -0.59,
+    0.59,
+    0.821,
+    1.598
+   ],
+   "triangulos": 12,
+   "materiais": [
+    "vidro"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_left",
+   "caixa_m": [
+    1.737,
+    1.787,
+    0.31,
+    0.61,
+    0.456,
+    0.586
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "headlight_right",
+   "caixa_m": [
+    1.737,
+    1.787,
+    -0.61,
+    -0.31,
+    0.456,
+    0.586
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "hood",
+   "caixa_m": [
+    1.035,
+    1.617,
+    -0.65,
+    0.65,
+    0.636,
+    0.794
+   ],
+   "triangulos": 260,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_left",
+   "caixa_m": [
+    -1.673,
+    -1.623,
+    0.33,
+    0.63,
+    0.581,
+    0.701
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "taillight_right",
+   "caixa_m": [
+    -1.673,
+    -1.623,
+    -0.63,
+    -0.33,
+    0.581,
+    0.701
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "luz"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "trunk",
+   "caixa_m": [
+    -1.582,
+    -1.436,
+    -0.56,
+    0.56,
+    0.926,
+    1.556
+   ],
+   "triangulos": 108,
+   "materiais": [
+    "pintura"
+   ],
+   "pivo_m": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "nome": "wheel_fl_rim",
+   "caixa_m": [
+    1.056,
+    1.394,
+    0.53,
+    0.71,
+    0.102,
+    0.44
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.225,
+    0.62,
+    0.271
+   ]
+  },
+  {
+   "nome": "wheel_fl_tire",
+   "caixa_m": [
+    0.954,
+    1.496,
+    0.516,
+    0.724,
+    0.0,
+    0.542
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.225,
+    0.62,
+    0.271
+   ]
+  },
+  {
+   "nome": "wheel_fr_rim",
+   "caixa_m": [
+    1.056,
+    1.394,
+    -0.71,
+    -0.53,
+    0.102,
+    0.44
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    1.225,
+    -0.62,
+    0.271
+   ]
+  },
+  {
+   "nome": "wheel_fr_tire",
+   "caixa_m": [
+    0.954,
+    1.496,
+    -0.724,
+    -0.516,
+    0.0,
+    0.542
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    1.225,
+    -0.62,
+    0.271
+   ]
+  },
+  {
+   "nome": "wheel_rl_rim",
+   "caixa_m": [
+    -1.394,
+    -1.056,
+    0.53,
+    0.71,
+    0.102,
+    0.44
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.225,
+    0.62,
+    0.271
+   ]
+  },
+  {
+   "nome": "wheel_rl_tire",
+   "caixa_m": [
+    -1.496,
+    -0.954,
+    0.516,
+    0.724,
+    0.0,
+    0.542
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.225,
+    0.62,
+    0.271
+   ]
+  },
+  {
+   "nome": "wheel_rr_rim",
+   "caixa_m": [
+    -1.394,
+    -1.056,
+    -0.71,
+    -0.53,
+    0.102,
+    0.44
+   ],
+   "triangulos": 800,
+   "materiais": [
+    "cromado"
+   ],
+   "pivo_m": [
+    -1.225,
+    -0.62,
+    0.271
+   ]
+  },
+  {
+   "nome": "wheel_rr_tire",
+   "caixa_m": [
+    -1.496,
+    -0.954,
+    -0.724,
+    -0.516,
+    0.0,
+    0.542
+   ],
+   "triangulos": 1576,
+   "materiais": [
+    "pneu"
+   ],
+   "pivo_m": [
+    -1.225,
+    -0.62,
+    0.271
+   ]
+  }
+ ],
+ "avisos": [],
+ "notas": "Carro pequeno e alto de 3,4 m (kei car), azul-claro (Tóquio). Veículo de tráfego do Detonauto feito por ferramentas/veiculo_trafego.py (CC0 do estúdio, sem marca, sem texto, sem IA); classe de tráfego 'compact'; só em toquio.",
+ "lod1": {
+  "razao": 0.35,
+  "sufixo": "_LOD1",
+  "triangulos": {
+   "body": 1552,
+   "bumper_front": 64,
+   "bumper_rear": 64,
+   "door_fl": 52,
+   "door_fr": 52,
+   "door_rl": 52,
+   "door_rr": 52,
+   "glass_rear": 2,
+   "glass_windshield": 2,
+   "headlight_left": 36,
+   "headlight_right": 36,
+   "hood": 90,
+   "taillight_left": 36,
+   "taillight_right": 36,
+   "trunk": 36,
+   "wheel_fl_rim": 280,
+   "wheel_fl_tire": 550,
+   "wheel_fr_rim": 280,
+   "wheel_fr_tire": 550,
+   "wheel_rl_rim": 280,
+   "wheel_rl_tire": 550,
+   "wheel_rr_rim": 280,
+   "wheel_rr_tire": 550
+  },
+  "total": 5482
+ }
+}
