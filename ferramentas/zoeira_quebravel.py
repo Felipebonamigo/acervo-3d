@@ -13,10 +13,12 @@ kit_to_detonauto.py) ou os importa como LOD1 (export_acervo.py do Detonauto).
 O config (caminhos relativos à raiz do acervo):
     {"id": "ceifa-tudo", "fonte": "veiculos/sketchfab/<arquivo>.glb", "frente": "+x|-x|+y|-y" (para onde a frente aponta no arquivo),
      "comprimento": 9.5 (ou "escala": 0.85), "tirar_objetos": "regex", "tirar_materiais": "regex" (emblemas, placas),
+     "tirar_caixas": [[x0, x1, y0, y1, z0, z1], ...] (faces que saem, no espaço final; o baú do caminhão de lixo),
      "rodas": "regex dos objetos das rodas" (as ilhas vão para o canto pela posição: fl, fr, rl, rr),
      "pecas": [{"nome": "bumper_front", "objetos": "regex"} | {"nome": "hood", "caixa": [x0, x1, y0, y1, z0, z1]}],
      "vidros": [{"nome": "glass_windshield", "objetos": "regex"} ...],
      "materiais": {"regex do material do arquivo": "chassi|luz|cromado|pneu|pintura"} (sem regra: pintura),
+     "cores": {"regex do material do arquivo": [r, g, b]} (cor lisa linear no lugar da do material, antes do bake),
      "pintura_rgb": [r, g, b] (0 a 1, sRGB; sem: a mediana da cor assada nas faces de pintura),
      "medidas": {"linha_de_cintura": ..., "coluna_a": ..., "topo_da_saia": ...} (opcional; o resto sai da caixa e das rodas),
      "notas": "..."}
@@ -229,6 +231,23 @@ if abs(raio["fl"] - raio["rl"]) > 0.03:
     avisos.append("rodas da frente (%.2f m) e de trás (%.2f m) de raios diferentes: o jogo usa uma roda só (a dianteira direita)"
                   % (raio["fl"], raio["rl"]))
 
+# 3a. Caixas que saem (o Papa-Tudo, 06/11/2026: o baú do caminhão vem fundido na carroceria e dá lugar à caçamba compactadora): as faces
+# de qualquer peça, menos as rodas, com o centro dentro de uma caixa [x0, x1, y0, y1, z0, z1] no espaço final
+for x0, x1, y0, y1, z0, z1 in cfg.get("tirar_caixas", []):
+    tiradas = 0
+    for o in [o for o in malhas() if not o.name.startswith("roda_")]:
+        bm = bmesh.new(); bm.from_mesh(o.data)
+        fora = [f for f in bm.faces if x0 <= f.calc_center_median().x <= x1 and y0 <= f.calc_center_median().y <= y1
+                and z0 <= f.calc_center_median().z <= z1]
+        if fora:
+            tiradas += len(fora)
+            bmesh.ops.delete(bm, geom=fora, context="FACES")
+            bm.to_mesh(o.data)
+        bm.free()
+        if not o.data.polygons:
+            bpy.data.objects.remove(o)
+    avisos.append("caixa tirada %s: %d faces" % ([x0, x1, y0, y1, z0, z1], tiradas))
+
 # 3b. Anexos: GLBs feitos por script (o palco do trio elétrico), já no espaço final (metros, frente +X, chão em z = 0, entre os eixos)
 for an in cfg.get("anexos", []):
     antes = set(o.name for o in bpy.data.objects)
@@ -356,6 +375,16 @@ for slot in tudo.material_slots:
             if n.type == "TEX_IMAGE" and not n.inputs["Vector"].links:
                 uvn = nt.nodes.new("ShaderNodeUVMap"); uvn.uv_map = uv_orig
                 nt.links.new(uvn.outputs["UV"], n.inputs["Vector"])
+    # "cores" (o Pastelzão, 06/11/2026: o pneu do Pão de Forma cortado não tem cor, o jogo usa as rodas de kit nele): cor lisa no lugar
+    # da cor do material, antes do bake
+    for rx_, rgb_ in cfg.get("cores", {}).items():
+        if re.search(rx_, m.name):
+            bsdf = next((n for n in nt.nodes if n.type == "BSDF_PRINCIPLED"), None)
+            if bsdf is not None:
+                for l in list(bsdf.inputs["Base Color"].links):
+                    nt.links.remove(l)
+                bsdf.inputs["Base Color"].default_value = (*rgb_, 1.0)
+                avisos.append("cor lisa %s no material %s" % (list(rgb_), m.name))
     alvo = nt.nodes.new("ShaderNodeTexImage"); alvo.image = img; alvo.name = "dn_alvo"
     nt.nodes.active = alvo
 cena.render.engine = "CYCLES"; cena.cycles.device = "CPU"; cena.cycles.samples = AMOSTRAS
