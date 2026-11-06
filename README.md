@@ -144,6 +144,36 @@ O mapa de corte do Besouro foi acertado à mão (porta até a dobradiça, capô 
 planos e a casca de dentro tirada com o papel `remover`), e o do Trilheiro também (a porta estava no para-lama). Ainda não foi
 para o Unreal nem aprovado por captura ao lado de foto real (`aprovar-visual` do Detonauto).
 
+## Veículos de tráfego por script (06/11/2026)
+
+As unidades que faltavam ao tráfego dos 30 mapas do Detonauto, feitas inteiras no Blender por `ferramentas/veiculo_trafego.py`
+(geometria e cor próprias, CC0, sem IA, sem marca, logo, emblema, texto nem modelo real) e cortadas pelo `zoeira_quebravel.py`
+com o `--lod1` novo. Em `veiculos/proprios/trafego/`: `fontes/<id>.blend` (a cor procedural que o corte assa no atlas) e
+`quebravel/<id>/` (GLB com as peças do kit e o LOD1, mapa, rodas, relatório, config e prévia). Interior (bancos, painel, volante),
+rodas com aro e pneu, faróis e lanternas como peças, portas, capô, tampa e para-choques que soltam.
+
+| Id | O que é | Medidas (m) | Tri LOD0 / LOD1 | Onde nasce |
+| --- | --- | --- | --- | --- |
+| `onibus-urbano-12m` | ônibus urbano branco com faixa azul, porta à direita | 12,24 x 3,44 x 3,25 | 20.640 / 7.200 | toda cidade menos Londres e São Francisco |
+| `caminhao-bau` | caminhão baú de 2 eixos, cabine azul | 8,88 x 3,29 x 3,60 | 20.240 / 7.054 | toda parte |
+| `caminhao-basculante` | basculante laranja com terra na caçamba | 7,88 x 3,29 x 2,95 | 19.648 / 6.852 | toda parte |
+| `moto-urbana` | moto 150 vermelha com motociclista | 1,96 x 0,78 x 1,59 | 4.864 / 1.689 | toda parte |
+| `picape-cabine-simples` | picape prata de caçamba aberta | 5,50 x 2,29 x 1,78 | 15.852 / 5.520 | toda parte |
+| `van-furgao` | furgão branco de teto alto | 5,54 x 2,39 x 2,45 | 16.804 / 5.854 | toda parte |
+| `taxi-amarelo` | sedã táxi amarelo com luminária | 5,09 x 2,24 x 1,66 | 16.956 / 5.904 | Nova York |
+| `taxi-branco-faixa` | sedã táxi branco com faixa vermelha | 5,00 x 2,19 x 1,66 | 16.880 / 5.880 | São Paulo |
+| `policia-sedan` | viatura branca com faixa escura e barra de luz, sem brasão | 5,20 x 2,27 x 1,65 | 17.496 / 6.094 | toda parte |
+| `ambulancia-van` | ambulância branca com faixa vermelha e barra de luz, sem cruz | 5,84 x 2,44 x 2,70 | 17.788 / 6.202 | toda parte |
+| `tuk-tuk` | autorriquixá verde e amarelo de 3 rodas | 2,73 x 1,47 x 1,77 | 9.432 / 3.286 | Agra |
+| `bonde-sf` | bonde verde e creme com vara de trole | 10,24 x 3,44 x 4,86 | 16.540 / 5.768 | São Francisco |
+| `onibus-dois-andares` | ônibus vermelho de dois andares, porta à esquerda | 10,84 x 3,44 x 4,40 | 20.064 / 6.998 | Londres |
+| `taxi-londres` | táxi preto de cabine alta | 4,84 x 2,29 x 1,99 | 16.724 / 5.826 | Londres |
+| `kei-car` | carro pequeno e alto azul-claro | 3,65 x 1,87 x 1,66 | 15.748 / 5.482 | Tóquio |
+
+Medidas com os retrovisores. A moto e o tuk-tuk têm a roda da frente em duas metades (uma por canto), porque o corte pede os quatro
+cantos. Bonde em Lisboa não entrou: Lisboa não é um dos 30 mapas. No Detonauto: `Data/TrafficVehicles.csv` (colunas `Mesh` e
+`Cities`, regra T12 do `Core/DNTrafficMix.h`) e `docs/pedido-pc-trafego-veiculos.md`.
+
 ## Carro ultra realista: o método (27/10/2026)
 
 Vale para qualquer jogo do estúdio com carro. Plano completo em `docs/carro-completo.md` do Detonauto; anotado também na aba

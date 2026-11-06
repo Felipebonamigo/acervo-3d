@@ -1441,6 +1441,34 @@ e um caricato. O do Meshy (`meshy-conta/barao__01a16960.glb`) fica no acervo.
   7,5 cm em vez de descer até o piso (pendia como um queixo preto), e o que é pintura do kit abaixo dela, até 40 cm da frente e de
   trás (travessa, para-lama interno), vira a graxa escura do fundo: aparecia vermelho sob o para-choque.
 
+## veiculo_trafego.py: veículos de tráfego por script (06/11/2026)
+
+Gera inteiros no Blender (módulo `bpy` 5.2.3, ~1 s por veículo) os 15 veículos de tráfego que faltavam ao Detonauto: ônibus urbano,
+caminhão baú, basculante, moto com motociclista, picape, furgão, táxi amarelo (Nova York), táxi branco com faixa (São Paulo), viatura
+e ambulância genéricas (sem brasão, cruz nem símbolo), tuk-tuk (Agra), bonde (São Francisco), ônibus de dois andares e táxi preto
+(Londres) e kei car (Tóquio). Tudo geometria e cor próprias: CC0, sem IA, sem marca, logo, emblema, texto nem modelo real.
+
+    python -I ferramentas/veiculo_trafego.py -- todos|<id> [<id> ...] [--out veiculos/proprios/trafego] [--sem-glb]
+    python -I ferramentas/zoeira_quebravel.py -- veiculos/proprios/trafego/quebravel/<id>/<id>_config.json veiculos/proprios/trafego/quebravel/<id> --tamanho 1024 --lod1 0.35
+
+- **Como é feito:** cada tipo (`carro` para sedã, hatch, furgão, picape e o táxi de Londres; `onibus` para o de um andar, o de dois e
+  o bonde; `caminhao` para baú e basculante; `moto`; `tuktuk`) é um loft de retângulos arredondados ao longo do comprimento, com as
+  seções interpoladas a cada 25 cm e os lados retos em tiras, para a pintura por região (janela, porta, faixa, bolso de roda) pegar
+  faces curtas. Vidros laterais são faces escuras do próprio corpo; para-brisa e vidro de trás são placas que estouram. Interior
+  (assoalho, painel, volante, bancos) dentro do corpo, visto pelo para-brisa. Rodas por revolução com sulcos, aro com furos e cubo;
+  as de caminhão e ônibus são duplas atrás. Materiais com ruído e sujeira do chão (como o Teimoso), assados no atlas pelo corte.
+- **Nomes:** os do kit (`body`, `hood`, `trunk`, `door_fl`..`door_rr`, `bumper_front/rear`, `glass_windshield`, `glass_rear`,
+  `headlight_left/right`, `taillight_left/right`) e `roda_fl`..`roda_rr`. A moto e o tuk-tuk têm a roda da frente em duas metades
+  (`roda_fl` e `roda_fr`), porque o corte pede os quatro cantos; o jogo usa uma roda só.
+- **Saída:** `fontes/<id>.blend` (fonte do corte, com a cor procedural; `.glb` ao lado só para olhar, fora do git) e
+  `quebravel/<id>/<id>_config.json`, que o `zoeira_quebravel.py` lê. Os 15 configs e cortes estão em `veiculos/proprios/trafego/`;
+  tabela no `README.md` da raiz.
+- **`--lod1 <razão>` do zoeira_quebravel.py:** grava no mesmo GLB uma cópia de cada peça e roda pelo Decimate, com o sufixo `_LOD1`
+  (a razão 0,35 dá ~1/3 dos triângulos). No Detonauto, `make_crush_channels.py` e `kit_to_detonauto.py` pulam os `_LOD1`, e
+  `export_acervo.py` os grava em `<id>_LOD1.fbx`, que o `import_acervo.py` põe como LOD1 da malha.
+- **Prévias:** olhadas uma a uma em 06/11/2026 (`quebravel/<id>/<id>_previa.png`). São modelos de tráfego, vistos de longe: formas
+  limpas e corretas na escala, sem o detalhe dos carros nacionais do Meshy. O veredito final é a captura do jogo, no PC.
+
 ## zoeira_quebravel.py: veículos de zoeira do Detonauto (30/10/2026)
 
 Pedido do Felipe (30/10/2026): veículos de zoeira jogáveis no Detonauto (`docs/veiculos-zoeira.md` de lá). O `carro_quebravel.py` acha
