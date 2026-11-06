@@ -1015,7 +1015,8 @@ def letreiro_flanco(ob, M, pid, altura=0.0150, relevo=0.0007):
         me = o.data
         for v in me.vertices:
             x, y, z = v.co
-            ang = fase - x / rc                       # o texto corre ao longo da volta
+            ang = fase + x / rc                       # o texto corre ao longo da volta, lido de fora (+Y): no sentido anti-horário visto de +Y
+            # (06/11, close da roda: com "fase - x" a escrita saía espelhada na face de fora)
             rad = rc + y
             t = (rad - (Rb + 0.55 * H)) / (0.27 * H)
             ysup = S - 0.0045 * t * t                  # a curva do flanco no raio da letra
