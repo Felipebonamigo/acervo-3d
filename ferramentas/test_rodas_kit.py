@@ -130,7 +130,9 @@ class TestRodasKit(unittest.TestCase):
     def test_torn_aro_quase_no_chao(self):
         for pid, (_, _, pol) in rk.PNEUS.items():
             g = self.glb["pneu_" + pid]
-            aro = self.glb[f"aro_aco{pol}"][f"aro_aco{pol}"]["v"]
+            # um aro de aço da mesma polegada (16": o de picape)
+            rid = next(r for r, c in rk.AROS.items() if c["tipo"] == "aco" and c["pol"] == pol)
+            aro = self.glb["aro_" + rid]["aro_" + rid]["v"]
             r_aba = max(math.hypot(v[0], v[2]) for v in aro)
             lo_t, hi_t = caixa(g[f"pneu_{pid}_Torn"]["v"])
             folga = -lo_t[2] - r_aba
@@ -155,7 +157,8 @@ class TestRodasKit(unittest.TestCase):
                 if pol != cfg["pol"]:
                     continue
                 t_ok = self.glb["pneu_" + pid][f"pneu_{pid}_Ok"]["tri"]
-                t_cal = self.glb[f"calota{pol}"][f"calota{pol}"]["tri"] if cfg["tipo"] == "aco" else 0
+                cal = f"calota{pol}"
+                t_cal = self.glb[cal][cal]["tri"] if cfg["tipo"] == "aco" and cal in self.glb else 0
                 tot = t_aro + t_ok + t_cal
                 self.assertLessEqual(tot, rk.ORCAMENTO_RODA, f"{rid} + {pid}: {tot}")
                 conferidas += 1
@@ -169,6 +172,8 @@ class TestRodasKit(unittest.TestCase):
                 if nome.endswith("_LOD1"):
                     continue
                 razao = g[nome + "_LOD1"]["tri"] / o["tri"]
+                if o["tri"] <= 600:
+                    continue        # meia-calota e tampinha: já são leves, o LOD1 é a mesma malha
                 self.assertTrue(0.3 <= razao <= 0.5, f"{nome}: LOD1 com {razao:.2f}")
 
     def test_materiais(self):
@@ -176,7 +181,9 @@ class TestRodasKit(unittest.TestCase):
             mats = set(m for o in g.values() for m in o["mats"])
             tipo = self.itens[iid]["tipo"]
             if tipo == "aro":
-                self.assertIn("aro_aco" if iid.startswith("aro_aco") else "aro_liga", mats)
+                self.assertIn("aro_aco" if rk.AROS[iid[4:]]["tipo"] == "aco" else "aro_liga", mats)
+                if rk.AROS[iid[4:]]["tipo"] == "liga":
+                    self.assertIn("aro_face", mats)     # a face torneada do diamantado
                 self.assertIn("parafuso", mats)
             else:
                 self.assertIn("pneu" if tipo == "pneu" else "calota", mats)

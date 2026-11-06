@@ -36,7 +36,8 @@ LARGURA_ARO = 5.5 * POL      # 5,5" entre as abas
 SEG = 64                     # segmentos na volta do aro, do pneu Ok/Flat e da calota (desvio < 0,4 mm)
 SEG_TORN = 96                # o estourado tem mais segmentos para os rasgos ficarem recortados
 LOD1_RAZAO = 0.4
-ORCAMENTO_RODA = 10000       # aro + pneu Ok + calota, LOD0 (06/11: era 9000; +~900 da escrita do flanco, que o LOD1 leva junto)
+ORCAMENTO_RODA = 11500       # aro + pneu Ok + calota, LOD0 (06/11: era 9000; +~900 da escrita do flanco, +~600 do sulco do meio e os aros
+                             # multirraio e colmeia, ~7 mil; o LOD1, a 30%, assume a partir de 15 m)
 ANGULO_QUINA = 50            # acima disto a aresta fica dura (sulcos, abas, furos)
 QUEDA_FLAT = 0.06            # o murcho fica 6 cm mais baixo no ponto de contato
 NB_BLOCOS = 56               # blocos da banda na volta (o normal map repete NB_BLOCOS vezes)
@@ -58,12 +59,39 @@ AROS = {
     "fundo14": {"tipo": "liga", "pol": 14, "desenho": "raios", "furos": 10, "fundo": 0.045,
                 "nome": "Liga de aro fundo 14\" (10 raios, disco recuado 4,5 cm, aba polida)"},
 }
+# Catálogo de rodas trocáveis (06/11/2026, Detonauto/docs/rodas-trocaveis.md; pedido do Felipe: "as rodas e pneus não estão reais e estão
+# todas iguais" e "no jogo terá que ser permitido trocar de rodas"). Famílias novas de liga em 13, 14 e 15", aço de picape (6 furos) e de
+# van (8 janelas, 16"), aro fundo também em 15". Desenhos próprios, sem copiar roda de marca nenhuma.
+for _pol in (13, 14, 15):
+    AROS[f"liga4f{_pol}"] = {"tipo": "liga", "pol": _pol, "desenho": "furos4", "furos": 4, "nome": f"Liga 4 furos redondos {_pol}\""}
+    AROS[f"liga5r{_pol}"] = {"tipo": "liga", "pol": _pol, "desenho": "raios5", "furos": 5, "nome": f"Liga 5 raios {_pol}\""}
+    AROS[f"liga6r{_pol}"] = {"tipo": "liga", "pol": _pol, "desenho": "raios6", "furos": 6, "nome": f"Liga 6 raios {_pol}\""}
+    AROS[f"multi{_pol}"] = {"tipo": "liga", "pol": _pol, "desenho": "multi", "furos": 15, "nome": f"Liga multirraio (15 raios finos) {_pol}\""}
+    AROS[f"colmeia{_pol}"] = {"tipo": "liga", "pol": _pol, "desenho": "colmeia", "furos": 16, "nome": f"Liga colmeia (16 losangos) {_pol}\""}
+    AROS[f"estrela{_pol}"] = {"tipo": "liga", "pol": _pol, "desenho": "estrela", "furos": 5, "nome": f"Liga estrela (5 pontas) {_pol}\""}
+AROS["fundo15"] = {"tipo": "liga", "pol": 15, "desenho": "raios", "furos": 10, "fundo": 0.045, "nome": "Liga de aro fundo 15\""}
+AROS["picape15"] = {"tipo": "aco", "pol": 15, "furos": 6, "parafusos": 6, "pcd": 0.1397, "nome": "Aço de picape 15\" (6 furos, 6 parafusos)"}
+AROS["picape16"] = {"tipo": "aco", "pol": 16, "furos": 6, "parafusos": 6, "pcd": 0.1397, "nome": "Aço de picape 16\" (6 furos, 6 parafusos)"}
+AROS["van16"] = {"tipo": "aco", "pol": 16, "furos": 8, "janela": True, "parafusos": 6, "pcd": 0.1397,
+                 "nome": "Aço de van/caminhão leve 16\" (8 janelas, 6 parafusos)"}
 PNEUS = {"p165_70": (165, 70, 13), "p175_70": (175, 70, 13), "p185_60": (185, 60, 14),
          "p165_95": (165, 95, 15), "p205_60": (205, 60, 15),   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
          "p165_80": (165, 80, 15),   # o 5.60-15 do clássico de motor atrás (Besouro, 30/10/2026): 32,2 cm de raio
          "p215_75": (215, 75, 15),   # o de uso misto do jipe (Trilheiro, 30/10/2026): 35,2 cm de raio, 21,5 cm de largura
-         "p185_70": (185, 70, 14)}   # o do cupê grande dos anos 70 (Gaúcho V8, 30/10/2026): 30,7 cm de raio
+         "p185_70": (185, 70, 14),   # o do cupê grande dos anos 70 (Gaúcho V8, 30/10/2026): 30,7 cm de raio
+         # 06/11/2026, rodas trocáveis: a mesma altura total em outra polegada (o pneu acompanha o aro, docs/rodas-trocaveis.md)
+         "p175_60": (175, 60, 14), "p185_50": (185, 50, 15), "p195_50": (195, 50, 15), "p195_60": (195, 60, 15),
+         "p175_80": (175, 80, 13), "p185_75": (185, 75, 14), "p205_70": (205, 70, 16), "p215_70": (215, 70, 16),
+         "p205_55": (205, 55, 16)}
 CALOTAS = {"calota13": 13, "calota14": 14, "calota15": 15}
+# estilos de calota (06/11/2026): a lisa dos anos 90 (as de cima), raiada, "turbina" e meia-calota; e a tampinha do centro do aro de aço
+ESTILO_CALOTA = {"calota13": "lisa", "calota14": "lisa", "calota15": "lisa"}
+for _pol in (13, 14, 15):
+    for _est in ("raiada", "turbina", "meia"):
+        CALOTAS[f"calota{_est}{_pol}"] = _pol
+        ESTILO_CALOTA[f"calota{_est}{_pol}"] = _est
+CALOTAS["tampinha"] = 14
+ESTILO_CALOTA["tampinha"] = "tampinha"
 ESTADOS = ("Ok", "Flat", "Torn")
 
 
@@ -382,7 +410,7 @@ def perfil_tambor(Rb, W, t):
     return orientar(sup + dentro[::-1])
 
 
-def disco_aco(m, Rb, nf, mat):
+def disco_aco(m, Rb, nf, mat, janela=False):
     k = Rb / 0.165
     Rw_in = Rb - 0.026 - 0.003
     r0, r1 = 0.086 * k, 0.128 * k
@@ -396,7 +424,12 @@ def disco_aco(m, Rb, nf, mat):
     perfil_in = [(0.0290 * k, hcubo), (0.0400 * k, hcubo), (0.0630 * k, hcubo), (0.0700 * k, 0.0452), (0.0775 * k, 0.0448), (r0, y0)]
     revolucao(d, perfil_in, mat, n=nf * na, fase=fase_anel, cache=True)
     hr = 0.0135 * k
-    chapa_furada(d, mat, fy, r0, r1, nf, 0.106 * k, lambda u, v: (u * u + v * v) / (hr * hr), na, nr, aneis, fase=fase, uni=1.0)
+    if janela:      # van e caminhão leve: janelas compridas na volta (oblongas), não furos redondos
+        ja, jb = 0.0130 * k, 0.0210 * k
+        forma_aco = lambda u, v: abs(u / ja) ** 4 + abs(v / jb) ** 4
+    else:
+        forma_aco = lambda u, v: (u * u + v * v) / (hr * hr)
+    chapa_furada(d, mat, fy, r0, r1, nf, 0.106 * k, forma_aco, na, nr, aneis, fase=fase, uni=0.0 if janela else 1.0)
     perfil_out = [(r1, y1), (Rw_in - 0.0030, y1 - 0.0025), (Rw_in - 0.0005, 0.0140), (Rw_in + 0.0015, 0.0060)]
     revolucao(d, perfil_out, mat, n=nf * na, fase=fase_anel, cache=True)
     m.juntar(espessar(d, 0.0040))
@@ -413,10 +446,37 @@ def disco_liga(m, Rb, nf, desenho, mat):
     d = Malha("disco")
     hcubo = 0.0500
     rcen = 0.109 * k
+    uni = 0.0
     if desenho == "ovais":
         na, nr, aneis = 4, 4, 2
         a, b = 0.0300 * k, 0.0165 * k
         forma = lambda u, v: (u / a) ** 2 + (v / b) ** 2
+        uni = 0.5
+    elif desenho == "furos4":               # 4 furos redondos grandes (liga simples dos anos 80/90)
+        na, nr, aneis = 6, 5, 2
+        a = 0.0330 * k
+        forma = lambda u, v: (u * u + v * v) / (a * a)
+        uni = 0.8
+    elif desenho in ("raios5", "raios6", "multi"):   # raios de largura constante e janelas que alargam para fora
+        na, nr, aneis = {"raios5": (7, 6, 3), "raios6": (6, 6, 3), "multi": (3, 5, 2)}[desenho]
+        a = {"raios5": 0.0345, "raios6": 0.0335, "multi": 0.0330}[desenho] * k
+        larg_raio = {"raios5": 0.0300, "raios6": 0.0260, "multi": 0.0105}[desenho] * k
+        p = 6.0
+
+        def forma(u, v, a=a, larg_raio=larg_raio, p=p):
+            bb = max((rcen + u) * math.pi / nf - larg_raio / 2, 1e-4)
+            return abs(u / a) ** p + abs(v / bb) ** 2.4
+    elif desenho == "colmeia":              # losangos em volta, a malha dos anos 90
+        na, nr, aneis = 3, 5, 2
+        a, b = 0.0300 * k, 0.0150 * k
+        forma = lambda u, v: abs(u / a) + abs(v / b)
+    elif desenho == "estrela":              # 5 janelas em V: os raios se juntam em pares, uma estrela de 5 pontas
+        na, nr, aneis = 7, 6, 3
+        a, b = 0.0340 * k, 0.0330 * k
+
+        def forma(u, v):
+            bb = b * max(0.12, 0.15 + 0.85 * (u + a) / (2 * a))
+            return abs(u / a) ** 6 + abs(v / bb) ** 2
     else:                                   # raios retos: janela que alarga para fora, raio de largura constante
         na, nr, aneis = 4, 5, 2
         a, larg_raio, p = 0.0315 * k, 0.0230 * k, 6.0
@@ -425,7 +485,7 @@ def disco_liga(m, Rb, nf, desenho, mat):
             return abs(u / a) ** p + abs(v / bb) ** 2.4
     perfil_in = [(0.0315 * k, hcubo), (0.0640 * k, hcubo), (0.0665 * k, 0.0480), (r0, y0)]
     revolucao(d, perfil_in, mat, n=nf * na, fase=fase_anel, cache=True)
-    chapa_furada(d, mat, fy, r0, r1, nf, rcen, forma, na, nr, aneis, fase=fase, uni=0.5 if desenho == "ovais" else 0.0)
+    chapa_furada(d, mat, fy, r0, r1, nf, rcen, forma, na, nr, aneis, fase=fase, uni=uni)
     perfil_out = [(r1, y1), (0.1545 * k, 0.0605), (Rb - 0.0060, 0.0612), (Rb - 0.0005, 0.0590)]
     revolucao(d, perfil_out, mat, n=nf * na, fase=fase_anel, cache=True)
     m.juntar(espessar(d, 0.0110))
@@ -435,10 +495,10 @@ def disco_liga(m, Rb, nf, desenho, mat):
     return hcubo
 
 
-def parafusos(m, y0, mat, pcd=0.100, fase=math.pi / 4):
-    """4 parafusos de cabeça sextavada 17 mm com a arruela cônica, no PCD 4 x 100."""
-    for i in range(4):
-        a = fase + i * math.pi / 2
+def parafusos(m, y0, mat, pcd=0.100, fase=math.pi / 4, n=4):
+    """n parafusos de cabeça sextavada 17 mm com a arruela cônica, no PCD (4 x 100 nos carros; 6 x 139,7 na picape e na van)."""
+    for i in range(n):
+        a = fase + i * 2 * math.pi / n
         x, z = pcd / 2 * math.cos(a), pcd / 2 * math.sin(a)
         revolucao_em(m, [(0.0, 0.0150), (0.0072, 0.0150), (0.0098, 0.0128), (0.0098, 0.0034), (0.0, 0.0034)], mat, 6,
                      (x, y0, z), (0.0, 1.0, 0.0), fase=math.pi / 6 + a)
@@ -474,11 +534,19 @@ def aro(rid):
     revolucao(m, perfil_tambor(Rb, W, t), mat, n=SEG, fechado=True)
     n_tambor = len(m.v)
     if cfg["tipo"] == "aco":
-        hc = disco_aco(m, Rb, cfg["furos"], mat)
+        hc = disco_aco(m, Rb, cfg["furos"], mat, janela=cfg.get("janela", False))
         cubo(m, "parafuso")
     else:
+        n_antes = len(m.f)
         hc = disco_liga(m, Rb, cfg["furos"], cfg["desenho"], mat)
-    parafusos(m, hc, "parafuso")
+        # a face de fora dos raios e da tampa (virada para +y) vai num material próprio: o acabamento "diamantado" pinta só ela de
+        # metal torneado e o resto de grafite; nos outros acabamentos as duas ficam iguais (Detonauto, Data/RimFinishes.csv)
+        for i in range(n_antes, len(m.f)):
+            idx, mt, uv = m.f[i]
+            nrm = _norm(normal_newell([m.v[j] for j in idx]))
+            if mt == mat and nrm[1] > 0.85:
+                m.f[i] = (idx, "aro_face", uv)
+    parafusos(m, hc, "parafuso", pcd=cfg.get("pcd", 0.100), n=cfg.get("parafusos", 4))
     fundo = cfg.get("fundo", 0.0)
     if fundo:
         # aro fundo: o disco, o cubo e os parafusos vão para dentro (-Y); o tambor fica, e a parede dele vira a tigela
@@ -492,23 +560,57 @@ def aro(rid):
 
 # ---------------------------------------------------------------------------------------------------------------- calotas
 
+def calota_pequena(cid, estilo):
+    """Meia-calota (cobre o centro do aro de aço até ~60% do raio, com aba) e a tampinha do cubo (universal, 9 cm)."""
+    m = Malha(cid)
+    if estilo == "meia":
+        Rb, W = medidas_aro(CALOTAS[cid])
+        k = Rb / 0.165
+        perfil = [(0.0, 0.0700), (0.0250 * k, 0.0695), (0.0600 * k, 0.0660), (0.0880 * k, 0.0590), (0.0990 * k, 0.0520),
+                  (0.1010 * k, 0.0460)]
+        revolucao(m, perfil, "calota", n=48)
+    else:
+        perfil = [(0.0, 0.0600), (0.0180, 0.0596), (0.0330, 0.0575), (0.0420, 0.0540), (0.0450, 0.0490), (0.0440, 0.0460)]
+        revolucao(m, perfil, "calota", n=32)
+    m.uma_face = True
+    return m
+
+
 def calota(cid):
+    estilo = ESTILO_CALOTA.get(cid, "lisa")
+    if estilo in ("meia", "tampinha"):
+        return calota_pequena(cid, estilo)
     pol = CALOTAS[cid]
     Rb, W = medidas_aro(pol)
     k = Rb / 0.165
     m = Malha(cid)
     d = Malha(cid)
     nf, na, nr, aneis = 10, 4, 1, 1
+    r0, r1 = 0.1060 * k, 0.1290 * k
+    rc = 0.1175 * k
+    hf = 0.0058 * k
+    forma = lambda u, v: (u * u + v * v) / (hf * hf)
+    uni = 1.0
+    if estilo == "raiada":          # 24 fendas radiais compridas, a calota "raiada" dos anos 80
+        nf, na, nr, aneis = 24, 2, 2, 1
+        r0, r1, rc = 0.0760 * k, 0.1290 * k, 0.1025 * k
+        fa, fb = 0.0215 * k, 0.0034 * k
+        forma = lambda u, v: abs(u / fa) ** 4 + (v / fb) ** 2
+        uni = 0.0
+    elif estilo == "turbina":       # 16 fendas inclinadas, como pás de turbina
+        nf, na, nr, aneis = 16, 3, 2, 1
+        r0, r1, rc = 0.0760 * k, 0.1290 * k, 0.1025 * k
+        fa, fb = 0.0200 * k, 0.0042 * k
+        forma = lambda u, v: abs(u / fa) ** 4 + ((v - 0.85 * u) / fb) ** 2
+        uni = 0.0
     fase = 0.0
     fase_anel = fase - math.pi / nf
-    r0, r1 = 0.1060 * k, 0.1290 * k
     y0, y1 = 0.0838, 0.0808
     fy = lambda r: y0 + (y1 - y0) * (r - r0) / (r1 - r0)
-    hf = 0.0058 * k
-    perfil_in = [(0.0, 0.0955), (0.0300 * k, 0.0950), (0.0345 * k, 0.0905), (0.0700 * k, 0.0878), (r0, y0)]
+    a_in = [(0.0, 0.0955), (0.0300 * k, 0.0950), (0.0345 * k, 0.0905), (0.0700 * k, 0.0878), (r0, y0)]
+    perfil_in = [q for q in a_in if q[0] < r0 - 1e-6] + [(r0, y0)]
     revolucao(d, perfil_in, "calota", n=nf * na, fase=fase_anel, cache=True)
-    chapa_furada(d, "calota", fy, r0, r1, nf, 0.1175 * k, lambda u, v: (u * u + v * v) / (hf * hf), na, nr, aneis, fase=fase,
-                 uni=1.0)
+    chapa_furada(d, "calota", fy, r0, r1, nf, rc, forma, na, nr, aneis, fase=fase, uni=uni)
     W_ = W + 0.0035
     perfil_out = [(r1, y1), (0.1395 * k, 0.0765), (0.1490 * k, 0.0808), (Rb - 0.0020, 0.0795), (Rb + 0.0060, W_ + 0.0030),
                   (Rb + 0.0055, W_)]
@@ -521,6 +623,10 @@ def calota(cid):
 
 def calota_lod1(cid, seg=28):
     """LOD1 da calota feito por geometria (o decimate serrilha a borda da chapa de uma face): o mesmo perfil, sem os furinhos."""
+    if ESTILO_CALOTA.get(cid, "lisa") in ("meia", "tampinha"):
+        m = calota_pequena(cid, ESTILO_CALOTA[cid])
+        m.nome = cid + "_LOD1"
+        return m
     Rb, W = medidas_aro(CALOTAS[cid])
     k = Rb / 0.165
     W_ = W + 0.0035
@@ -555,8 +661,9 @@ def perfil_pneu(M):
     for a, b in zip(lado, lado[1:]):
         comp.append(comp[-1] + math.hypot(b[0] - a[0], b[1] - a[1]))
     v_lado = [0.3 * c / comp[-1] for c in comp]
-    qs = (0.405, 0.390, 0.330, 0.315, -0.315, -0.330, -0.390, -0.405)
-    fundo = {0.390, 0.330, -0.330, -0.390}
+    # três sulcos de verdade na banda (06/11: "sulcos com profundidade real, além do normal map"): os dois de antes e o do meio
+    qs = (0.405, 0.390, 0.330, 0.315, 0.085, 0.070, -0.070, -0.085, -0.315, -0.330, -0.390, -0.405)
+    fundo = {0.390, 0.330, 0.070, -0.070, -0.330, -0.390}
     banda = []
     for q in qs:
         r = R - 0.0012 * q * q - (0.0075 if q in fundo else 0.0)
@@ -816,13 +923,17 @@ def materiais(out):
     # da época é plástico pintado de prata e o aro é aço pintado: acetinados, pouco metal, claros por conta própria
     mats["aro_aco"], _ = principled("aro_aco", (0.60, 0.61, 0.62), 0.40, 0.35)
     mats["aro_liga"], _ = principled("aro_liga", (0.66, 0.66, 0.65), 0.60, 0.25)
+    # a face de fora dos raios da liga (o acabamento diamantado pinta só ela; nos outros fica igual ao aro_liga)
+    mats["aro_face"], _ = principled("aro_face", (0.66, 0.66, 0.65), 0.60, 0.25)
     # 06/11 (revisão da central: "calotas brancas lisas"): prata de plástico pintado mais escura e um pouco mais metálica; continua clara
     # o bastante para não sair preta no jogo (a lição de 29/10)
     mats["calota"], _ = principled("calota", (0.56, 0.57, 0.58), 0.55, 0.26)
     mats["calota"].use_backface_culling = False
     mats["parafuso"], _ = principled("parafuso", (0.55, 0.55, 0.53), 1.0, 0.35)
     mats["aro_polido"], _ = principled("aro_polido", (0.80, 0.80, 0.80), 1.0, 0.10)   # aba polida do aro fundo
-    m, b = principled("pneu", (0.034, 0.034, 0.036), 0.0, 0.72, spec=0.45)
+    # 06/11 (o Felipe: "as rodas e pneus não estão reais"): borracha quase preta e mais áspera; o pó marrom do flanco e o brilho do
+    # ombro ficam no material do jogo (M_DNRoda: PoPneu), não na cor de base
+    m, b = principled("pneu", (0.022, 0.022, 0.024), 0.0, 0.80, spec=0.42)
     im = mapa_sulcos(os.path.join(out, NORMAL_PNG))
     nt = m.node_tree
     tx = nt.nodes.new("ShaderNodeTexImage")
@@ -1243,7 +1354,7 @@ def principal(argv):
                 continue
             t_aro = tri_de["aro_" + rid]["triangulos_lod0"]
             t_ok = tri_de["pneu_" + pid]["triangulos_por_objeto"][f"pneu_{pid}_Ok"]
-            cal = f"calota{pol}" if cfg["tipo"] == "aco" else None
+            cal = f"calota{pol}" if cfg["tipo"] == "aco" and f"calota{pol}" in CALOTAS else None
             t_cal = tri_de[cal]["triangulos_lod0"] if cal else 0
             tot = triangulos_roda(t_aro, t_ok, t_cal)
             rodas.append({"aro": "aro_" + rid, "pneu": f"pneu_{pid}_Ok", "calota": cal, "triangulos_lod0": tot,
