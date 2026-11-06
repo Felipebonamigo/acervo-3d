@@ -4,8 +4,8 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "besouro.glb",
  "folga": {
-  "door_fl": 146,
-  "door_fr": 146,
+  "door_fl": 0,
+  "door_fr": 0,
   "hood": 23,
   "trunk": 25
  },
@@ -70,22 +70,6 @@
    ]
   },
   {
-   "nome": "det_door_fl",
-   "segue": "door_fl",
-   "triangulos": 292,
-   "materiais": [
-    "chassi"
-   ]
-  },
-  {
-   "nome": "det_door_fr",
-   "segue": "door_fr",
-   "triangulos": 292,
-   "materiais": [
-    "chassi"
-   ]
-  },
-  {
    "nome": "det_hood",
    "segue": "hood",
    "triangulos": 138,
@@ -120,5 +104,5 @@
    ]
   }
  ],
- "triangulos": 1528
+ "triangulos": 944
 }

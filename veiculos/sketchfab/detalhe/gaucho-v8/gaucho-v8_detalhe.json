@@ -4,8 +4,8 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "gaucho-v8.glb",
  "folga": {
-  "door_fl": 142,
-  "door_fr": 140,
+  "door_fl": 64,
+  "door_fr": 64,
   "hood": 132,
   "trunk": 121
  },
@@ -66,7 +66,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 284,
+   "triangulos": 128,
    "materiais": [
     "chassi"
    ]
@@ -74,7 +74,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 280,
+   "triangulos": 128,
    "materiais": [
     "chassi"
    ]
@@ -97,5 +97,5 @@
    ]
   }
  ],
- "triangulos": 1346
+ "triangulos": 1038
 }

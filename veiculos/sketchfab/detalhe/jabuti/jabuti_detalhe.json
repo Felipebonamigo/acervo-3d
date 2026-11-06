@@ -4,9 +4,9 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "jabuti.glb",
  "folga": {
-  "door_fl": 411,
-  "door_fr": 411,
-  "hood": 218,
+  "door_fl": 336,
+  "door_fr": 333,
+  "hood": 188,
   "trunk": 296
  },
  "emblema": {
@@ -66,7 +66,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 822,
+   "triangulos": 672,
    "materiais": [
     "chassi"
    ]
@@ -74,7 +74,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 822,
+   "triangulos": 666,
    "materiais": [
     "chassi"
    ]
@@ -82,7 +82,7 @@
   {
    "nome": "det_hood",
    "segue": "hood",
-   "triangulos": 436,
+   "triangulos": 376,
    "materiais": [
     "chassi"
    ]
@@ -97,5 +97,5 @@
    ]
   }
  ],
- "triangulos": 2948
+ "triangulos": 2582
 }

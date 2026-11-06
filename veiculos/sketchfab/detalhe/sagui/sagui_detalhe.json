@@ -7,7 +7,7 @@
   "door_fl": 252,
   "door_fr": 255,
   "hood": 104,
-  "trunk": 394
+  "trunk": 280
  },
  "emblema": {
   "frente": {
@@ -108,12 +108,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 880,
+   "triangulos": 652,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 2198
+ "triangulos": 1970
 }

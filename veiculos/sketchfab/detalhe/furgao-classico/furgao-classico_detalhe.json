@@ -4,8 +4,8 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "furgao-classico.glb",
  "folga": {
-  "door_fl": 481,
-  "door_fr": 828,
+  "door_fl": 231,
+  "door_fr": 536,
   "trunk": 194
  },
  "emblema": {
@@ -72,7 +72,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 962,
+   "triangulos": 462,
    "materiais": [
     "chassi"
    ]
@@ -80,7 +80,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 1656,
+   "triangulos": 1072,
    "materiais": [
     "chassi"
    ]
@@ -110,5 +110,5 @@
    ]
   }
  ],
- "triangulos": 3286
+ "triangulos": 2202
 }

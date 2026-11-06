@@ -4,10 +4,10 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "gol-quadrado.glb",
  "folga": {
-  "door_fl": 208,
-  "door_fr": 177,
+  "door_fl": 169,
+  "door_fr": 136,
   "hood": 563,
-  "trunk": 127
+  "trunk": 68
  },
  "emblema": {
   "frente": {
@@ -68,7 +68,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 416,
+   "triangulos": 338,
    "materiais": [
     "chassi"
    ]
@@ -76,7 +76,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 354,
+   "triangulos": 272,
    "materiais": [
     "chassi"
    ]
@@ -101,7 +101,7 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 690,
+   "triangulos": 572,
    "materiais": [
     "chassi",
     "cromo",
@@ -109,5 +109,5 @@
    ]
   }
  ],
- "triangulos": 3442
+ "triangulos": 3164
 }

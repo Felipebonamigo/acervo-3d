@@ -4,12 +4,12 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "hatch-redondo-5p.glb",
  "folga": {
-  "door_fl": 263,
-  "door_fr": 259,
-  "door_rl": 138,
-  "door_rr": 126,
-  "hood": 221,
-  "trunk": 362
+  "door_fl": 212,
+  "door_fr": 212,
+  "door_rl": 103,
+  "door_rr": 97,
+  "hood": 191,
+  "trunk": 341
  },
  "emblema": {
   "frente": {
@@ -84,7 +84,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 526,
+   "triangulos": 424,
    "materiais": [
     "chassi"
    ]
@@ -92,7 +92,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 518,
+   "triangulos": 424,
    "materiais": [
     "chassi"
    ]
@@ -100,7 +100,7 @@
   {
    "nome": "det_door_rl",
    "segue": "door_rl",
-   "triangulos": 276,
+   "triangulos": 206,
    "materiais": [
     "chassi"
    ]
@@ -108,7 +108,7 @@
   {
    "nome": "det_door_rr",
    "segue": "door_rr",
-   "triangulos": 252,
+   "triangulos": 194,
    "materiais": [
     "chassi"
    ]
@@ -125,7 +125,7 @@
   {
    "nome": "det_hood",
    "segue": "hood",
-   "triangulos": 442,
+   "triangulos": 382,
    "materiais": [
     "chassi"
    ]
@@ -149,12 +149,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 816,
+   "triangulos": 774,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 3694
+ "triangulos": 3268
 }

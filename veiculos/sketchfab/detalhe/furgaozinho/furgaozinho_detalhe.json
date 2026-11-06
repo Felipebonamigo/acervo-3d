@@ -4,12 +4,12 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "furgaozinho.glb",
  "folga": {
-  "door_fl": 180,
-  "door_fr": 180,
-  "door_rl": 170,
-  "door_rr": 170,
+  "door_fl": 107,
+  "door_fr": 107,
+  "door_rl": 92,
+  "door_rr": 92,
   "hood": 36,
-  "trunk": 64
+  "trunk": 62
  },
  "emblema": {
   "frente": {
@@ -82,7 +82,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 360,
+   "triangulos": 214,
    "materiais": [
     "chassi"
    ]
@@ -90,7 +90,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 360,
+   "triangulos": 214,
    "materiais": [
     "chassi"
    ]
@@ -98,7 +98,7 @@
   {
    "nome": "det_door_rl",
    "segue": "door_rl",
-   "triangulos": 340,
+   "triangulos": 184,
    "materiais": [
     "chassi"
    ]
@@ -106,7 +106,7 @@
   {
    "nome": "det_door_rr",
    "segue": "door_rr",
-   "triangulos": 340,
+   "triangulos": 184,
    "materiais": [
     "chassi"
    ]
@@ -147,12 +147,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 220,
+   "triangulos": 216,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 2556
+ "triangulos": 1948
 }

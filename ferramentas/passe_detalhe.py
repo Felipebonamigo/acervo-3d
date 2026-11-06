@@ -55,7 +55,7 @@ CARROS = {
     "gol-quadrado": dict(nome="Cuiabano", heroi=True, limpador=False, espelho=False, antena=False),
     "tupiniquim": dict(nome="Tupiniquim", corte="{detonauto}/Art/Carros/tupiniquim/quebravel/tupiniquim.glb",
                        kit="veiculos/meshy-conta/completo/tupiniquim/tupiniquim_completo.json", antena=True),
-    "caipora": dict(nome="Caipora", antena=True),
+    "caipora": dict(nome="Caipora"),   # já tem antena no fim do teto (prévia de 06/11)
     "hatch-redondo-5p": dict(nome="Pampeiro", antena="teto"),
     "barao": dict(nome="Barão", macaneta=True, friso=0.55),
     "furgaozinho": dict(nome="Furgãozinho da Firma", antena=True),
@@ -214,8 +214,18 @@ def base_na_face(nor, cima=Vector((0, 0, 1))):
 # os detalhes
 # ================================================================================================================================
 
-def folga(casca, partes, rel, med_cintura=0.9, largura=0.004, acima=0.0006):
-    """Faixa escura na borda de fora da chapa de cada peça móvel (porta, capô, tampa)."""
+def folga(casca, partes, rel, med_cintura=0.9, largura=0.0025, acima=0.0004):
+    """Vão fino (2,5 mm) na borda de fora da chapa de cada peça móvel (porta, capô, tampa). Revisão da central (06/11): com 4 mm e
+    também em volta dos vidros, o contorno lia como linha de desenho; a borda junto ao vidro já tem a borracha do corte e fica de fora."""
+    vidros = [o for n, o in casca.objs.items() if n.startswith("glass_")]
+    bvh_vidro = None
+    if vidros:
+        vs, ps = [], []
+        for o in vidros:
+            b = len(vs)
+            vs.extend(o.matrix_world @ v.co for v in o.data.vertices)
+            ps.extend([b + i for i in p.vertices] for p in o.data.polygons)
+        bvh_vidro = BVHTree.FromPolygons(vs, ps)
     for nome in ("door_fl", "door_fr", "door_rl", "door_rr", "hood", "trunk"):
         o = casca.objs.get(nome)
         if o is None:
@@ -223,7 +233,7 @@ def folga(casca, partes, rel, med_cintura=0.9, largura=0.004, acima=0.0006):
         bm = bmesh.new()
         bm.from_mesh(o.data)
         bm.transform(o.matrix_world)
-        # solda o que está a menos de 1 mm: faces soltas lado a lado no meio da chapa (o vinco do capô do Gol) davam linhas de vão falsas
+        # solda o que está a menos de 1 mm: faces soltas lado a lado no meio da chapa (o vinco do capô do Cuiabano) davam linhas de vão falsas
         bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.001)
         bm.normal_update()
         mats = [m.name.split(".")[0] if m else "" for m in o.data.materials]
@@ -283,6 +293,8 @@ def folga(casca, partes, rel, med_cintura=0.9, largura=0.004, acima=0.0006):
             meio = (e.verts[0].co + e.verts[1].co) / 2
             if not no_contorno(meio) and not (nome.startswith("door_") and meio.z > med_cintura - 0.04):
                 continue
+            if bvh_vidro is not None and bvh_vidro.find_nearest(meio, 0.03)[0] is not None:
+                continue  # borda da janela: a borracha do vidro já está lá
             v1, v2 = e.verts[0].co, e.verts[1].co
             ev = v2 - v1
             if ev.length < 1e-4:
@@ -386,7 +398,7 @@ def limpadores(casca, med, partes, rel, traseiro=False):
             for y in ys:
                 h = casca.raio((x_ini, y, z), (dx, 0, 0), sobre_vidro, 5.0)
                 if h is not None:
-                    pts.append((h[0] + h[1] * 0.006, h[1]))
+                    pts.append((h[0] + h[1] * 0.004, h[1]))  # a borracha encosta no vidro (a 6 mm parecia flutuar)
             if len(pts) >= 8:
                 break
         if len(pts) < 5:
@@ -471,6 +483,10 @@ def antena(casca, med, partes, rel, onde=True):
     if onde == "teto":
         pontos = [(med["rg"][1] + 0.12 + 0.03 * i, 0.0) for i in range(4)]
         compr, incl = 0.20, 35.0
+    elif onde == "teto_frente":
+        # anos 90: a antena de 40 cm na frente do teto, sobre o para-brisa (no para-lama ela cruzava o vidro na vista de 3/4)
+        pontos = [(med["ws"][0] - 0.05, 0.0), (med["ws"][0] - 0.10, 0.0)]
+        compr, incl = 0.40, 20.0
     else:
         pontos = [(med["ws"][1] + 0.10 + dx, med["W"] - dy) for dx in (0.0, 0.08) for dy in (0.10, 0.16, 0.22)]
         compr, incl = 0.75, 12.0
@@ -481,7 +497,7 @@ def antena(casca, med, partes, rel, onde=True):
         if h is not None and h[1].z > 0.5 and h[2] != "hood":
             break
         h = None
-    if h is None and onde != "teto":
+    if h is None and onde is True:
         # sem para-lama livre (o capô cobre a quina): a antena de 40 cm na frente do teto, sobre o para-brisa, comum nos 90
         for x in (med["ws"][0] - 0.05, med["ws"][0] - 0.10):
             h = casca.raio((x, 0.0, 3.0), (0, 0, -1), nao_vidro, 4.0)

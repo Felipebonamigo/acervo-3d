@@ -4,8 +4,8 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "jipe-capota.glb",
  "folga": {
-  "door_fl": 600,
-  "door_fr": 572,
+  "door_fl": 568,
+  "door_fr": 540,
   "hood": 121,
   "trunk": 156
  },
@@ -82,7 +82,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 1200,
+   "triangulos": 1136,
    "materiais": [
     "chassi"
    ]
@@ -90,7 +90,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 1144,
+   "triangulos": 1080,
    "materiais": [
     "chassi"
    ]
@@ -138,5 +138,5 @@
    ]
   }
  ],
- "triangulos": 3854
+ "triangulos": 3726
 }

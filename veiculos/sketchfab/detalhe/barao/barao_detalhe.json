@@ -4,11 +4,11 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "barao.glb",
  "folga": {
-  "door_fl": 269,
-  "door_fr": 275,
-  "door_rl": 175,
-  "door_rr": 204,
-  "hood": 267,
+  "door_fl": 241,
+  "door_fr": 251,
+  "door_rl": 155,
+  "door_rr": 161,
+  "hood": 236,
   "trunk": 136
  },
  "emblema": {
@@ -123,7 +123,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 958,
+   "triangulos": 902,
    "materiais": [
     "chassi",
     "cromo"
@@ -132,7 +132,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 982,
+   "triangulos": 934,
    "materiais": [
     "chassi",
     "cromo"
@@ -141,7 +141,7 @@
   {
    "nome": "det_door_rl",
    "segue": "door_rl",
-   "triangulos": 674,
+   "triangulos": 634,
    "materiais": [
     "chassi",
     "cromo"
@@ -150,7 +150,7 @@
   {
    "nome": "det_door_rr",
    "segue": "door_rr",
-   "triangulos": 720,
+   "triangulos": 634,
    "materiais": [
     "chassi",
     "cromo"
@@ -175,7 +175,7 @@
   {
    "nome": "det_hood",
    "segue": "hood",
-   "triangulos": 626,
+   "triangulos": 564,
    "materiais": [
     "chassi",
     "cromo"
@@ -207,5 +207,5 @@
    ]
   }
  ],
- "triangulos": 6008
+ "triangulos": 5716
 }

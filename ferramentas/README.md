@@ -275,7 +275,7 @@ prévias de 06/11, e raios conferem limpador e espelho):
     python -I ferramentas/passe_detalhe.py -- --juntar <corte>.glb <id>_detalhe.glb <saida>.glb   # funde no corte (o PC faz isso)
 
 - **Folga** de 4 mm na borda de fora de portas, capô e tampa (o corte tem fresta zero). A malha é soldada a 1 mm antes e só as bordas
-  compridas (≥ 30 cm) entram: sem isso, faces soltas no meio do capô do Gol e furos da malha davam linhas e tracinhos falsos.
+  compridas (≥ 30 cm) entram: sem isso, faces soltas no meio do capô do Cuiabano e furos da malha davam linhas e tracinhos falsos.
 - **Emblema próprio** na frente e atrás: hexágono cromado sobre base preta com três barras decrescentes (não lembra marca nenhuma),
   num ponto liso no meio da grade ou da tampa.
 - **Limpadores** (raio de frente 4,5 cm acima da borda de baixo do vidro, para servir ao para-brisa deitado e ao de pé), **espelho** nos

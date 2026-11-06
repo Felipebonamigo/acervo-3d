@@ -4,8 +4,8 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "lambari.glb",
  "folga": {
-  "door_fl": 84,
-  "door_fr": 54,
+  "door_fl": 36,
+  "door_fr": 37,
   "hood": 48,
   "trunk": 44
  },
@@ -72,7 +72,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 168,
+   "triangulos": 72,
    "materiais": [
     "chassi"
    ]
@@ -80,7 +80,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 108,
+   "triangulos": 74,
    "materiais": [
     "chassi"
    ]
@@ -112,5 +112,5 @@
    ]
   }
  ],
- "triangulos": 820
+ "triangulos": 690
 }

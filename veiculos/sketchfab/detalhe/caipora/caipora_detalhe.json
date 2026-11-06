@@ -4,10 +4,10 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "caipora.glb",
  "folga": {
-  "door_fl": 387,
-  "door_fr": 382,
-  "hood": 228,
-  "trunk": 170
+  "door_fl": 348,
+  "door_fr": 345,
+  "hood": 222,
+  "trunk": 164
  },
  "emblema": {
   "frente": {
@@ -47,14 +47,6 @@
   "y": -0.388,
   "z": 0.222
  },
- "antena": {
-  "peca": "body",
-  "ponto": [
-   1.08,
-   0.63,
-   0.9
-  ]
- },
  "freios_do_kit": [
   "brake_fl_disco",
   "brake_fl_pinca",
@@ -71,7 +63,7 @@
   {
    "nome": "det_body",
    "segue": "body",
-   "triangulos": 860,
+   "triangulos": 776,
    "materiais": [
     "chassi",
     "cromo"
@@ -80,7 +72,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 774,
+   "triangulos": 696,
    "materiais": [
     "chassi"
    ]
@@ -88,7 +80,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 764,
+   "triangulos": 690,
    "materiais": [
     "chassi"
    ]
@@ -105,7 +97,7 @@
   {
    "nome": "det_hood",
    "segue": "hood",
-   "triangulos": 456,
+   "triangulos": 444,
    "materiais": [
     "chassi"
    ]
@@ -129,11 +121,11 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 340,
+   "triangulos": 328,
    "materiais": [
     "chassi"
    ]
   }
  ],
- "triangulos": 3290
+ "triangulos": 3030
 }

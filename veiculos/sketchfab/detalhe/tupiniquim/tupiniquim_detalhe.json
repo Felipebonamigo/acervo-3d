@@ -4,12 +4,12 @@
  "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
  "corte": "tupiniquim.glb",
  "folga": {
-  "door_fl": 165,
-  "door_fr": 164,
-  "door_rl": 147,
-  "door_rr": 148,
-  "hood": 66,
-  "trunk": 37
+  "door_fl": 81,
+  "door_fr": 81,
+  "door_rl": 89,
+  "door_rr": 90,
+  "hood": 56,
+  "trunk": 33
  },
  "emblema": {
   "frente": {
@@ -92,7 +92,7 @@
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
-   "triangulos": 330,
+   "triangulos": 162,
    "materiais": [
     "chassi"
    ]
@@ -100,7 +100,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 328,
+   "triangulos": 162,
    "materiais": [
     "chassi"
    ]
@@ -108,7 +108,7 @@
   {
    "nome": "det_door_rl",
    "segue": "door_rl",
-   "triangulos": 294,
+   "triangulos": 178,
    "materiais": [
     "chassi"
    ]
@@ -116,7 +116,7 @@
   {
    "nome": "det_door_rr",
    "segue": "door_rr",
-   "triangulos": 296,
+   "triangulos": 180,
    "materiais": [
     "chassi"
    ]
@@ -124,7 +124,7 @@
   {
    "nome": "det_hood",
    "segue": "hood",
-   "triangulos": 132,
+   "triangulos": 112,
    "materiais": [
     "chassi"
    ]
@@ -148,12 +148,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 166,
+   "triangulos": 158,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 1818
+ "triangulos": 1224
 }
