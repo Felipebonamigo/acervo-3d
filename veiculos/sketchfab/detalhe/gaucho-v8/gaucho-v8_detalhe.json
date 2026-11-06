@@ -1,0 +1,101 @@
+{
+ "id": "gaucho-v8",
+ "gerado_por": "acervo-3d/ferramentas/passe_detalhe.py",
+ "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
+ "corte": "gaucho-v8.glb",
+ "folga": {
+  "door_fl": 142,
+  "door_fr": 140,
+  "hood": 132,
+  "trunk": 121
+ },
+ "emblema": {
+  "frente": {
+   "peca": "body",
+   "ponto": [
+    1.978,
+    0.0,
+    0.72
+   ]
+  },
+  "tras": {
+   "peca": "trunk",
+   "ponto": [
+    -2.485,
+    0.0,
+    0.84
+   ]
+  }
+ },
+ "espelho": {},
+ "macaneta": {},
+ "friso": {},
+ "heroi": {},
+ "pulados": [
+  "limpador: a casca já tem algo no pé do para-brisa (5 de 5 raios)",
+  "espelho mirror_left: já tem",
+  "espelho mirror_right: já tem"
+ ],
+ "ponteira": {
+  "x": -2.55,
+  "y": -0.388,
+  "z": 0.237
+ },
+ "freios_do_kit": [
+  "brake_fl_disco",
+  "brake_fl_pinca",
+  "brake_fr_disco",
+  "brake_fr_pinca",
+  "brake_rl_tambor",
+  "brake_rr_tambor"
+ ],
+ "placas_do_corte": [
+  "plate_front",
+  "plate_rear"
+ ],
+ "pecas": [
+  {
+   "nome": "det_body",
+   "segue": "body",
+   "triangulos": 184,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_door_fl",
+   "segue": "door_fl",
+   "triangulos": 284,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_door_fr",
+   "segue": "door_fr",
+   "triangulos": 280,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_hood",
+   "segue": "hood",
+   "triangulos": 264,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_trunk",
+   "segue": "trunk",
+   "triangulos": 334,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  }
+ ],
+ "triangulos": 1346
+}

@@ -1,0 +1,160 @@
+{
+ "id": "hatch-redondo-5p",
+ "gerado_por": "acervo-3d/ferramentas/passe_detalhe.py",
+ "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
+ "corte": "hatch-redondo-5p.glb",
+ "folga": {
+  "door_fl": 263,
+  "door_fr": 259,
+  "door_rl": 138,
+  "door_rr": 126,
+  "hood": 221,
+  "trunk": 362
+ },
+ "emblema": {
+  "frente": {
+   "peca": "grille",
+   "ponto": [
+    1.925,
+    0.0,
+    0.76
+   ]
+  },
+  "tras": {
+   "peca": "trunk",
+   "ponto": [
+    -1.759,
+    0.0,
+    0.98
+   ]
+  }
+ },
+ "espelho": {
+  "mirror_left": [
+   0.207,
+   0.137
+  ],
+  "mirror_right": [
+   0.207,
+   0.137
+  ]
+ },
+ "macaneta": {},
+ "friso": {},
+ "heroi": {},
+ "pulados": [],
+ "limpador": 2,
+ "ponteira": {
+  "x": -1.726,
+  "y": -0.388,
+  "z": 0.227
+ },
+ "antena": {
+  "peca": "body",
+  "ponto": [
+   -0.98,
+   0.0,
+   1.39
+  ]
+ },
+ "freios_do_kit": [
+  "brake_fl_disco",
+  "brake_fl_pinca",
+  "brake_fr_disco",
+  "brake_fr_pinca",
+  "brake_rl_disco",
+  "brake_rl_pinca",
+  "brake_rr_disco",
+  "brake_rr_pinca"
+ ],
+ "placas_do_corte": [
+  "plate_front",
+  "plate_rear"
+ ],
+ "pecas": [
+  {
+   "nome": "det_body",
+   "segue": "body",
+   "triangulos": 528,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_door_fl",
+   "segue": "door_fl",
+   "triangulos": 526,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_door_fr",
+   "segue": "door_fr",
+   "triangulos": 518,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_door_rl",
+   "segue": "door_rl",
+   "triangulos": 276,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_door_rr",
+   "segue": "door_rr",
+   "triangulos": 252,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_grille",
+   "segue": "grille",
+   "triangulos": 92,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_hood",
+   "segue": "hood",
+   "triangulos": 442,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_mirror_left",
+   "segue": "mirror_left",
+   "triangulos": 2,
+   "materiais": [
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_mirror_right",
+   "segue": "mirror_right",
+   "triangulos": 2,
+   "materiais": [
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_trunk",
+   "segue": "trunk",
+   "triangulos": 816,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  }
+ ],
+ "triangulos": 3454
+}

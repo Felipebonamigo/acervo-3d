@@ -1,0 +1,119 @@
+{
+ "id": "sagui",
+ "gerado_por": "acervo-3d/ferramentas/passe_detalhe.py",
+ "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
+ "corte": "sagui.glb",
+ "folga": {
+  "door_fl": 252,
+  "door_fr": 255,
+  "hood": 104,
+  "trunk": 394
+ },
+ "emblema": {
+  "frente": {
+   "peca": "bumper_front",
+   "ponto": [
+    1.885,
+    0.0,
+    0.7
+   ]
+  },
+  "tras": {
+   "peca": "trunk",
+   "ponto": [
+    -1.698,
+    0.0,
+    0.94
+   ]
+  }
+ },
+ "espelho": {
+  "mirror_left": [
+   0.192,
+   0.118
+  ],
+  "mirror_right": [
+   0.192,
+   0.118
+  ]
+ },
+ "macaneta": {},
+ "friso": {},
+ "heroi": {},
+ "pulados": [],
+ "freios_do_kit": [
+  "brake_fl_disco",
+  "brake_fl_pinca",
+  "brake_fr_disco",
+  "brake_fr_pinca",
+  "brake_rl_disco",
+  "brake_rl_pinca",
+  "brake_rr_disco",
+  "brake_rr_pinca"
+ ],
+ "placas_do_corte": [
+  "plate_front",
+  "plate_rear"
+ ],
+ "pecas": [
+  {
+   "nome": "det_bumper_front",
+   "segue": "bumper_front",
+   "triangulos": 92,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_door_fl",
+   "segue": "door_fl",
+   "triangulos": 504,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_door_fr",
+   "segue": "door_fr",
+   "triangulos": 510,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_hood",
+   "segue": "hood",
+   "triangulos": 208,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_mirror_left",
+   "segue": "mirror_left",
+   "triangulos": 2,
+   "materiais": [
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_mirror_right",
+   "segue": "mirror_right",
+   "triangulos": 2,
+   "materiais": [
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_trunk",
+   "segue": "trunk",
+   "triangulos": 880,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  }
+ ],
+ "triangulos": 2198
+}

@@ -1,0 +1,211 @@
+{
+ "id": "barao",
+ "gerado_por": "acervo-3d/ferramentas/passe_detalhe.py",
+ "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
+ "corte": "barao.glb",
+ "folga": {
+  "door_fl": 269,
+  "door_fr": 275,
+  "door_rl": 175,
+  "door_rr": 204,
+  "hood": 267,
+  "trunk": 136
+ },
+ "emblema": {
+  "frente": {
+   "peca": "hood",
+   "ponto": [
+    2.083,
+    0.0,
+    0.655
+   ]
+  },
+  "tras": {
+   "peca": "trunk",
+   "ponto": [
+    -2.172,
+    0.0,
+    0.94
+   ]
+  }
+ },
+ "espelho": {
+  "mirror_left": [
+   0.163,
+   0.129
+  ],
+  "mirror_right": [
+   0.163,
+   0.129
+  ]
+ },
+ "macaneta": {
+  "fl": [
+   -0.1,
+   0.805,
+   0.86
+  ],
+  "fr": [
+   -0.1,
+   -0.805,
+   0.86
+  ],
+  "rl": [
+   -0.87,
+   0.821,
+   0.86
+  ],
+  "rr": [
+   -0.87,
+   -0.821,
+   0.86
+  ]
+ },
+ "friso": {
+  "bumper_rear": 32,
+  "body": 14,
+  "door_rl": 25,
+  "door_fl": 33,
+  "fender_front_left": 9,
+  "bumper_front": 19,
+  "door_rr": 24,
+  "door_fr": 34,
+  "fender_front_right": 9
+ },
+ "heroi": {},
+ "pulados": [],
+ "limpador": 2,
+ "ponteira": {
+  "x": -2.155,
+  "y": -0.388,
+  "z": 0.22
+ },
+ "freios_do_kit": [
+  "brake_fl_disco",
+  "brake_fl_pinca",
+  "brake_fr_disco",
+  "brake_fr_pinca",
+  "brake_rl_disco",
+  "brake_rl_pinca",
+  "brake_rr_disco",
+  "brake_rr_pinca"
+ ],
+ "placas_do_corte": [
+  "plate_front",
+  "plate_rear"
+ ],
+ "pecas": [
+  {
+   "nome": "det_body",
+   "segue": "body",
+   "triangulos": 612,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_bumper_front",
+   "segue": "bumper_front",
+   "triangulos": 228,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_bumper_rear",
+   "segue": "bumper_rear",
+   "triangulos": 384,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_door_fl",
+   "segue": "door_fl",
+   "triangulos": 958,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_door_fr",
+   "segue": "door_fr",
+   "triangulos": 982,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_door_rl",
+   "segue": "door_rl",
+   "triangulos": 674,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_door_rr",
+   "segue": "door_rr",
+   "triangulos": 720,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_fender_front_left",
+   "segue": "fender_front_left",
+   "triangulos": 108,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_fender_front_right",
+   "segue": "fender_front_right",
+   "triangulos": 108,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_hood",
+   "segue": "hood",
+   "triangulos": 626,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_mirror_left",
+   "segue": "mirror_left",
+   "triangulos": 2,
+   "materiais": [
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_mirror_right",
+   "segue": "mirror_right",
+   "triangulos": 2,
+   "materiais": [
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_trunk",
+   "segue": "trunk",
+   "triangulos": 364,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  }
+ ],
+ "triangulos": 5768
+}

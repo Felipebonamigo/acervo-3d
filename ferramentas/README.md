@@ -263,6 +263,33 @@ por baixo. Só a prévia da cabine tira do corpo as faces no plano do para-brisa
 sujeira por vértice depende da densidade da malha (painéis grandes ficam limpos). Ainda falta a aprovação por captura ao
 lado de foto real (`aprovar-visual` do Detonauto) e a medição no Unreal com 40 carros.
 
+## passe_detalhe.py (06/11/2026): o detalhe que faz o carro parecer de rua
+
+Bloco 4 do plano de realismo do Detonauto (`Detonauto/docs/carros-materiais.md`). Roda sobre o corte e as medidas do kit v2 dos 13
+nacionais e põe o que os modelos não trazem, cada coisa só onde falta (a tabela `CARROS` no script diz o que cada um já tem, conferido nas
+prévias de 06/11, e raios conferem limpador e espelho):
+
+    python -I ferramentas/passe_detalhe.py -- --todos                       # os 13, em veiculos/sketchfab/detalhe/<id>/ (~6 s cada)
+    python -I ferramentas/passe_detalhe.py -- --corte <corte>.glb --kit <id>_completo.json --id <id> --out <pasta> [--heroi] [--antena|--antena teto]
+        [--macaneta] [--friso 0.55] [--sem-limpador] [--sem-espelho] [--sem-ponteira] [--sem-emblema] [--sem-folga]
+    python -I ferramentas/passe_detalhe.py -- --juntar <corte>.glb <id>_detalhe.glb <saida>.glb   # funde no corte (o PC faz isso)
+
+- **Folga** de 4 mm na borda de fora de portas, capô e tampa (o corte tem fresta zero). A malha é soldada a 1 mm antes e só as bordas
+  compridas (≥ 30 cm) entram: sem isso, faces soltas no meio do capô do Gol e furos da malha davam linhas e tracinhos falsos.
+- **Emblema próprio** na frente e atrás: hexágono cromado sobre base preta com três barras decrescentes (não lembra marca nenhuma),
+  num ponto liso no meio da grade ou da tampa.
+- **Limpadores** (raio de frente 4,5 cm acima da borda de baixo do vidro, para servir ao para-brisa deitado e ao de pé), **espelho** nos
+  retrovisores sem espelho, **ponteira** cromada no fim do escapamento do kit, **antena** de para-lama ou de teto (nunca no capô),
+  **maçaneta e friso** no Barão. Carro herói (`--heroi`, o Cuiabano): calha de chuva, esguichos no capô, luz de placa, limpador de trás.
+- Materiais com os nomes do corte (`chassi`, `cromo`, `luz_branca`), que o `kit_names.py` do Detonauto já mapeia. Cada `det_<peça>`
+  segue a peça do corte (a folga e a maçaneta vão com a porta). 1.300 a 7.100 triângulos por carro.
+- O disco, a pinça e o tambor de freio já vêm no kit v2 e a placa em branco de 40 x 13 cm no corte: o JSON só confere.
+
+Por que um GLB à parte e o `--juntar` no PC: o corte tem 8 a 25 MB e regravá-lo nos 13 encheria o histórico deste repositório.
+
+**aro_fundo14** (`rodas_kit.py`, `--so fundo14`): os 10 raios da liga 14 com o disco, o cubo e os parafusos 4,5 cm para dentro (a parede do
+tambor vira a tigela) e uma tira de metal polido (`aro_polido`) sobre a aba. No Gaúcho V8.
+
 ## rodas_kit.py (27/10/2026)
 
 Rodas CC0 feitas do zero por geometria para o carro completo do Detonauto (lote 5 de `docs/carro-completo.md` lá): 4 aros (`aro_aco13`,
