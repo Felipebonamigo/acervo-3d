@@ -53,6 +53,10 @@ AROS = {
     "liga14": {"tipo": "liga", "pol": 14, "desenho": "raios", "furos": 10, "nome": "Liga leve 14\" (10 raios retos)"},
     # picape aventureira dos anos 2000 (Tropeiro, 30/10/2026): liga 15 com o pneu 205/60, mais alto que o 185/60 do hatch
     "liga15": {"tipo": "liga", "pol": 15, "desenho": "ovais", "furos": 8, "nome": "Liga leve 15\" (8 furos ovais)"},
+    # aro fundo (bloco 4 do Detonauto, 06/11/2026; Gaúcho V8): os 10 raios da liga 14 com o disco recuado 4,5 cm para dentro, a "tigela"
+    # do tambor à mostra e a aba polida, como as rodas de tala larga dos cupês dos anos 70
+    "fundo14": {"tipo": "liga", "pol": 14, "desenho": "raios", "furos": 10, "fundo": 0.045,
+                "nome": "Liga de aro fundo 14\" (10 raios, disco recuado 4,5 cm, aba polida)"},
 }
 PNEUS = {"p165_70": (165, 70, 13), "p175_70": (175, 70, 13), "p185_60": (185, 60, 14),
          "p165_95": (165, 95, 15), "p205_60": (205, 60, 15),   # o diagonal 6.40-15 do furgão (perfil alto, o máximo do Detonauto): 34,7 cm de raio
@@ -468,12 +472,20 @@ def aro(rid):
     m = Malha(f"aro_{rid}")
     t = 0.0030 if cfg["tipo"] == "aco" else 0.0045
     revolucao(m, perfil_tambor(Rb, W, t), mat, n=SEG, fechado=True)
+    n_tambor = len(m.v)
     if cfg["tipo"] == "aco":
         hc = disco_aco(m, Rb, cfg["furos"], mat)
         cubo(m, "parafuso")
     else:
         hc = disco_liga(m, Rb, cfg["furos"], cfg["desenho"], mat)
     parafusos(m, hc, "parafuso")
+    fundo = cfg.get("fundo", 0.0)
+    if fundo:
+        # aro fundo: o disco, o cubo e os parafusos vão para dentro (-Y); o tambor fica, e a parede dele vira a tigela
+        for v in m.v[n_tambor:]:
+            v[1] -= fundo
+        # aba polida: uma tira de metal espelhado 0,4 mm sobre a aba de fora
+        revolucao(m, [(Rb + 0.0146, W + 0.0098), (Rb + 0.0196, W + 0.0050), (Rb + 0.0176, W + 0.0006)], "aro_polido", n=SEG)
     bico(m, Rb, W)
     return m
 
@@ -807,6 +819,7 @@ def materiais(out):
     mats["calota"], _ = principled("calota", (0.78, 0.79, 0.80), 0.35, 0.22)
     mats["calota"].use_backface_culling = False
     mats["parafuso"], _ = principled("parafuso", (0.55, 0.55, 0.53), 1.0, 0.35)
+    mats["aro_polido"], _ = principled("aro_polido", (0.80, 0.80, 0.80), 1.0, 0.10)   # aba polida do aro fundo
     m, b = principled("pneu", (0.034, 0.034, 0.036), 0.0, 0.72, spec=0.45)
     im = mapa_sulcos(os.path.join(out, NORMAL_PNG))
     nt = m.node_tree

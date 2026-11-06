@@ -444,6 +444,23 @@
     "pneu_p185_70_Torn_LOD1"
    ],
    "arquivo": "pneu_p185_70.glb"
+  },
+  {
+   "id": "aro_fundo14",
+   "tipo": "aro",
+   "material": "aro_liga",
+   "nome": "Liga de aro fundo 14\" (10 raios, disco recuado 4,5 cm, aba polida)",
+   "polegadas": 14,
+   "largura_aro_pol": 5.5,
+   "raio_externo_cm": 19.74,
+   "largura_cm": 16.08,
+   "triangulos_lod0": 6216,
+   "triangulos_lod1": 2486,
+   "objetos": [
+    "aro_fundo14",
+    "aro_fundo14_LOD1"
+   ],
+   "arquivo": "aro_fundo14.glb"
   }
  ],
  "rodas_completas": [
