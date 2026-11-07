@@ -173,3 +173,12 @@ passa de 30 MB (limite do repositório: 50 MB).
   radiador que se desfaz logo.
 - `poeira`: cúpula de poeira plausível, mas lenta e de textura "peluda"; não tem o jato rasante do
   impacto nem 6 direções.
+
+## Destroços de batida (`destrocos/`, 07/11/2026)
+
+Nove peças pequenas em FBX, feitas do zero por `ferramentas/make_destrocos.py` (Blender por `bpy`, semente
+fixa, sem IA, CC0 do estúdio), para lascas e cacos de partícula no lugar do cubo da engine: `SM_DNDestroco_Plastico_A/B/C`
+(casca curva de para-choque, 3 mm), `SM_DNDestroco_Metal_A/B/C` (tira de chapa amassada, 1 mm) e
+`SM_DNDestroco_Vidro_A/B/C` (caco plano, 4 mm). Maior medida 10 cm, origem no centro de massa, 20 a 456 triângulos,
+sem textura: o material vem do jogo. Prévia em `destrocos/destrocos_previa.png`. Usados no Detonauto
+(NS_DNPlasticChips, NS_DNGlassShards e ADNGlassShards).
