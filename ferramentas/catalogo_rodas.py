@@ -112,6 +112,61 @@ def poeira_freio(m, b, quanto):
     nt.links.new(rr.outputs[0], b.inputs["Roughness"])
 
 
+def torno(m, b, quanto):
+    """Marcas de torno da face diamantada (Torneado do M_DNRoda): anéis de ~3 mm e ~1,2 cm em volta do eixo Y, que escurecem um pouco
+    e mexem na aspereza (o reflexo vira faixas, como no aro torneado de verdade)."""
+    nt = m.node_tree
+    tc = nt.nodes.new("ShaderNodeTexCoord")
+    sep = nt.nodes.new("ShaderNodeSeparateXYZ")
+    nt.links.new(tc.outputs["Object"], sep.inputs[0])
+    cmb = nt.nodes.new("ShaderNodeCombineXYZ")
+    nt.links.new(sep.outputs["X"], cmb.inputs["X"])
+    nt.links.new(sep.outputs["Z"], cmb.inputs["Z"])
+    r = nt.nodes.new("ShaderNodeVectorMath")
+    r.operation = "LENGTH"
+    nt.links.new(cmb.outputs[0], r.inputs[0])
+
+    def onda(freq, fase):
+        mul = nt.nodes.new("ShaderNodeMath"); mul.operation = "MULTIPLY_ADD"
+        mul.inputs[1].default_value = freq * 100.0; mul.inputs[2].default_value = fase   # r em metros; freq por cm
+        nt.links.new(r.outputs["Value"], mul.inputs[0])
+        sn = nt.nodes.new("ShaderNodeMath"); sn.operation = "SINE"
+        nt.links.new(mul.outputs[0], sn.inputs[0])
+        h = nt.nodes.new("ShaderNodeMath"); h.operation = "MULTIPLY_ADD"
+        h.inputs[1].default_value = 0.5; h.inputs[2].default_value = 0.5
+        nt.links.new(sn.outputs[0], h.inputs[0])
+        return h
+    fino, largo = onda(21.0, 0.0), onda(5.2, 1.3)
+    escuro = nt.nodes.new("ShaderNodeMath"); escuro.operation = "MULTIPLY_ADD"
+    escuro.inputs[1].default_value = -quanto * 0.10
+    nt.links.new(fino.outputs[0], escuro.inputs[0])
+    esc2 = nt.nodes.new("ShaderNodeMath"); esc2.operation = "MULTIPLY_ADD"
+    esc2.inputs[1].default_value = -quanto * 0.14
+    nt.links.new(largo.outputs[0], esc2.inputs[0])
+    nt.links.new(escuro.outputs[0], esc2.inputs[2])
+    escuro.inputs[2].default_value = 1.0
+    src = b.inputs["Base Color"].links[0].from_socket if b.inputs["Base Color"].links else None
+    mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = "RGBA"; mx.blend_type = "MULTIPLY"; mx.inputs[0].default_value = 1.0
+    if src is not None:
+        nt.links.new(src, mx.inputs[6])
+    else:
+        mx.inputs[6].default_value = b.inputs["Base Color"].default_value
+    cv = nt.nodes.new("ShaderNodeCombineColor")
+    for i in range(3):
+        nt.links.new(esc2.outputs[0], cv.inputs[i])
+    nt.links.new(cv.outputs[0], mx.inputs[7])
+    nt.links.new(mx.outputs[2], b.inputs["Base Color"])
+    rg = nt.nodes.new("ShaderNodeMath"); rg.operation = "MULTIPLY_ADD"
+    rg.inputs[1].default_value = quanto * 0.10
+    rsrc = b.inputs["Roughness"].links[0].from_socket if b.inputs["Roughness"].links else None
+    if rsrc is not None:
+        nt.links.new(rsrc, rg.inputs[2])
+    else:
+        rg.inputs[2].default_value = b.inputs["Roughness"].default_value
+    nt.links.new(fino.outputs[0], rg.inputs[0])
+    nt.links.new(rg.outputs[0], b.inputs["Roughness"])
+
+
 def vestir(o, acab, cor_carro, k):
     """Copia os materiais do objeto e aplica o acabamento (o jogo faz igual: M_DNRoda com Cor, Metal, Aspereza e PoeiraFreio)."""
     for i, m in enumerate(o.data.materials):
@@ -135,6 +190,8 @@ def vestir(o, acab, cor_carro, k):
             b.inputs["Metallic"].default_value = float(acab["FaceMetallic" if face else "Metallic"])
             b.inputs["Roughness"].default_value = float(acab["FaceRoughness" if face else "Roughness"])
             poeira_freio(m2, b, float(acab["BrakeDust"]))
+            if face and float(acab.get("Lathe") or 0) > 0:
+                torno(m2, b, float(acab["Lathe"]))
         elif base == "pneu":
             b.inputs["Base Color"].default_value = (0.022, 0.022, 0.024, 1)
             b.inputs["Roughness"].default_value = 0.8

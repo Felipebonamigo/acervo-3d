@@ -708,21 +708,21 @@
    "perfil_pct": 70,
    "raio_externo_cm": 28.06,
    "raio_nominal_cm": 28.06,
-   "largura_cm": 16.57,
+   "largura_cm": 16.63,
    "raio_contato_cm": {
     "Ok": 28.06,
     "Flat": 22.06,
     "Torn": 20.07
    },
-   "triangulos_lod0": 17496,
-   "triangulos_lod1": 6996,
+   "triangulos_lod0": 18760,
+   "triangulos_lod1": 7502,
    "triangulos_por_objeto": {
-    "pneu_p165_70_Ok": 4200,
-    "pneu_p165_70_Flat": 3328,
-    "pneu_p165_70_Torn": 9968,
-    "pneu_p165_70_Ok_LOD1": 1680,
-    "pneu_p165_70_Flat_LOD1": 1330,
-    "pneu_p165_70_Torn_LOD1": 3986
+    "pneu_p165_70_Ok": 4456,
+    "pneu_p165_70_Flat": 3584,
+    "pneu_p165_70_Torn": 10720,
+    "pneu_p165_70_Ok_LOD1": 1782,
+    "pneu_p165_70_Flat_LOD1": 1432,
+    "pneu_p165_70_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p165_70_Ok",
@@ -744,21 +744,21 @@
    "perfil_pct": 70,
    "raio_externo_cm": 28.76,
    "raio_nominal_cm": 28.76,
-   "largura_cm": 17.57,
+   "largura_cm": 17.63,
    "raio_contato_cm": {
     "Ok": 28.76,
     "Flat": 22.76,
     "Torn": 20.08
    },
-   "triangulos_lod0": 17472,
-   "triangulos_lod1": 6986,
+   "triangulos_lod0": 18736,
+   "triangulos_lod1": 7491,
    "triangulos_por_objeto": {
-    "pneu_p175_70_Ok": 4176,
-    "pneu_p175_70_Flat": 3328,
-    "pneu_p175_70_Torn": 9968,
-    "pneu_p175_70_Ok_LOD1": 1670,
-    "pneu_p175_70_Flat_LOD1": 1330,
-    "pneu_p175_70_Torn_LOD1": 3986
+    "pneu_p175_70_Ok": 4432,
+    "pneu_p175_70_Flat": 3584,
+    "pneu_p175_70_Torn": 10720,
+    "pneu_p175_70_Ok_LOD1": 1771,
+    "pneu_p175_70_Flat_LOD1": 1432,
+    "pneu_p175_70_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p175_70_Ok",
@@ -780,21 +780,21 @@
    "perfil_pct": 60,
    "raio_externo_cm": 28.88,
    "raio_nominal_cm": 28.88,
-   "largura_cm": 18.57,
+   "largura_cm": 18.63,
    "raio_contato_cm": {
     "Ok": 28.88,
     "Flat": 22.88,
     "Torn": 21.34
    },
-   "triangulos_lod0": 17548,
-   "triangulos_lod1": 7015,
+   "triangulos_lod0": 18812,
+   "triangulos_lod1": 7523,
    "triangulos_por_objeto": {
-    "pneu_p185_60_Ok": 4252,
-    "pneu_p185_60_Flat": 3328,
-    "pneu_p185_60_Torn": 9968,
-    "pneu_p185_60_Ok_LOD1": 1699,
-    "pneu_p185_60_Flat_LOD1": 1330,
-    "pneu_p185_60_Torn_LOD1": 3986
+    "pneu_p185_60_Ok": 4508,
+    "pneu_p185_60_Flat": 3584,
+    "pneu_p185_60_Torn": 10720,
+    "pneu_p185_60_Ok_LOD1": 1803,
+    "pneu_p185_60_Flat_LOD1": 1432,
+    "pneu_p185_60_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p185_60_Ok",
@@ -816,21 +816,21 @@
    "perfil_pct": 95,
    "raio_externo_cm": 34.72,
    "raio_nominal_cm": 34.73,
-   "largura_cm": 16.57,
+   "largura_cm": 16.63,
    "raio_contato_cm": {
     "Ok": 34.72,
     "Flat": 28.72,
     "Torn": 22.62
    },
-   "triangulos_lod0": 17524,
-   "triangulos_lod1": 7007,
+   "triangulos_lod0": 18788,
+   "triangulos_lod1": 7512,
    "triangulos_por_objeto": {
-    "pneu_p165_95_Ok": 4228,
-    "pneu_p165_95_Flat": 3328,
-    "pneu_p165_95_Torn": 9968,
-    "pneu_p165_95_Ok_LOD1": 1691,
-    "pneu_p165_95_Flat_LOD1": 1330,
-    "pneu_p165_95_Torn_LOD1": 3986
+    "pneu_p165_95_Ok": 4484,
+    "pneu_p165_95_Flat": 3584,
+    "pneu_p165_95_Torn": 10720,
+    "pneu_p165_95_Ok_LOD1": 1792,
+    "pneu_p165_95_Flat_LOD1": 1432,
+    "pneu_p165_95_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p165_95_Ok",
@@ -852,21 +852,21 @@
    "perfil_pct": 60,
    "raio_externo_cm": 31.35,
    "raio_nominal_cm": 31.35,
-   "largura_cm": 20.57,
+   "largura_cm": 20.63,
    "raio_contato_cm": {
     "Ok": 31.35,
     "Flat": 25.35,
     "Torn": 22.61
    },
-   "triangulos_lod0": 17528,
-   "triangulos_lod1": 7008,
+   "triangulos_lod0": 18792,
+   "triangulos_lod1": 7515,
    "triangulos_por_objeto": {
-    "pneu_p205_60_Ok": 4232,
-    "pneu_p205_60_Flat": 3328,
-    "pneu_p205_60_Torn": 9968,
-    "pneu_p205_60_Ok_LOD1": 1692,
-    "pneu_p205_60_Flat_LOD1": 1330,
-    "pneu_p205_60_Torn_LOD1": 3986
+    "pneu_p205_60_Ok": 4488,
+    "pneu_p205_60_Flat": 3584,
+    "pneu_p205_60_Torn": 10720,
+    "pneu_p205_60_Ok_LOD1": 1795,
+    "pneu_p205_60_Flat_LOD1": 1432,
+    "pneu_p205_60_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p205_60_Ok",
@@ -888,21 +888,21 @@
    "perfil_pct": 80,
    "raio_externo_cm": 32.25,
    "raio_nominal_cm": 32.25,
-   "largura_cm": 16.57,
+   "largura_cm": 16.63,
    "raio_contato_cm": {
     "Ok": 32.25,
     "Flat": 26.25,
     "Torn": 22.62
    },
-   "triangulos_lod0": 17532,
-   "triangulos_lod1": 7010,
+   "triangulos_lod0": 18796,
+   "triangulos_lod1": 7515,
    "triangulos_por_objeto": {
-    "pneu_p165_80_Ok": 4236,
-    "pneu_p165_80_Flat": 3328,
-    "pneu_p165_80_Torn": 9968,
-    "pneu_p165_80_Ok_LOD1": 1694,
-    "pneu_p165_80_Flat_LOD1": 1330,
-    "pneu_p165_80_Torn_LOD1": 3986
+    "pneu_p165_80_Ok": 4492,
+    "pneu_p165_80_Flat": 3584,
+    "pneu_p165_80_Torn": 10720,
+    "pneu_p165_80_Ok_LOD1": 1795,
+    "pneu_p165_80_Flat_LOD1": 1432,
+    "pneu_p165_80_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p165_80_Ok",
@@ -924,21 +924,21 @@
    "perfil_pct": 75,
    "raio_externo_cm": 35.17,
    "raio_nominal_cm": 35.17,
-   "largura_cm": 21.57,
+   "largura_cm": 21.63,
    "raio_contato_cm": {
     "Ok": 35.17,
     "Flat": 29.17,
     "Torn": 22.62
    },
-   "triangulos_lod0": 17496,
-   "triangulos_lod1": 6995,
+   "triangulos_lod0": 18760,
+   "triangulos_lod1": 7501,
    "triangulos_por_objeto": {
-    "pneu_p215_75_Ok": 4200,
-    "pneu_p215_75_Flat": 3328,
-    "pneu_p215_75_Torn": 9968,
-    "pneu_p215_75_Ok_LOD1": 1679,
-    "pneu_p215_75_Flat_LOD1": 1330,
-    "pneu_p215_75_Torn_LOD1": 3986
+    "pneu_p215_75_Ok": 4456,
+    "pneu_p215_75_Flat": 3584,
+    "pneu_p215_75_Torn": 10720,
+    "pneu_p215_75_Ok_LOD1": 1781,
+    "pneu_p215_75_Flat_LOD1": 1432,
+    "pneu_p215_75_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p215_75_Ok",
@@ -960,21 +960,21 @@
    "perfil_pct": 70,
    "raio_externo_cm": 30.73,
    "raio_nominal_cm": 30.73,
-   "largura_cm": 18.57,
+   "largura_cm": 18.63,
    "raio_contato_cm": {
     "Ok": 30.73,
     "Flat": 24.73,
     "Torn": 21.35
    },
-   "triangulos_lod0": 17524,
-   "triangulos_lod1": 7007,
+   "triangulos_lod0": 18788,
+   "triangulos_lod1": 7513,
    "triangulos_por_objeto": {
-    "pneu_p185_70_Ok": 4228,
-    "pneu_p185_70_Flat": 3328,
-    "pneu_p185_70_Torn": 9968,
-    "pneu_p185_70_Ok_LOD1": 1691,
-    "pneu_p185_70_Flat_LOD1": 1330,
-    "pneu_p185_70_Torn_LOD1": 3986
+    "pneu_p185_70_Ok": 4484,
+    "pneu_p185_70_Flat": 3584,
+    "pneu_p185_70_Torn": 10720,
+    "pneu_p185_70_Ok_LOD1": 1793,
+    "pneu_p185_70_Flat_LOD1": 1432,
+    "pneu_p185_70_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p185_70_Ok",
@@ -996,21 +996,21 @@
    "perfil_pct": 60,
    "raio_externo_cm": 28.28,
    "raio_nominal_cm": 28.28,
-   "largura_cm": 17.57,
+   "largura_cm": 17.63,
    "raio_contato_cm": {
     "Ok": 28.28,
     "Flat": 22.28,
     "Torn": 21.33
    },
-   "triangulos_lod0": 17500,
-   "triangulos_lod1": 6996,
+   "triangulos_lod0": 18764,
+   "triangulos_lod1": 7503,
    "triangulos_por_objeto": {
-    "pneu_p175_60_Ok": 4204,
-    "pneu_p175_60_Flat": 3328,
-    "pneu_p175_60_Torn": 9968,
-    "pneu_p175_60_Ok_LOD1": 1680,
-    "pneu_p175_60_Flat_LOD1": 1330,
-    "pneu_p175_60_Torn_LOD1": 3986
+    "pneu_p175_60_Ok": 4460,
+    "pneu_p175_60_Flat": 3584,
+    "pneu_p175_60_Torn": 10720,
+    "pneu_p175_60_Ok_LOD1": 1783,
+    "pneu_p175_60_Flat_LOD1": 1432,
+    "pneu_p175_60_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p175_60_Ok",
@@ -1032,21 +1032,21 @@
    "perfil_pct": 50,
    "raio_externo_cm": 28.3,
    "raio_nominal_cm": 28.3,
-   "largura_cm": 18.57,
+   "largura_cm": 18.63,
    "raio_contato_cm": {
     "Ok": 28.3,
     "Flat": 22.3,
     "Torn": 22.6
    },
-   "triangulos_lod0": 17532,
-   "triangulos_lod1": 7009,
+   "triangulos_lod0": 18796,
+   "triangulos_lod1": 7516,
    "triangulos_por_objeto": {
-    "pneu_p185_50_Ok": 4236,
-    "pneu_p185_50_Flat": 3328,
-    "pneu_p185_50_Torn": 9968,
-    "pneu_p185_50_Ok_LOD1": 1693,
-    "pneu_p185_50_Flat_LOD1": 1330,
-    "pneu_p185_50_Torn_LOD1": 3986
+    "pneu_p185_50_Ok": 4492,
+    "pneu_p185_50_Flat": 3584,
+    "pneu_p185_50_Torn": 10720,
+    "pneu_p185_50_Ok_LOD1": 1796,
+    "pneu_p185_50_Flat_LOD1": 1432,
+    "pneu_p185_50_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p185_50_Ok",
@@ -1068,21 +1068,21 @@
    "perfil_pct": 50,
    "raio_externo_cm": 28.8,
    "raio_nominal_cm": 28.8,
-   "largura_cm": 19.57,
+   "largura_cm": 19.63,
    "raio_contato_cm": {
     "Ok": 28.8,
     "Flat": 22.8,
     "Torn": 22.6
    },
-   "triangulos_lod0": 17512,
-   "triangulos_lod1": 7002,
+   "triangulos_lod0": 18776,
+   "triangulos_lod1": 7508,
    "triangulos_por_objeto": {
-    "pneu_p195_50_Ok": 4216,
-    "pneu_p195_50_Flat": 3328,
-    "pneu_p195_50_Torn": 9968,
-    "pneu_p195_50_Ok_LOD1": 1686,
-    "pneu_p195_50_Flat_LOD1": 1330,
-    "pneu_p195_50_Torn_LOD1": 3986
+    "pneu_p195_50_Ok": 4472,
+    "pneu_p195_50_Flat": 3584,
+    "pneu_p195_50_Torn": 10720,
+    "pneu_p195_50_Ok_LOD1": 1788,
+    "pneu_p195_50_Flat_LOD1": 1432,
+    "pneu_p195_50_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p195_50_Ok",
@@ -1104,21 +1104,21 @@
    "perfil_pct": 60,
    "raio_externo_cm": 30.75,
    "raio_nominal_cm": 30.75,
-   "largura_cm": 19.57,
+   "largura_cm": 19.63,
    "raio_contato_cm": {
     "Ok": 30.75,
     "Flat": 24.75,
     "Torn": 22.61
    },
-   "triangulos_lod0": 17512,
-   "triangulos_lod1": 7001,
+   "triangulos_lod0": 18776,
+   "triangulos_lod1": 7508,
    "triangulos_por_objeto": {
-    "pneu_p195_60_Ok": 4216,
-    "pneu_p195_60_Flat": 3328,
-    "pneu_p195_60_Torn": 9968,
-    "pneu_p195_60_Ok_LOD1": 1685,
-    "pneu_p195_60_Flat_LOD1": 1330,
-    "pneu_p195_60_Torn_LOD1": 3986
+    "pneu_p195_60_Ok": 4472,
+    "pneu_p195_60_Flat": 3584,
+    "pneu_p195_60_Torn": 10720,
+    "pneu_p195_60_Ok_LOD1": 1788,
+    "pneu_p195_60_Flat_LOD1": 1432,
+    "pneu_p195_60_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p195_60_Ok",
@@ -1140,21 +1140,21 @@
    "perfil_pct": 80,
    "raio_externo_cm": 30.51,
    "raio_nominal_cm": 30.51,
-   "largura_cm": 17.57,
+   "largura_cm": 17.63,
    "raio_contato_cm": {
     "Ok": 30.51,
     "Flat": 24.51,
     "Torn": 20.08
    },
-   "triangulos_lod0": 17520,
-   "triangulos_lod1": 7005,
+   "triangulos_lod0": 18784,
+   "triangulos_lod1": 7511,
    "triangulos_por_objeto": {
-    "pneu_p175_80_Ok": 4224,
-    "pneu_p175_80_Flat": 3328,
-    "pneu_p175_80_Torn": 9968,
-    "pneu_p175_80_Ok_LOD1": 1689,
-    "pneu_p175_80_Flat_LOD1": 1330,
-    "pneu_p175_80_Torn_LOD1": 3986
+    "pneu_p175_80_Ok": 4480,
+    "pneu_p175_80_Flat": 3584,
+    "pneu_p175_80_Torn": 10720,
+    "pneu_p175_80_Ok_LOD1": 1791,
+    "pneu_p175_80_Flat_LOD1": 1432,
+    "pneu_p175_80_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p175_80_Ok",
@@ -1176,21 +1176,21 @@
    "perfil_pct": 75,
    "raio_externo_cm": 31.65,
    "raio_nominal_cm": 31.66,
-   "largura_cm": 18.57,
+   "largura_cm": 18.63,
    "raio_contato_cm": {
     "Ok": 31.65,
     "Flat": 25.65,
     "Torn": 21.35
    },
-   "triangulos_lod0": 17536,
-   "triangulos_lod1": 7012,
+   "triangulos_lod0": 18800,
+   "triangulos_lod1": 7517,
    "triangulos_por_objeto": {
-    "pneu_p185_75_Ok": 4240,
-    "pneu_p185_75_Flat": 3328,
-    "pneu_p185_75_Torn": 9968,
-    "pneu_p185_75_Ok_LOD1": 1696,
-    "pneu_p185_75_Flat_LOD1": 1330,
-    "pneu_p185_75_Torn_LOD1": 3986
+    "pneu_p185_75_Ok": 4496,
+    "pneu_p185_75_Flat": 3584,
+    "pneu_p185_75_Torn": 10720,
+    "pneu_p185_75_Ok_LOD1": 1797,
+    "pneu_p185_75_Flat_LOD1": 1432,
+    "pneu_p185_75_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p185_75_Ok",
@@ -1212,21 +1212,21 @@
    "perfil_pct": 70,
    "raio_externo_cm": 34.67,
    "raio_nominal_cm": 34.67,
-   "largura_cm": 20.57,
+   "largura_cm": 20.63,
    "raio_contato_cm": {
     "Ok": 34.67,
     "Flat": 28.67,
     "Torn": 23.89
    },
-   "triangulos_lod0": 17504,
-   "triangulos_lod1": 6999,
+   "triangulos_lod0": 18768,
+   "triangulos_lod1": 7505,
    "triangulos_por_objeto": {
-    "pneu_p205_70_Ok": 4208,
-    "pneu_p205_70_Flat": 3328,
-    "pneu_p205_70_Torn": 9968,
-    "pneu_p205_70_Ok_LOD1": 1683,
-    "pneu_p205_70_Flat_LOD1": 1330,
-    "pneu_p205_70_Torn_LOD1": 3986
+    "pneu_p205_70_Ok": 4464,
+    "pneu_p205_70_Flat": 3584,
+    "pneu_p205_70_Torn": 10720,
+    "pneu_p205_70_Ok_LOD1": 1785,
+    "pneu_p205_70_Flat_LOD1": 1432,
+    "pneu_p205_70_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p205_70_Ok",
@@ -1248,21 +1248,21 @@
    "perfil_pct": 70,
    "raio_externo_cm": 35.37,
    "raio_nominal_cm": 35.37,
-   "largura_cm": 21.57,
+   "largura_cm": 21.63,
    "raio_contato_cm": {
     "Ok": 35.37,
     "Flat": 29.37,
     "Torn": 23.89
    },
-   "triangulos_lod0": 17484,
-   "triangulos_lod1": 6991,
+   "triangulos_lod0": 18748,
+   "triangulos_lod1": 7496,
    "triangulos_por_objeto": {
-    "pneu_p215_70_Ok": 4188,
-    "pneu_p215_70_Flat": 3328,
-    "pneu_p215_70_Torn": 9968,
-    "pneu_p215_70_Ok_LOD1": 1675,
-    "pneu_p215_70_Flat_LOD1": 1330,
-    "pneu_p215_70_Torn_LOD1": 3986
+    "pneu_p215_70_Ok": 4444,
+    "pneu_p215_70_Flat": 3584,
+    "pneu_p215_70_Torn": 10720,
+    "pneu_p215_70_Ok_LOD1": 1776,
+    "pneu_p215_70_Flat_LOD1": 1432,
+    "pneu_p215_70_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p215_70_Ok",
@@ -1284,21 +1284,21 @@
    "perfil_pct": 55,
    "raio_externo_cm": 31.59,
    "raio_nominal_cm": 31.6,
-   "largura_cm": 20.57,
+   "largura_cm": 20.63,
    "raio_contato_cm": {
     "Ok": 31.59,
     "Flat": 25.59,
     "Torn": 23.87
    },
-   "triangulos_lod0": 17540,
-   "triangulos_lod1": 7012,
+   "triangulos_lod0": 18804,
+   "triangulos_lod1": 7519,
    "triangulos_por_objeto": {
-    "pneu_p205_55_Ok": 4244,
-    "pneu_p205_55_Flat": 3328,
-    "pneu_p205_55_Torn": 9968,
-    "pneu_p205_55_Ok_LOD1": 1696,
-    "pneu_p205_55_Flat_LOD1": 1330,
-    "pneu_p205_55_Torn_LOD1": 3986
+    "pneu_p205_55_Ok": 4500,
+    "pneu_p205_55_Flat": 3584,
+    "pneu_p205_55_Torn": 10720,
+    "pneu_p205_55_Ok_LOD1": 1799,
+    "pneu_p205_55_Flat_LOD1": 1432,
+    "pneu_p205_55_Torn_LOD1": 4288
    },
    "objetos": [
     "pneu_p205_55_Ok",
@@ -1316,952 +1316,952 @@
    "aro": "aro_aco13",
    "pneu": "pneu_p165_70_Ok",
    "calota": "calota13",
-   "triangulos_lod0": 9872,
+   "triangulos_lod0": 10128,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco13",
    "pneu": "pneu_p175_70_Ok",
    "calota": "calota13",
-   "triangulos_lod0": 9848,
+   "triangulos_lod0": 10104,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco13",
    "pneu": "pneu_p175_80_Ok",
    "calota": "calota13",
-   "triangulos_lod0": 9896,
+   "triangulos_lod0": 10152,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco14",
    "pneu": "pneu_p185_60_Ok",
    "calota": "calota14",
-   "triangulos_lod0": 10084,
+   "triangulos_lod0": 10340,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco14",
    "pneu": "pneu_p185_70_Ok",
    "calota": "calota14",
-   "triangulos_lod0": 10060,
+   "triangulos_lod0": 10316,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco14",
    "pneu": "pneu_p175_60_Ok",
    "calota": "calota14",
-   "triangulos_lod0": 10036,
+   "triangulos_lod0": 10292,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco14",
    "pneu": "pneu_p185_75_Ok",
    "calota": "calota14",
-   "triangulos_lod0": 10072,
+   "triangulos_lod0": 10328,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco15",
    "pneu": "pneu_p165_95_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10060,
+   "triangulos_lod0": 10316,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco15",
    "pneu": "pneu_p205_60_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10064,
+   "triangulos_lod0": 10320,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco15",
    "pneu": "pneu_p165_80_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10068,
+   "triangulos_lod0": 10324,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco15",
    "pneu": "pneu_p215_75_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10032,
+   "triangulos_lod0": 10288,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco15",
    "pneu": "pneu_p185_50_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10068,
+   "triangulos_lod0": 10324,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco15",
    "pneu": "pneu_p195_50_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10048,
+   "triangulos_lod0": 10304,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_aco15",
    "pneu": "pneu_p195_60_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10048,
+   "triangulos_lod0": 10304,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
-   "triangulos_lod0": 9416,
+   "triangulos_lod0": 9672,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga13",
    "pneu": "pneu_p175_70_Ok",
    "calota": null,
-   "triangulos_lod0": 9392,
+   "triangulos_lod0": 9648,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga13",
    "pneu": "pneu_p175_80_Ok",
    "calota": null,
-   "triangulos_lod0": 9440,
+   "triangulos_lod0": 9696,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga14",
-   "pneu": "pneu_p185_60_Ok",
-   "calota": null,
-   "triangulos_lod0": 10212,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga14",
-   "pneu": "pneu_p185_70_Ok",
-   "calota": null,
-   "triangulos_lod0": 10188,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga14",
-   "pneu": "pneu_p175_60_Ok",
-   "calota": null,
-   "triangulos_lod0": 10164,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga14",
-   "pneu": "pneu_p185_75_Ok",
-   "calota": null,
-   "triangulos_lod0": 10200,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga15",
-   "pneu": "pneu_p165_95_Ok",
-   "calota": null,
-   "triangulos_lod0": 9444,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga15",
-   "pneu": "pneu_p205_60_Ok",
-   "calota": null,
-   "triangulos_lod0": 9448,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga15",
-   "pneu": "pneu_p165_80_Ok",
-   "calota": null,
-   "triangulos_lod0": 9452,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga15",
-   "pneu": "pneu_p215_75_Ok",
-   "calota": null,
-   "triangulos_lod0": 9416,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga15",
-   "pneu": "pneu_p185_50_Ok",
-   "calota": null,
-   "triangulos_lod0": 9452,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga15",
-   "pneu": "pneu_p195_50_Ok",
-   "calota": null,
-   "triangulos_lod0": 9432,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga15",
-   "pneu": "pneu_p195_60_Ok",
-   "calota": null,
-   "triangulos_lod0": 9432,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_fundo14",
    "pneu": "pneu_p185_60_Ok",
    "calota": null,
    "triangulos_lod0": 10468,
    "dentro_do_orcamento": true
   },
   {
-   "aro": "aro_fundo14",
+   "aro": "aro_liga14",
    "pneu": "pneu_p185_70_Ok",
    "calota": null,
    "triangulos_lod0": 10444,
    "dentro_do_orcamento": true
   },
   {
-   "aro": "aro_fundo14",
+   "aro": "aro_liga14",
    "pneu": "pneu_p175_60_Ok",
    "calota": null,
    "triangulos_lod0": 10420,
    "dentro_do_orcamento": true
   },
   {
-   "aro": "aro_fundo14",
+   "aro": "aro_liga14",
    "pneu": "pneu_p185_75_Ok",
    "calota": null,
    "triangulos_lod0": 10456,
    "dentro_do_orcamento": true
   },
   {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p165_95_Ok",
+   "calota": null,
+   "triangulos_lod0": 9700,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p205_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 9704,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p165_80_Ok",
+   "calota": null,
+   "triangulos_lod0": 9708,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p215_75_Ok",
+   "calota": null,
+   "triangulos_lod0": 9672,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p185_50_Ok",
+   "calota": null,
+   "triangulos_lod0": 9708,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p195_50_Ok",
+   "calota": null,
+   "triangulos_lod0": 9688,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga15",
+   "pneu": "pneu_p195_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 9688,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_fundo14",
+   "pneu": "pneu_p185_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 10724,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_fundo14",
+   "pneu": "pneu_p185_70_Ok",
+   "calota": null,
+   "triangulos_lod0": 10700,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_fundo14",
+   "pneu": "pneu_p175_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 10676,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_fundo14",
+   "pneu": "pneu_p185_75_Ok",
+   "calota": null,
+   "triangulos_lod0": 10712,
+   "dentro_do_orcamento": true
+  },
+  {
    "aro": "aro_liga4f13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
-   "triangulos_lod0": 8792,
+   "triangulos_lod0": 9048,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f13",
    "pneu": "pneu_p175_70_Ok",
    "calota": null,
-   "triangulos_lod0": 8768,
+   "triangulos_lod0": 9024,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f13",
    "pneu": "pneu_p175_80_Ok",
    "calota": null,
-   "triangulos_lod0": 8816,
+   "triangulos_lod0": 9072,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10040,
+   "triangulos_lod0": 10296,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r13",
    "pneu": "pneu_p175_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10016,
+   "triangulos_lod0": 10272,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r13",
    "pneu": "pneu_p175_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10064,
+   "triangulos_lod0": 10320,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10264,
+   "triangulos_lod0": 10520,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r13",
    "pneu": "pneu_p175_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10240,
+   "triangulos_lod0": 10496,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r13",
    "pneu": "pneu_p175_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10288,
+   "triangulos_lod0": 10544,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10900,
+   "triangulos_lod0": 11156,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi13",
    "pneu": "pneu_p175_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10876,
+   "triangulos_lod0": 11132,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi13",
    "pneu": "pneu_p175_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10924,
+   "triangulos_lod0": 11180,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
-   "triangulos_lod0": 11144,
+   "triangulos_lod0": 11400,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia13",
    "pneu": "pneu_p175_70_Ok",
    "calota": null,
-   "triangulos_lod0": 11120,
+   "triangulos_lod0": 11376,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia13",
    "pneu": "pneu_p175_80_Ok",
    "calota": null,
-   "triangulos_lod0": 11168,
+   "triangulos_lod0": 11424,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela13",
    "pneu": "pneu_p165_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10040,
+   "triangulos_lod0": 10296,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela13",
    "pneu": "pneu_p175_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10016,
+   "triangulos_lod0": 10272,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela13",
    "pneu": "pneu_p175_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10064,
+   "triangulos_lod0": 10320,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f14",
    "pneu": "pneu_p185_60_Ok",
    "calota": null,
-   "triangulos_lod0": 8844,
+   "triangulos_lod0": 9100,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f14",
    "pneu": "pneu_p185_70_Ok",
    "calota": null,
-   "triangulos_lod0": 8820,
+   "triangulos_lod0": 9076,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f14",
    "pneu": "pneu_p175_60_Ok",
    "calota": null,
-   "triangulos_lod0": 8796,
+   "triangulos_lod0": 9052,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f14",
    "pneu": "pneu_p185_75_Ok",
    "calota": null,
-   "triangulos_lod0": 8832,
+   "triangulos_lod0": 9088,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r14",
    "pneu": "pneu_p185_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10092,
+   "triangulos_lod0": 10348,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r14",
    "pneu": "pneu_p185_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10068,
+   "triangulos_lod0": 10324,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r14",
    "pneu": "pneu_p175_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10044,
+   "triangulos_lod0": 10300,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r14",
    "pneu": "pneu_p185_75_Ok",
    "calota": null,
-   "triangulos_lod0": 10080,
+   "triangulos_lod0": 10336,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r14",
    "pneu": "pneu_p185_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10316,
+   "triangulos_lod0": 10572,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r14",
    "pneu": "pneu_p185_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10292,
+   "triangulos_lod0": 10548,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r14",
    "pneu": "pneu_p175_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10268,
+   "triangulos_lod0": 10524,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r14",
    "pneu": "pneu_p185_75_Ok",
    "calota": null,
-   "triangulos_lod0": 10304,
+   "triangulos_lod0": 10560,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi14",
    "pneu": "pneu_p185_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10952,
+   "triangulos_lod0": 11208,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi14",
    "pneu": "pneu_p185_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10928,
+   "triangulos_lod0": 11184,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi14",
    "pneu": "pneu_p175_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10904,
+   "triangulos_lod0": 11160,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi14",
    "pneu": "pneu_p185_75_Ok",
-   "calota": null,
-   "triangulos_lod0": 10940,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_colmeia14",
-   "pneu": "pneu_p185_60_Ok",
    "calota": null,
    "triangulos_lod0": 11196,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia14",
+   "pneu": "pneu_p185_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 11452,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_colmeia14",
    "pneu": "pneu_p185_70_Ok",
    "calota": null,
-   "triangulos_lod0": 11172,
+   "triangulos_lod0": 11428,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia14",
    "pneu": "pneu_p175_60_Ok",
    "calota": null,
-   "triangulos_lod0": 11148,
+   "triangulos_lod0": 11404,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia14",
    "pneu": "pneu_p185_75_Ok",
    "calota": null,
-   "triangulos_lod0": 11184,
+   "triangulos_lod0": 11440,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela14",
    "pneu": "pneu_p185_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10092,
+   "triangulos_lod0": 10348,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela14",
    "pneu": "pneu_p185_70_Ok",
    "calota": null,
-   "triangulos_lod0": 10068,
+   "triangulos_lod0": 10324,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela14",
    "pneu": "pneu_p175_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10044,
+   "triangulos_lod0": 10300,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela14",
    "pneu": "pneu_p185_75_Ok",
    "calota": null,
-   "triangulos_lod0": 10080,
+   "triangulos_lod0": 10336,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f15",
    "pneu": "pneu_p165_95_Ok",
    "calota": null,
-   "triangulos_lod0": 8820,
+   "triangulos_lod0": 9076,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f15",
    "pneu": "pneu_p205_60_Ok",
    "calota": null,
-   "triangulos_lod0": 8824,
+   "triangulos_lod0": 9080,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f15",
    "pneu": "pneu_p165_80_Ok",
    "calota": null,
-   "triangulos_lod0": 8828,
+   "triangulos_lod0": 9084,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f15",
    "pneu": "pneu_p215_75_Ok",
    "calota": null,
-   "triangulos_lod0": 8792,
+   "triangulos_lod0": 9048,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f15",
    "pneu": "pneu_p185_50_Ok",
    "calota": null,
-   "triangulos_lod0": 8828,
+   "triangulos_lod0": 9084,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f15",
    "pneu": "pneu_p195_50_Ok",
    "calota": null,
-   "triangulos_lod0": 8808,
+   "triangulos_lod0": 9064,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga4f15",
    "pneu": "pneu_p195_60_Ok",
    "calota": null,
-   "triangulos_lod0": 8808,
+   "triangulos_lod0": 9064,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r15",
    "pneu": "pneu_p165_95_Ok",
    "calota": null,
-   "triangulos_lod0": 10068,
+   "triangulos_lod0": 10324,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r15",
    "pneu": "pneu_p205_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10072,
+   "triangulos_lod0": 10328,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r15",
    "pneu": "pneu_p165_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10076,
+   "triangulos_lod0": 10332,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga5r15",
    "pneu": "pneu_p215_75_Ok",
-   "calota": null,
-   "triangulos_lod0": 10040,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga5r15",
-   "pneu": "pneu_p185_50_Ok",
-   "calota": null,
-   "triangulos_lod0": 10076,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga5r15",
-   "pneu": "pneu_p195_50_Ok",
-   "calota": null,
-   "triangulos_lod0": 10056,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga5r15",
-   "pneu": "pneu_p195_60_Ok",
-   "calota": null,
-   "triangulos_lod0": 10056,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga6r15",
-   "pneu": "pneu_p165_95_Ok",
-   "calota": null,
-   "triangulos_lod0": 10292,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_liga6r15",
-   "pneu": "pneu_p205_60_Ok",
    "calota": null,
    "triangulos_lod0": 10296,
    "dentro_do_orcamento": true
   },
   {
+   "aro": "aro_liga5r15",
+   "pneu": "pneu_p185_50_Ok",
+   "calota": null,
+   "triangulos_lod0": 10332,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga5r15",
+   "pneu": "pneu_p195_50_Ok",
+   "calota": null,
+   "triangulos_lod0": 10312,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga5r15",
+   "pneu": "pneu_p195_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 10312,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga6r15",
+   "pneu": "pneu_p165_95_Ok",
+   "calota": null,
+   "triangulos_lod0": 10548,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_liga6r15",
+   "pneu": "pneu_p205_60_Ok",
+   "calota": null,
+   "triangulos_lod0": 10552,
+   "dentro_do_orcamento": true
+  },
+  {
    "aro": "aro_liga6r15",
    "pneu": "pneu_p165_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10300,
+   "triangulos_lod0": 10556,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r15",
    "pneu": "pneu_p215_75_Ok",
    "calota": null,
-   "triangulos_lod0": 10264,
+   "triangulos_lod0": 10520,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r15",
    "pneu": "pneu_p185_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10300,
+   "triangulos_lod0": 10556,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r15",
    "pneu": "pneu_p195_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10280,
+   "triangulos_lod0": 10536,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_liga6r15",
    "pneu": "pneu_p195_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10280,
+   "triangulos_lod0": 10536,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi15",
    "pneu": "pneu_p165_95_Ok",
    "calota": null,
-   "triangulos_lod0": 10928,
+   "triangulos_lod0": 11184,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi15",
    "pneu": "pneu_p205_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10932,
+   "triangulos_lod0": 11188,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi15",
    "pneu": "pneu_p165_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10936,
+   "triangulos_lod0": 11192,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi15",
    "pneu": "pneu_p215_75_Ok",
    "calota": null,
-   "triangulos_lod0": 10900,
+   "triangulos_lod0": 11156,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi15",
    "pneu": "pneu_p185_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10936,
+   "triangulos_lod0": 11192,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi15",
    "pneu": "pneu_p195_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10916,
+   "triangulos_lod0": 11172,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_multi15",
    "pneu": "pneu_p195_60_Ok",
-   "calota": null,
-   "triangulos_lod0": 10916,
-   "dentro_do_orcamento": true
-  },
-  {
-   "aro": "aro_colmeia15",
-   "pneu": "pneu_p165_95_Ok",
    "calota": null,
    "triangulos_lod0": 11172,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia15",
+   "pneu": "pneu_p165_95_Ok",
+   "calota": null,
+   "triangulos_lod0": 11428,
+   "dentro_do_orcamento": true
+  },
+  {
+   "aro": "aro_colmeia15",
    "pneu": "pneu_p205_60_Ok",
    "calota": null,
-   "triangulos_lod0": 11176,
+   "triangulos_lod0": 11432,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia15",
    "pneu": "pneu_p165_80_Ok",
    "calota": null,
-   "triangulos_lod0": 11180,
+   "triangulos_lod0": 11436,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia15",
    "pneu": "pneu_p215_75_Ok",
    "calota": null,
-   "triangulos_lod0": 11144,
+   "triangulos_lod0": 11400,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia15",
    "pneu": "pneu_p185_50_Ok",
    "calota": null,
-   "triangulos_lod0": 11180,
+   "triangulos_lod0": 11436,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia15",
    "pneu": "pneu_p195_50_Ok",
    "calota": null,
-   "triangulos_lod0": 11160,
+   "triangulos_lod0": 11416,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_colmeia15",
    "pneu": "pneu_p195_60_Ok",
    "calota": null,
-   "triangulos_lod0": 11160,
+   "triangulos_lod0": 11416,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela15",
    "pneu": "pneu_p165_95_Ok",
    "calota": null,
-   "triangulos_lod0": 10068,
+   "triangulos_lod0": 10324,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela15",
    "pneu": "pneu_p205_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10072,
+   "triangulos_lod0": 10328,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela15",
    "pneu": "pneu_p165_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10076,
+   "triangulos_lod0": 10332,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela15",
    "pneu": "pneu_p215_75_Ok",
    "calota": null,
-   "triangulos_lod0": 10040,
+   "triangulos_lod0": 10296,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela15",
    "pneu": "pneu_p185_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10076,
+   "triangulos_lod0": 10332,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela15",
    "pneu": "pneu_p195_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10056,
+   "triangulos_lod0": 10312,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_estrela15",
    "pneu": "pneu_p195_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10056,
+   "triangulos_lod0": 10312,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_fundo15",
    "pneu": "pneu_p165_95_Ok",
    "calota": null,
-   "triangulos_lod0": 10444,
+   "triangulos_lod0": 10700,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_fundo15",
    "pneu": "pneu_p205_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10448,
+   "triangulos_lod0": 10704,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_fundo15",
    "pneu": "pneu_p165_80_Ok",
    "calota": null,
-   "triangulos_lod0": 10452,
+   "triangulos_lod0": 10708,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_fundo15",
    "pneu": "pneu_p215_75_Ok",
    "calota": null,
-   "triangulos_lod0": 10416,
+   "triangulos_lod0": 10672,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_fundo15",
    "pneu": "pneu_p185_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10452,
+   "triangulos_lod0": 10708,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_fundo15",
    "pneu": "pneu_p195_50_Ok",
    "calota": null,
-   "triangulos_lod0": 10432,
+   "triangulos_lod0": 10688,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_fundo15",
    "pneu": "pneu_p195_60_Ok",
    "calota": null,
-   "triangulos_lod0": 10432,
+   "triangulos_lod0": 10688,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape15",
    "pneu": "pneu_p165_95_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10116,
+   "triangulos_lod0": 10372,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape15",
    "pneu": "pneu_p205_60_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10120,
+   "triangulos_lod0": 10376,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape15",
    "pneu": "pneu_p165_80_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10124,
+   "triangulos_lod0": 10380,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape15",
    "pneu": "pneu_p215_75_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10088,
+   "triangulos_lod0": 10344,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape15",
    "pneu": "pneu_p185_50_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10124,
+   "triangulos_lod0": 10380,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape15",
    "pneu": "pneu_p195_50_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10104,
+   "triangulos_lod0": 10360,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape15",
    "pneu": "pneu_p195_60_Ok",
    "calota": "calota15",
-   "triangulos_lod0": 10104,
+   "triangulos_lod0": 10360,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape16",
    "pneu": "pneu_p205_70_Ok",
    "calota": null,
-   "triangulos_lod0": 9216,
+   "triangulos_lod0": 9472,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape16",
    "pneu": "pneu_p215_70_Ok",
    "calota": null,
-   "triangulos_lod0": 9196,
+   "triangulos_lod0": 9452,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_picape16",
    "pneu": "pneu_p205_55_Ok",
    "calota": null,
-   "triangulos_lod0": 9252,
+   "triangulos_lod0": 9508,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_van16",
    "pneu": "pneu_p205_70_Ok",
    "calota": null,
-   "triangulos_lod0": 9376,
+   "triangulos_lod0": 9632,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_van16",
    "pneu": "pneu_p215_70_Ok",
    "calota": null,
-   "triangulos_lod0": 9356,
+   "triangulos_lod0": 9612,
    "dentro_do_orcamento": true
   },
   {
    "aro": "aro_van16",
    "pneu": "pneu_p205_55_Ok",
    "calota": null,
-   "triangulos_lod0": 9412,
+   "triangulos_lod0": 9668,
    "dentro_do_orcamento": true
   }
  ]

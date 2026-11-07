@@ -654,6 +654,11 @@ def perfil_pneu(M):
     (o normal map tem a banda em v de 0,3 a 0,7) e o índice dos pontos da banda."""
     Rb, W, S, H, R, T = M["Rb"], M["W"], M["S"], M["H"], M["R"], M["T"]
     talao = [(Rb + 0.0175, W - 0.0015), (Rb + 0.0215, W + 0.0040)]
+    # 07/11 (captura do PC: "falta o vão escuro entre o aro e o pneu"): um anel a 3,2 cm do assento, no caminho do talão ao flanco, separa
+    # a faixa do talão, que vai para o material pneu_vao (borracha na sombra da aba do aro)
+    f0 = (Rb + 0.28 * H, S - 0.0040)
+    k = (0.032 - 0.0215) / max(0.28 * H - 0.0215, 0.012)
+    talao.append((Rb + 0.0215 + k * (f0[0] - Rb - 0.0215), W + 0.0040 + k * (f0[1] - W - 0.0040)))
     flanco = [(Rb + 0.28 * H, S - 0.0040), (Rb + 0.55 * H, S), (Rb + 0.80 * H, S - 0.0050), (R - 0.0100, T + 0.0090),
               (R - 0.0012, T - 0.0030)]
     lado = talao + flanco
@@ -681,6 +686,12 @@ def pneu_ok(pid):
     m = Malha(f"pneu_{pid}_Ok")
     # fechado pelo forro (cilindro escondido no poço do aro)
     revolucao(m, pts, "pneu", n=SEG, fechado=True, vs=vs, urep=NB_BLOCOS)
+    # o talão de fora (do assento até o anel de 3,2 cm) vira o vão escuro; o de dentro não aparece
+    lim = M["Rb"] + 0.0322
+    for i, (idx, mat, uv) in enumerate(m.f):
+        ps = [m.v[j] for j in idx]
+        if all(math.hypot(p[0], p[2]) <= lim and p[1] > 0 for p in ps):
+            m.f[i] = (idx, "pneu_vao", uv)
     return m, M
 
 
@@ -944,6 +955,10 @@ def materiais(out):
     nt.links.new(tx.outputs["Color"], nm.inputs["Color"])
     nt.links.new(nm.outputs["Normal"], b.inputs["Normal"])
     mats["pneu"] = m
+    # 07/11 (captura do PC): o vão entre o aro e o pneu, borracha na sombra da aba (quase preta, sem brilho), e a escrita do flanco um
+    # pouco mais clara e áspera que a borracha, como a letra em relevo gasta de um pneu rodado (sem isso ela some no jogo)
+    mats["pneu_vao"], _ = principled("pneu_vao", (0.005, 0.005, 0.005), 0.0, 1.0, spec=0.2)
+    mats["pneu_letra"], _ = principled("pneu_letra", (0.07, 0.068, 0.064), 0.0, 0.70, spec=0.4)
     return mats
 
 
@@ -988,7 +1003,7 @@ def tri(ob):
     return len(ob.data.loop_triangles)
 
 
-def letreiro_flanco(ob, M, pid, altura=0.0150, relevo=0.0007):
+def letreiro_flanco(ob, M, pid, altura=0.0160, relevo=0.0013):
     """Escrita genérica em relevo no flanco de fora do pneu (06/11, revisão da central: "pneu com flanco e escrita"): a medida, um índice
     de carga inventado de um lado e RADIAL TUBELESS do outro. Sem marca nem nome de modelo de pneu. Letras da fonte embutida do
     Blender, curvadas no raio do meio do flanco e assentadas na curva do perfil."""
@@ -1027,7 +1042,12 @@ def letreiro_flanco(ob, M, pid, altura=0.0150, relevo=0.0007):
         o.data.materials.clear()
         for m in ob.data.materials:
             o.data.materials.append(m)
-        i = [m.name.split(".")[0] for m in ob.data.materials].index("pneu")
+        nomes = [m.name.split(".")[0] for m in ob.data.materials]
+        if "pneu_letra" not in nomes:
+            ob.data.materials.append(bpy.data.materials["pneu_letra"])
+            o.data.materials.append(bpy.data.materials["pneu_letra"])
+            nomes.append("pneu_letra")
+        i = nomes.index("pneu_letra")
         for poly in o.data.polygons:
             poly.material_index = i
             poly.use_smooth = False
