@@ -81,7 +81,9 @@ for pos, cx, cz, s, ys in cantos:
                 continue        # roda de liga sem calota (Tropeiro: RODAS=aro_liga15,pneu_p205_60,; Barão: ...,-)
             o = rodaglb(nome, obj)
             o.location = (cx, y, cz)
-            o.rotation_mode = 'XYZ'; o.rotation_euler = (0, 0, 0 if s > 0 else math.pi)
+            # CAMBAGEM=<graus, negativo = o topo para dentro> (fase P2, 07/11/2026): a mesma conta do jogo, só visual
+            _cb = -math.radians(float(os.environ.get('CAMBAGEM', '0')))
+            o.rotation_mode = 'XYZ'; o.rotation_euler = (_cb, 0, 0 if s > 0 else math.pi)
             if nome.startswith('pneu') and estado != 'Ok':
                 o.location.z = cz  # o pivô é o cubo
 # pintura: a tinta em branco vezes a cor
@@ -287,4 +289,55 @@ if os.environ.get('CAM'):
     q = [float(x) for x in os.environ['CAM'].split(',')]
     cam.location = Vector(q[0:3]); alvo = Vector(q[3:6]); cam.data.lens = q[6]
 cam.rotation_euler = (alvo - cam.location).to_track_quat('-Z', 'Y').to_euler()
+# fase P2 (07/11/2026, Detonauto Core/DNCarRecipe.h): SEGUNDA=<cor linear r,g,b> com SPLIT=teto|faixa|capo e SPLIT_FRAC=<fração da altura>
+# (a segunda cor como o material do jogo: pela altura dentro da caixa da carroceria, ou na peça hood); ALTURA=<cm> (o carro sobe ou desce
+# sobre as rodas); a película é o VIDRO_ALFA de antes
+if os.environ.get('SEGUNDA'):
+    seg = [float(x) for x in os.environ['SEGUNDA'].split(',')]
+    split = os.environ.get('SPLIT', 'teto')
+    body_o = [o for o in bpy.data.objects if o.type == 'MESH' and o.name.split('.')[0] == 'body']
+    zs = [(o.matrix_world @ Vector(cn)).z for o in body_o for cn in o.bound_box]
+    z0, z1 = (min(zs), max(zs)) if zs else (0.0, 1.4)
+    frac = float(os.environ.get('SPLIT_FRAC', '0.82' if split == 'teto' else '0.22'))
+    thr = z0 + frac * (z1 - z0)
+    feitos = set()
+    for o in [x for x in bpy.data.objects if x.type == 'MESH']:
+        for i_, m in enumerate(o.data.materials):
+            if not m or not m.name.startswith('pintura') or m.name.startswith('pintura_interna') or not m.node_tree:
+                continue
+            if split == 'capo':
+                if o.name.split('.')[0] != 'hood':
+                    continue
+                m = m.copy(); o.data.materials[i_] = m
+            elif m.name in feitos:
+                continue
+            feitos.add(m.name)
+            nt = m.node_tree; b = [n for n in nt.nodes if n.type == 'BSDF_PRINCIPLED'][0]
+            if not b.inputs['Base Color'].links:
+                continue
+            src = b.inputs['Base Color'].links[0].from_socket
+            tex = [n for n in nt.nodes if n.type == 'TEX_IMAGE' and n.image == img]
+            seg_c = nt.nodes.new('ShaderNodeMix'); seg_c.data_type = 'RGBA'; seg_c.blend_type = 'MULTIPLY'; seg_c.inputs[0].default_value = 1
+            if tex:
+                nt.links.new(tex[0].outputs[0], seg_c.inputs[6])
+            seg_c.inputs[7].default_value = seg + [1]
+            mx = nt.nodes.new('ShaderNodeMix'); mx.data_type = 'RGBA'
+            if split == 'capo':
+                mx.inputs[0].default_value = 1.0
+            else:
+                geo = nt.nodes.new('ShaderNodeNewGeometry'); sep = nt.nodes.new('ShaderNodeSeparateXYZ')
+                nt.links.new(geo.outputs['Position'], sep.inputs[0])
+                mr = nt.nodes.new('ShaderNodeMapRange')
+                mr.inputs['From Min'].default_value = thr - 0.003; mr.inputs['From Max'].default_value = thr + 0.003
+                mr.inputs['To Min'].default_value = 0.0 if split == 'teto' else 1.0
+                mr.inputs['To Max'].default_value = 1.0 if split == 'teto' else 0.0
+                nt.links.new(sep.outputs['Z'], mr.inputs['Value']); nt.links.new(mr.outputs[0], mx.inputs[0])
+            nt.links.new(src, mx.inputs[6]); nt.links.new(seg_c.outputs[2], mx.inputs[7])
+            nt.links.new(mx.outputs[2], b.inputs['Base Color'])
+if os.environ.get('ALTURA'):
+    dz = float(os.environ['ALTURA']) / 100.0
+    for o in bpy.data.objects:
+        nome = o.name.split('.')[0]
+        if o.type == 'MESH' and nome != 'chao' and not nome.startswith(('aro_', 'pneu_', 'calota', 'tampinha')):
+            o.location.z += dz
 c.render.filepath = out; bpy.ops.render.render(write_still=True)
