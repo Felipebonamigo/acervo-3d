@@ -5,6 +5,7 @@
   "bumper_front__lip",
   "bumper_rear__difusor",
   "bumper_rear__esportivo",
+  "hood__tomada",
   "saia__esportiva",
   "saia__lisa",
   "spoiler__alto",
@@ -19,6 +20,7 @@
   "bumper_front__esportivo": 992,
   "bumper_rear__difusor": 872,
   "bumper_rear__esportivo": 1204,
+  "hood__tomada": 362,
   "saia__lisa": 552,
   "saia__esportiva": 1208
  }

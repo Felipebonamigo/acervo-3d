@@ -16,6 +16,7 @@ Peças:
   bumper_front__lip, bumper_front__esportivo, bumper_front__tubo (tubo só em jipe e picape)
   bumper_rear__difusor, bumper_rear__esportivo
   saia__lisa, saia__esportiva                            (as duas saias num objeto só)
+  hood__tomada                                           (fase P4; fora o Besouro; a fibra o Detonauto deriva do capô de fábrica)
 """
 import json
 import math
@@ -28,6 +29,8 @@ RAIZ = os.path.normpath(os.path.join(AQUI, ".."))
 # carros sem aerofólio (o furgão, o jipe com o estepe na tampa, a picape com caçamba) e os que levam o para-choque de tubo
 SEM_AEROFOLIO = {"furgao-classico", "jipe-capota", "tropeiro"}
 COM_TUBO = {"jipe-capota", "tropeiro"}
+# sem a tomada de ar no capô: o Besouro (o "capô" é a tampa do porta-malas da frente; leva só a fibra)
+SEM_TOMADA = {"besouro"}
 
 
 def args():
@@ -328,6 +331,39 @@ def gerar(idc, glb, out_dir, previa):
                                                         (xf + 0.016, zb - 0.040)]), "pintura")
             difusor(e, zb - 0.040)
             objeto("bumper_rear__esportivo", e)
+
+    # --- capô (fase P4): a tomada de ar no meio do capô, assentada nele por raios, com a boca escura virada para a frente e a rampa que
+    # morre na chapa atrás; o acréscimo é somado a uma cópia do capô de fábrica na montagem, como nos para-choques. A "fibra" (o capô
+    # inteiro escuro) não sai daqui: o juntar_pecas_receita.py do Detonauto a deriva do capô de fábrica, sem pesar o GLB do acervo
+    if "hood" in objs and idc not in SEM_TOMADA:
+        mn, mx = caixa_de(objs["hood"])
+        L = mx[0] - mn[0]
+        Wc = mx[1] - mn[1]
+        larg = min(0.40, Wc * 0.30)
+        x_boca = mn[0] + L * 0.62
+        x_fim = mn[0] + L * 0.18
+        alt = 0.075
+        secoes = []
+        n = 8
+        for k in range(n):
+            t = k / (n - 1)
+            x = x_boca + (x_fim - x_boca) * t
+            h = alt * (1.0 - t) ** 1.3 + 0.004
+            zs = [chao_em(x, y, mx[2] + 0.5) for y in (-larg / 2, 0.0, larg / 2)]
+            if any(z is None for z in zs):
+                continue
+            zl, zm, zr = zs
+            sec = [(-larg / 2, zl - 0.004), (larg / 2, zr - 0.004), (larg * 0.42, zm + h), (-larg * 0.42, zm + h)]
+            secoes.append((x, sec))
+        if len(secoes) >= 3:
+            tom = Peca()
+            tom.fita_x(secoes, "pintura")
+            x0, sec0 = secoes[0]
+            z_base = min(z for _, z in sec0)
+            z_topo = max(z for _, z in sec0)
+            # a boca: uma placa escura logo atrás da face da frente (a face da frente fica pintada, como a borda da tomada)
+            tom.caixa((x0 - 0.004, -larg * 0.38, z_base + 0.006), (x0 + 0.003, larg * 0.38, z_topo - 0.007), "chassi")
+            objeto("hood__tomada", tom)
 
     # --- saias: entre as caixas de roda, seguindo a lateral da carroceria por raios
     if rodas:
