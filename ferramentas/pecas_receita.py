@@ -453,7 +453,16 @@ def gerar(idc, glb, out_dir, previa):
         for nome, mat in (("cromado", "cromo"), ("preto", "chassi")):
             cap = Peca()
             for o in espelhos:
-                a, b = caixa_de(o)
+                # só a cabeça do espelho: os 16 cm de fora (a caixa inteira pega a haste, e no Pão de Forma e no jipe a capa virava um
+                # bloco do tamanho do braço)
+                ps = pontos(o)
+                y_ext = max(abs(p.y) for p in ps)
+                cab = [p for p in ps if abs(p.y) >= y_ext - 0.16]
+                zc = sorted(p.z for p in cab)
+                z_meio = zc[len(zc) // 2]
+                cab = [p for p in cab if abs(p.z - z_meio) <= 0.11]
+                a = [min(p[i] for p in cab) for i in range(3)]
+                b = [max(p[i] for p in cab) for i in range(3)]
                 folga = 0.005
                 # a capa cobre a frente, o topo e o lado de fora (a face de trás, com o espelho, fica aberta)
                 lado = 1 if (a[1] + b[1]) > 0 else -1
