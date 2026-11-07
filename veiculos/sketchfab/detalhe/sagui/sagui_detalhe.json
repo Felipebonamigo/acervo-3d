@@ -9,24 +9,7 @@
   "hood": 104,
   "trunk": 280
  },
- "emblema": {
-  "frente": {
-   "peca": "bumper_front",
-   "ponto": [
-    1.885,
-    0.0,
-    0.7
-   ]
-  },
-  "tras": {
-   "peca": "trunk",
-   "ponto": [
-    -1.698,
-    0.0,
-    0.94
-   ]
-  }
- },
+ "emblema": {},
  "espelho": {
   "mirror_left": [
    0.192,
@@ -59,15 +42,6 @@
   "plate_rear"
  ],
  "pecas": [
-  {
-   "nome": "det_bumper_front",
-   "segue": "bumper_front",
-   "triangulos": 92,
-   "materiais": [
-    "chassi",
-    "cromo"
-   ]
-  },
   {
    "nome": "det_door_fl",
    "segue": "door_fl",
@@ -111,12 +85,11 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 652,
+   "triangulos": 560,
    "materiais": [
-    "chassi",
-    "cromo"
+    "chassi"
    ]
   }
  ],
- "triangulos": 1970
+ "triangulos": 1786
 }

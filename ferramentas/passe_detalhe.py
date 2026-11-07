@@ -66,7 +66,9 @@ CARROS = {
     "jipe-capota": dict(nome="Trilheiro", antena=True),
     "lambari": dict(nome="Lambari", antena=True, limpador=False),
     "jabuti": dict(nome="Jabuti"),
-    "sagui": dict(nome="Sagui", ponteira=False, limpador=False),
+    # sem o emblema próprio (rodada do PC de 07/11): no Sagui ele cai na ponta do capô, onde o modelo original tinha o oval da marca, e
+    # lê como emblema de marca; a frente e a tampa ficam lisas
+    "sagui": dict(nome="Sagui", ponteira=False, limpador=False, sem_emblema=True),
 }
 
 M_PRETO, M_CROMO, M_PINTURA, M_LUZ, M_VIDRO = "chassi", "cromo", "pintura", "luz_branca", "vidro"
