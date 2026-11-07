@@ -289,6 +289,21 @@ if os.environ.get('CAM'):
     q = [float(x) for x in os.environ['CAM'].split(',')]
     cam.location = Vector(q[0:3]); alvo = Vector(q[3:6]); cam.data.lens = q[6]
 cam.rotation_euler = (alvo - cam.location).to_track_quat('-Z', 'Y').to_euler()
+# fase P3 (07/11/2026): PECAS=<pecas.glb>:<obj>,<obj> põe as peças da receita (acervo ferramentas/pecas_receita.py) com os materiais do
+# corte (pintura e chassi pelo nome); o acréscimo do para-choque soma à peça de fábrica, como o Detonauto junta na montagem
+if os.environ.get('PECAS'):
+    _arq, _lista = os.environ['PECAS'].split(':', 1)
+    _quero = set(x for x in _lista.split(',') if x)
+    _novos = imp(_arq)
+    for o in _novos:
+        if o.type != 'MESH' or o.name.split('.')[0] not in _quero:
+            bpy.data.objects.remove(o)
+            continue
+        for sl in o.material_slots:
+            if sl.material is not None:
+                base_m = bpy.data.materials.get(sl.material.name.split('.')[0])
+                if base_m is not None and base_m is not sl.material:
+                    sl.material = base_m
 # fase P2 (07/11/2026, Detonauto Core/DNCarRecipe.h): SEGUNDA=<cor linear r,g,b> com SPLIT=teto|faixa|capo e SPLIT_FRAC=<fração da altura>
 # (a segunda cor como o material do jogo: pela altura dentro da caixa da carroceria, ou na peça hood); ALTURA=<cm> (o carro sobe ou desce
 # sobre as rodas); a película é o VIDRO_ALFA de antes

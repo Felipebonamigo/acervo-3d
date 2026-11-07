@@ -1,0 +1,17 @@
+{
+ "id": "barao",
+ "pecas": [
+  "saia__esportiva",
+  "saia__lisa",
+  "spoiler__alto",
+  "spoiler__labio",
+  "spoiler__medio"
+ ],
+ "triangulos": {
+  "spoiler__labio": 80,
+  "spoiler__medio": 546,
+  "spoiler__alto": 546,
+  "saia__lisa": 552,
+  "saia__esportiva": 1208
+ }
+}
