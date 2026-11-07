@@ -1,18 +1,34 @@
 {
  "id": "barao",
  "pecas": [
+  "escapamento__central",
+  "escapamento__duplo",
+  "grade__barras",
+  "grade__tela",
   "hood__tomada",
+  "retrovisor__cromado",
+  "retrovisor__preto",
   "saia__esportiva",
   "saia__lisa",
   "spoiler__alto",
   "spoiler__labio",
-  "spoiler__medio"
+  "spoiler__medio",
+  "teto__bagageiro",
+  "teto__solar"
  ],
  "triangulos": {
   "spoiler__labio": 80,
   "spoiler__medio": 546,
   "spoiler__alto": 546,
   "hood__tomada": 332,
+  "escapamento__duplo": 752,
+  "escapamento__central": 376,
+  "teto__solar": 216,
+  "teto__bagageiro": 1012,
+  "retrovisor__cromado": 216,
+  "retrovisor__preto": 216,
+  "grade__tela": 552,
+  "grade__barras": 324,
   "saia__lisa": 552,
   "saia__esportiva": 1208
  }

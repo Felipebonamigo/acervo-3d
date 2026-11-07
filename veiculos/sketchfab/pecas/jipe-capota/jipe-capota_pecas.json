@@ -6,9 +6,16 @@
   "bumper_front__tubo",
   "bumper_rear__difusor",
   "bumper_rear__esportivo",
+  "escapamento__central",
+  "escapamento__duplo",
+  "grade__barras",
+  "grade__tela",
   "hood__tomada",
+  "retrovisor__cromado",
+  "retrovisor__preto",
   "saia__esportiva",
-  "saia__lisa"
+  "saia__lisa",
+  "teto__bagageiro"
  ],
  "triangulos": {
   "bumper_front__lip": 324,
@@ -17,6 +24,13 @@
   "bumper_rear__difusor": 976,
   "bumper_rear__esportivo": 1412,
   "hood__tomada": 332,
+  "escapamento__duplo": 752,
+  "escapamento__central": 376,
+  "teto__bagageiro": 1012,
+  "retrovisor__cromado": 216,
+  "retrovisor__preto": 216,
+  "grade__tela": 456,
+  "grade__barras": 1188,
   "saia__lisa": 584,
   "saia__esportiva": 1280
  }

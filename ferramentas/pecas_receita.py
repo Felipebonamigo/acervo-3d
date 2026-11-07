@@ -17,6 +17,10 @@ Peças:
   bumper_rear__difusor, bumper_rear__esportivo
   saia__lisa, saia__esportiva                            (as duas saias num objeto só)
   hood__tomada                                           (fase P4; fora o Besouro; a fibra o Detonauto deriva do capô de fábrica)
+  escapamento__duplo, escapamento__central               (fase P4; presos à carroceria, como a saia)
+  teto__solar, teto__bagageiro                           (fase P4; sem bagageiro no Furgãozinho e no Pão de Forma)
+  retrovisor__cromado, retrovisor__preto                 (fase P4; a capa por cima da concha de fábrica)
+  grade__tela, grade__barras                             (fase P4; só nos carros com a grade como peça do corte)
 """
 import json
 import math
@@ -31,6 +35,9 @@ SEM_AEROFOLIO = {"furgao-classico", "jipe-capota", "tropeiro"}
 COM_TUBO = {"jipe-capota", "tropeiro"}
 # sem a tomada de ar no capô: o Besouro (o "capô" é a tampa do porta-malas da frente; leva só a fibra)
 SEM_TOMADA = {"besouro"}
+# o teto: o Furgãozinho já tem bagageiro de fábrica e o Pão de Forma não leva; o jipe de capota mole e a picape ficam sem solar
+SEM_BAGAGEIRO = {"furgaozinho", "furgao-classico"}
+SEM_SOLAR = {"jipe-capota", "furgao-classico"}
 
 
 def args():
@@ -166,6 +173,10 @@ def gerar(idc, glb, out_dir, previa):
     chassi = mats.get("chassi") or mats.get("MI_DNChassi")
     if pintura is None or chassi is None:
         raise RuntimeError("%s: o corte não tem os materiais pintura e chassi" % idc)
+    # fase P4: as ponteiras e as capas dos retrovisores em cromo, o teto solar em vidro (sem eles no corte, o chassi)
+    cromo = mats.get("cromado") or mats.get("cromo") or chassi
+    vidro = mats.get("vidro") or chassi
+    ORDEM = ("pintura", "chassi", "cromo", "vidro")
     mapa = json.load(open(os.path.join(os.path.dirname(glb), idc + "_mapa.json"), encoding="utf-8"))
 
     def pontos(o):
@@ -194,13 +205,14 @@ def gerar(idc, glb, out_dir, previa):
 
     cria = []
 
-    def objeto(nome, peca, base=None):
+    def objeto(nome, peca, base=None, chanfro=True):
         me = bpy.data.meshes.new(nome)
         me.from_pydata(peca.v, [], [f for f, _ in peca.f])
-        me.materials.append(pintura)
-        me.materials.append(chassi)
+        usados = [m for m in ORDEM if any(mat == m for _, mat in peca.f)]
+        for m in usados:
+            me.materials.append({"pintura": pintura, "chassi": chassi, "cromo": cromo, "vidro": vidro}[m])
         for poly, (_, mat) in zip(me.polygons, peca.f):
-            poly.material_index = 0 if mat == "pintura" else 1
+            poly.material_index = usados.index(mat)
         me.validate()
         me.update()
         ob = bpy.data.objects.new(nome, me)
@@ -211,7 +223,7 @@ def gerar(idc, glb, out_dir, previa):
         bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
         # chanfro de 3 mm nas quinas vivas: a peça de plástico injetado ou de fibra nunca tem aresta de faca (com ela, a caixa lia como
         # protótipo); só nas arestas de ângulo fechado, para o perfil curvo da asa não dobrar de número
-        vivas = [e for e in bm.edges if len(e.link_faces) == 2 and e.calc_face_angle(0.0) > math.radians(50)]
+        vivas = [e for e in bm.edges if len(e.link_faces) == 2 and e.calc_face_angle(0.0) > math.radians(50)] if chanfro else []
         if vivas:
             bmesh.ops.bevel(bm, geom=vivas, offset=0.003, segments=2, affect="EDGES", profile=0.5)
         bm.to_mesh(ob.data)
@@ -364,6 +376,117 @@ def gerar(idc, glb, out_dir, previa):
             # a boca: uma placa escura logo atrás da face da frente (a face da frente fica pintada, como a borda da tomada)
             tom.caixa((x0 - 0.004, -larg * 0.38, z_base + 0.006), (x0 + 0.003, larg * 0.38, z_topo - 0.007), "chassi")
             objeto("hood__tomada", tom)
+
+    # --- escapamento (fase P4): ponteiras na traseira, embaixo do para-choque; a ponteira simples do passe de detalhe é a de fábrica.
+    # Duplo: uma de cada lado; central: uma grande no meio. Tubo de cromo com o miolo escuro, preso à carroceria (o jogo a prende ao
+    # body, como a saia)
+    traseira = objs.get("bumper_rear") or objs.get("body")
+    if traseira is not None:
+        mn, mx = caixa_de(traseira)
+        Wt = mx[1] - mn[1]
+        z_cano = mn[2] + 0.045
+        x_fim = mn[0] - 0.02
+
+        def ponteira(p, y, r, comp=0.16):
+            p.tubo_x((x_fim + comp, y, z_cano), (x_fim, y, z_cano), r, "cromo", lados=16)
+            p.tubo_x((x_fim + 0.0005, y, z_cano), (x_fim - 0.0015, y, z_cano), r * 0.80, "chassi", lados=16)
+
+        duplo = Peca()
+        for y in (-Wt * 0.30, Wt * 0.30):
+            ponteira(duplo, y, 0.032)
+        objeto("escapamento__duplo", duplo)
+        central = Peca()
+        ponteira(central, 0.0, 0.048, 0.20)
+        objeto("escapamento__central", central)
+
+    # --- teto (fase P4): o solar (painel de vidro escuro com a moldura preta, assentado no teto por raios) e o bagageiro (duas barras
+    # longas em pés e três travessas). O Furgãozinho já tem bagageiro de fábrica e o Pão de Forma não leva; o jipe de capota mole fica
+    # sem solar
+    corpo_b = objs.get("body")
+    if corpo_b is not None:
+        mn, mx = caixa_de(corpo_b)
+        z_teto = chao_em(0.0, 0.0, mx[2] + 0.5)
+        if z_teto is not None and z_teto > mn[2] + 0.9:
+            # o teto plano: até onde, para a frente e para trás, ele fica a 4 cm do ponto mais alto
+            xs = [k * 0.05 for k in range(-40, 41)]
+            alto = [(x, chao_em(x, 0.0, mx[2] + 0.5)) for x in xs]
+            plano = [x for x, z in alto if z is not None and z > z_teto - 0.04]
+            if plano:
+                xa, xb = min(plano), max(plano)
+                Wr = (mx[1] - mn[1]) * 0.5
+                if idc not in SEM_SOLAR and xb - xa > 0.6:
+                    sol = Peca()
+                    c = (xa + xb) / 2
+                    L2, W2 = min(0.36, (xb - xa) * 0.32), Wr * 0.46
+                    zc = max(chao_em(x, y, mx[2] + 0.5) or z_teto for x in (c - L2, c + L2) for y in (-W2, W2))
+                    sol.caixa((c - L2 - 0.02, -W2 - 0.02, zc - 0.002), (c + L2 + 0.02, W2 + 0.02, zc + 0.004), "chassi")
+                    sol.caixa((c - L2, -W2, zc + 0.004), (c + L2, W2, zc + 0.007), "vidro")
+                    objeto("teto__solar", sol)
+                # a meia-largura do teto plano no meio dele (a lateral do teto cai antes da carroceria: com a largura da carroceria, as
+                # barras passavam da borda e os pés desciam pela coluna)
+                c_teto = (xa + xb) / 2
+                y_teto = 0.0
+                for k in range(1, 60):
+                    y = k * 0.0125
+                    z = chao_em(c_teto, y, mx[2] + 0.5)
+                    if z is None or z < z_teto - 0.04:
+                        break
+                    y_teto = y
+                if idc not in SEM_BAGAGEIRO and xb - xa > 0.6 and y_teto > 0.25:
+                    bag = Peca()
+                    y_barra = y_teto * 0.85
+                    z_barra = z_teto + 0.075
+                    for y in (-y_barra, y_barra):
+                        bag.tubo_x((xa + 0.02, y, z_barra), (xb - 0.02, y, z_barra), 0.014, "chassi")
+                        for x in (xa + 0.06, xb - 0.06):
+                            zp = chao_em(x, y, mx[2] + 0.5) or z_teto
+                            bag.caixa((x - 0.03, y - 0.018, zp - 0.003), (x + 0.03, y + 0.018, z_barra), "chassi")
+                    for k in range(3):
+                        x = xa + 0.12 + (xb - xa - 0.24) * k / 2
+                        bag.tubo_x((x, -y_barra, z_barra + 0.016), (x, y_barra, z_barra + 0.016), 0.011, "chassi")
+                    objeto("teto__bagageiro", bag)
+
+    # --- retrovisores (fase P4): a capa por cima da concha de fábrica (5 mm maior por todos os lados, nas faces de fora e de cima), em
+    # cromo ou preta
+    espelhos = [objs[n] for n in ("mirror_left", "mirror_right") if n in objs]
+    if espelhos:
+        for nome, mat in (("cromado", "cromo"), ("preto", "chassi")):
+            cap = Peca()
+            for o in espelhos:
+                a, b = caixa_de(o)
+                folga = 0.005
+                # a capa cobre a frente, o topo e o lado de fora (a face de trás, com o espelho, fica aberta)
+                lado = 1 if (a[1] + b[1]) > 0 else -1
+                y_fora = b[1] + folga if lado > 0 else a[1] - folga
+                y_dentro = a[1] if lado > 0 else b[1]
+                y0, y1 = min(y_fora, y_dentro), max(y_fora, y_dentro)
+                xm = (a[0] + b[0]) / 2
+                cap.caixa((xm, y0, a[2] - folga), (b[0] + folga, y1, b[2] + folga), mat)
+            objeto("retrovisor__" + nome, cap)
+
+    # --- grade (fase P4): a tela na abertura da grade de fábrica (desenho próprio: losangos de barras finas, nunca o desenho de uma
+    # marca) e a de barras horizontais grossas, 6 mm à frente da grade de fábrica
+    if "grille" in objs:
+        a, b = caixa_de(objs["grille"])
+        x_g = b[0] + 0.006
+        y0, y1, z0, z1 = a[1] + 0.01, b[1] - 0.01, a[2] + 0.008, b[2] - 0.008
+        if y1 - y0 > 0.2 and z1 - z0 > 0.04:
+            tela = Peca()
+            tela.caixa((x_g - 0.004, y0 - 0.008, z0 - 0.008), (x_g + 0.002, y1 + 0.008, z0), "chassi")
+            tela.caixa((x_g - 0.004, y0 - 0.008, z1), (x_g + 0.002, y1 + 0.008, z1 + 0.008), "chassi")
+            passo = 0.045
+            n = int((y1 - y0) / passo)
+            for k in range(n + 1):
+                y = y0 + (y1 - y0) * k / max(n, 1)
+                tela.tubo_x((x_g, y - (z1 - z0) * 0.5, z0), (x_g, y + (z1 - z0) * 0.5, z1), 0.003, "chassi", lados=4)
+                tela.tubo_x((x_g, y + (z1 - z0) * 0.5, z0), (x_g, y - (z1 - z0) * 0.5, z1), 0.003, "chassi", lados=4)
+            objeto("grade__tela", tela, chanfro=False)   # barras de 3 mm: o chanfro multiplicava os triângulos por 13
+            barras = Peca()
+            nb = max(2, int((z1 - z0) / 0.035))
+            for k in range(nb):
+                zc = z0 + (z1 - z0) * (k + 0.5) / nb
+                barras.caixa((x_g - 0.004, y0, zc - 0.007), (x_g + 0.006, y1, zc + 0.007), "chassi")
+            objeto("grade__barras", barras)
 
     # --- saias: entre as caixas de roda, seguindo a lateral da carroceria por raios
     if rodas:
