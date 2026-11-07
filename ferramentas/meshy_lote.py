@@ -67,6 +67,7 @@ def fase_preview(caminho):
         corpo = {"mode": "preview", "prompt": it["prompt"], "ai_model": it.get("ai_model", "latest"),
                  "should_remesh": True, "topology": "triangle",
                  "target_polycount": it.get("polycount", 20000)}
+        if it.get("art_style"): corpo["art_style"] = it["art_style"]
         r = req("POST", "/openapi/v2/text-to-3d", corpo)
         it["preview_id"] = r["result"]; it["preview_criado"] = agora()
         salva(caminho, m)
