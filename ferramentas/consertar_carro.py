@@ -4,11 +4,15 @@ Conserto dos defeitos que a auditar_carro.py acha (08/11/2026), no GLB do corte 
     coerente (bmesh recalc_face_normals, por ilha). No Unreal a pintura é de um lado só: a face invertida some ("parece que ficou cortado
     alguma parte", o Felipe em 08/11). Fica atrás da opção porque, na prévia de um lado só (auditar_previa.py --um-lado), as 346 arestas
     invertidas do Barão não abrem buraco visível: estão por dentro, e refazer as normais de uma casca aberta pode virar a face certa;
-  - buracos nos vidros (glass_*): os laços de borda solta de até --vidro-max-cm2 que não são a borda da peça viram face (o buraco no vidro
-    tira o reflexo num círculo, visível a 1 m).
+  - buracos nos vidros (glass_*, só com --tapar-vidros): os laços de borda solta de até --vidro-max-cm2 que não são a borda da peça viram face (o buraco no vidro
+    tira o reflexo num círculo, visível a 1 m). Fica atrás da opção: os vidros dos cortes vêm em "sopa de triângulos", e os "buracos"
+    deles eram as costuras entre triângulos colados (a auditoria solda antes de contar e não acha nenhum); tapar costura empilha face;
+  - vidro que falta (--vidro-vao x,y,z:peca, repetível): o vão da carroceria (body) cujo meio fica a até 10 cm do ponto [m, espaço do
+    GLB] ganha uma face de vidro na peça de vidro dada (o vidro fixo da coluna de trás do Furgãozinho não existia: via-se a cabine pelo
+    buraco). A face vai com o primeiro material da peça.
 Não mexe em mais nada (materiais, nomes, UV e texturas voltam como vieram, pelo exportador glTF do Blender).
 
-    python -I ferramentas/consertar_carro.py -- <carro.glb> [--normais] [--min-invertidas 20] [--vidro-max-cm2 300] [--saida outro.glb]
+    python -I ferramentas/consertar_carro.py -- <carro.glb> [--normais] [--min-invertidas 20] [--vidro-vao x,y,z:peca ...] [--vidro-max-cm2 300] [--saida outro.glb]
 """
 import bpy
 import bmesh
@@ -83,6 +87,43 @@ def ilha_de(bm):
 
 
 relatorio = []
+VAOS = []
+for i, a in enumerate(argv):
+    if a == '--vidro-vao':
+        ponto, peca = argv[i + 1].split(':')
+        VAOS.append((Vector(tuple(float(x) for x in ponto.split(','))), peca))
+body = bpy.data.objects.get('body')
+for ponto, peca in VAOS:
+    alvo = bpy.data.objects.get(peca)
+    if not body or not alvo:
+        relatorio.append(f'vidro no vão {tuple(round(v, 3) for v in ponto)}: falta body ou {peca}')
+        continue
+    bb = bmesh.new()
+    bb.from_mesh(body.data)
+    bb.transform(body.matrix_world)
+    bmesh.ops.remove_doubles(bb, verts=bb.verts[:], dist=0.0002)
+    melhor = None
+    for le, lv in lacos(bb):
+        meio = sum((v.co for v in lv), Vector()) / len(lv)
+        d = (meio - ponto).length
+        if d < 0.10 and (melhor is None or d < melhor[0]):
+            melhor = (d, [v.co.copy() for v in lv])
+    bb.free()
+    if not melhor:
+        relatorio.append(f'vidro no vão {tuple(round(v, 3) for v in ponto)}: nenhum vão a até 10 cm')
+        continue
+    bm = bmesh.new()
+    bm.from_mesh(alvo.data)
+    inv = alvo.matrix_world.inverted()
+    novos = [bm.verts.new(inv @ c) for c in melhor[1]]
+    face = bm.faces.new(novos)
+    face.material_index = 0
+    bmesh.ops.triangulate(bm, faces=[face])
+    bm.normal_update()
+    bm.to_mesh(alvo.data)
+    alvo.data.update()
+    bm.free()
+    relatorio.append(f'{peca}: vidro novo no vão de {len(melhor[1])} vértices perto de {tuple(round(v, 3) for v in ponto)}')
 for o in [o for o in bpy.data.objects if o.type == 'MESH']:
     bm = bmesh.new()
     bm.from_mesh(o.data)
@@ -93,7 +134,7 @@ for o in [o for o in bpy.data.objects if o.type == 'MESH']:
         depois = sum(1 for e in bm.edges if len(e.link_faces) == 2 and not e.is_contiguous)
         relatorio.append(f'{o.name}: {inv} aresta(s) invertida(s) -> {depois}')
         mudou = True
-    if o.name.startswith('glass_'):
+    if '--tapar-vidros' in argv and o.name.startswith('glass_'):
         marca = ilha_de(bm)
         por_ilha = {}
         for le, lv in lacos(bm):
