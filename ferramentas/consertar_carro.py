@@ -10,9 +10,15 @@ Conserto dos defeitos que a auditar_carro.py acha (08/11/2026), no GLB do corte 
   - vidro que falta (--vidro-vao x,y,z:peca, repetível): o vão da carroceria (body) cujo meio fica a até 10 cm do ponto [m, espaço do
     GLB] ganha uma face de vidro na peça de vidro dada (o vidro fixo da coluna de trás do Furgãozinho não existia: via-se a cabine pelo
     buraco). A face vai com o primeiro material da peça.
+  - chapa ondulada (--alisar peca[:níveis], repetível, 09/11/2026): a peça é soldada (0,2 mm), subdividida em Catmull-Clark (1 nível) e
+    cada vértice de borda volta ao contorno de antes (a peça não encolhe nem abre fresta). A tampa do Pampeiro (hatch-redondo-5p, trunk)
+    era grossa, com triângulos de 3 a 4 cm, e o horizonte refletido quebrava em faixas serrilhadas: "mancha serrilhada, faixa";
+  - borda em dente de serra (--borda-baixo peca, repetível): na faixa de baixo da peça (o quarto de baixo da altura), uma curva lisa
+    (grau 4) pelos vales dos dentes e as pontas que descem abaixo dela sobem até ela (o vidro traseiro do Pampeiro).
 Não mexe em mais nada (materiais, nomes, UV e texturas voltam como vieram, pelo exportador glTF do Blender).
 
-    python -I ferramentas/consertar_carro.py -- <carro.glb> [--normais] [--min-invertidas 20] [--vidro-vao x,y,z:peca ...] [--vidro-max-cm2 300] [--saida outro.glb]
+    python -I ferramentas/consertar_carro.py -- <carro.glb> [--normais] [--min-invertidas 20] [--vidro-vao x,y,z:peca ...] [--vidro-max-cm2 300]
+        [--alisar peca[:níveis] ...] [--borda-baixo peca ...] [--saida outro.glb]
 """
 import bpy
 import bmesh
@@ -124,6 +130,104 @@ for ponto, peca in VAOS:
     alvo.data.update()
     bm.free()
     relatorio.append(f'{peca}: vidro novo no vão de {len(melhor[1])} vértices perto de {tuple(round(v, 3) for v in ponto)}')
+def alisar(o, niveis):
+    from mathutils import kdtree
+    from mathutils.geometry import intersect_point_line
+    me = o.data
+    antes = len(me.polygons)
+    b = bmesh.new()
+    b.from_mesh(me)
+    bmesh.ops.remove_doubles(b, verts=b.verts[:], dist=0.0002)
+    segs = [(e.verts[0].co.copy(), e.verts[1].co.copy()) for e in b.edges if e.is_boundary]
+    b.to_mesh(me)
+    b.free()
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.context.view_layer.objects.active = o
+    o.select_set(True)
+    if me.has_custom_normals:
+        bpy.ops.mesh.customdata_custom_splitnormals_clear()
+    m = o.modifiers.new('alisar', 'SUBSURF')
+    m.levels = m.render_levels = niveis
+    m.boundary_smooth = 'PRESERVE_CORNERS'
+    bpy.ops.object.modifier_apply(modifier=m.name)
+    kd = kdtree.KDTree(len(segs))
+    for i, (p, q) in enumerate(segs):
+        kd.insert((p + q) / 2, i)
+    kd.balance()
+    b = bmesh.new()
+    b.from_mesh(me)
+    for v in b.verts:
+        if not v.is_boundary:
+            continue
+        melhor = None
+        for _, i, _ in kd.find_n(v.co, 8):
+            p, q = segs[i]
+            _, t = intersect_point_line(v.co, p, q)
+            c = p.lerp(q, min(max(t, 0.0), 1.0))
+            if melhor is None or (c - v.co).length < (melhor - v.co).length:
+                melhor = c
+        if melhor is not None:
+            v.co = melhor
+    b.to_mesh(me)
+    b.free()
+    for p in me.polygons:
+        p.use_smooth = True
+    me.update()
+    return antes, len(me.polygons)
+
+
+def borda_baixo(o):
+    import numpy as np
+    M = o.matrix_world
+    Mi = M.inverted()
+    b = bmesh.new()
+    b.from_mesh(o.data)
+    bmesh.ops.remove_doubles(b, verts=b.verts[:], dist=0.0002)
+    vs = list(b.verts)
+    W = np.array([tuple(M @ v.co) for v in vs])
+    zmin, zmax = W[:, 2].min(), W[:, 2].max()
+    baixo = np.where(W[:, 2] < zmin + (zmax - zmin) * 0.25)[0]
+    y, z = W[baixo, 1], W[baixo, 2]
+    # o mais baixo de cada fatia de 1,5 cm (a ponta ou o vale) e, de cada 6 cm, o mais alto desses (o vale do dente)
+    fatia = np.floor((y - y.min()) / 0.015).astype(int)
+    pontas = {}
+    for k, f in enumerate(fatia):
+        if f not in pontas or z[k] < z[pontas[f]]:
+            pontas[f] = k
+    vales = {}
+    for f, k in pontas.items():
+        if f // 4 not in vales or z[k] > z[vales[f // 4]]:
+            vales[f // 4] = k
+    c = np.polyfit([y[k] for k in vales.values()], [z[k] for k in vales.values()], 4)
+    zf = np.polyval(c, y)
+    subir = (zf - z) > 0.002
+    for i, ok, zz in zip(baixo, subir, zf):
+        if ok:
+            w = M @ vs[i].co
+            w.z = zz
+            vs[i].co = Mi @ w
+    b.to_mesh(o.data)
+    b.free()
+    o.data.update()
+    return int(subir.sum()), float((zf - z).max())
+
+
+for i, arg in enumerate(argv):
+    if arg == '--alisar':
+        peca, _, nv = argv[i + 1].partition(':')
+        o = bpy.data.objects.get(peca)
+        if not o:
+            relatorio.append(f'alisar: não achei {peca}')
+            continue
+        antes, depois = alisar(o, int(nv or 1))
+        relatorio.append(f'{peca}: alisada, {antes} -> {depois} faces, borda de volta ao contorno')
+    elif arg == '--borda-baixo':
+        o = bpy.data.objects.get(argv[i + 1])
+        if not o:
+            relatorio.append(f'borda de baixo: não achei {argv[i + 1]}')
+            continue
+        n, mx = borda_baixo(o)
+        relatorio.append(f'{o.name}: {n} ponta(s) da borda de baixo subidas, até {mx * 1000:.1f} mm')
 for o in [o for o in bpy.data.objects if o.type == 'MESH']:
     bm = bmesh.new()
     bm.from_mesh(o.data)
