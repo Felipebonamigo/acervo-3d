@@ -15,10 +15,14 @@ Conserto dos defeitos que a auditar_carro.py acha (08/11/2026), no GLB do corte 
     era grossa, com triângulos de 3 a 4 cm, e o horizonte refletido quebrava em faixas serrilhadas: "mancha serrilhada, faixa";
   - borda em dente de serra (--borda-baixo peca, repetível): na faixa de baixo da peça (o quarto de baixo da altura), uma curva lisa
     (grau 4) pelos vales dos dentes e as pontas que descem abaixo dela sobem até ela (o vidro traseiro do Pampeiro).
+  - antena grossa (--afinar-antena, 09/11/2026, "o retrovisor e a antena estão grossos" no Cuiabano do menu): a ilha fina e alta da
+    carroceria (soldada; mais de 30 cm de altura, menos de 3 cm de lado e menos de 400 vértices) afina em volta do próprio eixo: 45 % na base até 20 % na ponta;
+  - peça grande demais (--escala peca:fator, repetível): a peça diminui a partir da borda presa à carroceria (o lado mais perto do meio
+    do carro em Y), o retrovisor menor sem soltar da porta.
 Não mexe em mais nada (materiais, nomes, UV e texturas voltam como vieram, pelo exportador glTF do Blender).
 
     python -I ferramentas/consertar_carro.py -- <carro.glb> [--normais] [--min-invertidas 20] [--vidro-vao x,y,z:peca ...] [--vidro-max-cm2 300]
-        [--alisar peca[:níveis] ...] [--borda-baixo peca ...] [--saida outro.glb]
+        [--alisar peca[:níveis] ...] [--borda-baixo peca ...] [--afinar-antena] [--escala peca:fator ...] [--saida outro.glb]
 """
 import bpy
 import bmesh
@@ -212,8 +216,79 @@ def borda_baixo(o):
     return int(subir.sum()), float((zf - z).max())
 
 
+def afinar_antena(o):
+    from mathutils import Vector
+    b = bmesh.new()
+    b.from_mesh(o.data)
+    # soldada antes de procurar: em sopa de triângulos cada triângulo fino e alto da carroceria virava uma "antena" (46 no Cuiabano)
+    bmesh.ops.remove_doubles(b, verts=b.verts[:], dist=0.0002)
+    M = o.matrix_world
+    Mi = M.inverted()
+    vistas, n = set(), 0
+    for f in b.faces:
+        if f in vistas:
+            continue
+        pilha, vs = [f], set()
+        vistas.add(f)
+        while pilha:
+            g = pilha.pop()
+            vs.update(g.verts)
+            for e in g.edges:
+                for h in e.link_faces:
+                    if h not in vistas:
+                        vistas.add(h)
+                        pilha.append(h)
+        P = [M @ v.co for v in vs]
+        dx = max(p.x for p in P) - min(p.x for p in P)
+        dy = max(p.y for p in P) - min(p.y for p in P)
+        z0, z1 = min(p.z for p in P), max(p.z for p in P)
+        if z1 - z0 > 0.3 and dx < 0.2 and dy < 0.03 and len(vs) < 400 and min(dx, dy) < 0.012:
+            # o eixo: o centro de cada fatia em z (a antena pode ser inclinada)
+            base = [p for p in P if p.z < z0 + 0.02]
+            topo = [p for p in P if p.z > z1 - 0.02]
+            cb = sum(base, Vector()) / len(base)
+            ct = sum(topo, Vector()) / len(topo)
+            for v in vs:
+                w = M @ v.co
+                t = (w.z - z0) / (z1 - z0)
+                eixo = cb.lerp(ct, t)
+                k = 0.45 + (0.20 - 0.45) * t
+                w.x = eixo.x + (w.x - eixo.x) * k
+                w.y = eixo.y + (w.y - eixo.y) * k
+                v.co = Mi @ w
+            n += 1
+    b.to_mesh(o.data)
+    b.free()
+    o.data.update()
+    return n
+
+
+def escala_peca(o, fator):
+    from mathutils import Vector, Matrix
+    M = o.matrix_world
+    P = [M @ v.co for v in o.data.vertices]
+    ymeio = min(P, key=lambda p: abs(p.y))
+    preso = [p for p in P if abs(abs(p.y) - abs(ymeio.y)) < 0.03]
+    piv = sum(preso, Vector()) / len(preso)
+    T = M.inverted() @ Matrix.Translation(piv) @ Matrix.Scale(fator, 4) @ Matrix.Translation(-piv) @ M
+    o.data.transform(T)
+    o.data.update()
+
+
 for i, arg in enumerate(argv):
-    if arg == '--alisar':
+    if arg == '--afinar-antena':
+        corpo = bpy.data.objects.get('body')
+        n = afinar_antena(corpo) if corpo else 0
+        relatorio.append(f'body: {n} antena(s) afinada(s)')
+    elif arg == '--escala':
+        peca, _, fator = argv[i + 1].partition(':')
+        o = bpy.data.objects.get(peca)
+        if not o:
+            relatorio.append(f'escala: não achei {peca}')
+            continue
+        escala_peca(o, float(fator))
+        relatorio.append(f'{peca}: escala {fator} a partir da borda presa')
+    elif arg == '--alisar':
         peca, _, nv = argv[i + 1].partition(':')
         o = bpy.data.objects.get(peca)
         if not o:
