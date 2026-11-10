@@ -1,0 +1,170 @@
+{
+  "carro": "cuiabano-molde",
+  "modelo": "Cuiabano",
+  "gabarito": "hatch",
+  "regua": "veiculos/sketchfab/quebravel/gol-quadrado/gol-quadrado.glb",
+  "nota": "Hatch quadrado de 2 portas dos anos 80. As cotas (metros) foram medidas por raios no modelo-régua (medir_regua.py) e arredondadas; a forma, os vãos e os detalhes são desenho do estúdio.",
+  "cotas": {
+    "comprimento_casca": 3.66,
+    "meia_largura": 0.705,
+    "afina_planta": 0.03,
+    "z_soleira": 0.26,
+    "z_base_porta": 0.33,
+    "z_topo_para_choque": 0.56,
+    "z_friso": 0.69,
+    "z_mais_largo": 0.6,
+    "z_cintura": 0.905,
+    "recuo_soleira": 0.058,
+    "recuo_cintura": 0.045,
+    "ombro_altura": 0.014,
+    "ombro_largura": 0.028,
+    "queda_capo": 0.125,
+    "subida_tras": 0.015,
+    "x_porta_frente": 0.785,
+    "x_porta_tras": -0.44,
+    "eixo_dianteiro": 1.193,
+    "eixo_traseiro": -1.193,
+    "raio_arco": 0.335,
+    "anel_arco": 0.045,
+    "z_centro_arco": 0.3,
+    "colunas_x": [
+      1.845,
+      1.7,
+      1.55,
+      1.4,
+      1.25,
+      1.1,
+      0.95,
+      0.86,
+      0.785,
+      0.725,
+      0.2,
+      -0.36,
+      -0.44,
+      -0.52,
+      -0.65,
+      -0.78,
+      -0.91,
+      -1.05,
+      -1.18,
+      -1.32,
+      -1.45,
+      -1.775
+    ],
+    "colunas_x_teto": [
+      0.26,
+      0.2,
+      0.14,
+      -0.1,
+      -0.36,
+      -0.44,
+      -0.52,
+      -0.6,
+      -0.68,
+      -0.76,
+      -0.84,
+      -0.92,
+      -0.98,
+      -1.02,
+      -1.12
+    ],
+    "fiadas_frente": [
+      0.26,
+      0.33,
+      0.45,
+      0.565,
+      0.72,
+      0.745,
+      0.765,
+      0.775
+    ],
+    "fiadas_tras": [
+      0.26,
+      0.33,
+      0.45,
+      0.605,
+      0.735,
+      0.83,
+      0.906,
+      0.92
+    ],
+    "canto_frente": 0.012,
+    "canto_tras": 0.012,
+    "z_teto": 1.357,
+    "x_teto_alto": -0.4,
+    "queda_teto": 0.04,
+    "coroa_teto": 0.05,
+    "coroa_capo": 0.015,
+    "y_calha": 0.485,
+    "frac_meio_vidro": 0.45,
+    "frac_base_vidro_tras": 0.18,
+    "frac_topo_vidro": 0.86,
+    "frac_topo_porta": 0.94,
+    "bojo_frente": 0.035,
+    "bojo_para_brisa": 0.05,
+    "bojo_vidro_tras": 0.03,
+    "bojo_tras": 0.025,
+    "fracoes_k": {
+      "padrao": [
+        0.0,
+        0.33,
+        0.665,
+        0.83,
+        0.94
+      ],
+      "frente": [
+        0.0,
+        0.33,
+        0.66,
+        0.82,
+        0.955
+      ],
+      "tras": [
+        0.0,
+        0.33,
+        0.66,
+        0.82,
+        0.955
+      ]
+    },
+    "vincos": {
+      "ombro": 0.25,
+      "borda_capo": 0.15,
+      "frente_capo": 0.25,
+      "canto_frente": 0.2,
+      "canto_tras": 0.2,
+      "quina_tampa": 0.25,
+      "calha": 0.2,
+      "coluna_a": 0.15,
+      "coluna_c": 0.15,
+      "testeira": 0.2,
+      "fim_teto": 0.2
+    }
+  },
+  "rodas": {
+    "aro": "aro_aco13",
+    "pneu": "pneu_p175_70",
+    "calota": "tampinha",
+    "raio": 0.2875,
+    "cubo_y": 0.6
+  },
+  "acabamento": {
+    "nivel": 3,
+    "fresta": 0.004,
+    "raios_de_canto": {
+      "vidro": 0.03,
+      "luz": 0.012,
+      "painel": 0.003
+    },
+    "grade_laminas": 5,
+    "para_choque": {
+      "z_base": 0.325,
+      "saliencia_frente": 0.055,
+      "saliencia_lado": 0.014
+    }
+  },
+  "kit_opcoes": [
+    "--sem-saia-para-choque",
+    "--aparar-mais"
+  ]
+}

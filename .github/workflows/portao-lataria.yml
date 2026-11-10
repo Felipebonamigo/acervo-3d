@@ -1,0 +1,44 @@
+# Portão automático da lataria por molde (ferramentas/lataria_molde/portao.py, 10/11/2026): reconstrói cada carro da ficha de texto e
+# mede o arquivo final (face invertida, peça saliente, fresta de 3 a 5 mm, faceta, arco no círculo, orçamento, UV, nomes, borracha).
+# Falha se algum carro reprova ou se o arquivo gravado no acervo não é o que a ficha gera.
+name: portao-lataria
+on:
+  push:
+    paths:
+      - "ferramentas/lataria_molde/**"
+      - "ferramentas/carro_completo.py"
+      - "veiculos/proprios/quebravel/**"
+      - ".github/workflows/portao-lataria.yml"
+  pull_request:
+    paths:
+      - "ferramentas/lataria_molde/**"
+      - "veiculos/proprios/quebravel/**"
+  workflow_dispatch:
+jobs:
+  portao:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Blender pelo PyPI (o mesmo 5.2 da nuvem e do PC)
+        run: |
+          sudo apt-get update && sudo apt-get install -y libxi6 libxkbcommon0 libsm6 libgl1 libegl1
+          pip install bpy==5.2.3 numpy pillow
+      - name: Reconstruir e medir cada carro
+        run: |
+          falhou=0
+          for f in ferramentas/lataria_molde/fichas/*.json; do
+            c=$(basename "$f" .json)
+            echo "::group::$c"
+            python -I ferramentas/lataria_molde/reconstruir.py "$c" --out "saida/quebravel/$c" || falhou=1
+            echo "::endgroup::"
+          done
+          exit $falhou
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: portao-lataria
+          path: saida/quebravel/*/*_portao.json
