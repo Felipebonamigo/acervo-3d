@@ -72,6 +72,15 @@ def material(nome):
             m.blend_method = 'BLEND' if hasattr(m, 'blend_method') else m.blend_method
         else:
             b.inputs['Roughness'].default_value = 0.6
+        if nome == 'chassi':
+            # a cadeia do jogo (Detonauto, Tools/Blender/glb_texturas.py) espera uma textura de cor no GLB (vira T_<Modelo>_C); a pintura
+            # fica sem textura de propósito (cor lisa: o Paint.png sai branco e a cor é a tinta do jogo). A textura é só o plástico preto
+            img = bpy.data.images.new('plastico_preto', 16, 16)
+            img.pixels.foreach_set(np.tile(np.array((0.022, 0.022, 0.024, 1.0), dtype=np.float32), 16 * 16))
+            img.pack()
+            t = m.node_tree.nodes.new('ShaderNodeTexImage')
+            t.image = img
+            m.node_tree.links.new(t.outputs['Color'], b.inputs['Base Color'])
         _mats[nome] = m
     return _mats[nome]
 
@@ -635,6 +644,13 @@ class Carro:
                 alvo.location = (xa, lado * r['cubo_y'], r['raio'])
                 alvo.rotation_mode = 'XYZ'
                 alvo.rotation_euler = (0, 0, 0 if lado > 0 else math.pi)
+                # as rodas do jogo entram pelo kit de rodas; aqui elas não levam textura, para a cadeia do jogo (glb_texturas.py) não
+                # tomar o relevo do pneu pelo relevo do carro
+                for sl in alvo.material_slots:
+                    nt = sl.material.node_tree if sl.material else None
+                    for n in list(nt.nodes) if nt else []:
+                        if n.type in ('TEX_IMAGE', 'NORMAL_MAP'):
+                            nt.nodes.remove(n)
 
     # ---------------------------------------------------------------------------------------------------- tudo
     def construir(self):
