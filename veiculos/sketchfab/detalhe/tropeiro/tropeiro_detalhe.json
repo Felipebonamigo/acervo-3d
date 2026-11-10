@@ -1,0 +1,175 @@
+{
+ "id": "tropeiro",
+ "gerado_por": "acervo-3d/ferramentas/passe_detalhe.py",
+ "licenca": "CC0 (próprio do estúdio; sem marca, logo nem texto)",
+ "corte": "tropeiro.glb",
+ "folga": {
+  "door_fl": 74,
+  "door_fr": 71,
+  "hood": 148,
+  "trunk": 68
+ },
+ "emblema": {
+  "frente": {
+   "peca": "body",
+   "ponto": [
+    2.072,
+    0.0,
+    0.7
+   ],
+   "largura": 0.045
+  },
+  "tras": {
+   "peca": "trunk",
+   "ponto": [
+    -2.23,
+    0.0,
+    0.84
+   ],
+   "largura": 0.06
+  }
+ },
+ "espelho": {},
+ "macaneta": {},
+ "friso": {},
+ "heroi": {},
+ "pulados": [],
+ "limpador": 2,
+ "retrovisor": {
+  "mirror_left": {
+   "estilo": "2000",
+   "forma": "aero",
+   "fundo_cm": 10.0,
+   "pe": [
+    0.655,
+    0.902,
+    1.005
+   ]
+  },
+  "mirror_right": {
+   "estilo": "2000",
+   "forma": "aero",
+   "fundo_cm": 10.0,
+   "pe": [
+    0.654,
+    -0.903,
+    1.004
+   ]
+  }
+ },
+ "retrovisor_padrao": true,
+ "ponteira": {
+  "x": -2.19,
+  "y": -0.388,
+  "z": 0.231
+ },
+ "farol_interno": {
+  "headlight_left": {
+   "refletores": 2,
+   "fundo_cm": 5.5
+  },
+  "headlight_right": {
+   "refletores": 2,
+   "fundo_cm": 5.5
+  }
+ },
+ "freios_do_kit": [
+  "brake_fl_disco",
+  "brake_fl_pinca",
+  "brake_fr_disco",
+  "brake_fr_pinca",
+  "brake_rl_disco",
+  "brake_rl_pinca",
+  "brake_rr_disco",
+  "brake_rr_pinca"
+ ],
+ "placas_do_corte": [
+  "plate_front",
+  "plate_rear"
+ ],
+ "pecas": [
+  {
+   "nome": "det_body",
+   "segue": "body",
+   "triangulos": 860,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_door_fl",
+   "segue": "door_fl",
+   "triangulos": 148,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_door_fr",
+   "segue": "door_fr",
+   "triangulos": 142,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_headlight_left",
+   "segue": "headlight_left",
+   "triangulos": 624,
+   "materiais": [
+    "cromo",
+    "luz_branca",
+    "refletor"
+   ]
+  },
+  {
+   "nome": "det_headlight_right",
+   "segue": "headlight_right",
+   "triangulos": 624,
+   "materiais": [
+    "cromo",
+    "luz_branca",
+    "refletor"
+   ]
+  },
+  {
+   "nome": "det_hood",
+   "segue": "hood",
+   "triangulos": 296,
+   "materiais": [
+    "chassi"
+   ]
+  },
+  {
+   "nome": "det_mirror_left",
+   "segue": "mirror_left",
+   "triangulos": 68,
+   "materiais": [
+    "chassi",
+    "cromo",
+    "pintura"
+   ]
+  },
+  {
+   "nome": "det_mirror_right",
+   "segue": "mirror_right",
+   "triangulos": 68,
+   "materiais": [
+    "chassi",
+    "cromo",
+    "pintura"
+   ]
+  },
+  {
+   "nome": "det_trunk",
+   "segue": "trunk",
+   "triangulos": 360,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  }
+ ],
+ "triangulos": 3190
+}

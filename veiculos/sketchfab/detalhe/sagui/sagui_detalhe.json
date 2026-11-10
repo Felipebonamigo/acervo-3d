@@ -10,16 +10,7 @@
   "trunk": 280
  },
  "emblema": {},
- "espelho": {
-  "mirror_left": [
-   0.192,
-   0.118
-  ],
-  "mirror_right": [
-   0.192,
-   0.118
-  ]
- },
+ "espelho": {},
  "macaneta": {},
  "friso": {},
  "heroi": {},
@@ -27,6 +18,29 @@
   "refletor headlight_left: já tem",
   "refletor headlight_right: já tem"
  ],
+ "retrovisor": {
+  "mirror_left": {
+   "estilo": "2000",
+   "forma": "aero",
+   "fundo_cm": 10.0,
+   "pe": [
+    0.642,
+    0.884,
+    0.956
+   ]
+  },
+  "mirror_right": {
+   "estilo": "2000",
+   "forma": "aero",
+   "fundo_cm": 10.0,
+   "pe": [
+    0.642,
+    -0.884,
+    0.956
+   ]
+  }
+ },
+ "retrovisor_padrao": true,
  "freios_do_kit": [
   "brake_fl_disco",
   "brake_fl_pinca",
@@ -69,17 +83,21 @@
   {
    "nome": "det_mirror_left",
    "segue": "mirror_left",
-   "triangulos": 2,
+   "triangulos": 68,
    "materiais": [
-    "cromo"
+    "chassi",
+    "cromo",
+    "pintura"
    ]
   },
   {
    "nome": "det_mirror_right",
    "segue": "mirror_right",
-   "triangulos": 2,
+   "triangulos": 68,
    "materiais": [
-    "cromo"
+    "chassi",
+    "cromo",
+    "pintura"
    ]
   },
   {
@@ -91,5 +109,5 @@
    ]
   }
  ],
- "triangulos": 1786
+ "triangulos": 1918
 }

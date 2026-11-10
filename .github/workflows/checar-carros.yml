@@ -1,5 +1,6 @@
-# Checagem automática dos carros do acervo (ferramentas/checar_carro.py, 10/11/2026): faces de costas à vista (somem no Unreal), luz
-# saltada da lataria, borracha do vidro flutuando e o arco de roda quebrado ou em dente de serra, nos cortes de veiculos/sketchfab/quebravel.
+# Checagem automática dos carros do acervo (ferramentas/checar_carro.py): o portão C1 a C8 da revisão dos carros de 10/11/2026 (luz e
+# borracha fora da lataria, retrovisor, vidro em camadas, pneu e roda, material próprio, nada pendurado, lentes, balanço do para-choque),
+# a face de costas à vista (C9) e o arco de roda (C10), nos cortes de veiculos/sketchfab/quebravel.
 # Roda quando um corte, um kit ou a própria checagem muda; falha se algum carro falha.
 name: checar-carros
 on:
@@ -35,7 +36,8 @@ jobs:
             id=$(basename "$d"); g="$d$id.glb"; [ -f "$g" ] || continue
             k="veiculos/sketchfab/completo/$id/${id}_completo.glb"
             echo "::group::$id"
-            python -I ferramentas/checar_carro.py -- "$g" --kit "$k" --json "checagem-$id.json" || falhou=1
+            extra=""; [ "$id" = besouro ] && extra="--capsulas"   # faróis e lanternas em cápsula sobre o para-lama, de propósito
+            python -I ferramentas/checar_carro.py -- "$g" --kit "$k" --json "checagem-$id.json" $extra || falhou=1
             echo "::endgroup::"
           done
           exit $falhou

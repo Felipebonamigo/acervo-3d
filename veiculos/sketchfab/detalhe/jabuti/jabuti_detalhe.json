@@ -35,11 +35,32 @@
  "heroi": {},
  "pulados": [
   "limpador: a casca já tem algo no pé do para-brisa (2 de 5 raios)",
-  "espelho mirror_left: já tem",
-  "espelho mirror_right: já tem",
   "refletor headlight_left: já tem",
   "refletor headlight_right: já tem"
  ],
+ "retrovisor": {
+  "mirror_left": {
+   "estilo": "70",
+   "forma": "redondo",
+   "fundo_cm": 8.5,
+   "pe": [
+    0.242,
+    0.71,
+    0.939
+   ]
+  },
+  "mirror_right": {
+   "estilo": "70",
+   "forma": "redondo",
+   "fundo_cm": 8.5,
+   "pe": [
+    0.242,
+    -0.71,
+    0.939
+   ]
+  }
+ },
+ "retrovisor_padrao": true,
  "ponteira": {
   "x": -1.84,
   "y": -0.388,
@@ -92,6 +113,24 @@
    ]
   },
   {
+   "nome": "det_mirror_left",
+   "segue": "mirror_left",
+   "triangulos": 196,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_mirror_right",
+   "segue": "mirror_right",
+   "triangulos": 196,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
    "nome": "det_trunk",
    "segue": "trunk",
    "triangulos": 816,
@@ -101,5 +140,5 @@
    ]
   }
  ],
- "triangulos": 2846
+ "triangulos": 3238
 }

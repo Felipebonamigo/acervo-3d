@@ -68,6 +68,8 @@ CARROS = {
     "jabuti": dict(nome="Jabuti"),
     # sem o emblema próprio (rodada do PC de 07/11): no Sagui ele cai na ponta do capô, onde o modelo original tinha o oval da marca, e
     # lê como emblema de marca; a frente e a tampa ficam lisas
+    # o Tropeiro entra em 10/11/2026 (revisão dos carros: o retrovisor padrão e o emblema nos 14)
+    "tropeiro": dict(nome="Tropeiro"),
     "sagui": dict(nome="Sagui", ponteira=False, limpador=False, sem_emblema=True),
 }
 
@@ -494,6 +496,66 @@ def limpadores(casca, med, partes, rel, traseiro=False):
     rel["limpador_traseiro" if traseiro else "limpador"] = feitos
 
 
+# retrovisor padrão por época (revisão de 10/11/2026, item 2: "retrovisor ruim", o do corte era uma chapa fina, de lado sumia e de trás era
+# um palito). Substitui o do corte (o --juntar apaga a geometria antiga quando o json diz "retrovisor_padrao"). Carcaça com 8,5 a 10 cm de
+# fundo (C2 do checar_carro: 8 cm), espelho na face de trás e o pé na porta. Medidas em metros: largura (para fora), altura, fundo.
+ESTILO_RETROVISOR = {
+    "70": dict(forma="redondo", larg=0.125, alt=0.095, fundo=0.085, mat=M_CROMO, braco=0.07),
+    "80": dict(forma="caixa", larg=0.165, alt=0.090, fundo=0.085, mat=M_PRETO, braco=0.035),
+    "90": dict(forma="aero", larg=0.185, alt=0.110, fundo=0.095, mat=M_PRETO, braco=0.030),
+    "2000": dict(forma="aero", larg=0.195, alt=0.115, fundo=0.100, mat=M_PINTURA, braco=0.025),
+}
+
+
+def retrovisor_padrao(casca, partes, rel, epoca):
+    est = ESTILO_RETROVISOR.get(str(epoca), ESTILO_RETROVISOR["90"])
+    feitos = 0
+    for nome in ("mirror_left", "mirror_right"):
+        o = casca.objs.get(nome)
+        if o is None:
+            continue
+        mw = o.matrix_world
+        pts = [mw @ v.co for v in o.data.vertices]
+        lado = 1 if sum(q.y for q in pts) > 0 else -1
+        # o pé: o ponto do retrovisor antigo mais perto do meio do carro (onde ele encostava na porta), na altura média dele
+        y_pe = min(abs(q.y) for q in pts)
+        xc = sum(q.x for q in pts) / len(pts)
+        zc = sum(q.z for q in pts) / len(pts)
+        # encosta o pé na chapa da porta (raio de fora para dentro na altura do pé)
+        h = casca.raio((xc, lado * 2.0, zc - 0.02), (0, -lado, 0), lambda ob, m, n: not ob.startswith(("mirror", "glass")), 2.5)
+        if h is not None:
+            y_pe = abs(h[0].y)
+        g = Geo()
+        L, A, F, braco, mat = est["larg"], est["alt"], est["fundo"], est["braco"], est["mat"]
+        ex, ey, ez = Vector((1, 0, 0)), Vector((0, lado, 0)), Vector((0, 0, 1))
+        pe = Vector((xc, lado * y_pe, zc))
+        # pé triangular colado na porta (plástico preto), 2 cm de espessura
+        g.poligono(pe + ey * -0.002, ex, ez, ey, [(-0.045, -0.03), (0.035, -0.03), (-0.02, 0.035)], 0.02, M_PRETO)
+        # braço até a carcaça
+        cc = pe + ey * (braco + L / 2) + ez * 0.02
+        if est["forma"] == "redondo":
+            g.cilindro(pe + ey * 0.015, pe + ey * braco + ez * 0.02, 0.009, M_CROMO, seg=10)
+            # a cuia redonda: cilindro deitado no eixo do carro, a tampa de trás é o espelho
+            g.cilindro(cc + ex * (F * 0.45), cc - ex * (F * 0.55), A / 2, mat, seg=20, r2=A / 2 * 0.98)
+            g.cilindro(cc - ex * (F * 0.55 + 0.001), cc - ex * (F * 0.55 + 0.003), A / 2 * 0.9, M_CROMO, seg=20)
+        else:
+            g.caixa(pe + ey * (braco / 2 + 0.005) + ez * 0.01, ex, ey, ez, 0.03, braco / 2 + 0.01, 0.018, M_PRETO)
+            # a carcaça: uma caixa maior com a frente afinada (a frente "aero" mais curta em cima e embaixo), espelho atrás
+            g.caixa(cc + ex * (F * 0.10), ex, ey, ez, F * 0.40, L / 2, A / 2, mat)
+            fr = 0.80 if est["forma"] == "aero" else 0.92
+            g.caixa(cc + ex * (F * 0.10 + F * 0.40 + F * 0.05), ex, ey, ez, F * 0.05, L / 2 * fr, A / 2 * fr, mat)
+            # moldura preta em volta do espelho e o espelho, 1 mm atrás
+            g.caixa(cc - ex * (F * 0.30 + 0.004), ex, ey, ez, 0.004, L / 2, A / 2, M_PRETO)
+            g.poligono(cc - ex * (F * 0.30 + 0.009), ey, ez, -ex, [(-L / 2 * 0.9, -A / 2 * 0.86), (L / 2 * 0.9, -A / 2 * 0.86),
+                                                                     (L / 2 * 0.9, A / 2 * 0.86), (-L / 2 * 0.9, A / 2 * 0.86)], 0.001, M_CROMO)
+        partes[nome] = g
+        rel.setdefault("retrovisor", {})[nome] = {"estilo": str(epoca), "forma": est["forma"], "fundo_cm": round(F * 100, 1),
+                                                  "pe": [round(c, 3) for c in pe]}
+        feitos += 1
+    if feitos:
+        rel["retrovisor_padrao"] = True
+
+
 def espelhos(casca, partes, rel):
     for nome in ("mirror_left", "mirror_right"):
         o = casca.objs.get(nome)
@@ -856,7 +918,9 @@ def passe(args):
         emblemas(casca, med, partes, rel)
     if args.get("limpador", True):
         limpadores(casca, med, partes, rel)
-    if args.get("espelho", True):
+    if args.get("retrovisor", True):
+        retrovisor_padrao(casca, partes, rel, kit.get("epoca", "90"))
+    elif args.get("espelho", True):
         espelhos(casca, partes, rel)
     if args.get("ponteira", True):
         ponteira(casca, med, kit, partes, rel)
@@ -953,6 +1017,18 @@ def juntar(corte_glb, detalhe_glb, saida):
                         tirar += len(fora)
                     bm.free()
                 print("BOLSO %s: %d faces do fundo escuro tiradas" % (alvo_nome, tirar))
+    # o retrovisor padrão do passe troca o do corte (revisão de 10/11/2026): a geometria antiga sai, o objeto fica (nome e pivô do jogo)
+    rel_json = os.path.splitext(detalhe_glb)[0] + ".json"
+    if os.path.exists(rel_json) and json.load(open(rel_json, encoding="utf-8")).get("retrovisor_padrao"):
+        for nome in ("mirror_left", "mirror_right"):
+            o = por_nome.get(nome)
+            if o is not None and any(d.name[4:].split(".")[0] == nome for d in det):
+                bm = bmesh.new()
+                bm.from_mesh(o.data)
+                bmesh.ops.delete(bm, geom=list(bm.verts), context="VERTS")
+                bm.to_mesh(o.data)
+                bm.free()
+                print("RETROVISOR %s: o do corte saiu, entra o padrão" % nome)
     for d in det:
         if d.type != 'MESH':
             continue

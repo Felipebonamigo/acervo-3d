@@ -5,8 +5,8 @@
  "corte": "gol-quadrado.glb",
  "folga": {
   "door_fl": 171,
-  "door_fr": 138,
-  "hood": 572,
+  "door_fr": 139,
+  "hood": 569,
   "trunk": 68
  },
  "emblema": {
@@ -42,6 +42,29 @@
   "refletor headlight_left: já tem",
   "refletor headlight_right: já tem"
  ],
+ "retrovisor": {
+  "mirror_left": {
+   "estilo": "80",
+   "forma": "caixa",
+   "fundo_cm": 8.5,
+   "pe": [
+    0.554,
+    0.826,
+    0.94
+   ]
+  },
+  "mirror_right": {
+   "estilo": "80",
+   "forma": "caixa",
+   "fundo_cm": 8.5,
+   "pe": [
+    0.558,
+    -0.844,
+    0.941
+   ]
+  }
+ },
+ "retrovisor_padrao": true,
  "ponteira": {
   "x": -1.83,
   "y": -0.388,
@@ -81,7 +104,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 276,
+   "triangulos": 278,
    "materiais": [
     "chassi"
    ]
@@ -98,9 +121,27 @@
   {
    "nome": "det_hood",
    "segue": "hood",
-   "triangulos": 1168,
+   "triangulos": 1162,
    "materiais": [
     "chassi"
+   ]
+  },
+  {
+   "nome": "det_mirror_left",
+   "segue": "mirror_left",
+   "triangulos": 68,
+   "materiais": [
+    "chassi",
+    "cromo"
+   ]
+  },
+  {
+   "nome": "det_mirror_right",
+   "segue": "mirror_right",
+   "triangulos": 68,
+   "materiais": [
+    "chassi",
+    "cromo"
    ]
   },
   {
@@ -114,5 +155,5 @@
    ]
   }
  ],
- "triangulos": 3454
+ "triangulos": 3586
 }

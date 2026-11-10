@@ -31,16 +31,7 @@
    "largura": 0.06
   }
  },
- "espelho": {
-  "mirror_left": [
-   0.163,
-   0.129
-  ],
-  "mirror_right": [
-   0.163,
-   0.129
-  ]
- },
+ "espelho": {},
  "macaneta": {
   "fl": [
    -0.1,
@@ -77,6 +68,29 @@
  "heroi": {},
  "pulados": [],
  "limpador": 2,
+ "retrovisor": {
+  "mirror_left": {
+   "estilo": "2000",
+   "forma": "aero",
+   "fundo_cm": 10.0,
+   "pe": [
+    0.664,
+    0.958,
+    0.956
+   ]
+  },
+  "mirror_right": {
+   "estilo": "2000",
+   "forma": "aero",
+   "fundo_cm": 10.0,
+   "pe": [
+    0.664,
+    -0.958,
+    0.957
+   ]
+  }
+ },
+ "retrovisor_padrao": true,
  "ponteira": {
   "x": -2.155,
   "y": -0.388,
@@ -216,17 +230,21 @@
   {
    "nome": "det_mirror_left",
    "segue": "mirror_left",
-   "triangulos": 2,
+   "triangulos": 68,
    "materiais": [
-    "cromo"
+    "chassi",
+    "cromo",
+    "pintura"
    ]
   },
   {
    "nome": "det_mirror_right",
    "segue": "mirror_right",
-   "triangulos": 2,
+   "triangulos": 68,
    "materiais": [
-    "cromo"
+    "chassi",
+    "cromo",
+    "pintura"
    ]
   },
   {
@@ -239,5 +257,5 @@
    ]
   }
  ],
- "triangulos": 6102
+ "triangulos": 6234
 }

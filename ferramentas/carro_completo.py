@@ -44,6 +44,7 @@ DADOS = os.path.join(AQUI, "carro_completo_dados.json")
 EPOCAS = ("70", "80", "90", "2000")
 MOTORES = ("l4_transversal", "l4_longitudinal", "v8_longitudinal", "boxer_traseiro")
 CARROCERIAS = ("hatch", "sedan", "furgao", "cabine_avancada", "jipe", "picape")
+CHAO_MIN = 0.12  # nada do kit embaixo a menos de 12 cm do chão (revisão de 10/11/2026, C6 do checar_carro: 10 cm)
 TEX = 1024             # lado das texturas de cor dos materiais grandes (px); aspereza e relevo em meia resolução
 LOD1_RAZAO = 0.3       # fração dos triângulos no LOD1
 JPEG_QUALIDADE = 82    # as texturas vão em JPEG dentro do GLB (cada GLB < 50 MB, regra do acervo)
@@ -2725,6 +2726,9 @@ class Kit:
         estepe = self.cfg["estepe"]
         cx_e = x0 + Rs + 0.10
         poco = estepe == "poco"
+        # o poço do estepe desce 17 cm, mas nunca a menos de CHAO_MIN do chão (revisão de 10/11/2026, C6: no Cuiabano, de piso de mala a
+        # 25 cm, o poço chegava a 7 cm do chão e aparecia pendurado de lado)
+        prof = max(0.06, min(0.17, zm - CHAO_MIN))
 
         def ponto(u, v):
             x = x0 + (x1 - x0) * u
@@ -2733,9 +2737,9 @@ class Kit:
             if poco:
                 r = math.hypot(x - cx_e, y)
                 if r < Rs + 0.04:
-                    z -= 0.17
+                    z -= prof
                 elif r < Rs + 0.10:
-                    z -= 0.17 * (0.5 + 0.5 * math.cos(math.pi * (r - Rs - 0.04) / 0.06))
+                    z -= prof * (0.5 + 0.5 * math.cos(math.pi * (r - Rs - 0.04) / 0.06))
             return V(x, y, z)
         p.grade("carpete", 40, 30, ponto, 0.012, normal_fn=lambda u, v: (0, 0, 1))
         # laterais (com a caixa de roda) e parede do fundo
@@ -2765,7 +2769,7 @@ class Kit:
             poco = False
         e = self.nova("interior_portamalas_estepe", "porta_malas") if estepe not in ("vao_motor", "externo") else Peca("_descarte", "x")
         if poco:
-            Me = T(cx_e, 0, zm - 0.17 + 0.09)
+            Me = T(cx_e, 0, zm - prof + 0.09)
         elif estepe == "lateral":
             Me = T(x0 + Rs + 0.15, ym - 0.12, zm + Rs + 0.02) @ Rx(math.pi / 2)
         else:
@@ -3734,7 +3738,7 @@ class Kit:
         zb = M["z_piso"] - 0.05
         if onde == "sob_banco_traseiro":
             xc = M["xt"] + 0.42
-            Mt = T(xc, 0.12, zb - 0.09)
+            Mt = T(xc, 0.12, max(zb - 0.09, CHAO_MIN + 0.085))
             p.almofada("metal_preto", Mt, 0.42, 0.70, 0.17, 0.12, 0.15)
             for dx in (-0.12, 0.12):
                 p.fita("metal_preto", [Mt @ V(dx, -0.36, 0.09), Mt @ V(dx, -0.36, -0.09), Mt @ V(dx, 0.36, -0.09), Mt @ V(dx, 0.36, 0.09)],
@@ -3743,13 +3747,16 @@ class Kit:
         elif onde == "atras":
             # furgão de motor traseiro: tanque sobre o câmbio, na frente do motor, sob o piso de carga
             xc = M["xt"] + 0.35
-            Mt = T(xc, 0.0, M["z_piso"] - 0.06)
+            Mt = T(xc, 0.0, max(M["z_piso"] - 0.06, CHAO_MIN + 0.08))
             p.almofada("metal_preto", Mt, 0.30, 0.90, 0.16, 0.12, 0.15)
             bocal = [Mt @ V(0.0, 0.40, 0.05), V(xc - 0.10, M["W"] - 0.10, M["z_cintura"] - 0.35)]
         else:
+            # sob o porta-malas, entre o piso dele e CHAO_MIN do chão (revisão de 10/11/2026, item 8: no Cuiabano, de piso a 25 cm, o tanque
+            # de 20 cm saía 8 cm abaixo do chão, a "peça pendurada perto da roda traseira"); mais raso e mais largo quando o vão é baixo
             xc = M["xt"] - 0.48
-            Mt = T(xc, 0, M["z_mala"] - 0.14)
-            p.almofada("metal_preto", Mt, 0.38, 0.85, 0.20, 0.12, 0.15)
+            alto = max(0.06, min(0.20, M["z_mala"] - 0.03 - CHAO_MIN))
+            Mt = T(xc, 0, max(M["z_mala"] - 0.14, CHAO_MIN + alto / 2))
+            p.almofada("metal_preto", Mt, 0.38 + (0.20 - alto) * 0.8, 0.85, alto, 0.12, min(0.15, alto * 0.75))
             bocal = [Mt @ V(0.0, 0.38, 0.08), V(xc - 0.05, M["W"] - 0.10, M["z_mala"] + 0.10)]
         # o bocal sobe pela lateral: fica 4 cm por dentro da chapa de lá (saía pela quarta traseira do Gol)
         bocal = [V(*q) for q in bocal]
