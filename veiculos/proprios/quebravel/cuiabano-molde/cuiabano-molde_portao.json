@@ -1,0 +1,183 @@
+{
+ "P1_costas_cm2": {
+  "bumper_front": 1.43,
+  "fender_front_left": 0.32,
+  "fender_front_right": 0.64,
+  "glass_door_fl": 0.31,
+  "glass_door_fr": 0.14,
+  "glass_windshield": 0.08,
+  "headlight_right": 1.06,
+  "hood": 0.15,
+  "taillight_left": 1.87,
+  "taillight_right": 0.63
+ },
+ "P3_fresta_mm": {
+  "mediana": 4.0,
+  "p5": 4.0,
+  "p95": 4.01,
+  "dentro": 0.979,
+  "medidas": 1638,
+  "por_par": {
+   "body|door_fl": 4.0,
+   "body|door_fr": 4.0,
+   "body|fender_front_left": 4.0,
+   "body|fender_front_right": 4.0,
+   "body|hood": 4.0,
+   "body|trunk": 4.0,
+   "door_fl|fender_front_left": 4.0,
+   "door_fr|fender_front_right": 4.0,
+   "fender_front_left|hood": 4.0,
+   "fender_front_right|hood": 4.0
+  }
+ },
+ "P2_degrau_mm": {
+  "p99": 0.03,
+  "maximo": 0.12
+ },
+ "P2_lentes": {
+  "headlight_left": {
+   "saliente_mm": 0.01,
+   "afundada_mm": 0.0
+  },
+  "headlight_right": {
+   "saliente_mm": 0.01,
+   "afundada_mm": 0.0
+  },
+  "taillight_left": {
+   "saliente_mm": 0.01,
+   "afundada_mm": 0.0
+  },
+  "taillight_right": {
+   "saliente_mm": 0.01,
+   "afundada_mm": 0.0
+  }
+ },
+ "P4_faceta": {
+  "body": {
+   "maximo_graus": 24.4,
+   "acima": 0.0,
+   "normais_partidas": 0
+  },
+  "door_fl": {
+   "maximo_graus": 7.9,
+   "acima": 0.0,
+   "normais_partidas": 0
+  },
+  "door_fr": {
+   "maximo_graus": 7.9,
+   "acima": 0.0,
+   "normais_partidas": 0
+  },
+  "fender_front_left": {
+   "maximo_graus": 15.7,
+   "acima": 0.0,
+   "normais_partidas": 0
+  },
+  "fender_front_right": {
+   "maximo_graus": 33.8,
+   "acima": 0.0006,
+   "normais_partidas": 0
+  },
+  "hood": {
+   "maximo_graus": 31.5,
+   "acima": 0.0004,
+   "normais_partidas": 0
+  },
+  "trunk": {
+   "maximo_graus": 24.7,
+   "acima": 0.0001,
+   "normais_partidas": 0
+  }
+ },
+ "P5_arcos": {
+  "dianteiro_esq": {
+   "raio_mm": 335.0,
+   "residuo_mm": 0.0,
+   "pontos": 130
+  },
+  "dianteiro_dir": {
+   "raio_mm": 335.0,
+   "residuo_mm": 0.0,
+   "pontos": 130
+  },
+  "traseiro_esq": {
+   "raio_mm": 335.0,
+   "residuo_mm": 0.0,
+   "pontos": 130
+  },
+  "traseiro_dir": {
+   "raio_mm": 335.0,
+   "residuo_mm": 0.0,
+   "pontos": 130
+  }
+ },
+ "P6": {
+  "triangulos": 157776,
+  "triangulos_com_rodas": 195824,
+  "materiais": [
+   "chassi",
+   "cromo",
+   "lente_ambar",
+   "lente_branca",
+   "lente_vermelha",
+   "lente_vidro",
+   "pintura",
+   "placa",
+   "refletor",
+   "vidro"
+  ]
+ },
+ "P7_uv": {
+  "faces": 90880,
+  "fora_de_0_1": 0,
+  "sobrepostas": 0
+ },
+ "P8_pecas": [
+  "body",
+  "bumper_front",
+  "bumper_rear",
+  "door_fl",
+  "door_fr",
+  "fender_front_left",
+  "fender_front_right",
+  "glass_door_fl",
+  "glass_door_fr",
+  "glass_door_rl",
+  "glass_door_rr",
+  "glass_rear",
+  "glass_windshield",
+  "grille",
+  "headlight_left",
+  "headlight_right",
+  "hood",
+  "hubcap_fl",
+  "hubcap_fr",
+  "hubcap_rl",
+  "hubcap_rr",
+  "mirror_left",
+  "mirror_right",
+  "plate_front",
+  "plate_rear",
+  "taillight_left",
+  "taillight_right",
+  "trunk",
+  "wheel_fl_rim",
+  "wheel_fl_tire",
+  "wheel_fr_rim",
+  "wheel_fr_tire",
+  "wheel_rl_rim",
+  "wheel_rl_tire",
+  "wheel_rr_rim",
+  "wheel_rr_tire"
+ ],
+ "P9_borracha_mm": {
+  "glass_door_fl": 5.8,
+  "glass_door_fr": 5.8,
+  "glass_door_rl": 5.8,
+  "glass_door_rr": 5.8,
+  "glass_rear": 5.8,
+  "glass_windshield": 5.8
+ },
+ "falhas": [],
+ "aprovado": true
+}

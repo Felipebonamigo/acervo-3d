@@ -19,6 +19,15 @@
       "tanque": "sob_banco_traseiro",
       "carroceria": "hatch"
     },
+    "cuiabano-molde": {
+      "nome": "Cuiabano, lataria por molde (ferramentas/lataria_molde)",
+      "epoca": "80",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch"
+    },
     "besouro": {
       "nome": "Besouro",
       "epoca": "70",
