@@ -87,6 +87,28 @@
         "nota": "medido na vista lateral de 27/10/2026: a antena levava a altura a 1,65 m e o para-brisa achado pela cor ia até o capô"
       }
     },
+    "caipora-molde": {
+      "nome": "Caipora, lataria por molde (ferramentas/lataria_molde)",
+      "epoca": "90",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "poco",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "nota": "hatch de 2 portas dos anos 90",
+      "corrigir": {
+        "altura": 1.49,
+        "glass_windshield": [
+          0.22,
+          0.98,
+          -0.66,
+          0.66,
+          0.98,
+          1.45
+        ],
+        "nota": "medido na vista lateral de 27/10/2026: a antena levava a altura a 1,65 m e o para-brisa achado pela cor ia até o capô"
+      }
+    },
     "pampeiro": {
       "nome": "Pampeiro",
       "epoca": "2000",
@@ -245,6 +267,16 @@
     },
     "jabuti": {
       "nome": "Jabuti",
+      "epoca": "70",
+      "motor": "l4_transversal",
+      "tracao": "dianteira",
+      "estepe": "vao_motor",
+      "tanque": "sob_banco_traseiro",
+      "carroceria": "hatch",
+      "nota": "hatch pequeno dos anos 70, motor transversal e o estepe no vão do motor"
+    },
+    "jabuti-molde": {
+      "nome": "Jabuti, lataria por molde (ferramentas/lataria_molde)",
       "epoca": "70",
       "motor": "l4_transversal",
       "tracao": "dianteira",

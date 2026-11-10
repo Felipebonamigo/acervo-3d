@@ -72,6 +72,16 @@ O CI (`.github/workflows/portao-lataria.yml`) reconstrói cada ficha e roda o po
 | `medir_regua.py` | imprime as cotas de um modelo-régua |
 | `reconstruir.py` | o comando único |
 
+## Carros feitos
+
+| Ficha | Id no acervo | Carro |
+|---|---|---|
+| `fichas/cuiabano.json` | `cuiabano-molde` | hatch quadrado dos anos 80 |
+| `fichas/jabuti.json` | `jabuti-molde` | hatch quadradinho dos anos 70, para-choques cromados |
+| `fichas/caipora.json` | `caipora-molde` | hatch arredondado dos anos 90 |
+
+Os três saem do mesmo gabarito; só a ficha muda (cotas, `dx_frente` e `dx_tras` para a inclinação das pontas, vincos, para-choque).
+
 ## Carro novo
 
 1. Rode `medir_regua.py` no modelo-régua e copie as cotas (arredondadas a centímetro) para uma ficha nova.

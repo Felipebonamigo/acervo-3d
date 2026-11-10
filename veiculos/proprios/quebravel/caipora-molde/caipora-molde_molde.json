@@ -1,0 +1,56 @@
+{
+ "carro": "caipora-molde",
+ "ficha": "caipora.json",
+ "nivel": 3,
+ "triangulos": {
+  "body": 71520,
+  "hood": 12064,
+  "trunk": 7408,
+  "door_fl": 6352,
+  "door_fr": 6352,
+  "fender_front_left": 9760,
+  "fender_front_right": 9760,
+  "glass_windshield": 5184,
+  "glass_rear": 2112,
+  "glass_door_fl": 1280,
+  "glass_door_fr": 1280,
+  "glass_door_rl": 3520,
+  "glass_door_rr": 3520,
+  "headlight_left": 1152,
+  "headlight_right": 1152,
+  "taillight_left": 1056,
+  "taillight_right": 1056,
+  "grille": 1080,
+  "bumper_front": 5408,
+  "bumper_rear": 5280,
+  "plate_front": 194,
+  "plate_rear": 194,
+  "mirror_left": 386,
+  "mirror_right": 386
+ },
+ "triangulos_total": 157456,
+ "materiais": [
+  "chassi",
+  "cromo",
+  "lente_ambar",
+  "lente_branca",
+  "lente_vermelha",
+  "lente_vidro",
+  "pintura",
+  "placa",
+  "refletor",
+  "vidro"
+ ],
+ "uv_por_metro": 0.1904972034352271,
+ "fresta": 0.004,
+ "arcos": {
+  "raio": 0.335,
+  "z": 0.3,
+  "x": [
+   1.2067,
+   -1.2067
+  ]
+ },
+ "triangulos_lod1": 55248,
+ "triangulos_lod2": 14424
+}

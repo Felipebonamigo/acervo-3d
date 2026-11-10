@@ -126,9 +126,9 @@
   "y_caixa_d": 0.36,
   "y_caixa_t": 0.36,
   "z_capo_tras": 0.8869,
-  "z_capo_frente": 0.699,
+  "z_capo_frente": 0.6983,
   "x_radiador": 1.6941,
-  "z_tampa_tras_borda": 0.58,
+  "z_tampa_tras_borda": 0.5808,
   "z_mala": 0.28,
   "x_mala_frente": -1.27,
   "x_mala_tras": -1.6742,
@@ -919,11 +919,11 @@
    "triangulos": 1548,
    "triangulos_lod1": 464,
    "caixa_m": [
-    -1.69,
-    -1.339,
-    -0.605,
-    0.605,
-    0.6,
+    -1.692,
+    -1.342,
+    -0.604,
+    0.604,
+    0.601,
     0.75
    ],
    "materiais": [
@@ -1092,7 +1092,7 @@
    "triangulos_lod1": 1114,
    "caixa_m": [
     0.944,
-    1.766,
+    1.77,
     -0.36,
     0.36,
     0.201,

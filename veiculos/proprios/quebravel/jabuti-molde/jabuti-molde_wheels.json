@@ -1,0 +1,7 @@
+{
+  "front_axle_cm": 111.05000000000001,
+  "rear_axle_cm": -111.05000000000001,
+  "wheel_radius_cm": 28.749999999999996,
+  "hub_y_cm": 64.5,
+  "nota": "lataria por molde (ferramentas/lataria_molde); formato de Tools/Unreal/damage_body.py"
+}

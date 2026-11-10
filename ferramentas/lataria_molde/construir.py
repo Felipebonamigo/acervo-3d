@@ -321,15 +321,16 @@ class Carro:
                     n = -n
                 Nf += [n] * 4
             o.somar(np.array(Pf), np.array(Nf), Ff, 'refletor')
-            o.somar(cen + (np.array(Pf) - cen) * 1.06 - eixo * 0.011, -np.tile(eixo, (len(Pf), 1)), Ff, 'chassi')
+            o.somar(np.array(Pf) - eixo * 0.012, -np.tile(eixo, (len(Pf), 1)), Ff, 'chassi')
             for laco in mu.lacos_de_borda(Q):
                 C = P[laco] - N[laco] * 0.004
-                B = cen + (P[laco] - cen) * enc - eixo * (fundo + 0.004)
+                B = cen + (P[laco] - cen) * enc - eixo * (fundo + 0.014)       # a parede passa do fundo: a carcaça fecha por trás
                 n = len(laco)
                 F = [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
                 Nn = norm(np.concatenate([cen - C, cen - B]) + eixo * 0.3)
                 o.somar(np.concatenate([C, B]), Nn, F, 'refletor')
-                o.somar(np.concatenate([C, B]) - Nn * 0.004, -Nn, F, 'chassi')       # a carcaça por trás (vista do cofre e do porta-malas)
+                # a carcaça por trás (vista do cofre e do porta-malas): encostada na boca, 4 mm afastada no fundo
+                o.somar(np.concatenate([C - N[laco] * 0.001, B - Nn[n:] * 0.004]), -Nn, F, 'chassi')
             # a lâmpada
             if farol:
                 lat = norm(np.cross(eixo, (0, 0, 1)))
@@ -452,13 +453,19 @@ class Carro:
         for st in ST:
             u, k = st[:, 0].mean(), st[:, 1].mean()
             i_pisca = (nc // 2 + 2 < u < nc // 2 + 3) or (nc // 2 - 3 < u < nc // 2 - 2)
-            mats.append('lente_ambar' if (pisca and i_pisca and 2.0 < k < 3.0) else 'chassi')
+            mats.append('lente_ambar' if (pisca and i_pisca and 2.0 < k < 3.0) else pc.get('material', 'chassi'))
         for m in sorted(set(mats)):
             sel = [i for i, x in enumerate(mats) if x == m]
             o.somar(P, N, [tuple(Q[i]) for i in sel], m, uv=[[tuple(c) for c in ST[i]] for i in sel], ilha='pele')
         sel = [i for i, x in enumerate(mats) if x == 'lente_ambar']
         if sel:
+            # o bolso do pisca: fundo de refletor e parede em volta (olhando de lado pela lente não se vê o oco do para-choque)
             o.somar(P - N * 0.010, N, [tuple(Q[i]) for i in sel], 'refletor')
+            for laco in mu.lacos_de_borda(Q[sel]):
+                _, D = mu.quadro_da_borda(P, N, laco)
+                k = len(laco)
+                Pw = np.concatenate([P[laco], P[laco] - N[laco] * 0.012])
+                o.somar(Pw, np.concatenate([D, D]), [(i, (i + 1) % k, k + (i + 1) % k, k + i) for i in range(k)], 'refletor')
         self.medidas[nome] = dict(x_fora=float(P[:, 0].max() if sinal > 0 else P[:, 0].min()), z=[float(zb), float(zt)])
 
     def _sub_ngon(self, V, F, UV, nivel, ve):
@@ -603,20 +610,27 @@ class Carro:
             lugares.append(('trunk', h + np.array((-0.0015, 0, 0)), -1, 0.07))
         for nome, p, sinal, tam in lugares:
             o = self.obra(nome)
+            # deitado na superfície: os eixos do emblema são a tangente lateral e a tangente de subida do ponto
+            q, n = self.mestra.assentar(np.array([p]))
+            n = n[0]
+            if n[0] * sinal < 0:
+                n = -n
+            lat = norm(np.cross((0, 0, 1), n)) * (1.0 if sinal > 0 else 1.0)
+            sobe = norm(np.cross(n, lat))
+            if sobe[2] < 0:
+                sobe = -sobe
+            lat = norm(np.cross(sobe, n))
+            c0 = q[0] + n * (0.004 if nome == 'grille' else 0.0015)
             P, N = [], []
             for (u, v) in pts:
-                P.append((p[0], p[1] + sinal * (u - 50) / 100.0 * tam, p[2] + (50 - v) / 100.0 * tam))
-                N.append((sinal, 0, 0))
-            P.append(tuple(p))
-            N.append((sinal, 0, 0))
-            n = len(pts)
-            F = [(n, (i + 1) % n, i) for i in range(n)]
-            a, b, d = np.array(P[F[0][0]]), np.array(P[F[0][1]]), np.array(P[F[0][2]])
-            if np.cross(b - a, d - a)[0] * sinal < 0:
-                F = [tuple(reversed(f)) for f in F]
-            o.somar(P, N, F, 'cromo')
+                P.append(c0 + lat * ((u - 50) / 100.0 * tam) + sobe * ((50 - v) / 100.0 * tam))
+                N.append(n)
+            P.append(c0)
+            N.append(n)
+            k = len(pts)
+            o.somar(np.array(P), np.array(N), [(k, (i + 1) % k, i) for i in range(k)], 'cromo')
             if nome == 'grille':     # o apoio do emblema na grade
-                mu.caixa_arredondada(o, p - np.array((0.02, 0, 0)), ((1, 0, 0), (0, 1, 0), (0, 0, 1)), (0.018, tam * 0.36, tam * 0.36), 'chassi', nivel=1)
+                mu.caixa_arredondada(o, c0 - n * 0.022, (n, lat, sobe), (0.018, tam * 0.36, tam * 0.36), 'chassi', nivel=1)
 
     def rodas(self):
         r = self.F.get('rodas')

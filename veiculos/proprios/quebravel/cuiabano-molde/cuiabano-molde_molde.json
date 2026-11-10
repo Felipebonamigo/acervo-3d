@@ -21,14 +21,14 @@
   "taillight_left": 1056,
   "taillight_right": 1056,
   "grille": 1480,
-  "bumper_front": 5344,
+  "bumper_front": 5408,
   "bumper_rear": 5280,
   "plate_front": 194,
   "plate_rear": 194,
   "mirror_left": 386,
   "mirror_right": 386
  },
- "triangulos_total": 157776,
+ "triangulos_total": 157840,
  "materiais": [
   "chassi",
   "cromo",
@@ -51,6 +51,6 @@
    -1.193
   ]
  },
- "triangulos_lod1": 55568,
- "triangulos_lod2": 14376
+ "triangulos_lod1": 55632,
+ "triangulos_lod2": 14408
 }

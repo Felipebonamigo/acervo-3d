@@ -1,0 +1,13 @@
+{
+ "id": "jabuti-molde",
+ "entrada": "jabuti.json",
+ "gerado_por": "acervo-3d/ferramentas/lataria_molde/construir.py (lataria por molde)",
+ "textura": {
+  "pintura_rgb": [
+   0.55,
+   0.02,
+   0.02
+  ],
+  "pintura_sat": 1.0
+ }
+}

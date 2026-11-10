@@ -59,7 +59,7 @@ def montar(F):
             return c['fiadas_frente'][j]
         if i == 21:
             return c['fiadas_tras'][j]
-        base = [z_sol, c['z_base_porta'], 0.45, c['z_topo_para_choque'], c['z_friso'], 0, 0, 0]
+        base = [z_sol, c['z_base_porta'], c.get('z_fiada_2', 0.45), c['z_topo_para_choque'], c['z_friso'], 0, 0, 0]
         if j <= 4:
             return base[j]
         if j == 5:
@@ -121,8 +121,10 @@ def montar(F):
             y = y_lado(x, z)
         if i == 0:
             y -= c['canto_frente']
+            x += c.get('dx_frente', [0.0] * NR)[j]      # a inclinação da frente, fiada por fiada
         if i == 21:
             y -= c['canto_tras']
+            x += c.get('dx_tras', [0.0] * NR)[j]        # a inclinação da traseira
         return (x, y, z)
 
     for i in range(22):
