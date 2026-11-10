@@ -1,0 +1,46 @@
+# Checagem automática dos carros do acervo (ferramentas/checar_carro.py, 10/11/2026): faces de costas à vista (somem no Unreal), luz
+# saltada da lataria, borracha do vidro flutuando e o arco de roda quebrado ou em dente de serra, nos cortes de veiculos/sketchfab/quebravel.
+# Roda quando um corte, um kit ou a própria checagem muda; falha se algum carro falha.
+name: checar-carros
+on:
+  push:
+    paths:
+      - "veiculos/sketchfab/quebravel/**"
+      - "veiculos/sketchfab/completo/**"
+      - "ferramentas/checar_carro.py"
+      - ".github/workflows/checar-carros.yml"
+  pull_request:
+    paths:
+      - "veiculos/sketchfab/quebravel/**"
+      - "veiculos/sketchfab/completo/**"
+      - "ferramentas/checar_carro.py"
+  workflow_dispatch:
+jobs:
+  checar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Blender pelo PyPI (o mesmo 5.2 da nuvem e do PC)
+        run: |
+          sudo apt-get update && sudo apt-get install -y libxi6 libxkbcommon0 libsm6 libgl1 libegl1
+          pip install bpy==5.2.3
+      - name: Checar os carros
+        run: |
+          falhou=0
+          for d in veiculos/sketchfab/quebravel/*/; do
+            id=$(basename "$d"); g="$d$id.glb"; [ -f "$g" ] || continue
+            k="veiculos/sketchfab/completo/$id/${id}_completo.glb"
+            echo "::group::$id"
+            python -I ferramentas/checar_carro.py -- "$g" --kit "$k" --json "checagem-$id.json" || falhou=1
+            echo "::endgroup::"
+          done
+          exit $falhou
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: checagem
+          path: checagem-*.json

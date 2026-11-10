@@ -19,10 +19,14 @@ Conserto dos defeitos que a auditar_carro.py acha (08/11/2026), no GLB do corte 
     carroceria (soldada; mais de 30 cm de altura, menos de 3 cm de lado e menos de 400 vértices) afina em volta do próprio eixo: 45 % na base até 20 % na ponta;
   - peça grande demais (--escala peca:fator, repetível): a peça diminui a partir da borda presa à carroceria (o lado mais perto do meio
     do carro em Y), o retrovisor menor sem soltar da porta.
+  - sobra na caixa (--apagar peca:x0,x1,y0,y1,z0,z1, repetível, 10/11/2026: no Cuiabano, a casca pintada do retrovisor antigo ficou na
+    carroceria quando o retrovisor diminuiu, e saía como uma chapa vermelha amassada ao lado dele): as faces da peça com o centro na
+    caixa [m] saem; y0,y1 é em |y|, valendo para os dois lados.
 Não mexe em mais nada (materiais, nomes, UV e texturas voltam como vieram, pelo exportador glTF do Blender).
 
     python -I ferramentas/consertar_carro.py -- <carro.glb> [--normais] [--min-invertidas 20] [--vidro-vao x,y,z:peca ...] [--vidro-max-cm2 300]
-        [--alisar peca[:níveis] ...] [--borda-baixo peca ...] [--afinar-antena] [--escala peca:fator ...] [--saida outro.glb]
+        [--alisar peca[:níveis] ...] [--borda-baixo peca ...] [--afinar-antena] [--escala peca:fator ...] [--apagar peca:x0,x1,y0,y1,z0,z1 ...]
+        [--saida outro.glb]
 """
 import bpy
 import bmesh
@@ -288,6 +292,22 @@ for i, arg in enumerate(argv):
             continue
         escala_peca(o, float(fator))
         relatorio.append(f'{peca}: escala {fator} a partir da borda presa')
+    elif arg == '--apagar':
+        peca, _, caixa = argv[i + 1].partition(':')
+        o = bpy.data.objects.get(peca)
+        if not o:
+            relatorio.append(f'apagar: não achei {peca}')
+            continue
+        x0, x1, y0, y1, z0, z1 = (float(t) for t in caixa.split(','))
+        M = o.matrix_world
+        b = bmesh.new()
+        b.from_mesh(o.data)
+        fora = [f for f in b.faces if (lambda c: x0 <= c.x <= x1 and y0 <= abs(c.y) <= y1 and z0 <= c.z <= z1)(M @ f.calc_center_median())]
+        bmesh.ops.delete(b, geom=fora, context='FACES')
+        b.to_mesh(o.data)
+        b.free()
+        o.data.update()
+        relatorio.append(f'{peca}: {len(fora)} face(s) apagadas na caixa {caixa}')
     elif arg == '--alisar':
         peca, _, nv = argv[i + 1].partition(':')
         o = bpy.data.objects.get(peca)
