@@ -363,6 +363,9 @@ for nome, sinal, x_face, x_fim in (("bumper_front", 1, xb_f + 0.085, xb_f - 0.27
 xd0, xd1 = [float(v) for v in d["door_x"]]
 zb_ = float(d["zw"][1]) - 0.10
 for nome, lado in (("door_fl", 1), ("door_fr", -1)):
+    if nome not in objs:
+        print("  sem %s: a maçaneta fica de fora (o corte da porta não fechou)" % nome)
+        continue
     xm = xd0 + 0.28 * (xd1 - xd0)
     loc, nor, _, _ = bvh0.ray_cast(Vector((xm, 1.5 * lado, zb_)), Vector((0, -lado, 0)), 3.0)
     if loc is None:

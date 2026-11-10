@@ -133,9 +133,16 @@ class Corpo:
         YZy, YZz = grade(Y, Z)
         xf = c.xf_raw
         sel = (YZz > 0.56) & (YZz < 0.82) & (np.abs(YZy) < 0.76)
+        # 10/11/2026 (corte do Sketchfab como régua): nas pontas em y o raio da frente escorrega pelo canto e bate na porta ou no
+        # retrovisor, metros atrás; o ajuste robusto não tirava 30 % de pontos fora (rms 217 mm, a lataria saía 4,6 m). Só valem os
+        # pontos a até 25 cm da frente de verdade (o percentil 95 do x medido)
+        okf = sel & np.isfinite(xf)
+        sel = okf & (xf > np.percentile(xf[okf], 95) - 0.25)
         self.frente = Superficie(YZz[sel], YZy[sel], xf[sel], 2, 4, even_v=True, tol=0.03)   # x(z, y), par em y
         xr = c.xr_raw
         sel = (YZz > 0.56) & (YZz < 0.95) & (np.abs(YZy) < 0.76)
+        okr = sel & np.isfinite(xr)
+        sel = okr & (xr < np.percentile(xr[okr], 5) + 0.25)
         self.tras = Superficie(YZz[sel], YZy[sel], xr[sel], 2, 4, even_v=True, tol=0.03)
         # ---- fundo por x (saia, topo do para-choque), sem as caixas de roda
         self.zb = c.zb
