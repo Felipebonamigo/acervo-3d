@@ -6,8 +6,8 @@
  "folga": {
   "door_fl": 107,
   "door_fr": 107,
-  "door_rl": 92,
-  "door_rr": 92,
+  "door_rl": 91,
+  "door_rr": 91,
   "hood": 36,
   "trunk": 62
  },
@@ -18,7 +18,8 @@
     1.84,
     0.0,
     0.7
-   ]
+   ],
+   "largura": 0.065
   },
   "tras": {
    "peca": "trunk",
@@ -26,7 +27,8 @@
     -1.65,
     0.0,
     0.85
-   ]
+   ],
+   "largura": 0.06
   }
  },
  "espelho": {
@@ -108,7 +110,7 @@
   {
    "nome": "det_door_rl",
    "segue": "door_rl",
-   "triangulos": 184,
+   "triangulos": 182,
    "materiais": [
     "chassi"
    ]
@@ -116,7 +118,7 @@
   {
    "nome": "det_door_rr",
    "segue": "door_rr",
-   "triangulos": 184,
+   "triangulos": 182,
    "materiais": [
     "chassi"
    ]
@@ -124,7 +126,7 @@
   {
    "nome": "det_grille",
    "segue": "grille",
-   "triangulos": 92,
+   "triangulos": 224,
    "materiais": [
     "chassi",
     "cromo"
@@ -177,12 +179,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 216,
+   "triangulos": 348,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 3196
+ "triangulos": 3456
 }

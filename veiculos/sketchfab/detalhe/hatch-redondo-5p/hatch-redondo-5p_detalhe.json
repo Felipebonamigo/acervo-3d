@@ -9,7 +9,7 @@
   "door_rl": 103,
   "door_rr": 97,
   "hood": 191,
-  "trunk": 341
+  "trunk": 0
  },
  "emblema": {
   "frente": {
@@ -18,7 +18,8 @@
     1.925,
     0.0,
     0.76
-   ]
+   ],
+   "largura": 0.065
   },
   "tras": {
    "peca": "trunk",
@@ -26,7 +27,8 @@
     -1.759,
     0.0,
     0.98
-   ]
+   ],
+   "largura": 0.06
   }
  },
  "espelho": {
@@ -126,7 +128,7 @@
   {
    "nome": "det_grille",
    "segue": "grille",
-   "triangulos": 92,
+   "triangulos": 224,
    "materiais": [
     "chassi",
     "cromo"
@@ -179,12 +181,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 774,
+   "triangulos": 224,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 3892
+ "triangulos": 3474
 }

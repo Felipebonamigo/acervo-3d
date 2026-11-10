@@ -18,7 +18,8 @@
     1.966,
     0.0,
     0.589
-   ]
+   ],
+   "largura": 0.045
   },
   "tras": {
    "peca": "trunk",
@@ -26,7 +27,8 @@
     -1.809,
     0.0,
     0.716
-   ]
+   ],
+   "largura": 0.045
   }
  },
  "espelho": {
@@ -93,7 +95,7 @@
   {
    "nome": "det_bumper_front",
    "segue": "bumper_front",
-   "triangulos": 92,
+   "triangulos": 224,
    "materiais": [
     "chassi",
     "cromo"
@@ -178,12 +180,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 158,
+   "triangulos": 290,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 2472
+ "triangulos": 2736
 }

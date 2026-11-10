@@ -16,7 +16,8 @@
     1.658,
     0.0,
     0.665
-   ]
+   ],
+   "largura": 0.065
   },
   "tras": {
    "peca": "trunk",
@@ -24,7 +25,8 @@
     -1.815,
     0.0,
     0.71
-   ]
+   ],
+   "largura": 0.06
   }
  },
  "espelho": {},
@@ -59,7 +61,7 @@
   {
    "nome": "det_body",
    "segue": "body",
-   "triangulos": 184,
+   "triangulos": 316,
    "materiais": [
     "chassi",
     "cromo"
@@ -92,12 +94,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 684,
+   "triangulos": 816,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 2582
+ "triangulos": 2846
 }

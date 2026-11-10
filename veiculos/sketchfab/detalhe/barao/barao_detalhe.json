@@ -5,8 +5,8 @@
  "corte": "barao.glb",
  "folga": {
   "door_fl": 241,
-  "door_fr": 251,
-  "door_rl": 155,
+  "door_fr": 252,
+  "door_rl": 156,
   "door_rr": 161,
   "hood": 236,
   "trunk": 136
@@ -18,7 +18,8 @@
     2.083,
     0.0,
     0.655
-   ]
+   ],
+   "largura": 0.045
   },
   "tras": {
    "peca": "trunk",
@@ -26,7 +27,8 @@
     -2.172,
     0.0,
     0.94
-   ]
+   ],
+   "largura": 0.06
   }
  },
  "espelho": {
@@ -142,7 +144,7 @@
   {
    "nome": "det_door_fr",
    "segue": "door_fr",
-   "triangulos": 734,
+   "triangulos": 736,
    "materiais": [
     "chassi",
     "cromo"
@@ -151,7 +153,7 @@
   {
    "nome": "det_door_rl",
    "segue": "door_rl",
-   "triangulos": 488,
+   "triangulos": 490,
    "materiais": [
     "chassi",
     "cromo"
@@ -205,7 +207,7 @@
   {
    "nome": "det_hood",
    "segue": "hood",
-   "triangulos": 564,
+   "triangulos": 696,
    "materiais": [
     "chassi",
     "cromo"
@@ -230,12 +232,12 @@
   {
    "nome": "det_trunk",
    "segue": "trunk",
-   "triangulos": 364,
+   "triangulos": 496,
    "materiais": [
     "chassi",
     "cromo"
    ]
   }
  ],
- "triangulos": 5834
+ "triangulos": 6102
 }

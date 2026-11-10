@@ -12,8 +12,8 @@ do corte não trazem. Roda sobre o corte do carro_quebravel.py (a casca: body, d
 O que entra (cada coisa só se o carro não tiver; a tabela CARROS diz o que cada um já traz, conferido nas prévias de 06/11):
   folga      vão de porta, capô e tampa: faixa escura de 4 mm na borda de fora da chapa (o corte deixou fresta zero; carro de verdade
              tem 3 a 5 mm, que de longe é a linha escura que desenha a porta). Vai com a peça (door_*, hood, trunk).
-  emblema    emblema PRÓPRIO na frente e atrás: hexágono cromado sobre base preta com três barras horizontais decrescentes (não lembra
-             emblema de marca nenhuma: nada de oval, losango, círculo, gravata, H, asas, letras).
+  emblema    o emblema do jogo na frente e atrás: o "Estilhaço" (a logo escolhida pelo Felipe em 10/11/2026), estouro cromado de 8
+             pontas sobre borda preta, com o D vazado e inclinado; até 10/11 era um hexágono com três barras.
   limpador   dois braços com palheta no pé do para-brisa, deitados para o lado do carona (-Y), com o pivô e a capa (volante à esquerda).
              Pulado se a casca já tem algo sobre o vidro ali (detecção por raios).
   espelho    o vidro do retrovisor (material cromo) na face de trás de mirror_left/right, se ela não tem espelho.
@@ -329,18 +329,50 @@ def folga(casca, partes, rel, med_cintura=0.9, largura=0.0025, acima=0.0004):
         rel["folga"][nome] = n_arestas
 
 
+# o emblema do jogo (10/11/2026, a proposta 2 "Estilhaço" escolhida pelo Felipe; docs/img/logo/proposta-2-estilhaco.svg no Detonauto): o
+# estouro de 8 pontas (16 vértices) e o D vazado e inclinado 12 graus, nas coordenadas do SVG (100 x 100, centro do estouro em 50, 51; y para baixo)
+ESTILHACO = [(50, 2), (58, 30), (84, 10), (71, 38), (98, 42), (73, 55), (92, 80), (63, 69), (57, 98), (45, 72), (22, 92), (28, 64),
+             (2, 60), (26, 46), (8, 20), (37, 31)]
+ESTILHACO_CENTRO = (50, 51)
+
+
+def d_do_estilhaco(cx, r, x0, y0, y1, seg=10):
+    """O contorno de um D do SVG (reto em x0, a barriga em meio círculo de raio r em volta de cx, de y0 a y1), inclinado como o
+    skewX(-12) em volta de (50, 51)."""
+    pts = [(x0, y0)]
+    for k in range(seg + 1):
+        a = -math.pi / 2 + math.pi * k / seg
+        pts.append((cx + r * math.cos(a), (y0 + y1) / 2 + r * math.sin(a)))
+    pts.append((x0, y1))
+    t = math.tan(math.radians(12))
+    return [(x - t * (y - 51), y) for x, y in pts]
+
+
 def emblema_geo(g, c, nor, largura, preto=M_PRETO, cromo=M_CROMO):
-    """Emblema próprio: hexágono achatado cromado sobre base preta, com três barras horizontais decrescentes."""
+    """Emblema do jogo, o "Estilhaço": a base preta com o contorno do estouro, o estouro cromado por cima e o D vazado (preto) com o
+    miolo cromado. Monocromático no desenho; em relevo de 0,5 mm entre as camadas para ler a 2 cm."""
     ex, ey, ez = base_na_face(nor)
-    a, b = largura / 2, largura * 0.30
-    hexa = lambda s: [(a * s, 0), (a * 0.55 * s, b * s), (-a * 0.55 * s, b * s), (-a * s, 0), (-a * 0.55 * s, -b * s), (a * 0.55 * s, -b * s)]
     c = Vector(c) + ez * 0.0008
-    g.poligono(c, ex, ey, ez, hexa(1.0), 0.002, preto)
-    g.anel(c + ez * 0.002, ex, ey, ez, hexa(1.0), hexa(0.86), 0.003, cromo)
-    for k, frac in enumerate((0.62, 0.46, 0.30)):
-        y = b * (0.38 - 0.38 * k)
-        h = b * 0.13
-        g.poligono(c + ez * 0.002 + ey * y, ex, ey, ez, [(-a * frac, -h), (a * frac, -h), (a * frac, h), (-a * frac, h)], 0.0025, cromo)
+
+    def mapa(pts, escala=1.0):
+        return [((x - ESTILHACO_CENTRO[0]) * escala * largura / 100.0, -(y - ESTILHACO_CENTRO[1]) * escala * largura / 100.0) for x, y in pts]
+
+    def estrela(base, esp, escala, mat):
+        # a estrela não é convexa: em leque a partir do centro (o estouro é estrelado em volta dele), com as paredes de lado
+        pts = mapa(ESTILHACO, escala)
+        meio_b, meio_t = base, base + ez * esp
+        B = [base + ex * x + ey * y for x, y in pts]
+        T = [p + ez * esp for p in B]
+        n = len(B)
+        for i in range(n):
+            j = (i + 1) % n
+            g.face([meio_t, T[i], T[j]], mat)
+            g.face([meio_b, B[j], B[i]], mat)
+            g.face([B[i], B[j], T[j], T[i]], mat)
+    estrela(c, 0.002, 1.06, preto)                     # a borda preta em volta: o estouro lê sobre qualquer pintura
+    estrela(c + ez * 0.002, 0.0015, 1.0, cromo)
+    g.poligono(c + ez * 0.0035, ex, ey, ez, mapa(d_do_estilhaco(53, 18, 36, 33, 69)), 0.0005, preto)
+    g.poligono(c + ez * 0.004, ex, ey, ez, mapa(d_do_estilhaco(52, 9, 45, 42, 60)), 0.0005, cromo)
 
 
 def emblemas(casca, med, partes, rel):
@@ -357,30 +389,50 @@ def emblemas(casca, med, partes, rel):
             zs = [topo - 0.02 * i for i in range(40)]
             zs = [z for z in zs if z > med["z_saia"] + 0.2]
             x0 = med["x_tras"] - 0.6
-        achou = None
+        # o Estilhaço é quase quadrado (10/11/2026): o tamanho cheio pede a face lisa em +-3 cm na vertical; a grade baixa (
+        # o Caipora, o Tupiniquim, o jipe e o Lambari só têm +-2 cm, e ali entra o de 4,5 cm, do tamanho do hexágono de antes
+        cheio = 0.065 if qual == "frente" else 0.06
+        achou, grade = None, []
         for z in zs:
             h = casca.raio((x0, 0.0, z), (sx, 0, 0), None, 2.0)
             if h is None:
                 continue
             p, n, obj, mat = h
+            if obj.startswith("grille"):
+                grade.append(h)
             if not ok(obj, mat, n) or -sx * n.x < 0.45:
                 continue
-            # a face tem que ser lisa nos 4 cm em volta (sem pegar a borda de uma grade ou de uma lente)
-            liso = True
-            for dy, dz in ((0.035, 0), (-0.035, 0), (0, 0.02), (0, -0.02)):
-                h2 = casca.raio((x0, dy, z + dz), (sx, 0, 0), None, 2.0)
-                if h2 is None or not ok(h2[2], h2[3], h2[1]) or abs((h2[0] - p).x) > 0.02:
-                    liso = False
+            # a face tem que ser lisa em volta (sem pegar a borda de uma grade ou de uma lente); de cima para baixo, o tamanho cheio
+            # antes do pequeno na mesma altura (o emblema não desce para o para-choque)
+            for largura, meia_altura in ((cheio, 0.03), (0.045, 0.02)):
+                liso = True
+                for dy, dz in ((0.035, 0), (-0.035, 0), (0, meia_altura), (0, -meia_altura)):
+                    h2 = casca.raio((x0, dy, z + dz), (sx, 0, 0), None, 2.0)
+                    if h2 is None or not ok(h2[2], h2[3], h2[1]) or abs((h2[0] - p).x) > 0.02:
+                        liso = False
+                        break
+                if liso:
+                    achou = h
                     break
-            if liso:
-                achou = h
+            if achou is not None:
                 break
+        if achou is None and len(grade) >= 2:
+            # grade de frisos sem face lisa (a remodelada do Cuiabano, 6 frisos): o emblema preso na frente dos frisos, no meio da altura
+            # da grade, como nos carros de verdade; a borda preta do estouro faz a base
+            largura = 0.045
+            meio = sorted(grade, key=lambda h: h[0].z)[len(grade) // 2]
+            # a frente dos frisos: raios a cada 2 mm em +-3 cm (os de 2 cm passavam entre os frisos e achavam o fundo recuado, e o
+            # emblema ficava escondido atrás deles)
+            finos = [casca.raio((x0, 0.0, meio[0].z + 0.002 * k), (sx, 0, 0), None, 2.0) for k in range(-15, 16)]
+            frente = max(h[0].x * -sx for h in finos + grade if h is not None and h[2].startswith("grille")
+                         and abs(h[0].z - meio[0].z) < 0.031) * -sx
+            achou = (Vector((frente, 0.0, meio[0].z)), Vector((-sx, 0.0, 0.0)), meio[2], meio[3])
         if achou is None:
             rel["pulados"].append("emblema %s: sem face lisa no meio" % qual)
             continue
         p, n, obj, mat = achou
-        emblema_geo(partes.setdefault(obj, Geo()), p, n, 0.085 if qual == "frente" else 0.07)
-        rel["emblema"][qual] = {"peca": obj, "ponto": [round(c, 3) for c in p]}
+        emblema_geo(partes.setdefault(obj, Geo()), p, n, largura)
+        rel["emblema"][qual] = {"peca": obj, "ponto": [round(c, 3) for c in p], "largura": largura}
 
 
 def tem_coisa_no_vidro(casca, med, y):
