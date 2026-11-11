@@ -126,9 +126,9 @@
   "y_caixa_d": 0.36,
   "y_caixa_t": 0.36,
   "z_capo_tras": 0.95,
-  "z_capo_frente": 0.6989,
+  "z_capo_frente": 0.7004,
   "x_radiador": 1.7307,
-  "z_tampa_tras_borda": 0.6081,
+  "z_tampa_tras_borda": 0.6066,
   "z_mala": 0.29,
   "x_mala_frente": -1.2567,
   "x_mala_tras": -1.6891,
@@ -920,14 +920,14 @@
    "nome": "interior_portamalas_lanternas",
    "grupo": "porta_malas",
    "segue": null,
-   "triangulos": 1516,
-   "triangulos_lod1": 454,
+   "triangulos": 1504,
+   "triangulos_lod1": 450,
    "caixa_m": [
-    -1.678,
-    -1.327,
-    -0.666,
-    0.666,
-    0.628,
+    -1.686,
+    -1.335,
+    -0.667,
+    0.667,
+    0.627,
     0.81
    ],
    "materiais": [
@@ -1096,7 +1096,7 @@
    "triangulos_lod1": 1122,
    "caixa_m": [
     1.05,
-    1.796,
+    1.803,
     -0.36,
     0.36,
     0.201,
@@ -1777,14 +1777,14 @@
   }
  ],
  "triangulos": {
-  "lod0": 234072,
-  "lod1": 70142
+  "lod0": 234060,
+  "lod1": 70138
  },
  "triangulos_por_grupo": {
   "habitaculo": 87676,
   "porta": 21456,
   "vao_porta": 9312,
-  "porta_malas": 12864,
+  "porta_malas": 12852,
   "motor": 65110,
   "embaixo": 24518,
   "freios": 13136

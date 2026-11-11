@@ -301,43 +301,39 @@ class Carro:
                 por_mat.setdefault(mat_da_face(st), []).append((tuple(f), [tuple(c) for c in st]))
             for m, fs in por_mat.items():
                 o.somar(Pl, N, [f for f, _ in fs], m, uv=[u for _, u in fs], ilha='pele')
-            # o bolso: a parede e o fundo de refletor. O fundo é a própria lente encolhida e recuada, em degraus horizontais (o
-            # friso do refletor, que dá as faixas de brilho de um farol de verdade)
-            fundo = 0.065 if farol else 0.04
-            enc = 0.84
-            est = ST[:, :, 0]
-            passo_u = 2 ** self.nivel
-            Pf, Nf, Ff = [], [], []
-            for f, st in zip(Q, ST):
-                base = len(Pf)
-                iu = np.round((st[:, 0] - np.floor(st[:, 0].min() + 1e-6)) * passo_u).astype(int)
-                for v, k in zip(f, iu):
-                    Pf.append(cen + (P[v] - cen) * enc - eixo * (fundo + (0.007 if k % 2 else 0.0)))
-                Ff.append((base, base + 1, base + 2, base + 3))
-                q = np.array(Pf[base:base + 4])
-                n = np.cross(q[1] - q[0], q[3] - q[0])
-                n = n / max(np.linalg.norm(n), 1e-12)
-                if n @ eixo < 0:
-                    n = -n
-                Nf += [n] * 4
-            o.somar(np.array(Pf), np.array(Nf), Ff, 'refletor')
-            o.somar(np.array(Pf) - eixo * 0.012, -np.tile(eixo, (len(Pf), 1)), Ff, 'chassi')
+            # o bolso: uma cuba lisa e espelhada (cromo), mais funda no meio, como a parábola de um farol. No jogo o material
+            # "refletor" é acetinado e claro: numa cuba em degraus ele saía como papel amassado (captura do PC de 11/11/2026); o cromo
+            # numa cuba côncava reflete a rua pela lente. A lâmpada fica de refletor acetinado, que acende com o farol
+            fundo = 0.07 if farol else 0.045
+            enc = 0.86
+            lat = norm(np.cross(eixo, (0, 0, 1)))
+            cima = norm(np.cross(lat, eixo))
+            a, b = (P - cen) @ lat, (P - cen) @ cima
+            r2 = np.clip(((a / max(np.abs(a).max(), 1e-6)) ** 2 + (b / max(np.abs(b).max(), 1e-6)) ** 2) / 2.0, 0.0, 1.0)
+            prof = fundo * (0.42 + 0.58 * (1.0 - r2))
+            Pf = cen + (P - cen) * enc - eixo[None, :] * prof[:, None]
+            Nf = mu.normais_de_malha(Pf, Q)
+            if (Nf @ eixo).mean() < 0:
+                Nf = -Nf
+            Ff = [tuple(f) for f in Q]
+            o.somar(Pf, Nf, Ff, 'cromo')
+            o.somar(Pf - eixo * 0.012, -np.tile(eixo, (len(Pf), 1)), Ff, 'chassi')
             for laco in mu.lacos_de_borda(Q):
                 C = P[laco] - N[laco] * 0.004
-                B = cen + (P[laco] - cen) * enc - eixo * (fundo + 0.014)       # a parede passa do fundo: a carcaça fecha por trás
+                B = Pf[laco] - eixo * 0.014                                   # a parede passa do fundo: a carcaça fecha por trás
                 n = len(laco)
                 F = [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
                 Nn = norm(np.concatenate([cen - C, cen - B]) + eixo * 0.3)
-                o.somar(np.concatenate([C, B]), Nn, F, 'refletor')
+                o.somar(np.concatenate([C, B]), Nn, F, 'cromo')
                 # a carcaça por trás (vista do cofre e do porta-malas): encostada na boca, 4 mm afastada no fundo
-                o.somar(np.concatenate([C - N[laco] * 0.001, B - Nn[n:] * 0.004]), -Nn, F, 'chassi')
+                _, Db = mu.quadro_da_borda(P, N, laco)
+                o.somar(np.concatenate([C - Db * 0.0015, B - Nn[n:] * 0.004]), -Nn, F, 'chassi')
             # a lâmpada
             if farol:
-                lat = norm(np.cross(eixo, (0, 0, 1)))
-                mu.caixa_arredondada(o, cen - eixo * (fundo - 0.02), (eixo, lat, (0, 0, 1)), (0.02, 0.017, 0.017), 'cromo', nivel=2)
+                mu.caixa_arredondada(o, cen - eixo * (fundo - 0.024), (eixo, lat, (0, 0, 1)), (0.024, 0.017, 0.017), 'refletor', nivel=2)
             else:
-                # as divisórias pretas entre as cores
-                lat = norm(np.cross(eixo, (0, 0, 1)))
+                # as divisórias pretas entre as cores, e uma lâmpada de refletor no meio do vermelho
+                mu.caixa_arredondada(o, cen - eixo * (fundo - 0.016), (eixo, lat, (0, 0, 1)), (0.014, 0.012, 0.012), 'refletor', nivel=2)
                 ymin, ymax = np.abs(P[:, 1]).min(), np.abs(P[:, 1]).max()
                 sy = np.sign(cen[1])
                 zc, dz = cen[2], 0.5 * (P[:, 2].max() - P[:, 2].min())

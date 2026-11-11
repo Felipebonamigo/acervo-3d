@@ -169,5 +169,6 @@
     "--aparar-mais",
     "--vao-livre",
     "0.13"
-  ]
+  ],
+  "pecas_receita": true
 }

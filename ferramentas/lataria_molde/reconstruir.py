@@ -45,6 +45,11 @@ def main():
         if rodar(os.path.join(AQUI, '..', 'carro_completo.py'), '--corte', out, '--id', cid, '--out', kit, '--sem-previa', *F.get('kit_opcoes', [])):
             sys.exit('falhou: carro_completo.py')
         args += ['--kit', os.path.join(kit, cid + '_completo.glb')]
+    if F.get('pecas_receita'):
+        # as peças da receita (aerofólio, saias, para-choques trocáveis) sobre esta carroceria; a cadeia do jogo as procura em
+        # veiculos/sketchfab/pecas/<id>/ (Detonauto, Tools/Unreal/montar-cuiabano-completo.ps1)
+        if rodar(os.path.join(AQUI, '..', 'pecas_receita.py'), '--id', cid, '--glb', glb, '--out', os.path.join(RAIZ, 'veiculos', 'sketchfab', 'pecas')):
+            sys.exit('falhou: pecas_receita.py')
     codigo = rodar(os.path.join(AQUI, 'portao.py'), *args)
     if '--previa' in argv:
         extra = ['--kit', os.path.join(kit, cid + '_completo.glb')] if '--sem-kit' not in argv else []
