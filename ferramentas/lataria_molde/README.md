@@ -75,6 +75,7 @@ O CI (`.github/workflows/portao-lataria.yml`) reconstrói cada ficha e roda o po
 | `previa.py` | a prévia em Cycles do arquivo final, de um lado só, com as câmeras fixas da folha |
 | `medir_regua.py` | imprime as cotas de um modelo-régua |
 | `reconstruir.py` | o comando único |
+| `sobrepor.py` | o perfil do carro novo sobre o da régua (lado, frente, trás) e a diferença em cm por medida |
 
 ## Carros feitos
 

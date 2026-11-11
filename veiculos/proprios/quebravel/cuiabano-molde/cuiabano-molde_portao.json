@@ -1,17 +1,18 @@
 {
  "P1_costas_cm2": {
-  "fender_front_left": 1.31,
-  "fender_front_right": 0.64,
+  "body": 0.25,
+  "fender_front_left": 0.32,
+  "fender_front_right": 0.32,
   "glass_door_fl": 0.31,
   "glass_door_fr": 0.14,
-  "glass_windshield": 0.08,
-  "hood": 0.15
+  "glass_windshield": 0.17,
+  "hood": 0.13
  },
  "P3_fresta_mm": {
   "mediana": 4.0,
   "p5": 4.0,
   "p95": 4.01,
-  "dentro": 0.976,
+  "dentro": 0.973,
   "medidas": 1638,
   "por_par": {
    "body|door_fl": 4.0,
@@ -27,8 +28,8 @@
   }
  },
  "P2_degrau_mm": {
-  "p99": 0.03,
-  "maximo": 0.12
+  "p99": 0.02,
+  "maximo": 0.1
  },
  "P2_lentes": {
   "headlight_left": {
@@ -50,38 +51,38 @@
  },
  "P4_faceta": {
   "body": {
-   "maximo_graus": 24.4,
-   "acima": 0.0,
+   "maximo_graus": 38.6,
+   "acima": 0.0013,
    "normais_partidas": 0
   },
   "door_fl": {
-   "maximo_graus": 7.9,
+   "maximo_graus": 10.5,
    "acima": 0.0,
    "normais_partidas": 0
   },
   "door_fr": {
-   "maximo_graus": 7.9,
+   "maximo_graus": 10.5,
    "acima": 0.0,
    "normais_partidas": 0
   },
   "fender_front_left": {
-   "maximo_graus": 15.4,
+   "maximo_graus": 17.5,
    "acima": 0.0,
    "normais_partidas": 0
   },
   "fender_front_right": {
-   "maximo_graus": 33.8,
-   "acima": 0.0006,
+   "maximo_graus": 41.0,
+   "acima": 0.0007,
    "normais_partidas": 0
   },
   "hood": {
-   "maximo_graus": 31.5,
-   "acima": 0.0004,
+   "maximo_graus": 36.4,
+   "acima": 0.0005,
    "normais_partidas": 0
   },
   "trunk": {
-   "maximo_graus": 24.7,
-   "acima": 0.0001,
+   "maximo_graus": 35.1,
+   "acima": 0.0018,
    "normais_partidas": 0
   }
  },
@@ -108,8 +109,8 @@
   }
  },
  "P6": {
-  "triangulos": 161040,
-  "triangulos_com_rodas": 199088,
+  "triangulos": 161104,
+  "triangulos_com_rodas": 199152,
   "materiais": [
    "chassi",
    "cromo",

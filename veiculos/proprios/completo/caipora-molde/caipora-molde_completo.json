@@ -29,8 +29,8 @@
   "frente": [
    0.98,
    1.981,
-   -0.686,
-   0.686,
+   -0.689,
+   0.689,
    0.19,
    1.54
   ]
@@ -110,9 +110,9 @@
   "tampa_frente": [
    0.9953,
    1.9279,
-   -0.666,
-   0.666,
-   0.7003,
+   -0.6693,
+   0.6693,
+   0.7005,
    0.8811
   ],
   "tampa_tras": [
@@ -284,7 +284,7 @@
     0.383,
     0.98,
     -0.687,
-    0.702,
+    0.687,
     0.462,
     1.02
    ],
@@ -491,8 +491,8 @@
    "nome": "interior_acabamento_colunas",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 290,
-   "triangulos_lod1": 86,
+   "triangulos": 286,
+   "triangulos_lod1": 85,
    "caixa_m": [
     -0.479,
     0.794,
@@ -517,7 +517,7 @@
     0.294,
     0.682,
     0.22,
-    0.889
+    0.879
    ],
    "materiais": [
     "plastico"
@@ -532,7 +532,7 @@
    "caixa_m": [
     0.754,
     0.93,
-    -0.679,
+    -0.682,
     -0.294,
     0.22,
     0.856
@@ -1159,7 +1159,7 @@
    "triangulos_lod1": 5368,
    "caixa_m": [
     0.921,
-    1.477,
+    1.478,
     -0.323,
     0.394,
     0.209,
@@ -1225,8 +1225,8 @@
    "nome": "engine_mangueiras",
    "grupo": "motor",
    "segue": null,
-   "triangulos": 5148,
-   "triangulos_lod1": 1543,
+   "triangulos": 5142,
+   "triangulos_lod1": 1541,
    "caixa_m": [
     0.958,
     1.684,
@@ -1245,7 +1245,7 @@
    "nome": "engine_chicote",
    "grupo": "motor",
    "segue": null,
-   "triangulos": 7056,
+   "triangulos": 7058,
    "triangulos_lod1": 2116,
    "caixa_m": [
     0.977,
@@ -1777,15 +1777,15 @@
   }
  ],
  "triangulos": {
-  "lod0": 234060,
-  "lod1": 70138
+  "lod0": 234052,
+  "lod1": 70135
  },
  "triangulos_por_grupo": {
-  "habitaculo": 87676,
+  "habitaculo": 87672,
   "porta": 21456,
   "vao_porta": 9312,
   "porta_malas": 12852,
-  "motor": 65110,
+  "motor": 65106,
   "embaixo": 24518,
   "freios": 13136
  },

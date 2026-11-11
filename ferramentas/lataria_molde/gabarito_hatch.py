@@ -51,7 +51,9 @@ def montar(F):
         w, zo = meia_largura(x), z_ombro(x)
         if z <= z_larg:
             return w - c['recuo_soleira'] * ((z_larg - z) / (z_larg - z_sol)) ** 2
-        return w - c['recuo_cintura'] * min(1.0, (z - z_larg) / max(zo - z_larg, 1e-3)) ** 1.8
+        # onde o ombro é baixo (na frente, sobre o capô) a lateral quase não recolhe: o recuo acompanha a altura do ombro
+        rec = c['recuo_cintura'] * min(1.0, max(zo - z_larg, 0.0) / max(z_cint - z_larg, 1e-3)) ** 1.5
+        return w - rec * min(1.0, (z - z_larg) / max(zo - z_larg, 1e-3)) ** 1.8
 
     def z_fiada(j, x, i):
         zo = z_ombro(x)
