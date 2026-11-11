@@ -1,6 +1,6 @@
 {
  "P1_costas_cm2": {
-  "fender_front_left": 0.32,
+  "fender_front_left": 1.31,
   "fender_front_right": 0.64,
   "glass_door_fl": 0.31,
   "glass_door_fr": 0.14,
@@ -11,7 +11,7 @@
   "mediana": 4.0,
   "p5": 4.0,
   "p95": 4.01,
-  "dentro": 0.979,
+  "dentro": 0.976,
   "medidas": 1638,
   "por_par": {
    "body|door_fl": 4.0,
@@ -65,7 +65,7 @@
    "normais_partidas": 0
   },
   "fender_front_left": {
-   "maximo_graus": 15.7,
+   "maximo_graus": 15.4,
    "acima": 0.0,
    "normais_partidas": 0
   },
@@ -89,22 +89,22 @@
   "dianteiro_esq": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   },
   "dianteiro_dir": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   },
   "traseiro_esq": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   },
   "traseiro_dir": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   }
  },
  "P6": {

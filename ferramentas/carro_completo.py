@@ -18,6 +18,7 @@ Uso (Blender 5.2 ou o módulo bpy num venv; a parte de medidas roda em Python pu
     --sem-previa         não renderiza
     --sem-saia-para-choque  sem a chapa da saia sob os para-choques (o plano dela continua aparando o kit)
     --aparar-mais [zf zt]  tira também o que sai da casca no motor (acima de zf) e no porta-malas (acima de zt)
+    --vao-livre <m>      vão livre mínimo do escapamento ao chão (sem ele o abafador fica a poucos centímetros do asfalto)
     --so-medidas         só imprime as medidas derivadas (não precisa do bpy)
 
 Saída em --out:
@@ -3695,6 +3696,10 @@ class Kit:
         M = self.M
         p = self.nova("under_escapamento", "embaixo")
         zb = M["z_piso"] - 0.10
+        if getattr(self, "vao_livre", None):
+            # --vao-livre (11/11/2026, "peça pendurada embaixo do carro"): o abafador desce uns 7 cm do eixo do tubo; com o tubo a
+            # z_piso - 10 cm ele ficava a 1 a 4 cm do chão. O tubo sobe até o escapamento respeitar o vão livre pedido
+            zb = max(zb, self.vao_livre + 0.07)
         if M["motor_traseiro"]:
             Mm = self.motor_traseiro_escape
             xq = M["x_tras"] + 0.22
@@ -4804,6 +4809,8 @@ def parse_args(argv):
     p.add_argument("--sem-previa", action="store_true")
     p.add_argument("--sem-saia-para-choque", action="store_true",
                    help="não desenha a chapa da saia sob os para-choques (o plano dela continua aparando o kit)")
+    p.add_argument("--vao-livre", type=float, default=None, metavar="M",
+                   help="vão livre mínimo do escapamento ao chão, em metros (padrão: como antes, o tubo a z_piso - 10 cm)")
     p.add_argument("--aparar-mais", type=float, nargs="*", default=None, metavar="Z",
                    help="também tira as faces do motor (acima de z da frente) e do porta-malas (acima de z de trás) que saem da casca")
     p.add_argument("--puxar-para-dentro", action="store_true",
@@ -4856,6 +4863,7 @@ def principal(argv):
     mats = Materiais(estilo, pint, cfg["epoca"])
     kit = Kit(M, cfg, estilo, mats, casca)
     kit.capo_pelas_pontas = a.aparar_mais is not None
+    kit.vao_livre = a.vao_livre
     kit.sem_saia_para_choque = a.sem_saia_para_choque
     kit._mapa_parts = corte["mapa"]["parts"]
     kit.habitaculo()

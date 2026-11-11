@@ -10,7 +10,7 @@
   "mediana": 4.0,
   "p5": 4.0,
   "p95": 4.01,
-  "dentro": 0.98,
+  "dentro": 0.978,
   "medidas": 1638,
   "por_par": {
    "body|door_fl": 4.0,
@@ -43,13 +43,13 @@
    "afundada_mm": 0.0
   },
   "taillight_right": {
-   "saliente_mm": 0.04,
+   "saliente_mm": 0.03,
    "afundada_mm": 0.0
   }
  },
  "P4_faceta": {
   "body": {
-   "maximo_graus": 14.9,
+   "maximo_graus": 14.8,
    "acima": 0.0,
    "normais_partidas": 0
   },
@@ -64,12 +64,12 @@
    "normais_partidas": 0
   },
   "fender_front_left": {
-   "maximo_graus": 13.7,
+   "maximo_graus": 13.5,
    "acima": 0.0,
    "normais_partidas": 0
   },
   "fender_front_right": {
-   "maximo_graus": 16.4,
+   "maximo_graus": 15.9,
    "acima": 0.0,
    "normais_partidas": 0
   },
@@ -88,22 +88,22 @@
   "dianteiro_esq": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   },
   "dianteiro_dir": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   },
   "traseiro_esq": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   },
   "traseiro_dir": {
    "raio_mm": 335.0,
    "residuo_mm": 0.0,
-   "pontos": 130
+   "pontos": 122
   }
  },
  "P6": {

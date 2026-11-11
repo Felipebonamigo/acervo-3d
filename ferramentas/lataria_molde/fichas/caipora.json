@@ -8,7 +8,7 @@
     "comprimento_casca": 3.56,
     "meia_largura": 0.78,
     "afina_planta": 0.05,
-    "z_soleira": 0.26,
+    "z_soleira": 0.22,
     "z_base_porta": 0.34,
     "z_topo_para_choque": 0.57,
     "z_friso": 0.69,
@@ -69,7 +69,7 @@
       -1.2
     ],
     "fiadas_frente": [
-      0.26,
+      0.22,
       0.34,
       0.45,
       0.57,
@@ -79,7 +79,7 @@
       0.775
     ],
     "fiadas_tras": [
-      0.26,
+      0.22,
       0.34,
       0.45,
       0.62,
@@ -189,6 +189,8 @@
   },
   "kit_opcoes": [
     "--sem-saia-para-choque",
-    "--aparar-mais"
+    "--aparar-mais",
+    "--vao-livre",
+    "0.13"
   ]
 }
