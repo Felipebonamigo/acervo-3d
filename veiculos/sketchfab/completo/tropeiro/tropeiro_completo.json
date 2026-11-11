@@ -958,7 +958,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -978,7 +979,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1000,7 +1002,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -1020,7 +1023,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1045,7 +1049,8 @@
     "aluminio_po",
     "borracha_po",
     "reservatorio_po",
-    "amarelo"
+    "amarelo",
+    "chassi_graxa"
    ]
   },
   {
@@ -1064,7 +1069,8 @@
    ],
    "materiais": [
     "isolante_po",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1086,7 +1092,8 @@
     "metal_preto_po",
     "plastico_po",
     "borracha_po",
-    "chicote_po"
+    "chicote_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1308,7 +1315,7 @@
     1.02,
     -0.255,
     0.515,
-    -0.054,
+    0.1,
     0.723
    ],
    "materiais": [
@@ -1872,14 +1879,5 @@
   "vinil",
   "volante",
   "volante_gasto"
- ],
- "previas": [
-  "tropeiro_porta.jpg",
-  "tropeiro_porta_solta.jpg",
-  "tropeiro_cabine.jpg",
-  "tropeiro_painel.jpg",
-  "tropeiro_motor.jpg",
-  "tropeiro_baixo.jpg"
- ],
- "previa_faces_do_para_brisa_tiradas": 1789
+ ]
 }

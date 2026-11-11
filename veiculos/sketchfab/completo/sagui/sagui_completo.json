@@ -881,7 +881,7 @@
     -1.21,
     -0.713,
     0.713,
-    0.083,
+    0.108,
     0.865
    ],
    "materiais": [
@@ -890,7 +890,8 @@
     "plastico",
     "cromado.002",
     "metal_preto",
-    "ferro"
+    "ferro",
+    "chassi_graxa"
    ]
   },
   {
@@ -904,8 +905,8 @@
     -1.013,
     -0.291,
     0.291,
-    0.091,
-    0.279
+    0.116,
+    0.304
    ],
    "materiais": [
     "borracha",
@@ -971,7 +972,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -991,7 +993,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1013,7 +1016,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -1033,7 +1037,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1058,7 +1063,8 @@
     "aluminio_po",
     "borracha_po",
     "reservatorio_po",
-    "amarelo"
+    "amarelo",
+    "chassi_graxa"
    ]
   },
   {
@@ -1077,7 +1083,8 @@
    ],
    "materiais": [
     "isolante_po",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1099,7 +1106,8 @@
     "metal_preto_po",
     "plastico_po",
     "borracha_po",
-    "chicote_po"
+    "chicote_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1321,8 +1329,8 @@
     1.07,
     -0.255,
     0.495,
-    -0.06,
-    0.714
+    0.1,
+    0.713
    ],
    "materiais": [
     "metal_preto_graxa",
@@ -1885,14 +1893,5 @@
   "vinil",
   "volante",
   "volante_gasto"
- ],
- "previas": [
-  "sagui_porta.jpg",
-  "sagui_porta_solta.jpg",
-  "sagui_cabine.jpg",
-  "sagui_painel.jpg",
-  "sagui_motor.jpg",
-  "sagui_baixo.jpg"
- ],
- "previa_faces_do_para_brisa_tiradas": 2608
+ ]
 }

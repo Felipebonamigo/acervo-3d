@@ -15,7 +15,7 @@ Sem render: a malha do corte (veiculos/sketchfab/quebravel/<id>/<id>.glb), com o
   C2 retrovisor com carcaça de C2_CM ou mais de fundo (o retrovisor padrão do passe_detalhe.py tem 8,5 a 10 cm).
   C3 vidro sem camadas: até C3_FRACAO das faces com outra paralela a menos de 3 mm por cima (o risco branco do reflexo). Com --consertar,
      a camada de baixo sai.
-  C4 pneu com o material pneu e albedo de C4_ALBEDO ou menos; roda com C4_RODA_CM ou mais de fundo.
+  C4 pneu com o material pneu (o albedo é o do MI_DNRoda_pneu do jogo, não o do rascunho do corte); roda com C4_RODA_CM ou mais de fundo.
   C5 material próprio: para-choque não pintado, farol e lanterna com lente, vidro com vidro (o carro "de gesso").
   C6 nada além de roda e ponteira a menos de C6_CHAO do chão (o tanque pendurado do Cuiabano).
   C7 lanterna vermelha, pisca âmbar, ré branca e farol com fundo.
@@ -556,15 +556,8 @@ for o in rodas:
         nm = nomes_mat(o)
         if 'pneu' not in nm:
             falha('C4', o.name, 'pneu sem o material pneu (%s)' % ', '.join(sorted(set(nm))))
-        for sl in o.material_slots:
-            m = sl.material
-            if m and m.use_nodes and m.name.split('.')[0] == 'pneu':
-                b = next((n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
-                if b and not b.inputs['Base Color'].links:
-                    c = b.inputs['Base Color'].default_value
-                    alb = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
-                    if alb > C4_ALBEDO:
-                        falha('C4', o.name, 'pneu claro: albedo %.2f (máx. %.2f)' % (alb, C4_ALBEDO))
+        # o albedo do pneu não se mede aqui: a cor do material pneu do corte é rascunho (0,8); no jogo e na prévia o pneu é a roda de kit
+        # com o MI_DNRoda_pneu (albedo 0,022, dn_car_materials.py), pelo nome do material
     elif o.name.endswith('_rim'):
         ys = [v.co.y for v in BM[o.name].verts]
         prof = (max(ys) - min(ys)) * 100

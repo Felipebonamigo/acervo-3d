@@ -883,7 +883,8 @@
     "plastico",
     "cromado.001",
     "metal_preto",
-    "ferro"
+    "ferro",
+    "chassi_graxa"
    ]
   },
   {
@@ -943,7 +944,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -963,7 +965,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -985,7 +988,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -1005,7 +1009,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1030,7 +1035,8 @@
     "aluminio_po",
     "borracha_po",
     "reservatorio_po",
-    "amarelo"
+    "amarelo",
+    "chassi_graxa"
    ]
   },
   {
@@ -1049,7 +1055,8 @@
    ],
    "materiais": [
     "isolante_po",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1071,7 +1078,8 @@
     "metal_preto_po",
     "plastico_po",
     "borracha_po",
-    "chicote_po"
+    "chicote_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1317,9 +1325,9 @@
     -1.376,
     0.7,
     -0.255,
-    0.716,
-    -0.071,
-    0.7
+    0.717,
+    0.1,
+    0.699
    ],
    "materiais": [
     "metal_preto_graxa",
@@ -1488,12 +1496,12 @@
    "triangulos": 648,
    "triangulos_lod1": 194,
    "caixa_m": [
-    -1.678,
-    1.502,
+    -1.671,
+    1.496,
     -0.59,
     0.59,
-    0.18,
-    0.314
+    0.21,
+    0.315
    ],
    "materiais": [
     "chassi_graxa"
@@ -1836,14 +1844,5 @@
   "vinil",
   "vinil_2",
   "vinil_gasto"
- ],
- "previas": [
-  "jabuti_porta.jpg",
-  "jabuti_porta_solta.jpg",
-  "jabuti_cabine.jpg",
-  "jabuti_painel.jpg",
-  "jabuti_motor.jpg",
-  "jabuti_baixo.jpg"
- ],
- "previa_faces_do_para_brisa_tiradas": 4555
+ ]
 }

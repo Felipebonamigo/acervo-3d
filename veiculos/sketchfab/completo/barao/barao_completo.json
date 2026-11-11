@@ -210,7 +210,7 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 3248,
-   "triangulos_lod1": 1457,
+   "triangulos_lod1": 1441,
    "caixa_m": [
     -0.66,
     0.69,
@@ -441,10 +441,10 @@
    "caixa_m": [
     -1.211,
     -0.195,
-    -0.779,
+    -0.784,
     0.779,
     0.22,
-    0.915
+    0.916
    ],
    "materiais": [
     "plastico",
@@ -456,8 +456,8 @@
    "nome": "interior_forro_teto",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 10224,
-   "triangulos_lod1": 3064,
+   "triangulos": 10226,
+   "triangulos_lod1": 3063,
    "caixa_m": [
     -1.306,
     0.244,
@@ -478,11 +478,11 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 2696,
-   "triangulos_lod1": 806,
+   "triangulos_lod1": 807,
    "caixa_m": [
     -0.041,
     0.131,
-    -0.583,
+    -0.581,
     0.568,
     1.286,
     1.382
@@ -536,7 +536,7 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 204,
-   "triangulos_lod1": 61,
+   "triangulos_lod1": 60,
    "caixa_m": [
     0.82,
     0.954,
@@ -554,7 +554,7 @@
    "grupo": "habitaculo",
    "segue": null,
    "triangulos": 204,
-   "triangulos_lod1": 60,
+   "triangulos_lod1": 61,
    "caixa_m": [
     0.819,
     0.953,
@@ -598,7 +598,7 @@
     -0.19,
     0.83,
     0.704,
-    0.838,
+    0.829,
     0.322,
     0.938
    ],
@@ -723,7 +723,7 @@
     -0.847,
     -0.731,
     0.31,
-    0.926
+    0.929
    ],
    "materiais": [
     "pintura_interna",
@@ -744,7 +744,7 @@
     -0.838,
     -0.71,
     0.32,
-    0.935
+    0.938
    ],
    "materiais": [
     "plastico",
@@ -864,7 +864,7 @@
    "caixa_m": [
     -0.978,
     -0.189,
-    0.727,
+    0.725,
     0.845,
     0.306,
     0.928
@@ -888,7 +888,7 @@
     0.679,
     0.827,
     0.311,
-    0.936
+    0.941
    ],
    "materiais": [
     "plastico",
@@ -1004,7 +1004,7 @@
    "grupo": "porta",
    "segue": "door_rr",
    "triangulos": 2732,
-   "triangulos_lod1": 819,
+   "triangulos_lod1": 818,
    "caixa_m": [
     -0.978,
     -0.189,
@@ -1147,8 +1147,8 @@
    "nome": "interior_portamalas_carpete",
    "grupo": "porta_malas",
    "segue": null,
-   "triangulos": 6094,
-   "triangulos_lod1": 1827,
+   "triangulos": 6100,
+   "triangulos_lod1": 1829,
    "caixa_m": [
     -2.122,
     -1.32,
@@ -1603,8 +1603,8 @@
     0.87,
     -0.255,
     0.773,
-    -0.065,
-    0.732
+    0.1,
+    0.731
    ],
    "materiais": [
     "metal_preto_graxa",
@@ -2092,14 +2092,14 @@
   }
  ],
  "triangulos": {
-  "lod0": 274942,
-  "lod1": 82883
+  "lod0": 274950,
+  "lod1": 82868
  },
  "triangulos_por_grupo": {
-  "habitaculo": 88776,
+  "habitaculo": 88778,
   "porta": 43748,
   "vao_porta": 21946,
-  "porta_malas": 11818,
+  "porta_malas": 11824,
   "motor": 67852,
   "embaixo": 24450,
   "freios": 16352
@@ -2167,14 +2167,5 @@
   "vinil",
   "volante",
   "volante_gasto"
- ],
- "previas": [
-  "barao_porta.jpg",
-  "barao_porta_solta.jpg",
-  "barao_cabine.jpg",
-  "barao_painel.jpg",
-  "barao_motor.jpg",
-  "barao_baixo.jpg"
- ],
- "previa_faces_do_para_brisa_tiradas": 1270
+ ]
 }

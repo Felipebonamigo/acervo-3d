@@ -281,8 +281,8 @@
    "nome": "interior_painel",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 12466,
-   "triangulos_lod1": 3738,
+   "triangulos": 12514,
+   "triangulos_lod1": 3753,
    "caixa_m": [
     0.331,
     0.91,
@@ -433,13 +433,13 @@
    "nome": "interior_forro_teto",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 9994,
-   "triangulos_lod1": 2998,
+   "triangulos": 9986,
+   "triangulos_lod1": 2994,
    "caixa_m": [
     -1.216,
     0.36,
     -0.556,
-    0.552,
+    0.556,
     1.227,
     1.382
    ],
@@ -494,14 +494,14 @@
    "nome": "interior_acabamento_colunas",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 204,
-   "triangulos_lod1": 61,
+   "triangulos": 210,
+   "triangulos_lod1": 63,
    "caixa_m": [
     -0.28,
     0.625,
     -0.693,
-    0.687,
-    0.893,
+    0.693,
+    0.894,
     1.329
    ],
    "materiais": [
@@ -548,8 +548,8 @@
    "nome": "interior_carga",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 7010,
-   "triangulos_lod1": 2103,
+   "triangulos": 7022,
+   "triangulos_lod1": 2106,
    "caixa_m": [
     -1.51,
     -0.35,
@@ -617,7 +617,7 @@
     0.577,
     0.738,
     0.265,
-    0.953
+    0.955
    ],
    "materiais": [
     "plastico",
@@ -733,15 +733,15 @@
    "nome": "door_card_fr_chapa",
    "grupo": "porta",
    "segue": "door_fr",
-   "triangulos": 2466,
-   "triangulos_lod1": 739,
+   "triangulos": 2482,
+   "triangulos_lod1": 744,
    "caixa_m": [
     -0.337,
     0.751,
     -0.754,
     -0.596,
     0.235,
-    0.955
+    0.941
    ],
    "materiais": [
     "pintura_interna",
@@ -762,7 +762,7 @@
     -0.738,
     -0.577,
     0.265,
-    0.955
+    0.953
    ],
    "materiais": [
     "plastico",
@@ -900,7 +900,7 @@
    "grupo": "porta",
    "segue": "door_rl",
    "triangulos": 7988,
-   "triangulos_lod1": 2395,
+   "triangulos_lod1": 2396,
    "caixa_m": [
     -1.06,
     -0.22,
@@ -1203,7 +1203,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -1223,7 +1224,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1245,7 +1247,8 @@
     "borracha_po",
     "aluminio_po",
     "metal_preto_po",
-    "fio"
+    "fio",
+    "chassi_graxa"
    ]
   },
   {
@@ -1265,7 +1268,8 @@
    "materiais": [
     "chassi_po",
     "fio",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1290,7 +1294,8 @@
     "aluminio_po",
     "borracha_po",
     "reservatorio_po",
-    "amarelo"
+    "amarelo",
+    "chassi_graxa"
    ]
   },
   {
@@ -1309,7 +1314,8 @@
    ],
    "materiais": [
     "isolante_po",
-    "pintura_interna_po"
+    "pintura_interna_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1331,7 +1337,8 @@
     "metal_preto_po",
     "plastico_po",
     "borracha_po",
-    "chicote_po"
+    "chicote_po",
+    "chassi_graxa"
    ]
   },
   {
@@ -1567,14 +1574,14 @@
    "nome": "under_tanque",
    "grupo": "embaixo",
    "segue": null,
-   "triangulos": 906,
+   "triangulos": 904,
    "triangulos_lod1": 270,
    "caixa_m": [
-    -1.442,
+    -1.443,
     0.77,
     -0.255,
     0.706,
-    -0.082,
+    0.1,
     0.713
    ],
    "materiais": [
@@ -1746,8 +1753,8 @@
    "triangulos": 432,
    "triangulos_lod1": 128,
    "caixa_m": [
-    -1.417,
-    1.726,
+    -1.416,
+    1.725,
     -0.705,
     0.705,
     0.145,
@@ -2021,16 +2028,16 @@
   }
  ],
  "triangulos": {
-  "lod0": 251866,
-  "lod1": 75496
+  "lod0": 251938,
+  "lod1": 75518
  },
  "triangulos_por_grupo": {
-  "habitaculo": 82378,
-  "porta": 42028,
+  "habitaculo": 82436,
+  "porta": 42044,
   "vao_porta": 19076,
   "porta_malas": 5716,
   "motor": 66130,
-  "embaixo": 23402,
+  "embaixo": 23400,
   "freios": 13136
  },
  "materiais": [
@@ -2095,14 +2102,5 @@
   "vermelho",
   "volante",
   "volante_gasto"
- ],
- "previas": [
-  "furgaozinho_porta.jpg",
-  "furgaozinho_porta_solta.jpg",
-  "furgaozinho_cabine.jpg",
-  "furgaozinho_painel.jpg",
-  "furgaozinho_motor.jpg",
-  "furgaozinho_baixo.jpg"
- ],
- "previa_faces_do_para_brisa_tiradas": 859
+ ]
 }
