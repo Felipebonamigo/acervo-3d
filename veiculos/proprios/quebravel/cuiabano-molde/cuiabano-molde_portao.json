@@ -108,8 +108,8 @@
   }
  },
  "P6": {
-  "triangulos": 158544,
-  "triangulos_com_rodas": 196592,
+  "triangulos": 160656,
+  "triangulos_com_rodas": 198704,
   "materiais": [
    "chassi",
    "cromo",
@@ -184,10 +184,10 @@
    "altura_cm": 10.0
   },
   "bumper_front": {
-   "balanco_cm": 6.4
+   "balanco_cm": 6.6
   },
   "bumper_rear": {
-   "balanco_cm": 6.4
+   "balanco_cm": 6.6
   }
  },
  "falhas": [],

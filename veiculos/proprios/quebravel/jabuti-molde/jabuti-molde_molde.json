@@ -21,14 +21,14 @@
   "taillight_left": 1056,
   "taillight_right": 1056,
   "grille": 1680,
-  "bumper_front": 5280,
-  "bumper_rear": 5280,
+  "bumper_front": 6336,
+  "bumper_rear": 6336,
   "plate_front": 194,
   "plate_rear": 194,
   "mirror_left": 386,
   "mirror_right": 386
  },
- "triangulos_total": 158504,
+ "triangulos_total": 160616,
  "materiais": [
   "chassi",
   "cromo",
@@ -41,7 +41,7 @@
   "refletor",
   "vidro"
  ],
- "uv_por_metro": 0.19380969199505035,
+ "uv_por_metro": 0.19468278925247517,
  "fresta": 0.004,
  "arcos": {
   "raio": 0.335,
@@ -51,6 +51,6 @@
    -1.1105
   ]
  },
- "triangulos_lod1": 56296,
- "triangulos_lod2": 14376
+ "triangulos_lod1": 58408,
+ "triangulos_lod2": 14904
 }

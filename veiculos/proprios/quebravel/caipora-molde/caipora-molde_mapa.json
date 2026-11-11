@@ -2,7 +2,7 @@
  "car": "caipora-molde",
  "notes": "Mapa escrito por ferramentas/lataria_molde/construir.py a partir da ficha e das peças geradas (lataria por molde). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
  "medidas": {
-  "comprimento": 3.865,
+  "comprimento": 3.873,
   "meia_largura": 0.777,
   "altura": 1.387,
   "eixo_dianteiro": 1.2067,
@@ -193,11 +193,11 @@
    "take": "faces",
    "box": [
     1.5457,
-    1.9755,
-    -0.7532,
-    0.7532,
-    0.3107,
-    0.5733
+    1.9807,
+    -0.7564,
+    0.7564,
+    0.3706,
+    0.5734
    ],
    "thickness": 0.004,
    "pocket": 0.02
@@ -207,12 +207,12 @@
    "papel": "bumper_rear",
    "take": "faces",
    "box": [
-    -1.8765,
+    -1.8791,
     -1.5457,
-    -0.7538,
-    0.7538,
-    0.3107,
-    0.5733
+    -0.7574,
+    0.7574,
+    0.3706,
+    0.5734
    ],
    "thickness": 0.004,
    "pocket": 0.02
@@ -462,12 +462,12 @@
    "papel": "plate",
    "take": "faces",
    "box": [
-    1.9755,
-    1.9883,
+    1.9807,
+    1.9935,
     -0.208,
     0.208,
-    0.337,
-    0.483
+    0.392,
+    0.538
    ],
    "thickness": 0.004,
    "pocket": 0.02

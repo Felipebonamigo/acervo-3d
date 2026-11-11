@@ -1,8 +1,6 @@
 {
  "P1_costas_cm2": {
   "body": 0.37,
-  "bumper_front": 0.04,
-  "bumper_rear": 0.14,
   "fender_front_left": 0.1,
   "glass_windshield": 0.25,
   "hood": 0.08
@@ -108,8 +106,8 @@
   }
  },
  "P6": {
-  "triangulos": 158504,
-  "triangulos_com_rodas": 196552,
+  "triangulos": 160616,
+  "triangulos_com_rodas": 198664,
   "materiais": [
    "chassi",
    "cromo",
@@ -184,10 +182,10 @@
    "altura_cm": 10.0
   },
   "bumper_front": {
-   "balanco_cm": 6.3
+   "balanco_cm": 6.6
   },
   "bumper_rear": {
-   "balanco_cm": 7.9
+   "balanco_cm": 8.1
   }
  },
  "falhas": [],

@@ -179,13 +179,13 @@
     },
     "grade_laminas": 6,
     "para_choque": {
-      "z_base": 0.33,
+      "z_base": 0.345,
       "saliencia_frente": 0.07,
       "saliencia_lado": 0.016,
       "material": "cromo",
       "pisca": false
     },
-    "z_placa_frente": 0.34,
+    "z_placa_frente": 0.35,
     "z_placa_tras": 0.535,
     "emblema_tras_z": 0.8,
     "friso_z": 0.47

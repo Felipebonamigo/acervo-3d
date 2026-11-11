@@ -2,7 +2,7 @@
  "car": "cuiabano-molde",
  "notes": "Mapa escrito por ferramentas/lataria_molde/construir.py a partir da ficha e das peças geradas (lataria por molde). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
  "medidas": {
-  "comprimento": 3.821,
+  "comprimento": 3.824,
   "meia_largura": 0.702,
   "altura": 1.356,
   "eixo_dianteiro": 1.193,
@@ -193,10 +193,10 @@
    "take": "faces",
    "box": [
     1.532,
-    1.9441,
-    -0.6946,
-    0.6946,
-    0.3256,
+    1.9455,
+    -0.6994,
+    0.6994,
+    0.3855,
     0.5634
    ],
    "thickness": 0.004,
@@ -207,11 +207,11 @@
    "papel": "bumper_rear",
    "take": "faces",
    "box": [
-    -1.8642,
+    -1.8657,
     -1.532,
-    -0.6946,
-    0.6946,
-    0.3256,
+    -0.6993,
+    0.6993,
+    0.3855,
     0.5634
    ],
    "thickness": 0.004,
@@ -462,12 +462,12 @@
    "papel": "plate",
    "take": "faces",
    "box": [
-    1.9441,
-    1.9569,
+    1.9455,
+    1.9583,
     -0.208,
     0.208,
-    0.327,
-    0.473
+    0.397,
+    0.543
    ],
    "thickness": 0.004,
    "pocket": 0.02

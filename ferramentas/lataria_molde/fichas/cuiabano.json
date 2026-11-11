@@ -158,10 +158,11 @@
     },
     "grade_laminas": 5,
     "para_choque": {
-      "z_base": 0.325,
+      "z_base": 0.385,
       "saliencia_frente": 0.055,
       "saliencia_lado": 0.014
-    }
+    },
+    "z_placa_frente": 0.405
   },
   "kit_opcoes": [
     "--sem-saia-para-choque",

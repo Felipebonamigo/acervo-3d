@@ -19,7 +19,7 @@
    1.397
   ],
   "traseira": [
-   -1.894,
+   -1.896,
    -1.405,
    -0.815,
    0.815,
@@ -28,7 +28,7 @@
   ],
   "frente": [
    0.791,
-   1.72,
+   1.722,
    -0.673,
    0.673,
    0.185,
@@ -38,8 +38,8 @@
  "vaos_nota": "faces com o material MI_DNVao do corte cujo centro cai numa destas caixas saem quando o kit entra (a casca escura atrás do vidro, das portas, do capô e da tampa)",
  "fundo_a_tirar_do_corte": {
   "caixa": [
-   -1.724,
-   1.55,
+   -1.726,
+   1.552,
    -0.705,
    0.705,
    -0.2,
@@ -59,14 +59,14 @@
   "xd": 1.1105,
   "xt": -1.1105,
   "entre_eixos": 2.221,
-  "comprimento": 3.627,
+  "comprimento": 3.631,
   "carroceria": "hatch",
   "bitola_d": 1.32,
   "y_pneu_dentro_d": 0.4,
   "bitola_t": 1.32,
   "y_pneu_dentro_t": 0.4,
-  "x_frente": 1.6697,
-  "x_tras": -1.8444,
+  "x_frente": 1.6722,
+  "x_tras": -1.8458,
   "z_saia": 0.335,
   "z_cintura": 0.887,
   "z_piso": 0.205,
@@ -127,11 +127,11 @@
   "y_caixa_t": 0.36,
   "z_capo_tras": 0.8723,
   "z_capo_frente": 0.7,
-  "x_radiador": 1.4697,
+  "x_radiador": 1.4722,
   "z_tampa_tras_borda": 0.5057,
   "z_mala": 0.285,
   "x_mala_frente": -1.205,
-  "x_mala_tras": -1.7044,
+  "x_mala_tras": -1.7058,
   "avisos": []
  },
  "portas": {
@@ -870,7 +870,7 @@
    "triangulos": 7144,
    "triangulos_lod1": 2142,
    "caixa_m": [
-    -1.729,
+    -1.731,
     -1.205,
     -0.668,
     0.668,
@@ -933,7 +933,7 @@
    "triangulos_lod1": 1456,
    "caixa_m": [
     0.757,
-    1.474,
+    1.477,
     0.207,
     0.405,
     0.201,
@@ -956,7 +956,7 @@
    "triangulos_lod1": 918,
    "caixa_m": [
     0.661,
-    1.57,
+    1.572,
     0.203,
     0.295,
     0.201,
@@ -977,7 +977,7 @@
    "triangulos_lod1": 1456,
    "caixa_m": [
     0.757,
-    1.474,
+    1.477,
     -0.405,
     -0.23,
     0.201,
@@ -1000,7 +1000,7 @@
    "triangulos_lod1": 918,
    "caixa_m": [
     0.661,
-    1.57,
+    1.572,
     -0.295,
     -0.203,
     0.201,
@@ -1047,7 +1047,7 @@
    "triangulos_lod1": 296,
    "caixa_m": [
     0.955,
-    1.42,
+    1.422,
     -0.3,
     0.3,
     0.797,
@@ -1071,7 +1071,7 @@
     -0.36,
     0.36,
     0.201,
-    0.819
+    0.818
    ],
    "materiais": [
     "pintura_interna_po",
@@ -1089,12 +1089,12 @@
    "triangulos": 1608,
    "triangulos_lod1": 482,
    "caixa_m": [
-    1.41,
-    1.51,
+    1.412,
+    1.512,
     -0.24,
     0.24,
     0.266,
-    0.77
+    0.769
    ],
    "materiais": [
     "radiador",
@@ -1108,10 +1108,10 @@
    "grupo": "motor",
    "segue": null,
    "triangulos": 1756,
-   "triangulos_lod1": 526,
+   "triangulos_lod1": 525,
    "caixa_m": [
-    1.316,
-    1.44,
+    1.318,
+    1.442,
     -0.3,
     0.1,
     0.3,
@@ -1159,7 +1159,7 @@
    "triangulos_lod1": 1090,
    "caixa_m": [
     0.92,
-    1.423,
+    1.425,
     0.038,
     0.331,
     0.257,
@@ -1181,7 +1181,7 @@
    "triangulos_lod1": 1094,
    "caixa_m": [
     0.831,
-    1.413,
+    1.415,
     -0.315,
     -0.153,
     0.291,
@@ -1199,11 +1199,11 @@
    "nome": "engine_mangueiras",
    "grupo": "motor",
    "segue": null,
-   "triangulos": 4192,
-   "triangulos_lod1": 1257,
+   "triangulos": 4198,
+   "triangulos_lod1": 1259,
    "caixa_m": [
     0.768,
-    1.422,
+    1.425,
     -0.266,
     0.229,
     0.272,
@@ -1219,11 +1219,11 @@
    "nome": "engine_chicote",
    "grupo": "motor",
    "segue": null,
-   "triangulos": 6420,
-   "triangulos_lod1": 1925,
+   "triangulos": 6432,
+   "triangulos_lod1": 1929,
    "caixa_m": [
     0.788,
-    1.397,
+    1.399,
     -0.336,
     0.352,
     0.446,
@@ -1240,11 +1240,11 @@
    "nome": "interior_portamalas_estepe",
    "grupo": "porta_malas",
    "segue": null,
-   "triangulos": 4090,
-   "triangulos_lod1": 1226,
+   "triangulos": 4112,
+   "triangulos_lod1": 1232,
    "caixa_m": [
-    0.865,
-    1.424,
+    0.867,
+    1.427,
     -0.245,
     0.306,
     0.317,
@@ -1264,7 +1264,7 @@
    "triangulos": 7992,
    "triangulos_lod1": 2396,
    "caixa_m": [
-    -1.624,
+    -1.626,
     0.781,
     -0.635,
     0.635,
@@ -1302,7 +1302,7 @@
    "triangulos": 1272,
    "triangulos_lod1": 380,
    "caixa_m": [
-    -1.795,
+    -1.797,
     1.239,
     -0.468,
     0.06,
@@ -1771,15 +1771,15 @@
   }
  ],
  "triangulos": {
-  "lod0": 237290,
-  "lod1": 71119
+  "lod0": 237330,
+  "lod1": 71130
  },
  "triangulos_por_grupo": {
   "habitaculo": 93694,
   "porta": 21078,
   "vao_porta": 9272,
-  "porta_malas": 12842,
-  "motor": 63548,
+  "porta_malas": 12864,
+  "motor": 63566,
   "embaixo": 24360,
   "freios": 12496
  },

@@ -409,8 +409,10 @@ class Carro:
         metade = meio + canto + lateral
         caminho = [(x, -y) for (x, y) in reversed(metade[1:])] + metade
         # o perfil (para fora, z): fechado, no sentido anti-horário visto com "fora" à direita
-        perfil = pc.get('perfil', [(-0.075, zt + 0.004), (-0.012, zt + 0.004), (0.0, zt - 0.02), (0.0, zb + 0.145), (0.010, zb + 0.135),
-                                    (0.010, zb + 0.095), (0.0, zb + 0.085), (0.0, zb + 0.03), (-0.014, zb), (-0.075, zb)])
+        # barra com chanfro em cima, faixa de borracha saliente no meio e lábio embaixo
+        perfil = pc.get('perfil', [(-0.075, zt + 0.004), (-0.022, zt + 0.004), (-0.004, zt - 0.010), (0.0, zt - 0.028), (0.0, zt - 0.052),
+                                    (0.011, zt - 0.060), (0.011, zb + 0.060), (0.0, zb + 0.052), (0.0, zb + 0.028), (-0.010, zb + 0.008),
+                                    (-0.030, zb), (-0.075, zb)])
         npf, nc = len(perfil), len(caminho)
         cam = np.array(caminho)
         V, Fc, UV = [], [], []
@@ -434,8 +436,8 @@ class Carro:
         UV.append([(0, 0)] * npf)
         ve = {}
         for i in range(nc - 1):
-            for k in (1, 2, 7, 8):
-                ve[(i * npf + k, (i + 1) * npf + k)] = 0.45
+            for k, w in ((1, 0.35), (2, 0.3), (4, 0.6), (5, 0.6), (6, 0.6), (7, 0.6), (10, 0.35)):
+                ve[(i * npf + k, (i + 1) * npf + k)] = w
         for i in (0, nc - 1):
             for k in range(npf):
                 a_, b_ = i * npf + k, i * npf + (k + 1) % npf
@@ -453,7 +455,7 @@ class Carro:
         for st in ST:
             u, k = st[:, 0].mean(), st[:, 1].mean()
             i_pisca = (nc // 2 + 2 < u < nc // 2 + 3) or (nc // 2 - 3 < u < nc // 2 - 2)
-            mats.append('lente_ambar' if (pisca and i_pisca and 2.0 < k < 3.0) else pc.get('material', 'chassi'))
+            mats.append('lente_ambar' if (pisca and i_pisca and 5.0 < k < 6.0) else pc.get('material', 'chassi'))
         for m in sorted(set(mats)):
             sel = [i for i, x in enumerate(mats) if x == m]
             o.somar(P, N, [tuple(Q[i]) for i in sel], m, uv=[[tuple(c) for c in ST[i]] for i in sel], ilha='pele')

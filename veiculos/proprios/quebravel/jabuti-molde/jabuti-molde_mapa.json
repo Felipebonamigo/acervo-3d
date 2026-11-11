@@ -2,7 +2,7 @@
  "car": "jabuti-molde",
  "notes": "Mapa escrito por ferramentas/lataria_molde/construir.py a partir da ficha e das peças geradas (lataria por molde). Metros, frente +X, ESQUERDA +Y, cima +Z, chão em z = 0, origem entre os eixos.",
  "medidas": {
-  "comprimento": 3.627,
+  "comprimento": 3.631,
   "meia_largura": 0.755,
   "altura": 1.347,
   "eixo_dianteiro": 1.1105,
@@ -193,11 +193,11 @@
    "take": "faces",
    "box": [
     1.4495,
-    1.7197,
-    -0.7437,
-    0.7437,
-    0.3304,
-    0.4836
+    1.7222,
+    -0.7461,
+    0.7461,
+    0.3454,
+    0.4835
    ],
    "thickness": 0.004,
    "pocket": 0.02
@@ -207,12 +207,12 @@
    "papel": "bumper_rear",
    "take": "faces",
    "box": [
-    -1.8944,
+    -1.8958,
     -1.4495,
-    -0.7438,
-    0.7438,
-    0.3304,
-    0.4836
+    -0.7462,
+    0.7462,
+    0.3454,
+    0.4835
    ],
    "thickness": 0.004,
    "pocket": 0.02
@@ -462,12 +462,12 @@
    "papel": "plate",
    "take": "faces",
    "box": [
-    1.7197,
-    1.7325,
+    1.7222,
+    1.735,
     -0.208,
     0.208,
-    0.332,
-    0.478
+    0.342,
+    0.488
    ],
    "thickness": 0.004,
    "pocket": 0.02
