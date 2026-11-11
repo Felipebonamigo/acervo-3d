@@ -56,6 +56,10 @@ Mede o **arquivo final**, de um lado só, sem confiar em como ele foi feito, e s
 | P7 | UV da pele dentro de 0..1, sem sobrepor outra peça | |
 | P8 | peças e materiais do contrato do jogo | |
 | P9 | borracha do vidro encostada na chapa e no vidro | 8 mm |
+| P10 | retrovisor com carcaça (não uma chapa) | 8 cm de fundo, 6 de altura |
+| P11 | nada pendurado abaixo da soleira, fora as rodas | 3 cm |
+| P12 | lanterna com vermelho, âmbar, branco e refletor; farol com refletor | |
+| P13 | balanço do para-choque além da carroceria | 12 cm |
 
 O CI (`.github/workflows/portao-lataria.yml`) reconstrói cada ficha e roda o portão a cada mudança.
 

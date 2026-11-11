@@ -108,8 +108,8 @@
   }
  },
  "P6": {
-  "triangulos": 157800,
-  "triangulos_com_rodas": 195848,
+  "triangulos": 158504,
+  "triangulos_com_rodas": 196552,
   "materiais": [
    "chassi",
    "cromo",
@@ -173,6 +173,22 @@
   "glass_door_rr": 5.8,
   "glass_rear": 5.8,
   "glass_windshield": 5.8
+ },
+ "P10_P13": {
+  "mirror_left": {
+   "fundo_cm": 10.4,
+   "altura_cm": 10.0
+  },
+  "mirror_right": {
+   "fundo_cm": 10.4,
+   "altura_cm": 10.0
+  },
+  "bumper_front": {
+   "balanco_cm": 6.3
+  },
+  "bumper_rear": {
+   "balanco_cm": 7.9
+  }
  },
  "falhas": [],
  "aprovado": true

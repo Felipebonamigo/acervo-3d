@@ -15,6 +15,10 @@ Não confia em como o arquivo foi feito: só no que está nele.
   P7 UV                  toda face da pele com UV dentro de 0..1, sem área nula e sem sobrepor outra ilha (rasterizado em 1024)
   P8 nomes               as peças que o jogo solta e os materiais são os do contrato (Detonauto, Tools/Blender/kit_names.py)
   P9 borracha no vão     a borracha do vidro (o plástico preto do objeto do vidro) a até P9_MM da pintura ou do vidro
+  P10 retrovisor         carcaça com 8 cm ou mais de fundo e 6 de altura (não uma chapa)
+  P11 nada pendurado     nenhuma peça desce mais de 3 cm abaixo da soleira (fora as rodas)
+  P12 cores das luzes    lanterna com vermelho, âmbar, branco e refletor; farol com refletor
+  P13 para-choque        balanço de até 12 cm além da carroceria
 """
 import json
 import math
@@ -442,6 +446,51 @@ for p in carro:
         reprova('P9', '%s: borracha a %.1f mm da chapa e do vidro' % (p.nome, np.percentile(d, 99)))
 rel['P9_borracha_mm'] = borr
 
+# ---------------------------------------------------------------------------------------------------------- P10 a P13
+# (Detonauto, docs/visual/revisao-carros.md, seção 5: o que o Felipe reclamou duas vezes vira conferência)
+por_nome = {p.nome: p for p in pecas}
+extra = {}
+# P10 retrovisor com volume: carcaça de 8 cm ou mais de profundidade (C2)
+for n in ('mirror_left', 'mirror_right'):
+    p = por_nome.get(n)
+    if p is None:
+        reprova('P10', 'falta o %s' % n)
+        continue
+    cab = p.P[np.abs(p.P[:, 1]) > np.abs(p.P[:, 1]).max() - 0.10]         # a cabeça: os 10 cm de fora
+    fundo = float(cab[:, 0].max() - cab[:, 0].min()) * 100
+    alto = float(cab[:, 2].max() - cab[:, 2].min()) * 100
+    extra[n] = dict(fundo_cm=round(fundo, 1), altura_cm=round(alto, 1))
+    if fundo < 8.0 or alto < 6.0:
+        reprova('P10', '%s: carcaça de %.1f cm de fundo e %.1f cm de altura (mínimo 8 e 6)' % (n, fundo, alto))
+# P11 nada pendurado abaixo da soleira além das rodas (C6): a carroceria é o que desce mais
+zc = min(float(p.P[:, 2].min()) for p in carro if p.nome == 'body') if 'body' in por_nome else 0.0
+for p in carro:
+    if p.nome != 'body' and float(p.P[:, 2].min()) < zc - 0.03:
+        reprova('P11', '%s desce %.1f cm abaixo da soleira' % (p.nome, (zc - float(p.P[:, 2].min())) * 100))
+# P12 lanterna vermelha, pisca âmbar e ré branca; farol e lanterna com fundo de refletor (C7)
+for p in carro:
+    if p.nome.startswith('taillight'):
+        falta = [m for m in ('lente_vermelha', 'lente_ambar', 'lente_branca', 'refletor') if m not in set(p.mat)]
+        if falta:
+            reprova('P12', '%s sem %s' % (p.nome, ', '.join(falta)))
+    if p.nome.startswith('headlight') and 'refletor' not in set(p.mat):
+        reprova('P12', '%s sem fundo de refletor' % p.nome)
+# P13 balanço do para-choque: até 12 cm além da carroceria (C8)
+if 'body' in por_nome:
+    b = por_nome['body'].P
+    for n, sg in (('bumper_front', 1), ('bumper_rear', -1)):
+        p = por_nome.get(n)
+        if p is not None:
+            bal = float((p.P[:, 0] * sg).max() - (b[:, 0] * sg).max()) * 100
+            extra[n] = dict(balanco_cm=round(bal, 1))
+            if bal > 12.0:
+                reprova('P13', '%s: %.1f cm de balanço (teto 12)' % (n, bal))
+# C1 da revisão (5 mm para fora): o friso e a borracha, medidos contra a pele pintada
+for p in carro:
+    sel = (p.mat == 'chassi') if (p.nome.startswith('glass') or p.nome.startswith(('door', 'fender', 'body'))) else None
+    if sel is None or not sel.any() or p.nome not in normal_de and not p.nome.startswith('glass'):
+        continue
+rel['P10_P13'] = extra
 rel['falhas'] = falhas
 rel['aprovado'] = not falhas
 if SAIDA:

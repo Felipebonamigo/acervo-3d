@@ -3,13 +3,13 @@
  "ficha": "cuiabano.json",
  "nivel": 3,
  "triangulos": {
-  "body": 71488,
+  "body": 71808,
   "hood": 12064,
   "trunk": 7408,
   "door_fl": 6368,
   "door_fr": 6368,
-  "fender_front_left": 9752,
-  "fender_front_right": 9752,
+  "fender_front_left": 9944,
+  "fender_front_right": 9944,
   "glass_windshield": 5184,
   "glass_rear": 2112,
   "glass_door_fl": 1280,
@@ -28,7 +28,7 @@
   "mirror_left": 386,
   "mirror_right": 386
  },
- "triangulos_total": 157840,
+ "triangulos_total": 158544,
  "materiais": [
   "chassi",
   "cromo",
@@ -51,6 +51,6 @@
    -1.193
   ]
  },
- "triangulos_lod1": 55632,
+ "triangulos_lod1": 56336,
  "triangulos_lod2": 14408
 }

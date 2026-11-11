@@ -535,8 +535,8 @@ class Carro:
             ey = (0, lado, 0)
             mu.caixa_arredondada(o, h + np.array((0, lado * 0.03, -0.012)), ((1, 0, 0), ey, (0, 0, 1)), (0.022, 0.04, 0.013), 'chassi', nivel=2, vinco=0.3)
             cab = h + np.array((-0.012, lado * 0.105, 0.012))
-            mu.caixa_arredondada(o, cab, ((1, 0, 0), ey, (0, 0, 1)), (0.030, 0.075, 0.048), 'chassi', nivel=2, vinco=0.25)
-            xe = cab[0] - 0.0305
+            mu.caixa_arredondada(o, cab, ((1, 0, 0), ey, (0, 0, 1)), (0.052, 0.078, 0.05), 'chassi', nivel=2, vinco=0.35)      # carcaça de ~9 cm de fundo
+            xe = cab[0] - 0.0475
             P = [(xe, cab[1] - 0.062, cab[2] - 0.037), (xe, cab[1] + 0.062, cab[2] - 0.037), (xe, cab[1] + 0.062, cab[2] + 0.037), (xe, cab[1] - 0.062, cab[2] + 0.037)]
             o.somar(P, [(-1, 0, 0)] * 4, [(3, 2, 1, 0)], 'cromo')
 
@@ -575,6 +575,36 @@ class Carro:
                 T = norm(np.gradient(C, axis=0))
                 D = norm(np.cross(Nn, T))
                 mu.varrer_perfil(self.obra(alvo), C, Nn, D, perfil, 'chassi', fechado=False)
+
+    def miudezas(self):
+        """Tampa do tanque (o filete da fresta, redondo de cantos, na lateral traseira esquerda) e o pisca lateral nos para-lamas."""
+        c = self.c
+        # tampa do tanque: um anel fino e escuro rente à chapa, no lugar da fresta
+        xc, zc = self.a.get('tanque_x', c['x_porta_tras'] - 0.30), self.a.get('tanque_z', c['z_cintura'] - 0.17)
+        pts = []
+        for k in range(40):
+            t = 2 * math.pi * k / 40
+            sx, sz = math.cos(t), math.sin(t)
+            ex = 4.0                                   # superelipse: retângulo de cantos redondos, 15 x 13 cm
+            x = xc + 0.075 * abs(sx) ** (2 / ex) * (1 if sx >= 0 else -1)
+            z = zc + 0.065 * abs(sz) ** (2 / ex) * (1 if sz >= 0 else -1)
+            h = self.mestra.raio((x, 2.0, z), (0, -1, 0))
+            if h is not None:
+                pts.append(h)
+        if len(pts) == 40:
+            C, Nn = self.mestra.assentar(np.array(pts))
+            T = norm(np.roll(C, -1, 0) - np.roll(C, 1, 0))
+            D = norm(np.cross(Nn, T))
+            mu.varrer_perfil(self.obra('body'), C, Nn, D, [(-0.0016, -0.002), (-0.0016, 0.0004), (0.0016, 0.0004), (0.0016, -0.002)], 'chassi')
+        # pisca lateral: uma lente âmbar pequena no para-lama, atrás do arco
+        for nome, lado in (('fender_front_left', 1), ('fender_front_right', -1)):
+            x, z = c['x_porta_frente'] + 0.045, c['z_friso'] + 0.03
+            h = self.mestra.raio((x, lado * 2.0, z), (0, -lado, 0))
+            if h is None:
+                continue
+            q, n = self.mestra.assentar(np.array([h]))
+            o = self.obra(nome)
+            mu.caixa_arredondada(o, q[0] + n[0] * 0.0005, ((1, 0, 0), n[0], (0, 0, 1)), (0.030, 0.0035, 0.013), 'lente_ambar', nivel=2, vinco=0.4)
 
     def limpadores(self):
         o = self.obra('body')
@@ -680,6 +710,7 @@ class Carro:
             self.retrovisores()
             self.macanetas()
             self.frisos()
+            self.miudezas()
             self.limpadores()
             self.emblema()
 

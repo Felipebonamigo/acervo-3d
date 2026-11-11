@@ -278,12 +278,12 @@
    "nome": "interior_painel",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 11871,
+   "triangulos": 11873,
    "triangulos_lod1": 3560,
    "caixa_m": [
     0.383,
     0.98,
-    -0.702,
+    -0.687,
     0.702,
     0.462,
     1.02
@@ -491,8 +491,8 @@
    "nome": "interior_acabamento_colunas",
    "grupo": "habitaculo",
    "segue": null,
-   "triangulos": 288,
-   "triangulos_lod1": 86,
+   "triangulos": 290,
+   "triangulos_lod1": 87,
    "caixa_m": [
     -0.479,
     0.794,
@@ -1326,12 +1326,12 @@
    "triangulos": 912,
    "triangulos_lod1": 272,
    "caixa_m": [
-    -1.477,
+    -1.478,
     0.85,
     -0.255,
     0.694,
-    -0.035,
-    0.693
+    0.1,
+    0.692
    ],
    "materiais": [
     "metal_preto_graxa",
@@ -1777,11 +1777,11 @@
   }
  ],
  "triangulos": {
-  "lod0": 234147,
-  "lod1": 70165
+  "lod0": 234151,
+  "lod1": 70166
  },
  "triangulos_por_grupo": {
-  "habitaculo": 87675,
+  "habitaculo": 87679,
   "porta": 21456,
   "vao_porta": 9312,
   "porta_malas": 12852,
